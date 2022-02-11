@@ -8,7 +8,7 @@
 	```
 
 2. `[filename].json` file at the `INPUT_FILEPATH` as per the following schema:
-	```json
+	```javascript
 	{
 		"name": string, // Assignment Name
 		"course": string, // Assignment Course Name
