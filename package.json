@@ -5,6 +5,7 @@
   },
   "dependencies": {
     "@notionhq/client": "^0.4.13",
+    "chrono-node": "^2.3.6",
     "dotenv": "^16.0.0"
   }
 }
