@@ -25,6 +25,7 @@ dotenv.config();
 const fs = require("fs");
 const chrono = __importStar(require("chrono-node"));
 const CONSTANTS = {
+    TIMEZONE: 'Pacific/Auckland',
     PROPERTY_NAMES: {
         TO_DO_NAME: 'Name',
         TO_DO_CATEGORY: 'Category',
@@ -122,7 +123,7 @@ async function createAssignment(assignment, databaseId) {
                 date: {
                     start: assignment.available,
                     end: assignment.due,
-                    time_zone: 'Pacific/Auckland',
+                    time_zone: CONSTANTS.TIMEZONE,
                 },
             },
         };
@@ -145,8 +146,8 @@ function readInputFile(filepath) {
                 name: assignment.name,
                 course: assignment.course,
                 url: assignment.url,
-                available: chrono.parseDate(assignment.available).toISOString(),
-                due: chrono.parseDate(assignment.due).toISOString(),
+                available: chrono.parseDate(assignment.available, { timezone: CONSTANTS.TIMEZONE }).toISOString(),
+                due: chrono.parseDate(assignment.due, { timezone: CONSTANTS.TIMEZONE }).toISOString(),
             };
         });
     }
@@ -173,8 +174,8 @@ findNewAssignments(process.env.INPUT_FILEPATH, process.env.TO_DO_ID)
     .then(assignments => {
     assignments.forEach(async (assignment) => {
         const page = await createAssignment(assignment, process.env.TO_DO_ID);
-        console.log(page);
-        console.log(`Created assignment ${assignment.course} ${assignment.name}`);
+        if (page)
+            console.log(`Created assignment ${assignment.course} ${assignment.name}`);
     });
 });
 //# sourceMappingURL=index.js.map
