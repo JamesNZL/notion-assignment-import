@@ -14,7 +14,7 @@ interface Assignment {
 	course: string;
 	url: string;
 	available?: string;
-	due: string;
+	due?: string;
 }
 
 const CONSTANTS = {
@@ -152,16 +152,17 @@ function readInputFile(filepath?: string): Assignment[] {
 			fs.readFileSync(filepath, { encoding: 'utf-8', flag: 'r' }),
 		);
 
-		return input.map(assignment => {
+		return input.flatMap(assignment => {
 			if (!assignment.available) assignment.available = new Date().toISOString();
+			if (!assignment.due) return [];
 
-			return {
+			return [{
 				name: assignment.name,
 				course: assignment.course,
 				url: assignment.url,
 				available: chrono.parseDate(assignment.available, { timezone: CONSTANTS.TIMEZONE }).toISOString(),
 				due: chrono.parseDate(assignment.due, { timezone: CONSTANTS.TIMEZONE }).toISOString(),
-			};
+			}];
 		});
 	}
 }

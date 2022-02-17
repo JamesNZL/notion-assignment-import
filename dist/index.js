@@ -139,16 +139,18 @@ function readInputFile(filepath) {
     }
     else {
         const input = JSON.parse(fs.readFileSync(filepath, { encoding: 'utf-8', flag: 'r' }));
-        return input.map(assignment => {
+        return input.flatMap(assignment => {
             if (!assignment.available)
                 assignment.available = new Date().toISOString();
-            return {
-                name: assignment.name,
-                course: assignment.course,
-                url: assignment.url,
-                available: chrono.parseDate(assignment.available, { timezone: CONSTANTS.TIMEZONE }).toISOString(),
-                due: chrono.parseDate(assignment.due, { timezone: CONSTANTS.TIMEZONE }).toISOString(),
-            };
+            if (!assignment.due)
+                return [];
+            return [{
+                    name: assignment.name,
+                    course: assignment.course,
+                    url: assignment.url,
+                    available: chrono.parseDate(assignment.available, { timezone: CONSTANTS.TIMEZONE }).toISOString(),
+                    due: chrono.parseDate(assignment.due, { timezone: CONSTANTS.TIMEZONE }).toISOString(),
+                }];
         });
     }
 }
