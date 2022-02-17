@@ -32,7 +32,9 @@ const CONSTANTS = {
         TO_DO_COURSE: 'Course',
         TO_DO_URL: 'URL',
         TO_DO_STATUS: 'Status',
+        TO_DO_AVAIALBLE: 'Reminder',
         TO_DO_DUE: 'Due',
+        TO_DO_SPAN: 'Date Span',
     },
     PROPERTY_VALUES: {
         CATEGORY_CANVAS: 'Canvas',
@@ -119,7 +121,19 @@ async function createAssignment(assignment, databaseId) {
                     name: CONSTANTS.PROPERTY_VALUES.STATUS_TO_DO,
                 },
             },
+            [CONSTANTS.PROPERTY_NAMES.TO_DO_AVAIALBLE]: {
+                date: {
+                    start: assignment.available,
+                    time_zone: CONSTANTS.TIMEZONE,
+                },
+            },
             [CONSTANTS.PROPERTY_NAMES.TO_DO_DUE]: {
+                date: {
+                    start: assignment.due,
+                    time_zone: CONSTANTS.TIMEZONE,
+                },
+            },
+            [CONSTANTS.PROPERTY_NAMES.TO_DO_SPAN]: {
                 date: {
                     start: assignment.available,
                     end: assignment.due,
