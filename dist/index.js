@@ -142,8 +142,11 @@ function readInputFile(filepath) {
         return input.flatMap(assignment => {
             if (!assignment.available)
                 assignment.available = new Date().toISOString();
-            if (!assignment.due)
+            if (!assignment.due) {
+                console.error(`Skipping assignment ${assignment.course} ${assignment.name} as no due date`);
                 return [];
+            }
+            ;
             return [{
                     name: assignment.name,
                     course: assignment.course,
@@ -178,6 +181,8 @@ findNewAssignments(process.env.INPUT_FILEPATH, process.env.TO_DO_ID)
         const page = await createAssignment(assignment, process.env.TO_DO_ID);
         if (page)
             console.log(`Created assignment ${assignment.course} ${assignment.name}`);
+        else
+            console.error(`Error creating assignment ${assignment.course} ${assignment.name}`);
     });
 });
 //# sourceMappingURL=index.js.map
