@@ -56,7 +56,7 @@ const parse = assignment => ({
 
 const parsed = Object.values(assignments).map(assignment => parse(assignment));
 
-console.log(JSON.stringify(parsed));
+JSON.stringify(parsed);
 ```
 
 NOTE: Manually review output JSON for once-off events such as tests and exams!
