@@ -18,6 +18,7 @@ interface Assignment {
 }
 
 const CONSTANTS = {
+	LOCALE: 'en-GB',
 	TIMEZONE: 'Pacific/Auckland',
 	PROPERTY_NAMES: {
 		TO_DO_NAME: 'Name',
@@ -167,12 +168,12 @@ function readInputFile(filepath?: string): Assignment[] {
 		);
 
 		return input.flatMap(assignment => {
-			if (!assignment.available) assignment.available = new Date().toISOString();
+			if (!assignment.available) assignment.available = new Date().toLocaleString(CONSTANTS.LOCALE);
 
 			if (!assignment.due) {
 				console.error(`Skipping assignment ${assignment.course} ${assignment.name} as no due date`);
 				return [];
-			};
+			}
 
 			return [{
 				name: assignment.name,
