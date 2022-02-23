@@ -1,6 +1,10 @@
 import { Client, isNotionClientError } from '@notionhq/client';
 import { CreatePageParameters, CreatePageResponse, QueryDatabaseParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
 
+type PageProperties = CreatePageParameters['properties'];
+type DateRequest = NonNullable<NonNullable<Extract<PageProperties[keyof PageProperties], { type?: 'date'; }>['date']>>;
+type TimeZoneRequest = DateRequest['time_zone'];
+
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -9,7 +13,7 @@ import * as chrono from 'chrono-node';
 
 type ArrayElement<ArrayType extends readonly unknown[]> = ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
 
-interface Assignment {
+interface InputAssignment {
 	name: string;
 	course: string;
 	url: string;
@@ -17,7 +21,23 @@ interface Assignment {
 	due?: string;
 }
 
-const CONSTANTS = {
+interface Assignment extends InputAssignment {
+	available: string;
+	due: string;
+}
+
+interface Constants {
+	LOCALE?: string | string[];
+	TIMEZONE: TimeZoneRequest;
+	PROPERTY_NAMES: {
+		[key: string]: string;
+	};
+	PROPERTY_VALUES: {
+		[key: string]: string;
+	};
+}
+
+const CONSTANTS: Constants = {
 	LOCALE: 'en-GB',
 	TIMEZONE: 'Pacific/Auckland',
 	PROPERTY_NAMES: {
@@ -92,7 +112,7 @@ function getAssignmentURL(page: ArrayElement<QueryDatabaseResponse['results']>):
 }
 
 async function createAssignment(assignment: Assignment, databaseId?: string): Promise<void | CreatePageResponse> {
-	if (databaseId) {
+	if (databaseId && assignment.available && assignment.due) {
 		// Construct the parent object for the CreatePageParameters
 		const parent: CreatePageParameters['parent'] = {
 			type: 'database_id',
@@ -100,8 +120,7 @@ async function createAssignment(assignment: Assignment, databaseId?: string): Pr
 		};
 
 		// Construct the properties object
-		// @ts-ignore
-		const properties: CreatePageParameters['properties'] = {
+		const properties: PageProperties = {
 			Name: {
 				title: [
 					{
@@ -151,7 +170,6 @@ async function createAssignment(assignment: Assignment, databaseId?: string): Pr
 		};
 
 		// Create the page
-		// @ts-ignore
 		return await createPage({ parent, properties });
 	}
 }
@@ -171,7 +189,7 @@ function readInputFile(filepath?: string): Assignment[] {
 	}
 
 	else {
-		const input: Assignment[] = JSON.parse(
+		const input: InputAssignment[] = JSON.parse(
 			fs.readFileSync(filepath, { encoding: 'utf-8', flag: 'r' }),
 		);
 
@@ -189,8 +207,8 @@ function readInputFile(filepath?: string): Assignment[] {
 					name: assignment.name,
 					course: assignment.course,
 					url: assignment.url,
-					available: chrono.parseDate(assignment.available, { timezone: CONSTANTS.TIMEZONE }).toISOString(),
-					due: chrono.parseDate(assignment.due, { timezone: CONSTANTS.TIMEZONE }).toISOString(),
+					available: chrono.parseDate(assignment.available, { timezone: CONSTANTS.TIMEZONE ?? undefined }).toISOString(),
+					due: chrono.parseDate(assignment.due, { timezone: CONSTANTS.TIMEZONE ?? undefined }).toISOString(),
 				}];
 			});
 	}

@@ -86,14 +86,13 @@ function getAssignmentURL(page) {
     return undefined;
 }
 async function createAssignment(assignment, databaseId) {
-    if (databaseId) {
+    if (databaseId && assignment.available && assignment.due) {
         // Construct the parent object for the CreatePageParameters
         const parent = {
             type: 'database_id',
             database_id: databaseId,
         };
         // Construct the properties object
-        // @ts-ignore
         const properties = {
             Name: {
                 title: [
@@ -143,7 +142,6 @@ async function createAssignment(assignment, databaseId) {
             },
         };
         // Create the page
-        // @ts-ignore
         return await createPage({ parent, properties });
     }
 }
@@ -173,8 +171,8 @@ function readInputFile(filepath) {
                     name: assignment.name,
                     course: assignment.course,
                     url: assignment.url,
-                    available: chrono.parseDate(assignment.available, { timezone: CONSTANTS.TIMEZONE }).toISOString(),
-                    due: chrono.parseDate(assignment.due, { timezone: CONSTANTS.TIMEZONE }).toISOString(),
+                    available: chrono.parseDate(assignment.available, { timezone: CONSTANTS.TIMEZONE ?? undefined }).toISOString(),
+                    due: chrono.parseDate(assignment.due, { timezone: CONSTANTS.TIMEZONE ?? undefined }).toISOString(),
                 }];
         });
     }
