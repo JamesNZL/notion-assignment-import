@@ -147,6 +147,12 @@ async function createAssignment(assignment, databaseId) {
         return await createPage({ parent, properties });
     }
 }
+function roundToNextHour(date) {
+    if (date.getMinutes() === 0)
+        return date;
+    date.setHours(date.getHours() + 1, 0, 0, 0);
+    return date;
+}
 function readInputFile(filepath) {
     if (!filepath || !fs.existsSync(filepath)) {
         console.error('Invalid input filepath!');
@@ -158,7 +164,7 @@ function readInputFile(filepath) {
             .flat()
             .flatMap(assignment => {
             if (!assignment.available)
-                assignment.available = new Date().toLocaleString(CONSTANTS.LOCALE);
+                assignment.available = roundToNextHour(new Date()).toLocaleString(CONSTANTS.LOCALE);
             if (!assignment.due) {
                 console.error(`Skipping assignment ${assignment.course} ${assignment.name} as no due date`);
                 return [];
