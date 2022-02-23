@@ -1,4 +1,4 @@
-# Canvas Assignment Parser - updated 17/02/22
+# Canvas Assignment Parser - updated 23/02/22
 
 - `HTMLCollection` of assignments:
   > ```javascript
@@ -22,8 +22,11 @@
 
 - Parse assignment available dates:
   > ```javascript
-  > assignment.querySelector('.assignment-date-available .screenreader-only')?.textContent.trim() ?? '';
-  > ```
+  > const parseAvailableDate = assignment => {
+  >	    if (assignment.querySelector(`.assignment-date-available .status-description`)?.textContent.trim() !== 'Not available until') return '';
+  >
+  >     return assignment.querySelector(`.assignment-date-available .screenreader-only`)?.textContent.trim() ?? '';
+  > }
 
 - Parse assignment due dates:
   > ```javascript
@@ -39,21 +42,21 @@ const CONSTANTS = {
 		ASSIGNMENT: 'assignment',
 		TITLE: 'ig-title',
 		AVAILABLE_DATE: 'assignment-date-available',
-    AVAILABLE_STATUS: 'status-description',
+		AVAILABLE_STATUS: 'status-description',
 		DUE_DATE: 'assignment-date-due',
 		SCREENREADER_ONLY: 'screenreader-only',
 	},
-  VALUES: {
-    NOT_AVAILABLE_STATUS: 'Not available until',
-  },
+	VALUES: {
+		NOT_AVAILABLE_STATUS: 'Not available until',
+	},
 };
 
 const assignments = document.getElementsByClassName(CONSTANTS.CLASSES.ASSIGNMENT);
 
 const parseAvailableDate = assignment => {
-  if (assignment.querySelector(`.${CONSTANTS.CLASSES.AVAILABLE_DATE} .${CONSTANTS.CLASSES.AVAILABLE_STATUS}`)?.textContent.trim() !== CONSTANTS.VALUES.NOT_AVAILABLE_STATUS) return '';
+	if (assignment.querySelector(`.${CONSTANTS.CLASSES.AVAILABLE_DATE} .${CONSTANTS.CLASSES.AVAILABLE_STATUS}`)?.textContent.trim() !== CONSTANTS.VALUES.NOT_AVAILABLE_STATUS) return '';
 
-  return assignment.querySelector(`.${CONSTANTS.CLASSES.AVAILABLE_DATE} .${CONSTANTS.CLASSES.SCREENREADER_ONLY}`)?.textContent.trim() ?? '';
+	return assignment.querySelector(`.${CONSTANTS.CLASSES.AVAILABLE_DATE} .${CONSTANTS.CLASSES.SCREENREADER_ONLY}`)?.textContent.trim() ?? '';
 }
 
 const parse = assignment => ({
