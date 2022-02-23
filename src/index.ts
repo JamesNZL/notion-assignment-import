@@ -167,22 +167,24 @@ function readInputFile(filepath?: string): Assignment[] {
 			fs.readFileSync(filepath, { encoding: 'utf-8', flag: 'r' }),
 		);
 
-		return input.flatMap(assignment => {
-			if (!assignment.available) assignment.available = new Date().toLocaleString(CONSTANTS.LOCALE);
+		return input
+			.flat()
+			.flatMap(assignment => {
+				if (!assignment.available) assignment.available = new Date().toLocaleString(CONSTANTS.LOCALE);
 
-			if (!assignment.due) {
-				console.error(`Skipping assignment ${assignment.course} ${assignment.name} as no due date`);
-				return [];
-			}
+				if (!assignment.due) {
+					console.error(`Skipping assignment ${assignment.course} ${assignment.name} as no due date`);
+					return [];
+				}
 
-			return [{
-				name: assignment.name,
-				course: assignment.course,
-				url: assignment.url,
-				available: chrono.parseDate(assignment.available, { timezone: CONSTANTS.TIMEZONE }).toISOString(),
-				due: chrono.parseDate(assignment.due, { timezone: CONSTANTS.TIMEZONE }).toISOString(),
-			}];
-		});
+				return [{
+					name: assignment.name,
+					course: assignment.course,
+					url: assignment.url,
+					available: chrono.parseDate(assignment.available, { timezone: CONSTANTS.TIMEZONE }).toISOString(),
+					due: chrono.parseDate(assignment.due, { timezone: CONSTANTS.TIMEZONE }).toISOString(),
+				}];
+			});
 	}
 }
 

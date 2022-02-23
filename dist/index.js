@@ -154,7 +154,9 @@ function readInputFile(filepath) {
     }
     else {
         const input = JSON.parse(fs.readFileSync(filepath, { encoding: 'utf-8', flag: 'r' }));
-        return input.flatMap(assignment => {
+        return input
+            .flat()
+            .flatMap(assignment => {
             if (!assignment.available)
                 assignment.available = new Date().toLocaleString(CONSTANTS.LOCALE);
             if (!assignment.due) {
