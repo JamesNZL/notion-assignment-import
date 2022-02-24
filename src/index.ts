@@ -58,30 +58,33 @@ const CONSTANTS: Constants = {
 
 const notion = new Client({ auth: process.env.NOTION_KEY });
 
-function handleError(error: unknown): void {
-	const type = (isNotionClientError(error)) ? 'NOTION_ERROR' : 'UNKNOWN_ERROR';
+async function makeRequest<T, R>(method: (arg: T) => Promise<R>, parameters: T): Promise<void | R> {
+	try {
+		return await method(parameters);
+	}
 
-	console.error({ type, error });
+	catch (error: unknown) {
+		const type = (isNotionClientError(error)) ? 'NOTION_ERROR' : 'UNKNOWN_ERROR';
+
+		console.error({ type, error });
+	}
 }
 
 async function queryDatabase(databaseId: string, filter?: QueryDatabaseParameters['filter']): Promise<void | QueryDatabaseResponse> {
-	try {
-		return await notion.databases.query({ database_id: databaseId, filter });
-	}
-
-	catch (error: unknown) {
-		handleError(error);
-	}
+	return await makeRequest<QueryDatabaseParameters, QueryDatabaseResponse>(
+		notion.databases.query,
+		{
+			database_id: databaseId,
+			filter,
+		},
+	);
 }
 
 async function createPage(parameters: CreatePageParameters): Promise<void | CreatePageResponse> {
-	try {
-		return await notion.pages.create(parameters);
-	}
-
-	catch (error: unknown) {
-		handleError(error);
-	}
+	return await makeRequest<CreatePageParameters, CreatePageResponse>(
+		notion.pages.create,
+		parameters,
+	);
 }
 
 function resolveAssignmentName(page: ArrayElement<QueryDatabaseResponse['results']>): string {

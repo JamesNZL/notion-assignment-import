@@ -43,25 +43,23 @@ const CONSTANTS = {
     },
 };
 const notion = new client_1.Client({ auth: process.env.NOTION_KEY });
-function handleError(error) {
-    const type = ((0, client_1.isNotionClientError)(error)) ? 'NOTION_ERROR' : 'UNKNOWN_ERROR';
-    console.error({ type, error });
+async function makeRequest(method, parameters) {
+    try {
+        return await method(parameters);
+    }
+    catch (error) {
+        const type = ((0, client_1.isNotionClientError)(error)) ? 'NOTION_ERROR' : 'UNKNOWN_ERROR';
+        console.error({ type, error });
+    }
 }
 async function queryDatabase(databaseId, filter) {
-    try {
-        return await notion.databases.query({ database_id: databaseId, filter });
-    }
-    catch (error) {
-        handleError(error);
-    }
+    return await makeRequest(notion.databases.query, {
+        database_id: databaseId,
+        filter,
+    });
 }
 async function createPage(parameters) {
-    try {
-        return await notion.pages.create(parameters);
-    }
-    catch (error) {
-        handleError(error);
-    }
+    return await makeRequest(notion.pages.create, parameters);
 }
 function resolveAssignmentName(page) {
     return ('properties' in page && 'title' in page.properties.Name) ? page.properties.Name.title.map(({ plain_text }) => plain_text).join('') : '';
