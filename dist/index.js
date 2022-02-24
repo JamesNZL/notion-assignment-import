@@ -20,6 +20,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@notionhq/client");
+function isPaginatedResponse(response) {
+    if (!response)
+        return false;
+    return 'has_more' in response;
+}
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
 const fs = require("fs");
@@ -52,8 +57,23 @@ async function makeRequest(method, parameters) {
         console.error({ type, error });
     }
 }
+async function makePaginatedRequest(method, parameters) {
+    let response = await makeRequest(method, parameters);
+    if (isPaginatedResponse(response)) {
+        const _results = response.results;
+        while (isPaginatedResponse(response) && response.has_more) {
+            parameters.start_cursor = response.next_cursor;
+            response = await makeRequest(method, parameters);
+            if (isPaginatedResponse(response))
+                _results.push(...response.results);
+        }
+        if (isPaginatedResponse(response))
+            response.results = _results;
+    }
+    return response;
+}
 async function queryDatabase(databaseId, filter) {
-    return await makeRequest(notion.databases.query, {
+    return await makePaginatedRequest(notion.databases.query, {
         database_id: databaseId,
         filter,
     });

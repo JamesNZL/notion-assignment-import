@@ -5,6 +5,24 @@ type PageProperties = CreatePageParameters['properties'];
 type DateRequest = NonNullable<NonNullable<Extract<PageProperties[keyof PageProperties], { type?: 'date'; }>['date']>>;
 type TimeZoneRequest = DateRequest['time_zone'];
 
+interface PaginatedRequest {
+	start_cursor?: string;
+	page_size?: number;
+}
+
+interface PaginatedResponse {
+	has_more: boolean;
+	next_cursor: string;
+	results: object[];
+	object: 'list';
+}
+
+function isPaginatedResponse<R>(response: void | R): response is (R & PaginatedResponse) {
+	if (!response) return false;
+
+	return 'has_more' in response;
+}
+
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -70,8 +88,28 @@ async function makeRequest<T, R>(method: (arg: T) => Promise<R>, parameters: T):
 	}
 }
 
+async function makePaginatedRequest<T, R>(method: (arg: T) => Promise<R>, parameters: T & PaginatedRequest): Promise<void | R> {
+	let response = await makeRequest(method, parameters);
+
+	if (isPaginatedResponse(response)) {
+		const _results = response.results;
+
+		while (isPaginatedResponse(response) && response.has_more) {
+			parameters.start_cursor = response.next_cursor;
+
+			response = await makeRequest(method, parameters);
+
+			if (isPaginatedResponse(response)) _results.push(...response.results);
+		}
+
+		if (isPaginatedResponse(response)) response.results = _results;
+	}
+
+	return response;
+}
+
 async function queryDatabase(databaseId: string, filter?: QueryDatabaseParameters['filter']): Promise<void | QueryDatabaseResponse> {
-	return await makeRequest<QueryDatabaseParameters, QueryDatabaseResponse>(
+	return await makePaginatedRequest<QueryDatabaseParameters, QueryDatabaseResponse>(
 		notion.databases.query,
 		{
 			database_id: databaseId,
