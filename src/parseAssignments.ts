@@ -24,11 +24,11 @@ interface Constants {
 	};
 }
 
-async function parseAssignments() {
+async function parseAssignments(courseCode: string): Promise<void> {
 	const classSelector = (className: string): string => `.${className}`;
 
 	const CONSTANTS: Constants = {
-		COURSE: '****** ***',
+		COURSE: courseCode,
 		CLASSES: {
 			ASSIGNMENT: 'assignment',
 			TITLE: 'ig-title',
@@ -52,7 +52,7 @@ async function parseAssignments() {
 
 		return (element)
 			? element
-			: console.error(`Incorrect selector: ${selector}`);
+			: alert(`Incorrect selector: ${selector}`);
 	}
 
 	function parseAvailableDate(assignment: NonNullable<ReturnType<Element['querySelector']>>): string {
@@ -85,6 +85,9 @@ async function parseAssignments() {
 	const parsed = Object.values(assignments).map(assignment => parseAssignment(assignment));
 
 	const { savedAssignments } = await chrome.storage.local.get({ savedAssignments: [] });
+
+	if (savedAssignments.some((course: InputAssignment[]) => course[0].course === courseCode)) return;
+
 	savedAssignments.push(parsed);
 
 	chrome.storage.local.set({ savedAssignments });
@@ -119,16 +122,19 @@ const parseButton = document.getElementById('parseButton');
 if (parseButton) {
 	parseButton.addEventListener('click', async () => {
 		const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+		const courseCodeInput = document.getElementById('courseCode');
 
-		if (!tab.id) return;
+		if (!tab.id || !courseCodeInput || !(courseCodeInput instanceof HTMLInputElement)) return;
+
+		if (!courseCodeInput.value) return alert('You must enter the course code.');
 
 		await chrome.scripting.executeScript({
 			target: { tabId: tab.id },
 			func: parseAssignments,
+			args: [courseCodeInput.value],
 		});
 
 		updateSavedCoursesList();
-
 	});
 }
 
@@ -140,12 +146,8 @@ function updateSavedCoursesList() {
 			savedCourses.innerHTML = savedAssignments.reduce((list: string, course: InputAssignment[]) => {
 				return list + `<li>${course[0].course}</li>\n`;
 			}, '');
-
-			console.log(savedCourses.innerHTML);
 		});
 	}
-
-	else console.error('No saved courses list found');
 }
 
 updateSavedCoursesList();
