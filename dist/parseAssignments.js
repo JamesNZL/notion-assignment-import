@@ -68,6 +68,12 @@ if (optionsButton) {
         }
     });
 }
+const clearStorageButton = document.getElementById('clearStorageButton');
+if (clearStorageButton) {
+    clearStorageButton.addEventListener('click', async () => {
+        chrome.storage.local.remove('savedAssignments');
+    });
+}
 const parseButton = document.getElementById('parseButton');
 if (parseButton) {
     parseButton.addEventListener('click', async () => {
