@@ -143,9 +143,11 @@ function updateSavedCoursesList() {
 
 	if (savedCourses) {
 		chrome.storage.local.get({ savedAssignments: [] }, ({ savedAssignments }) => {
-			savedCourses.innerHTML = savedAssignments.reduce((list: string, course: InputAssignment[]) => {
-				return list + `<li>${course[0].course}</li>\n`;
-			}, '');
+			const coursesList = savedAssignments.reduce((list: string, course: InputAssignment[]) => list + `<li>${course[0].course}</li>\n`, '');
+
+			savedCourses.innerHTML = (coursesList)
+				? `<ol>${coursesList}</ol>`
+				: '<p>No saved courses.</p>';
 		});
 	}
 }
