@@ -9,15 +9,19 @@
 	<h1>Notion Canvas Assignment Import</h1>
 	<hr>
 
+	<button id='optionsButton'>Configure Options</button>
+
 	<div id='currentSavedCourses'>
 		<h2>Current Saved Courses</h2>
 		<ul id='savedCoursesList'>
 		</ul>
+		<button id='clearStorageButton'>Clear Saved Assignments</button>
 	</div>
-	<button id='clearStorageButton'>Clear Saved Assignments</button>
 
-	<button id='optionsButton'>Options</button>
-	<button id='parseButton'>Add Page Assignments To Saved Assignments</button>
+	<div>
+		<h2>Save Current Course Assignments</h2>
+		<button id='parseButton'>Save Current Page Assignments</button>
+	</div>
 
 	<script type='module' src='parseAssignments.js'></script>
 </body>
