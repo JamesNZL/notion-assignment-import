@@ -1,13 +1,3 @@
-export interface Options<T> {
-	canvasAssignment: T;
-	assignmentTitle: T;
-	availableDate: T;
-	availableStatus: T;
-	dueDate: T;
-	dateElement: T;
-	notAvailableStatus: T;
-}
-
 function queryId(id: string): string | void {
 	const element = document.getElementById(id);
 

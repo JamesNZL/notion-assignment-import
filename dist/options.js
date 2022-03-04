@@ -1,3 +1,4 @@
+"use strict";
 function queryId(id) {
     const element = document.getElementById(id);
     if (element && element instanceof HTMLInputElement)
@@ -43,5 +44,4 @@ document.addEventListener('DOMContentLoaded', restoreOptions);
 const saveButton = document.getElementById('saveButton');
 if (saveButton)
     saveButton.addEventListener('click', saveOptions);
-export {};
 //# sourceMappingURL=options.js.map
