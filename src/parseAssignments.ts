@@ -175,8 +175,16 @@ const notionImportButton = document.getElementById('notionImport');
 import notionImport = require('./import');
 
 if (notionImportButton) {
-	notionImportButton.addEventListener('click', () => {
-		notionImport();
+	notionImportButton.addEventListener('click', async () => {
+		const createdAssignments = await notionImport();
+
+		if (createdAssignments) {
+			const createdNames = (createdAssignments.length)
+				? createdAssignments.reduce((list, { course, name }, index) => list + `${index + 1}. ${course} ${name}\n`, '\n\n')
+				: '';
+
+			alert(`Created ${createdAssignments.length} new assignments.${createdNames}`);
+		}
 	});
 }
 

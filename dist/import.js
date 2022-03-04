@@ -211,15 +211,19 @@ module.exports = async function notionImport() {
             return input;
         return input.filter(assignment => !existingAssignments.results.some(page => getAssignmentURL(page) === assignment.url));
     }
-    findNewAssignments(TO_DO_ID)
-        .then(assignments => {
-        assignments.forEach(async (assignment) => {
-            const page = await createAssignment(assignment, TO_DO_ID);
-            if (page)
-                console.log(`Created assignment ${assignment.course} ${assignment.name}`);
-            else
-                console.error(`Error creating assignment ${assignment.course} ${assignment.name}`);
-        });
-    });
+    const assignments = await findNewAssignments(TO_DO_ID);
+    const createdAssignments = await Promise.all(assignments
+        .map(async (assignment) => {
+        const page = await createAssignment(assignment, TO_DO_ID);
+        if (page) {
+            console.log(`Created assignment ${assignment.course} ${assignment.name}`);
+            return [assignment];
+        }
+        else {
+            console.error(`Error creating assignment ${assignment.course} ${assignment.name}`);
+            return [];
+        }
+    }));
+    return createdAssignments.flat();
 };
 //# sourceMappingURL=import.js.map
