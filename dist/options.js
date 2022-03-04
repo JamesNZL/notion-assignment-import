@@ -36,7 +36,7 @@ async function restoreOptions() {
         assignmentTitle: 'ig-title',
         availableDate: 'assignment-date-available',
         availableStatus: 'status-description',
-        dueDate: 'assignment-due-date',
+        dueDate: 'assignment-date-due',
         dateElement: 'screenreader-only',
         notAvailableStatus: 'Not available until',
         notionKey: null,
