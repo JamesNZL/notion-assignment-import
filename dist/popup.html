@@ -16,8 +16,9 @@
 
 	<div id='currentSavedCourses'>
 		<h2>Current Saved Courses</h2>
-		<div id='savedCoursesList'>
-		</div>
+
+		<div id='savedCoursesList'></div>
+
 		<button id='viewSavedButton'>View Saved Assignments</button><br>
 		<button id='viewCoursesButton'>View Saved Courses</button><br>
 		<button id='clearStorageButton'>Clear Saved Assignments</button><br>
@@ -28,6 +29,11 @@
 		<label for="courseCode">Course code:</label>
 		<input type="text" id="courseCode" name="courseCode"><br><br>
 		<button id='parseButton'>Save Current Page Assignments</button>
+	</div>
+
+	<div>
+		<h2>Import To Notion</h2>
+		<button id='notionImport'>Import Saved Assignments</button><br>
 	</div>
 
 	<script type='module' src='parseAssignments.js'></script>
