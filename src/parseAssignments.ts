@@ -24,7 +24,7 @@ interface Constants {
 	};
 }
 
-const parseAssignments = () => {
+const parseAssignments = async () => {
 	const classSelector = (className: string): string => `.${className}`;
 
 	const CONSTANTS: Constants = {
@@ -84,14 +84,10 @@ const parseAssignments = () => {
 
 	const parsed = Object.values(assignments).map(assignment => parseAssignment(assignment));
 
-	chrome.storage.local.get('savedAssignments', ({ savedAssignments }) => {
-		if (savedAssignments) savedAssignments.push(parsed);
-		else savedAssignments = [parsed];
+	const { savedAssignments } = await chrome.storage.local.get({ savedAssignments: [] });
+	savedAssignments.push(parsed);
 
-		chrome.storage.local.set({ savedAssignments });
-
-		console.log(savedAssignments);
-	});
+	chrome.storage.local.set({ savedAssignments });
 };
 
 const optionsButton = document.getElementById('optionsButton');

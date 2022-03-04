@@ -1,4 +1,4 @@
-const parseAssignments = () => {
+const parseAssignments = async () => {
     const classSelector = (className) => `.${className}`;
     const CONSTANTS = {
         COURSE: '****** ***',
@@ -48,14 +48,9 @@ const parseAssignments = () => {
     };
     const assignments = document.getElementsByClassName(CONSTANTS.CLASSES.ASSIGNMENT);
     const parsed = Object.values(assignments).map(assignment => parseAssignment(assignment));
-    chrome.storage.local.get('savedAssignments', ({ savedAssignments }) => {
-        if (savedAssignments)
-            savedAssignments.push(parsed);
-        else
-            savedAssignments = [parsed];
-        chrome.storage.local.set({ savedAssignments });
-        console.log(savedAssignments);
-    });
+    const { savedAssignments } = await chrome.storage.local.get({ savedAssignments: [] });
+    savedAssignments.push(parsed);
+    chrome.storage.local.set({ savedAssignments });
 };
 const optionsButton = document.getElementById('optionsButton');
 if (optionsButton) {
