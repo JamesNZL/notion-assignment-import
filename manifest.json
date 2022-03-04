@@ -14,5 +14,8 @@
 		"storage",
 		"activeTab",
 		"scripting"
+	],
+	"host_permissions": [
+		"https://api.notion.com/*"
 	]
 }
