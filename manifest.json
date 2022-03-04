@@ -5,7 +5,7 @@
 	"manifest_version": 3,
 	"options_ui": {
 		"page": "dist/options.html",
-		"open_in_tab": false
+		"open_in_tab": true
 	},
 	"action": {
 		"default_popup": "dist/popup.html"
