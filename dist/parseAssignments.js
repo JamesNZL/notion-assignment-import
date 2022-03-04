@@ -50,6 +50,17 @@ const parseAssignments = () => {
     const parsed = Object.values(assignments).map(assignment => parseAssignment(assignment));
     console.log(JSON.stringify(parsed));
 };
+const optionsButton = document.getElementById('optionsButton');
+if (optionsButton) {
+    optionsButton.addEventListener('click', async () => {
+        if (chrome.runtime.openOptionsPage) {
+            chrome.runtime.openOptionsPage();
+        }
+        else {
+            window.open(chrome.runtime.getURL('options.html'));
+        }
+    });
+}
 const parseButton = document.getElementById('parseButton');
 if (parseButton) {
     parseButton.addEventListener('click', async () => {

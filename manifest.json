@@ -3,6 +3,10 @@
 	"description": "Automatically import Canvas assignments into a Notion database.",
 	"version": "1.0",
 	"manifest_version": 3,
+	"options_ui": {
+		"page": "dist/options.html",
+		"open_in_tab": false
+	},
 	"action": {
 		"default_popup": "dist/popup.html"
 	},
