@@ -19,6 +19,8 @@ async function saveOptions() {
 		dueDate: queryId('dueDate'),
 		dateElement: queryId('dateElement'),
 		notAvailableStatus: queryId('notAvailableStatus'),
+		notionKey: queryId('notionKey'),
+		databaseId: queryId('databaseId'),
 	});
 
 	// Update status to let user know options were saved.
@@ -41,6 +43,8 @@ async function restoreOptions() {
 		dueDate: 'assignment-due-date',
 		dateElement: 'screenreader-only',
 		notAvailableStatus: 'Not available until',
+		notionKey: null,
+		databaseId: null,
 	});
 
 	Object.entries(options).forEach(([key, value]) => setValueById(key, value));
