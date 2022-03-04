@@ -45,7 +45,6 @@ interface Assignment extends InputAssignment {
 }
 
 interface Constants {
-	LOCALE?: string | string[];
 	TIMEZONE: TimeZoneRequest;
 	PROPERTY_NAMES: {
 		[key: string]: string;
@@ -56,7 +55,6 @@ interface Constants {
 }
 
 const CONSTANTS: Constants = {
-	LOCALE: 'en-GB',
 	TIMEZONE: 'Pacific/Auckland',
 	PROPERTY_NAMES: {
 		TO_DO_NAME: 'Name',
@@ -237,7 +235,7 @@ function readInputFile(filepath?: string): Assignment[] {
 		return input
 			.flat()
 			.flatMap(assignment => {
-				if (!assignment.available) assignment.available = roundToNextHour(new Date()).toLocaleString(CONSTANTS.LOCALE, { timeZone: CONSTANTS.TIMEZONE ?? undefined });
+				if (!assignment.available) assignment.available = roundToNextHour(new Date()).toLocaleString('en-US', { timeZone: CONSTANTS.TIMEZONE ?? undefined });
 
 				if (!assignment.due) {
 					console.error(`Skipping assignment ${assignment.course} ${assignment.name} as no due date`);

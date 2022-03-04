@@ -30,7 +30,6 @@ dotenv.config();
 const fs = require("fs");
 const chrono = __importStar(require("chrono-node"));
 const CONSTANTS = {
-    LOCALE: 'en-GB',
     TIMEZONE: 'Pacific/Auckland',
     PROPERTY_NAMES: {
         TO_DO_NAME: 'Name',
@@ -180,7 +179,7 @@ function readInputFile(filepath) {
             .flat()
             .flatMap(assignment => {
             if (!assignment.available)
-                assignment.available = roundToNextHour(new Date()).toLocaleString(CONSTANTS.LOCALE, { timeZone: CONSTANTS.TIMEZONE ?? undefined });
+                assignment.available = roundToNextHour(new Date()).toLocaleString('en-US', { timeZone: CONSTANTS.TIMEZONE ?? undefined });
             if (!assignment.due) {
                 console.error(`Skipping assignment ${assignment.course} ${assignment.name} as no due date`);
                 return [];
