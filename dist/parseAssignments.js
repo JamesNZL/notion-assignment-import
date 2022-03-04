@@ -1,3 +1,16 @@
+const updateSavedCoursesList = () => {
+    const savedCourses = document.getElementById('savedCoursesList');
+    if (savedCourses) {
+        chrome.storage.local.get({ savedAssignments: [] }, ({ savedAssignments }) => {
+            savedCourses.innerHTML = savedAssignments.reduce((list, course) => {
+                return list + `<li>${course[0].course}</li>\n`;
+            }, '');
+            console.log(savedCourses.innerHTML);
+        });
+    }
+    else
+        console.error('No saved courses list found');
+};
 const parseAssignments = async () => {
     const classSelector = (className) => `.${className}`;
     const CONSTANTS = {
@@ -67,6 +80,7 @@ const clearStorageButton = document.getElementById('clearStorageButton');
 if (clearStorageButton) {
     clearStorageButton.addEventListener('click', async () => {
         chrome.storage.local.remove('savedAssignments');
+        updateSavedCoursesList();
     });
 }
 const parseButton = document.getElementById('parseButton');
@@ -75,11 +89,13 @@ if (parseButton) {
         const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
         if (!tab.id)
             return;
-        chrome.scripting.executeScript({
+        await chrome.scripting.executeScript({
             target: { tabId: tab.id },
             func: parseAssignments,
         });
+        updateSavedCoursesList();
     });
 }
+updateSavedCoursesList();
 export {};
 //# sourceMappingURL=parseAssignments.js.map

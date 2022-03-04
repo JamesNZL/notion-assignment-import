@@ -24,6 +24,22 @@ interface Constants {
 	};
 }
 
+const updateSavedCoursesList = () => {
+	const savedCourses = document.getElementById('savedCoursesList');
+
+	if (savedCourses) {
+		chrome.storage.local.get({ savedAssignments: [] }, ({ savedAssignments }) => {
+			savedCourses.innerHTML = savedAssignments.reduce((list: string, course: InputAssignment[]) => {
+				return list + `<li>${course[0].course}</li>\n`;
+			}, '');
+
+			console.log(savedCourses.innerHTML);
+		});
+	}
+
+	else console.error('No saved courses list found');
+};
+
 const parseAssignments = async () => {
 	const classSelector = (className: string): string => `.${className}`;
 
@@ -109,6 +125,8 @@ const clearStorageButton = document.getElementById('clearStorageButton');
 if (clearStorageButton) {
 	clearStorageButton.addEventListener('click', async () => {
 		chrome.storage.local.remove('savedAssignments');
+
+		updateSavedCoursesList();
 	});
 }
 
@@ -120,9 +138,14 @@ if (parseButton) {
 
 		if (!tab.id) return;
 
-		chrome.scripting.executeScript({
+		await chrome.scripting.executeScript({
 			target: { tabId: tab.id },
 			func: parseAssignments,
 		});
+
+		updateSavedCoursesList();
+
 	});
 }
+
+updateSavedCoursesList();
