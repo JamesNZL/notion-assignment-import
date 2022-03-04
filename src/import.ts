@@ -225,7 +225,7 @@ export = async function notionImport() {
 				if (!assignment.available) assignment.available = roundToNextHour(new Date()).toLocaleString('en-US', { timeZone: CONSTANTS.TIMEZONE ?? undefined });
 
 				if (!assignment.due) {
-					console.error(`Skipping assignment ${assignment.course} ${assignment.name} as no due date`);
+					console.log(`Skipping assignment ${assignment.course} ${assignment.name} as no due date`);
 					return [];
 				}
 
