@@ -1,3 +1,8 @@
 html {
 	width: 500px;
 }
+
+body#options {
+	text-align: center;
+	width: 100vw;
+}
