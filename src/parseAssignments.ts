@@ -91,13 +91,13 @@ const parseButton = document.getElementById('parseButton');
 
 if (parseButton) {
 	parseButton.addEventListener('click', async () => {
-		// @ts-ignore
 		const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-		// @ts-ignore
+		if (!tab.id) return;
+
 		chrome.scripting.executeScript({
 			target: { tabId: tab.id },
-			function: parseAssignments,
+			func: parseAssignments,
 		});
 	});
 }
