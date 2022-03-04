@@ -222,4 +222,4 @@ findNewAssignments(process.env.INPUT_FILEPATH, process.env.TO_DO_ID)
             console.error(`Error creating assignment ${assignment.course} ${assignment.name}`);
     });
 });
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=import.js.map
