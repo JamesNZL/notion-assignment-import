@@ -180,7 +180,7 @@ function readInputFile(filepath) {
             .flat()
             .flatMap(assignment => {
             if (!assignment.available)
-                assignment.available = roundToNextHour(new Date()).toLocaleString(CONSTANTS.LOCALE);
+                assignment.available = roundToNextHour(new Date()).toLocaleString(CONSTANTS.LOCALE, { timeZone: CONSTANTS.TIMEZONE ?? undefined });
             if (!assignment.due) {
                 console.error(`Skipping assignment ${assignment.course} ${assignment.name} as no due date`);
                 return [];
