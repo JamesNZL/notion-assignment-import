@@ -65,7 +65,7 @@ async function parseAssignments(courseCode) {
 }
 const optionsButton = document.getElementById('optionsButton');
 if (optionsButton) {
-    optionsButton.addEventListener('click', async () => {
+    optionsButton.addEventListener('click', () => {
         if (chrome.runtime.openOptionsPage) {
             chrome.runtime.openOptionsPage();
         }
@@ -76,8 +76,25 @@ if (optionsButton) {
 }
 const clearStorageButton = document.getElementById('clearStorageButton');
 if (clearStorageButton) {
-    clearStorageButton.addEventListener('click', async () => {
+    clearStorageButton.addEventListener('click', () => {
         chrome.storage.local.remove('savedAssignments');
+        updateSavedCoursesList();
+    });
+}
+const viewSavedButton = document.getElementById('viewSavedButton');
+if (viewSavedButton) {
+    viewSavedButton.addEventListener('click', () => {
+        const savedCourses = document.getElementById('savedCoursesList');
+        if (savedCourses) {
+            chrome.storage.local.get({ savedAssignments: [] }, ({ savedAssignments }) => {
+                savedCourses.innerHTML = `<p><code>${JSON.stringify(savedAssignments)}</code></p>`;
+            });
+        }
+    });
+}
+const viewCoursesButton = document.getElementById('viewCoursesButton');
+if (viewCoursesButton) {
+    viewCoursesButton.addEventListener('click', () => {
         updateSavedCoursesList();
     });
 }
