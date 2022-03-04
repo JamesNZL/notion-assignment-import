@@ -6,3 +6,12 @@ body#options {
 	text-align: center;
 	width: 100vw;
 }
+
+#clearStorageButton {
+	background-color: firebrick;
+	color: white;
+}
+
+#parseButton {
+	background-color: greenyellow;
+}
