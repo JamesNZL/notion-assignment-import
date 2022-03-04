@@ -171,6 +171,15 @@ if (parseButton) {
 	});
 }
 
+const notionImportButton = document.getElementById('notionImport');
+import notionImport = require('./import');
+
+if (notionImportButton) {
+	notionImportButton.addEventListener('click', () => {
+		notionImport();
+	});
+}
+
 function updateSavedCoursesList() {
 	const savedCourses = document.getElementById('savedCoursesList');
 

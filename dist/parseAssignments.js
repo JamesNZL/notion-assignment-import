@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 async function parseAssignments(courseCode) {
     const classSelector = (className) => `.${className}`;
     const options = await chrome.storage.local.get({
@@ -115,6 +117,13 @@ if (parseButton) {
         updateSavedCoursesList();
     });
 }
+const notionImportButton = document.getElementById('notionImport');
+const notionImport = require("./import");
+if (notionImportButton) {
+    notionImportButton.addEventListener('click', () => {
+        notionImport();
+    });
+}
 function updateSavedCoursesList() {
     const savedCourses = document.getElementById('savedCoursesList');
     if (savedCourses) {
@@ -127,5 +136,4 @@ function updateSavedCoursesList() {
     }
 }
 updateSavedCoursesList();
-export {};
 //# sourceMappingURL=parseAssignments.js.map
