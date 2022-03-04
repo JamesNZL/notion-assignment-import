@@ -5,5 +5,9 @@
 	"manifest_version": 3,
 	"action": {
 		"default_popup": "dist/popup.html"
-	}
+	},
+	"permissions": [
+		"activeTab",
+		"scripting"
+	]
 }
