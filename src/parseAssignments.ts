@@ -24,23 +24,7 @@ interface Constants {
 	};
 }
 
-const updateSavedCoursesList = () => {
-	const savedCourses = document.getElementById('savedCoursesList');
-
-	if (savedCourses) {
-		chrome.storage.local.get({ savedAssignments: [] }, ({ savedAssignments }) => {
-			savedCourses.innerHTML = savedAssignments.reduce((list: string, course: InputAssignment[]) => {
-				return list + `<li>${course[0].course}</li>\n`;
-			}, '');
-
-			console.log(savedCourses.innerHTML);
-		});
-	}
-
-	else console.error('No saved courses list found');
-};
-
-const parseAssignments = async () => {
+async function parseAssignments() {
 	const classSelector = (className: string): string => `.${className}`;
 
 	const CONSTANTS: Constants = {
@@ -63,15 +47,15 @@ const parseAssignments = async () => {
 		},
 	};
 
-	const verifySelector = (assignment: NonNullable<ReturnType<Element['querySelector']>>, selector: string): NonNullable<ReturnType<Element['querySelector']>> | void => {
+	function verifySelector(assignment: NonNullable<ReturnType<Element['querySelector']>>, selector: string): NonNullable<ReturnType<Element['querySelector']>> | void {
 		const element = assignment.querySelector(selector);
 
 		return (element)
 			? element
 			: console.error(`Incorrect selector: ${selector}`);
-	};
+	}
 
-	const parseAvailableDate = (assignment: NonNullable<ReturnType<Element['querySelector']>>): string => {
+	function parseAvailableDate(assignment: NonNullable<ReturnType<Element['querySelector']>>): string {
 		const availableStatus = assignment.querySelector(CONSTANTS.SELECTORS.AVAILABLE_STATUS);
 		const availableDate = assignment.querySelector(CONSTANTS.SELECTORS.AVAILABLE_DATE);
 
@@ -79,9 +63,9 @@ const parseAssignments = async () => {
 		if (availableStatus?.textContent?.trim() !== CONSTANTS.VALUES.NOT_AVAILABLE_STATUS) return '';
 
 		return availableDate?.textContent?.trim() ?? '';
-	};
+	}
 
-	const parseAssignment = (assignment: NonNullable<ReturnType<Element['querySelector']>>): InputAssignment | void => {
+	function parseAssignment(assignment: NonNullable<ReturnType<Element['querySelector']>>): InputAssignment | void {
 		const assignmentTitle = verifySelector(assignment, classSelector(CONSTANTS.CLASSES.TITLE));
 
 		// Ensure the configured selectors are valid
@@ -94,7 +78,7 @@ const parseAssignments = async () => {
 			available: parseAvailableDate(assignment),
 			due: assignment.querySelector(CONSTANTS.SELECTORS.DUE_DATE)?.textContent?.trim() ?? '',
 		};
-	};
+	}
 
 	const assignments = document.getElementsByClassName(CONSTANTS.CLASSES.ASSIGNMENT);
 
@@ -104,7 +88,7 @@ const parseAssignments = async () => {
 	savedAssignments.push(parsed);
 
 	chrome.storage.local.set({ savedAssignments });
-};
+}
 
 const optionsButton = document.getElementById('optionsButton');
 
@@ -146,6 +130,22 @@ if (parseButton) {
 		updateSavedCoursesList();
 
 	});
+}
+
+function updateSavedCoursesList() {
+	const savedCourses = document.getElementById('savedCoursesList');
+
+	if (savedCourses) {
+		chrome.storage.local.get({ savedAssignments: [] }, ({ savedAssignments }) => {
+			savedCourses.innerHTML = savedAssignments.reduce((list: string, course: InputAssignment[]) => {
+				return list + `<li>${course[0].course}</li>\n`;
+			}, '');
+
+			console.log(savedCourses.innerHTML);
+		});
+	}
+
+	else console.error('No saved courses list found');
 }
 
 updateSavedCoursesList();

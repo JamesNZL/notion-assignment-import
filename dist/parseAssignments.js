@@ -1,17 +1,4 @@
-const updateSavedCoursesList = () => {
-    const savedCourses = document.getElementById('savedCoursesList');
-    if (savedCourses) {
-        chrome.storage.local.get({ savedAssignments: [] }, ({ savedAssignments }) => {
-            savedCourses.innerHTML = savedAssignments.reduce((list, course) => {
-                return list + `<li>${course[0].course}</li>\n`;
-            }, '');
-            console.log(savedCourses.innerHTML);
-        });
-    }
-    else
-        console.error('No saved courses list found');
-};
-const parseAssignments = async () => {
+async function parseAssignments() {
     const classSelector = (className) => `.${className}`;
     const CONSTANTS = {
         COURSE: '****** ***',
@@ -32,21 +19,21 @@ const parseAssignments = async () => {
             NOT_AVAILABLE_STATUS: 'Not available until',
         },
     };
-    const verifySelector = (assignment, selector) => {
+    function verifySelector(assignment, selector) {
         const element = assignment.querySelector(selector);
         return (element)
             ? element
             : console.error(`Incorrect selector: ${selector}`);
-    };
-    const parseAvailableDate = (assignment) => {
+    }
+    function parseAvailableDate(assignment) {
         const availableStatus = assignment.querySelector(CONSTANTS.SELECTORS.AVAILABLE_STATUS);
         const availableDate = assignment.querySelector(CONSTANTS.SELECTORS.AVAILABLE_DATE);
         // If the AVAILABLE_STATUS class actually contains the 'available until' date, return an empty string
         if (availableStatus?.textContent?.trim() !== CONSTANTS.VALUES.NOT_AVAILABLE_STATUS)
             return '';
         return availableDate?.textContent?.trim() ?? '';
-    };
-    const parseAssignment = (assignment) => {
+    }
+    function parseAssignment(assignment) {
         const assignmentTitle = verifySelector(assignment, classSelector(CONSTANTS.CLASSES.TITLE));
         // Ensure the configured selectors are valid
         if (!assignmentTitle?.textContent || !(assignmentTitle instanceof HTMLAnchorElement))
@@ -58,13 +45,13 @@ const parseAssignments = async () => {
             available: parseAvailableDate(assignment),
             due: assignment.querySelector(CONSTANTS.SELECTORS.DUE_DATE)?.textContent?.trim() ?? '',
         };
-    };
+    }
     const assignments = document.getElementsByClassName(CONSTANTS.CLASSES.ASSIGNMENT);
     const parsed = Object.values(assignments).map(assignment => parseAssignment(assignment));
     const { savedAssignments } = await chrome.storage.local.get({ savedAssignments: [] });
     savedAssignments.push(parsed);
     chrome.storage.local.set({ savedAssignments });
-};
+}
 const optionsButton = document.getElementById('optionsButton');
 if (optionsButton) {
     optionsButton.addEventListener('click', async () => {
@@ -95,6 +82,19 @@ if (parseButton) {
         });
         updateSavedCoursesList();
     });
+}
+function updateSavedCoursesList() {
+    const savedCourses = document.getElementById('savedCoursesList');
+    if (savedCourses) {
+        chrome.storage.local.get({ savedAssignments: [] }, ({ savedAssignments }) => {
+            savedCourses.innerHTML = savedAssignments.reduce((list, course) => {
+                return list + `<li>${course[0].course}</li>\n`;
+            }, '');
+            console.log(savedCourses.innerHTML);
+        });
+    }
+    else
+        console.error('No saved courses list found');
 }
 updateSavedCoursesList();
 export {};
