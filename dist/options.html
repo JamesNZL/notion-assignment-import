@@ -2,26 +2,36 @@
 <html>
 
 <head>
-	<title>My Test Extension Options</title>
+	<title>Notion Canvas Assignment Import Options</title>
 </head>
 
 <body>
+	<h1>Canvas Class Names</h1>
+	<label for="canvasAssignment">Assignment class:</label><br>
+	<input type="text" id="canvasAssignment" name="canvasAssignment"><br>
+	<label for="assignmentTitle">Assignment title:</label><br>
+	<input type="text" id="assignmentTitle" name="assignmentTitle"><br>
+	<label for="availableDate">Available Date:</label><br>
+	<input type="text" id="availableDate" name="availableDate"><br>
+	<label for="availableStatus">Available Status:</label><br>
+	<input type="text" id="availableStatus" name="availableStatus"><br>
+	<label for="dueDate">Due Date:</label><br>
+	<input type="text" id="dueDate" name="dueDate"><br>
+	<label for="dateElement">Date Element:</label><br>
+	<input type="text" id="dateElement" name="dateElement"><br>
+	<label for="notAvailableStatus">Not available status:</label><br>
+	<input type="text" id="notAvailableStatus" name="notAvailableStatus"><br>
 
-	Favorite color:
-	<select id="colour">
-		<option value="red">red</option>
-		<option value="green">green</option>
-		<option value="blue">blue</option>
-		<option value="yellow">yellow</option>
-	</select>
+	<h1>Notion Environment Variables</h1>
+	<label for="notionKey">Notion Integration Key:</label><br>
+	<input type="password" id="notionKey" name="notionKey"><br>
+	<label for="databaseId">Notion Database ID:</label><br>
+	<input type="text" id="databaseId" name="databaseId"><br>
 
-	<label>
-		<input type="checkbox" id="like">
-		I like colours.
-	</label>
+	<br>
 
 	<div id="status"></div>
-	<button id="save">Save</button>
+	<button id="saveButton">Save</button>
 
 	<script src="options.js"></script>
 </body>

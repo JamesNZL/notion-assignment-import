@@ -27,15 +27,25 @@ interface Constants {
 async function parseAssignments(courseCode: string): Promise<void> {
 	const classSelector = (className: string): string => `.${className}`;
 
+	const options = await chrome.storage.local.get({
+		canvasAssignment: 'assignment',
+		assignmentTitle: 'ig-title',
+		availableDate: 'assignment-date-available',
+		availableStatus: 'status-description',
+		dueDate: 'assignment-due-date',
+		dateElement: 'screenreader-only',
+		notAvailableStatus: 'Not available until',
+	});
+
 	const CONSTANTS: Constants = {
 		COURSE: courseCode,
 		CLASSES: {
-			ASSIGNMENT: 'assignment',
-			TITLE: 'ig-title',
-			AVAILABLE_DATE: 'assignment-date-available',
-			AVAILABLE_STATUS: 'status-description',
-			DUE_DATE: 'assignment-date-due',
-			SCREENREADER_ONLY: 'screenreader-only',
+			ASSIGNMENT: options.canvasAssignment,
+			TITLE: options.assignmentTitle,
+			AVAILABLE_DATE: options.availableDate,
+			AVAILABLE_STATUS: options.availableStatus,
+			DUE_DATE: options.dueDate,
+			SCREENREADER_ONLY: options.dateElement,
 		},
 		SELECTORS: {
 			get AVAILABLE_STATUS() { return `${classSelector(CONSTANTS.CLASSES.AVAILABLE_DATE)} ${classSelector(CONSTANTS.CLASSES.AVAILABLE_STATUS)}`; },
@@ -43,7 +53,7 @@ async function parseAssignments(courseCode: string): Promise<void> {
 			get DUE_DATE() { return `${classSelector(CONSTANTS.CLASSES.DUE_DATE)} ${classSelector(CONSTANTS.CLASSES.SCREENREADER_ONLY)}`; },
 		},
 		VALUES: {
-			NOT_AVAILABLE_STATUS: 'Not available until',
+			NOT_AVAILABLE_STATUS: options.notAvailableStatus,
 		},
 	};
 
