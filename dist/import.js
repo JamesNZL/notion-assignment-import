@@ -1,34 +1,13 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const client_1 = require("@notionhq/client");
+import { Client, isNotionClientError } from '@notionhq/client';
 function isPaginatedResponse(response) {
     if (!response)
         return false;
     return 'has_more' in response;
 }
-const dotenv = __importStar(require("dotenv"));
+import * as dotenv from 'dotenv';
 dotenv.config();
-const fs = require("fs");
-const chrono = __importStar(require("chrono-node"));
+import fs from 'fs';
+import * as chrono from 'chrono-node';
 const CONSTANTS = {
     TIMEZONE: 'Pacific/Auckland',
     PROPERTY_NAMES: {
@@ -46,13 +25,13 @@ const CONSTANTS = {
         STATUS_TO_DO: 'To Do',
     },
 };
-const notion = new client_1.Client({ auth: process.env.NOTION_KEY });
+const notion = new Client({ auth: process.env.NOTION_KEY });
 async function makeRequest(method, parameters) {
     try {
         return await method(parameters);
     }
     catch (error) {
-        const type = ((0, client_1.isNotionClientError)(error)) ? 'NOTION_ERROR' : 'UNKNOWN_ERROR';
+        const type = (isNotionClientError(error)) ? 'NOTION_ERROR' : 'UNKNOWN_ERROR';
         console.error({ type, error });
     }
 }

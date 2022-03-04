@@ -1,5 +1,6 @@
 import { Client, isNotionClientError } from '@notionhq/client';
 import { CreatePageParameters, CreatePageResponse, QueryDatabaseParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
+import { InputAssignment } from './parseAssignments';
 
 type PageProperties = CreatePageParameters['properties'];
 type DateRequest = NonNullable<NonNullable<Extract<PageProperties[keyof PageProperties], { type?: 'date'; }>['date']>>;
@@ -26,18 +27,10 @@ function isPaginatedResponse<R>(response: void | R): response is (R & PaginatedR
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-import fs = require('fs');
+import fs from 'fs';
 import * as chrono from 'chrono-node';
 
 type ArrayElement<ArrayType extends readonly unknown[]> = ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
-
-interface InputAssignment {
-	name: string;
-	course: string;
-	url: string;
-	available?: string;
-	due?: string;
-}
 
 interface Assignment extends InputAssignment {
 	available: string;
