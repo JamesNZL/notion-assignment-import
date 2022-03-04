@@ -84,7 +84,14 @@ const parseAssignments = () => {
 
 	const parsed = Object.values(assignments).map(assignment => parseAssignment(assignment));
 
-	console.log(JSON.stringify(parsed));
+	chrome.storage.local.get('savedAssignments', ({ savedAssignments }) => {
+		if (savedAssignments) savedAssignments.push(parsed);
+		else savedAssignments = [parsed];
+
+		chrome.storage.local.set({ savedAssignments });
+
+		console.log(savedAssignments);
+	});
 };
 
 const optionsButton = document.getElementById('optionsButton');
