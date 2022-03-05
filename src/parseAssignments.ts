@@ -10,6 +10,8 @@ export interface SavedAssignments {
 	[key: string]: InputAssignment[];
 }
 
+type valueof<T> = T[keyof T];
+
 interface Constants {
 	COURSE: string;
 	CLASSES: {
@@ -105,9 +107,29 @@ async function parseAssignments(courseCode: string): Promise<void> {
 	chrome.storage.local.set({ savedAssignments });
 }
 
-const optionsButton = document.getElementById('optionsButton');
+import notionImport = require('./import');
 
-if (optionsButton) {
+const buttons = {
+	optionsButton: document.getElementById('optionsButton'),
+	clearStorageButton: document.getElementById('clearStorageButton'),
+	viewSavedButton: document.getElementById('viewSavedButton'),
+	viewCoursesButton: document.getElementById('viewCoursesButton'),
+	parseButton: document.getElementById('parseButton'),
+	notionImportButton: document.getElementById('notionImportButton'),
+};
+
+if (Object.values(buttons).every(button => button)) {
+	const {
+		optionsButton,
+		clearStorageButton,
+		viewSavedButton,
+		viewCoursesButton,
+		parseButton,
+		notionImportButton,
+	} = <{
+		[key: string]: NonNullable<valueof<typeof buttons>>;
+	}>buttons;
+
 	optionsButton.addEventListener('click', () => {
 		if (chrome.runtime.openOptionsPage) {
 			chrome.runtime.openOptionsPage();
@@ -117,21 +139,13 @@ if (optionsButton) {
 			window.open(chrome.runtime.getURL('options.html'));
 		}
 	});
-}
 
-const clearStorageButton = document.getElementById('clearStorageButton');
-
-if (clearStorageButton) {
 	clearStorageButton.addEventListener('click', () => {
 		chrome.storage.local.remove('savedAssignments');
 
 		updateSavedCoursesList();
 	});
-}
 
-const viewSavedButton = document.getElementById('viewSavedButton');
-
-if (viewSavedButton) {
 	viewSavedButton.addEventListener('click', () => {
 		const savedCourses = document.getElementById('savedCoursesList');
 
@@ -141,20 +155,11 @@ if (viewSavedButton) {
 			});
 		}
 	});
-}
 
-const viewCoursesButton = document.getElementById('viewCoursesButton');
-
-if (viewCoursesButton) {
 	viewCoursesButton.addEventListener('click', () => {
 		updateSavedCoursesList();
 	});
-}
 
-
-const parseButton = document.getElementById('parseButton');
-
-if (parseButton) {
 	parseButton.addEventListener('click', async () => {
 		const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 		const courseCodeInput = document.getElementById('courseCode');
@@ -174,12 +179,7 @@ if (parseButton) {
 		parseButton.innerHTML = `Saved ${courseCodeInput.value}!`;
 		courseCodeInput.value = '';
 	});
-}
 
-const notionImportButton = document.getElementById('notionImport');
-import notionImport = require('./import');
-
-if (notionImportButton) {
 	notionImportButton.addEventListener('click', async () => {
 		notionImportButton.innerHTML = 'Importing to Notion...';
 
