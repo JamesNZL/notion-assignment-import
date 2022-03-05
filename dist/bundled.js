@@ -316,9 +316,7 @@ const buttons = {
     parseButton: document.getElementById('parseButton'),
     notionImportButton: document.getElementById('notionImportButton'),
 };
-console.log(buttons);
 if (Object.values(buttons).every(button => button !== null)) {
-    console.log('hi');
     const { optionsButton, clearStorageButton, viewSavedButton, copySavedButton, viewCoursesButton, parseButton, notionImportButton, } = buttons;
     optionsButton.addEventListener('click', () => {
         if (chrome.runtime.openOptionsPage) {
@@ -332,19 +330,17 @@ if (Object.values(buttons).every(button => button !== null)) {
         chrome.storage.local.remove('savedAssignments');
         updateSavedCoursesList();
     });
-    viewSavedButton.addEventListener('click', () => {
+    viewSavedButton.addEventListener('click', async () => {
         const savedCourses = document.getElementById('savedCoursesList');
         if (savedCourses) {
-            chrome.storage.local.get({ savedAssignments: {} }, ({ savedAssignments }) => {
-                savedCourses.innerHTML = `<p><code>${JSON.stringify(savedAssignments)}</code></p>`;
-            });
+            const { savedAssignments } = await chrome.storage.local.get({ savedAssignments: {} });
+            savedCourses.innerHTML = `<p><code>${JSON.stringify(savedAssignments)}</code></p>`;
         }
     });
-    copySavedButton.addEventListener('click', () => {
-        chrome.storage.local.get({ savedAssignments: {} }, ({ savedAssignments }) => {
-            navigator.clipboard.writeText(JSON.stringify(savedAssignments))
-                .then(() => copySavedButton.innerHTML = 'Copied to clipboard!');
-        });
+    copySavedButton.addEventListener('click', async () => {
+        const { savedAssignments } = await chrome.storage.local.get({ savedAssignments: {} });
+        await navigator.clipboard.writeText(JSON.stringify(savedAssignments));
+        copySavedButton.innerHTML = 'Copied to clipboard!';
     });
     viewCoursesButton.addEventListener('click', () => updateSavedCoursesList());
     parseButton.addEventListener('click', async () => {
