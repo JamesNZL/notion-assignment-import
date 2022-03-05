@@ -98,13 +98,17 @@ async function parseAssignments(courseCode: string): Promise<void> {
 
 	const assignments = document.getElementsByClassName(CONSTANTS.CLASSES.ASSIGNMENT);
 
-	const parsed = Object.values(assignments).flatMap(assignment => parseAssignment(assignment));
+	const parsedAssignments = Object.values(assignments).flatMap(assignment => parseAssignment(assignment));
 
-	const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
+	if (parsedAssignments.length) {
+		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
 
-	savedAssignments[courseCode] = parsed;
+		savedAssignments[courseCode] = parsedAssignments;
 
-	chrome.storage.local.set({ savedAssignments });
+		chrome.storage.local.set({ savedAssignments });
+	}
+
+	else alert('No Canvas assignments found on this page.\n\nPlease ensure this is a valid Canvas Course Assignments page.\n\nIf this is a valid assignments page, the Canvas Class Names options may be incorrect.');
 }
 
 import notionImport = require('./import');

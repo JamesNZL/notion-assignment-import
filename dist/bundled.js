@@ -301,10 +301,14 @@ async function parseAssignments(courseCode) {
             }];
     }
     const assignments = document.getElementsByClassName(CONSTANTS.CLASSES.ASSIGNMENT);
-    const parsed = Object.values(assignments).flatMap(assignment => parseAssignment(assignment));
-    const { savedAssignments } = await chrome.storage.local.get({ savedAssignments: {} });
-    savedAssignments[courseCode] = parsed;
-    chrome.storage.local.set({ savedAssignments });
+    const parsedAssignments = Object.values(assignments).flatMap(assignment => parseAssignment(assignment));
+    if (parsedAssignments.length) {
+        const { savedAssignments } = await chrome.storage.local.get({ savedAssignments: {} });
+        savedAssignments[courseCode] = parsedAssignments;
+        chrome.storage.local.set({ savedAssignments });
+    }
+    else
+        alert('No Canvas assignments found on this page.\n\nPlease ensure this is a valid Canvas Course Assignments page.\n\nIf this is a valid assignments page, the Canvas Class Names options may be incorrect.');
 }
 const notionImport = require("./import");
 const buttons = {
