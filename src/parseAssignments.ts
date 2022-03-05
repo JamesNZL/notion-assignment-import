@@ -6,6 +6,10 @@ export interface InputAssignment {
 	due?: string;
 }
 
+export interface SavedAssignments {
+	[key: string]: InputAssignment[];
+}
+
 interface Constants {
 	COURSE: string;
 	CLASSES: {
@@ -75,30 +79,28 @@ async function parseAssignments(courseCode: string): Promise<void> {
 		return availableDate?.textContent?.trim() ?? '';
 	}
 
-	function parseAssignment(assignment: NonNullable<ReturnType<Element['querySelector']>>): InputAssignment | void {
+	function parseAssignment(assignment: NonNullable<ReturnType<Element['querySelector']>>): InputAssignment[] {
 		const assignmentTitle = verifySelector(assignment, classSelector(CONSTANTS.CLASSES.TITLE));
 
 		// Ensure the configured selectors are valid
-		if (!assignmentTitle?.textContent || !(assignmentTitle instanceof HTMLAnchorElement)) return;
+		if (!assignmentTitle?.textContent || !(assignmentTitle instanceof HTMLAnchorElement)) return [];
 
-		return {
+		return [{
 			name: assignmentTitle.textContent.trim(),
 			course: CONSTANTS.COURSE,
 			url: assignmentTitle.href,
 			available: parseAvailableDate(assignment),
 			due: assignment.querySelector(CONSTANTS.SELECTORS.DUE_DATE)?.textContent?.trim() ?? '',
-		};
+		}];
 	}
 
 	const assignments = document.getElementsByClassName(CONSTANTS.CLASSES.ASSIGNMENT);
 
-	const parsed = Object.values(assignments).map(assignment => parseAssignment(assignment));
+	const parsed = Object.values(assignments).flatMap(assignment => parseAssignment(assignment));
 
-	const { savedAssignments } = await chrome.storage.local.get({ savedAssignments: [] });
+	const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
 
-	if (savedAssignments.some((course: InputAssignment[]) => course[0].course === courseCode)) return;
-
-	savedAssignments.push(parsed);
+	savedAssignments[courseCode] = parsed;
 
 	chrome.storage.local.set({ savedAssignments });
 }
@@ -134,7 +136,7 @@ if (viewSavedButton) {
 		const savedCourses = document.getElementById('savedCoursesList');
 
 		if (savedCourses) {
-			chrome.storage.local.get({ savedAssignments: [] }, ({ savedAssignments }) => {
+			chrome.storage.local.get({ savedAssignments: {} }, ({ savedAssignments }) => {
 				savedCourses.innerHTML = `<p><code>${JSON.stringify(savedAssignments)}</code></p>`;
 			});
 		}
@@ -192,8 +194,8 @@ function updateSavedCoursesList() {
 	const savedCourses = document.getElementById('savedCoursesList');
 
 	if (savedCourses) {
-		chrome.storage.local.get({ savedAssignments: [] }, ({ savedAssignments }) => {
-			const coursesList = savedAssignments.reduce((list: string, course: InputAssignment[]) => list + `<li>${course[0].course}</li>\n`, '');
+		chrome.storage.local.get({ savedAssignments: {} }, ({ savedAssignments }) => {
+			const coursesList = Object.keys(savedAssignments).reduce((list: string, course: string) => list + `<li>${course}</li>\n`, '');
 
 			savedCourses.innerHTML = (coursesList)
 				? `<ol>${coursesList}</ol>`

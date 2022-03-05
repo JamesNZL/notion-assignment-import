@@ -1,6 +1,6 @@
 import { Client, isNotionClientError } from '@notionhq/client';
 import { CreatePageParameters, CreatePageResponse, QueryDatabaseParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
-import { InputAssignment } from './parseAssignments';
+import { InputAssignment, SavedAssignments } from './parseAssignments';
 
 type PageProperties = CreatePageParameters['properties'];
 type DateRequest = NonNullable<NonNullable<Extract<PageProperties[keyof PageProperties], { type?: 'date'; }>['date']>>;
@@ -230,9 +230,9 @@ export = async function notionImport(): Promise<void | Assignment[]> {
 	}
 
 	async function readInput(): Promise<Assignment[]> {
-		const { savedAssignments } = await chrome.storage.local.get({ savedAssignments: [] });
+		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
 
-		return (<InputAssignment[][]>savedAssignments)
+		return Object.values(savedAssignments)
 			.flat()
 			.flatMap(assignment => {
 				if (!assignment.available) assignment.available = roundToNextHour(new Date()).toLocaleString('en-US', { timeZone: CONSTANTS.TIMEZONE ?? undefined });

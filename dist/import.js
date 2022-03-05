@@ -186,8 +186,8 @@ module.exports = async function notionImport() {
         return date;
     }
     async function readInput() {
-        const { savedAssignments } = await chrome.storage.local.get({ savedAssignments: [] });
-        return savedAssignments
+        const { savedAssignments } = await chrome.storage.local.get({ savedAssignments: {} });
+        return Object.values(savedAssignments)
             .flat()
             .flatMap(assignment => {
             if (!assignment.available)
