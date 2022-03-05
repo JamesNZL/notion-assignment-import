@@ -21,6 +21,17 @@ async function saveOptions() {
 		notAvailableStatus: queryId('notAvailableStatus'),
 		notionKey: queryId('notionKey'),
 		databaseId: queryId('databaseId'),
+		timezone: queryId('timezone'),
+		toDoName: queryId('toDoName'),
+		toDoCategory: queryId('toDoCategory'),
+		toDoCourse: queryId('toDoCourse'),
+		toDoURL: queryId('toDoURL'),
+		toDoStatus: queryId('toDoStatus'),
+		toDoAvailable: queryId('toDoAvailable'),
+		toDoDue: queryId('toDoDue'),
+		toDoSpan: queryId('toDoSpan'),
+		categoryCanvas: queryId('categoryCanvas'),
+		statusToDo: queryId('statusToDo'),
 	});
 
 	// Update status to let user know options were saved.
@@ -45,6 +56,17 @@ async function restoreOptions() {
 		notAvailableStatus: 'Not available until',
 		notionKey: null,
 		databaseId: null,
+		timezone: 'Pacific/Auckland',
+		toDoName: 'Name',
+		toDoCategory: 'Category',
+		toDoCourse: 'Course',
+		toDoURL: 'URL',
+		toDoStatus: 'Status',
+		toDoAvailable: 'Reminder',
+		toDoDue: 'Due',
+		toDoSpan: 'Date Span',
+		categoryCanvas: 'Canvas',
+		statusToDo: 'To Do',
 	});
 
 	Object.entries(options).forEach(([key, value]) => setValueById(key, value));

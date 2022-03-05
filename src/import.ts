@@ -44,22 +44,35 @@ interface Constants {
 }
 
 export = async function notionImport(): Promise<void | Assignment[]> {
-	// TODO: store in extension options
+	const options = await chrome.storage.local.get({
+		timezone: 'Pacific/Auckland',
+		toDoName: 'Name',
+		toDoCategory: 'Category',
+		toDoCourse: 'Course',
+		toDoURL: 'URL',
+		toDoStatus: 'Status',
+		toDoAvailable: 'Reminder',
+		toDoDue: 'Due',
+		toDoSpan: 'Date Span',
+		categoryCanvas: 'Canvas',
+		statusToDo: 'To Do',
+	});
+
 	const CONSTANTS: Constants = {
-		TIMEZONE: 'Pacific/Auckland',
+		TIMEZONE: options.timezone,
 		PROPERTY_NAMES: {
-			TO_DO_NAME: 'Name',
-			TO_DO_CATEGORY: 'Category',
-			TO_DO_COURSE: 'Course',
-			TO_DO_URL: 'URL',
-			TO_DO_STATUS: 'Status',
-			TO_DO_AVAIALBLE: 'Reminder',
-			TO_DO_DUE: 'Due',
-			TO_DO_SPAN: 'Date Span',
+			TO_DO_NAME: options.toDoName,
+			TO_DO_CATEGORY: options.toDoCategory,
+			TO_DO_COURSE: options.toDoCourse,
+			TO_DO_URL: options.toDoURL,
+			TO_DO_STATUS: options.toDoStatus,
+			TO_DO_AVAIALBLE: options.toDoAvailable,
+			TO_DO_DUE: options.toDoDue,
+			TO_DO_SPAN: options.toDoSpan,
 		},
 		PROPERTY_VALUES: {
-			CATEGORY_CANVAS: 'Canvas',
-			STATUS_TO_DO: 'To Do',
+			CATEGORY_CANVAS: options.categoryCanvas,
+			STATUS_TO_DO: options.statusToDo,
 		},
 	};
 
