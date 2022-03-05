@@ -371,15 +371,14 @@ if (notionImportButton) {
         }
     });
 }
-function updateSavedCoursesList() {
+async function updateSavedCoursesList() {
     const savedCourses = document.getElementById('savedCoursesList');
     if (savedCourses) {
-        chrome.storage.local.get({ savedAssignments: {} }, ({ savedAssignments }) => {
-            const coursesList = Object.keys(savedAssignments).reduce((list, course) => list + `<li>${course}</li>\n`, '');
-            savedCourses.innerHTML = (coursesList)
-                ? `<ol>${coursesList}</ol>`
-                : '<p>No saved courses.</p>';
-        });
+        const { savedAssignments } = await chrome.storage.local.get({ savedAssignments: {} });
+        const coursesList = Object.entries(savedAssignments).reduce((list, [course, assignments]) => list + `<li>${course} (${assignments.length} assignments)</li>\n`, '');
+        savedCourses.innerHTML = (coursesList)
+            ? `<ol>${coursesList}</ol>`
+            : '<p>No saved courses.</p>';
     }
 }
 updateSavedCoursesList();
