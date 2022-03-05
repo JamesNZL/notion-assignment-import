@@ -12,6 +12,15 @@ body#options {
 	color: white;
 }
 
+#clearStorageButton:hover {
+	background-color: darkred;
+	color: white;
+}
+
 #parseButton {
 	background-color: greenyellow;
+}
+
+#parseButton:hover {
+	background-color: lawngreen;
 }
