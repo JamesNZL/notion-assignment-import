@@ -24,4 +24,4 @@
 
 8. Repeat steps 5–7 as appropriate.
 
-9. Once you have saved the assignemnts of all your desired courses, click the `Import Saved Assignments` button to import to Notion.
+9. Once you have saved the assignments of all your desired courses, click the `Import Saved Assignments` button to import to Notion.
