@@ -170,6 +170,9 @@ if (parseButton) {
 		});
 
 		updateSavedCoursesList();
+
+		parseButton.innerHTML = `Saved ${courseCodeInput.value}!`;
+		courseCodeInput.value = '';
 	});
 }
 
@@ -178,6 +181,8 @@ import notionImport = require('./import');
 
 if (notionImportButton) {
 	notionImportButton.addEventListener('click', async () => {
+		notionImportButton.innerHTML = 'Importing to Notion...';
+
 		const createdAssignments = await notionImport();
 
 		if (createdAssignments) {
@@ -185,6 +190,7 @@ if (notionImportButton) {
 				? createdAssignments.reduce((list, { course, name }, index) => list + `${index + 1}. ${course} ${name}\n`, '\n\n')
 				: '';
 
+			notionImportButton.innerHTML = `Imported ${createdAssignments.length} assignments!`;
 			alert(`Created ${createdAssignments.length} new assignments.${createdNames}`);
 		}
 	});
