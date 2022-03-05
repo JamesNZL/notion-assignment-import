@@ -1,50 +1,27 @@
-## Requirements
+# Usage
 
-1. `.env` file in top-level folder with:
-  ```text
-  NOTION_KEY=<PASTE_YOUR_NOTION_INTEGRATION_SECRET>
-  TO_DO_ID=<PASTE_YOUR_TO_DO_DATABASE_IDENTIFIER>
-  INPUT_FILEPATH=<FILEPATH TO YOUR INPUT JSON FILE>
-  ```
+1. Install the extension.
 
-2. `[filename].json` file at the `INPUT_FILEPATH` as per the following schema:
-  > Use the script in [`parser.md`](https://github.com/JamesNZL/notion-assignment-import/blob/master/parser.md#parsing-script) to automatically generate this from the Canvas assignments page!
-  ```javascript
-  {
-    "name": string, // Assignment Name
-    "course": string, // Assignment Course Name
-    "url": string, // Assignment URL
-    "available": string, // Date from which the assignment is available
-    "due": string // Assignment due date
-  }[][]
-  ```
-  ### Example:
-  ```javascript
-  [
-    [
-      {
-        "name": "Assignment 1",
-        "course": "COURSE 001",
-        "url": "https://canvas.university.ac.nz/courses/00001/assignments/00001",
-        "available": "",
-        "due": "Sep 21 at 9:21pm"
-      },
-      {
-        "name": "Assignment 2",
-        "course": "COURSE 001",
-        "url": "https://canvas.university.ac.nz/courses/00001/assignments/00002",
-        "available": "Sep 21 at 9:21pm",
-        "due": "Sep 28 at 9:21pm"
-      }
-    ],
-    [
-      {
-        "name": "Assignment 1",
-        "course": "COURSE 002",
-        "url": "https://canvas.university.ac.nz/courses/00002/assignments/00001",
-        "available": "Aug 17 at 11:59pm",
-        "due": "Sep 1 at 11:59pm"
-      }
-    ]
-  ]
-  ```
+2. Duplicate [this Notion database template](https://jamesnzl-sandbox.notion.site/c4d73bebd39c4103b96b2edb8be9e0bd?v=9afaf4b4faee4a5a977c00291be06c9e).
+
+3. Click `Configure Options` to configure the extension.
+   1. Create a new Notion Internal Integration, and add it to the duplicated database.
+		> Follow step 1–2 on [this page](https://developers.notion.com/docs/getting-started#step-1-create-an-integration).
+      1. Copy and paste your integration key into the `Notion Integration Key` option field.
+      2. Copy and paste your database identifier into the `Notion Database ID` option field.
+
+4. Configure the `Timezone` and `Notion Database Properties` if necessary.
+	> You should only change the `Canvas Class Names` options if the extension is not parsing assignments correctly, and you know what you are doing.
+
+5. Open the assignments page for the course you wish to import.
+
+6. Enter the course code in the `Course code:` input field, and click `Save Current Page Assignments`.
+
+7. You should see the course code appear in the `Current Saved Courses` list.
+   1. Click `View Saved Assignments` to view the raw stored JSON.
+   2. Click `View Saved Courses` to return to the ordered list of course codes.
+   3. Click `Clear Saved Assignments` to remove the saved assignments from storage.
+
+8. Repeat steps 5–7 as appropriate.
+
+9. Once you have saved the assignemnts of all your desired courses, click the `Import Saved Assignments` button to import to Notion.
