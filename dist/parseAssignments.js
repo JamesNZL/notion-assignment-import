@@ -68,12 +68,15 @@ const buttons = {
     optionsButton: document.getElementById('optionsButton'),
     clearStorageButton: document.getElementById('clearStorageButton'),
     viewSavedButton: document.getElementById('viewSavedButton'),
+    copySavedButton: document.getElementById('copySavedButton'),
     viewCoursesButton: document.getElementById('viewCoursesButton'),
     parseButton: document.getElementById('parseButton'),
     notionImportButton: document.getElementById('notionImportButton'),
 };
-if (Object.values(buttons).every(button => button)) {
-    const { optionsButton, clearStorageButton, viewSavedButton, viewCoursesButton, parseButton, notionImportButton, } = buttons;
+console.log(buttons);
+if (Object.values(buttons).every(button => button !== null)) {
+    console.log('hi');
+    const { optionsButton, clearStorageButton, viewSavedButton, copySavedButton, viewCoursesButton, parseButton, notionImportButton, } = buttons;
     optionsButton.addEventListener('click', () => {
         if (chrome.runtime.openOptionsPage) {
             chrome.runtime.openOptionsPage();
@@ -94,9 +97,13 @@ if (Object.values(buttons).every(button => button)) {
             });
         }
     });
-    viewCoursesButton.addEventListener('click', () => {
-        updateSavedCoursesList();
+    copySavedButton.addEventListener('click', () => {
+        chrome.storage.local.get({ savedAssignments: {} }, ({ savedAssignments }) => {
+            navigator.clipboard.writeText(JSON.stringify(savedAssignments))
+                .then(() => copySavedButton.innerHTML = 'Copied to clipboard!');
+        });
     });
+    viewCoursesButton.addEventListener('click', () => updateSavedCoursesList());
     parseButton.addEventListener('click', async () => {
         const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
         const courseCodeInput = document.getElementById('courseCode');
