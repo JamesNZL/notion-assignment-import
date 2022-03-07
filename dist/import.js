@@ -224,6 +224,7 @@ module.exports = async function notionImport() {
         return input.filter(assignment => !existingAssignments.results.some(page => getAssignmentURL(page) === assignment.url));
     }
     const assignments = await findNewAssignments(TO_DO_ID);
+    let errors = 0;
     const createdAssignments = await Promise.all(assignments
         .map(async (assignment) => {
         const page = await createAssignment(assignment, TO_DO_ID);
@@ -233,9 +234,12 @@ module.exports = async function notionImport() {
         }
         else {
             console.error(`Error creating assignment ${assignment.course} ${assignment.name}`);
+            errors++;
             return [];
         }
     }));
+    if (errors)
+        alert(`An error was encountered when creating ${errors} assignments.`);
     return createdAssignments.flat();
 };
 //# sourceMappingURL=import.js.map

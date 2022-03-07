@@ -276,6 +276,7 @@ export = async function notionImport(): Promise<void | Assignment[]> {
 
 
 	const assignments = await findNewAssignments(TO_DO_ID);
+	let errors = 0;
 
 	const createdAssignments = await Promise.all(assignments
 		.map(async assignment => {
@@ -289,11 +290,14 @@ export = async function notionImport(): Promise<void | Assignment[]> {
 
 			else {
 				console.error(`Error creating assignment ${assignment.course} ${assignment.name}`);
+				errors++;
 
 				return [];
 			}
 		}),
 	);
+
+	if (errors) alert(`An error was encountered when creating ${errors} assignments.`);
 
 	return createdAssignments.flat();
 };
