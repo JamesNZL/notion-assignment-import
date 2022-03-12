@@ -38,7 +38,7 @@
 ```javascript
 const CONSTANTS = {
 	CLASSES: {
-    BREADCRUMBS: 'ic-app-crumbs',
+		BREADCRUMBS: 'ic-app-crumbs',
 		ASSIGNMENT: 'assignment',
 		TITLE: 'ig-title',
 		AVAILABLE_DATE: 'assignment-date-available',
@@ -47,7 +47,7 @@ const CONSTANTS = {
 		SCREENREADER_ONLY: 'screenreader-only',
 	},
 	VALUES: {
-    COURSE_CODE_N: 2,
+		COURSE_CODE_N: 2,
 		NOT_AVAILABLE_STATUS: 'Not available until',
 	},
 };
@@ -55,7 +55,7 @@ const CONSTANTS = {
 const assignments = document.getElementsByClassName(CONSTANTS.CLASSES.ASSIGNMENT);
 
 const parseCourseCode = () => {
-  return document.querySelector(`.${CONSTANTS.CLASSES.BREADCRUMBS} li:nth-of-type(${CONSTANTS.VALUES.COURSE_CODE_N}) span`)?.innerHTML ?? 'Unknown Course Code';
+	return document.querySelector(`.${CONSTANTS.CLASSES.BREADCRUMBS} li:nth-of-type(${CONSTANTS.VALUES.COURSE_CODE_N}) span`)?.innerHTML ?? 'Unknown Course Code';
 }
 
 const parseAvailableDate = assignment => {
