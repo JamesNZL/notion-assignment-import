@@ -138,7 +138,7 @@ if (Object.values(buttons).every(button => button !== null)) {
             parseButton.innerHTML = `Saved ${courseCode}!`;
     });
     notionImportButton.addEventListener('click', async () => {
-        notionImportButton.innerHTML = 'Importing to Notion...';
+        notionImportButton.innerHTML = 'Exporting to Notion...';
         const createdAssignments = await notionImport();
         if (createdAssignments) {
             const createdNames = (createdAssignments.length)

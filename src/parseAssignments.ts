@@ -212,7 +212,7 @@ if (Object.values(buttons).every(button => button !== null)) {
 	});
 
 	notionImportButton.addEventListener('click', async () => {
-		notionImportButton.innerHTML = 'Importing to Notion...';
+		notionImportButton.innerHTML = 'Exporting to Notion...';
 
 		const createdAssignments = await notionImport();
 
