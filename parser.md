@@ -1,4 +1,4 @@
-# Canvas Assignment Parser - updated 23/02/22
+# Canvas Assignment Parser - updated 12/03/22
 
 - `HTMLCollection` of assignments:
   > ```javascript
@@ -37,8 +37,8 @@
 
 ```javascript
 const CONSTANTS = {
-	COURSE: '****** ***',
 	CLASSES: {
+    BREADCRUMBS: 'ic-app-crumbs',
 		ASSIGNMENT: 'assignment',
 		TITLE: 'ig-title',
 		AVAILABLE_DATE: 'assignment-date-available',
@@ -47,11 +47,16 @@ const CONSTANTS = {
 		SCREENREADER_ONLY: 'screenreader-only',
 	},
 	VALUES: {
+    COURSE_CODE_N: 2,
 		NOT_AVAILABLE_STATUS: 'Not available until',
 	},
 };
 
 const assignments = document.getElementsByClassName(CONSTANTS.CLASSES.ASSIGNMENT);
+
+const parseCourseCode = () => {
+  return document.querySelector(`.${CONSTANTS.CLASSES.BREADCRUMBS} li:nth-of-type(${CONSTANTS.VALUES.COURSE_CODE_N}) span`)?.innerHTML ?? 'Unknown Course Code';
+}
 
 const parseAvailableDate = assignment => {
 	if (assignment.querySelector(`.${CONSTANTS.CLASSES.AVAILABLE_DATE} .${CONSTANTS.CLASSES.AVAILABLE_STATUS}`)?.textContent.trim() !== CONSTANTS.VALUES.NOT_AVAILABLE_STATUS) return '';
@@ -61,7 +66,7 @@ const parseAvailableDate = assignment => {
 
 const parse = assignment => ({
 	name: assignment.querySelector(`.${CONSTANTS.CLASSES.TITLE}`).textContent.trim(),
-	course: CONSTANTS.COURSE,
+	course: parseCourseCode(),
 	url: assignment.querySelector(`.${CONSTANTS.CLASSES.TITLE}`).href,
 	available: parseAvailableDate(assignment),
 	due: assignment.querySelector(`.${CONSTANTS.CLASSES.DUE_DATE} .${CONSTANTS.CLASSES.SCREENREADER_ONLY}`)?.textContent.trim() ?? '',
