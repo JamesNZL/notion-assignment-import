@@ -34,6 +34,7 @@ async function saveOptions() {
 		toDoSpan: queryId('toDoSpan'),
 		categoryCanvas: queryId('categoryCanvas'),
 		statusToDo: queryId('statusToDo'),
+		courseCodeOverrides: queryId('courseCodeOverrides'),
 	});
 
 	// Update status to let user know options were saved.
@@ -71,6 +72,7 @@ async function restoreOptions() {
 		toDoSpan: 'Date Span',
 		categoryCanvas: 'Canvas',
 		statusToDo: 'To Do',
+		courseCodeOverrides: '{}',
 	});
 
 	Object.entries(options).forEach(([key, value]) => setValueById(key, value));

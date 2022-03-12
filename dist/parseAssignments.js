@@ -12,6 +12,7 @@ async function parseAssignments() {
         dueDate: 'assignment-date-due',
         dateElement: 'screenreader-only',
         notAvailableStatus: 'Not available until',
+        courseCodeOverrides: '{}',
     });
     const CONSTANTS = {
         CLASSES: {
@@ -34,14 +35,23 @@ async function parseAssignments() {
             NOT_AVAILABLE_STATUS: options.notAvailableStatus,
         },
     };
+    function parseJSON(jsonString) {
+        try {
+            return JSON.parse(jsonString);
+        }
+        catch {
+            return null;
+        }
+    }
     function verifySelector(assignment, selector) {
         const element = assignment.querySelector(selector);
         return (element)
             ? element
             : alert(`Incorrect selector: ${selector}`);
     }
-    function parseCourseCode() {
-        return document.querySelector(CONSTANTS.SELECTORS.COURSE_CODE)?.innerHTML ?? 'Unknown Course Code';
+    function parseCourseCode(overrides) {
+        const parsedCourseCode = document.querySelector(CONSTANTS.SELECTORS.COURSE_CODE)?.innerHTML ?? 'Unknown Course Code';
+        return overrides?.[parsedCourseCode] ?? parsedCourseCode;
     }
     function parseAvailableDate(assignment) {
         const availableStatus = assignment.querySelector(CONSTANTS.SELECTORS.AVAILABLE_STATUS);
@@ -51,26 +61,29 @@ async function parseAssignments() {
             return '';
         return availableDate?.textContent?.trim() ?? '';
     }
-    function parseAssignment(assignment) {
+    function parseAssignment(course, assignment) {
         const assignmentTitle = verifySelector(assignment, classSelector(CONSTANTS.CLASSES.TITLE));
         // Ensure the configured selectors are valid
         if (!assignmentTitle?.textContent || !(assignmentTitle instanceof HTMLAnchorElement))
             return [];
         return [{
                 name: assignmentTitle.textContent.trim(),
-                course: parseCourseCode(),
+                course,
                 url: assignmentTitle.href,
                 available: parseAvailableDate(assignment),
                 due: assignment.querySelector(CONSTANTS.SELECTORS.DUE_DATE)?.textContent?.trim() ?? '',
             }];
     }
+    const courseCodeOverrides = parseJSON(options.courseCodeOverrides);
+    if (courseCodeOverrides === null)
+        return alert(`The configured string for the Canvas Course Code Overrides option is not valid JSON.\n\nPlease verify this is a valid JSON object.\n\nCurrent configuration:\n${options.courseCodeOverrides}`);
     const assignments = document.getElementsByClassName(CONSTANTS.CLASSES.ASSIGNMENT);
-    const parsedAssignments = Object.values(assignments).flatMap(assignment => parseAssignment(assignment));
+    const parsedAssignments = Object.values(assignments).flatMap(assignment => parseAssignment(parseCourseCode(courseCodeOverrides), assignment));
     if (parsedAssignments.length) {
         const { savedAssignments } = await chrome.storage.local.get({ savedAssignments: {} });
-        savedAssignments[parseCourseCode()] = parsedAssignments;
+        savedAssignments[parseCourseCode(courseCodeOverrides)] = parsedAssignments;
         chrome.storage.local.set({ savedAssignments });
-        return parseCourseCode();
+        return parseCourseCode(courseCodeOverrides);
     }
     else
         alert('No Canvas assignments found on this page.\n\nPlease ensure this is a valid Canvas Course Assignments page.\n\nIf this is a valid assignments page, the Canvas Class Names options may be incorrect.');

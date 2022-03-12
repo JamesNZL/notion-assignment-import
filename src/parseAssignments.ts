@@ -44,6 +44,7 @@ async function parseAssignments(): Promise<void | string | 'Unknown Course Code'
 		dueDate: 'assignment-date-due',
 		dateElement: 'screenreader-only',
 		notAvailableStatus: 'Not available until',
+		courseCodeOverrides: '{}',
 	});
 
 	const CONSTANTS: Constants = {
@@ -68,6 +69,16 @@ async function parseAssignments(): Promise<void | string | 'Unknown Course Code'
 		},
 	};
 
+	function parseJSON(jsonString: string): ReturnType<typeof JSON.parse> | null {
+		try {
+			return JSON.parse(jsonString);
+		}
+
+		catch {
+			return null;
+		}
+	}
+
 	function verifySelector(assignment: NonNullable<ReturnType<Element['querySelector']>>, selector: string): NonNullable<ReturnType<Element['querySelector']>> | void {
 		const element = assignment.querySelector(selector);
 
@@ -76,8 +87,9 @@ async function parseAssignments(): Promise<void | string | 'Unknown Course Code'
 			: alert(`Incorrect selector: ${selector}`);
 	}
 
-	function parseCourseCode(): string | 'Unknown Course Code' {
-		return document.querySelector(CONSTANTS.SELECTORS.COURSE_CODE)?.innerHTML ?? 'Unknown Course Code';
+	function parseCourseCode(overrides: { [key: string]: string; }): string | 'Unknown Course Code' {
+		const parsedCourseCode = document.querySelector(CONSTANTS.SELECTORS.COURSE_CODE)?.innerHTML ?? 'Unknown Course Code';
+		return overrides?.[parsedCourseCode] ?? parsedCourseCode;
 	}
 
 	function parseAvailableDate(assignment: NonNullable<ReturnType<Element['querySelector']>>): string {
@@ -90,7 +102,7 @@ async function parseAssignments(): Promise<void | string | 'Unknown Course Code'
 		return availableDate?.textContent?.trim() ?? '';
 	}
 
-	function parseAssignment(assignment: NonNullable<ReturnType<Element['querySelector']>>): InputAssignment[] {
+	function parseAssignment(course: string, assignment: NonNullable<ReturnType<Element['querySelector']>>): InputAssignment[] {
 		const assignmentTitle = verifySelector(assignment, classSelector(CONSTANTS.CLASSES.TITLE));
 
 		// Ensure the configured selectors are valid
@@ -98,25 +110,26 @@ async function parseAssignments(): Promise<void | string | 'Unknown Course Code'
 
 		return [{
 			name: assignmentTitle.textContent.trim(),
-			course: parseCourseCode(),
+			course,
 			url: assignmentTitle.href,
 			available: parseAvailableDate(assignment),
 			due: assignment.querySelector(CONSTANTS.SELECTORS.DUE_DATE)?.textContent?.trim() ?? '',
 		}];
 	}
 
-	const assignments = document.getElementsByClassName(CONSTANTS.CLASSES.ASSIGNMENT);
+	const courseCodeOverrides = parseJSON(options.courseCodeOverrides);
+	if (courseCodeOverrides === null) return alert(`The configured string for the Canvas Course Code Overrides option is not valid JSON.\n\nPlease verify this is a valid JSON object.\n\nCurrent configuration:\n${options.courseCodeOverrides}`);
 
-	const parsedAssignments = Object.values(assignments).flatMap(assignment => parseAssignment(assignment));
+	const assignments = document.getElementsByClassName(CONSTANTS.CLASSES.ASSIGNMENT);
+	const parsedAssignments = Object.values(assignments).flatMap(assignment => parseAssignment(parseCourseCode(courseCodeOverrides), assignment));
 
 	if (parsedAssignments.length) {
 		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
 
-		savedAssignments[parseCourseCode()] = parsedAssignments;
-
+		savedAssignments[parseCourseCode(courseCodeOverrides)] = parsedAssignments;
 		chrome.storage.local.set({ savedAssignments });
 
-		return parseCourseCode();
+		return parseCourseCode(courseCodeOverrides);
 	}
 
 	else alert('No Canvas assignments found on this page.\n\nPlease ensure this is a valid Canvas Course Assignments page.\n\nIf this is a valid assignments page, the Canvas Class Names options may be incorrect.');
