@@ -12,6 +12,8 @@ function setValueById(id: string, value: string): void {
 
 async function saveOptions() {
 	await chrome.storage.local.set({
+		breadcrumbs: queryId('breadcrumbs'),
+		courseCodeN: queryId('courseCodeN'),
 		canvasAssignment: queryId('canvasAssignment'),
 		assignmentTitle: queryId('assignmentTitle'),
 		availableDate: queryId('availableDate'),
@@ -47,6 +49,8 @@ async function saveOptions() {
 
 async function restoreOptions() {
 	const options = await chrome.storage.local.get({
+		breadcrumbs: 'ic-app-crumbs',
+		courseCodeN: 2,
 		canvasAssignment: 'assignment',
 		assignmentTitle: 'ig-title',
 		availableDate: 'assignment-date-available',

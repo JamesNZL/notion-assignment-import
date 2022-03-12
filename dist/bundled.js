@@ -247,9 +247,11 @@ module.exports = async function notionImport() {
 },{"@notionhq/client":8,"chrono-node":29}],2:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-async function parseAssignments(courseCode) {
+async function parseAssignments() {
     const classSelector = (className) => `.${className}`;
     const options = await chrome.storage.local.get({
+        breadcrumbs: 'ic-app-crumbs',
+        courseCodeN: 2,
         canvasAssignment: 'assignment',
         assignmentTitle: 'ig-title',
         availableDate: 'assignment-date-available',
@@ -259,8 +261,8 @@ async function parseAssignments(courseCode) {
         notAvailableStatus: 'Not available until',
     });
     const CONSTANTS = {
-        COURSE: courseCode,
         CLASSES: {
+            BREADCRUMBS: options.breadcrumbs,
             ASSIGNMENT: options.canvasAssignment,
             TITLE: options.assignmentTitle,
             AVAILABLE_DATE: options.availableDate,
@@ -269,11 +271,13 @@ async function parseAssignments(courseCode) {
             SCREENREADER_ONLY: options.dateElement,
         },
         SELECTORS: {
+            get COURSE_CODE() { return `${classSelector(CONSTANTS.CLASSES.BREADCRUMBS)} li:nth-of-type(${CONSTANTS.VALUES.COURSE_CODE_N}) span`; },
             get AVAILABLE_STATUS() { return `${classSelector(CONSTANTS.CLASSES.AVAILABLE_DATE)} ${classSelector(CONSTANTS.CLASSES.AVAILABLE_STATUS)}`; },
             get AVAILABLE_DATE() { return `${classSelector(CONSTANTS.CLASSES.AVAILABLE_DATE)} ${classSelector(CONSTANTS.CLASSES.SCREENREADER_ONLY)}`; },
             get DUE_DATE() { return `${classSelector(CONSTANTS.CLASSES.DUE_DATE)} ${classSelector(CONSTANTS.CLASSES.SCREENREADER_ONLY)}`; },
         },
         VALUES: {
+            COURSE_CODE_N: options.courseCodeN,
             NOT_AVAILABLE_STATUS: options.notAvailableStatus,
         },
     };
@@ -282,6 +286,9 @@ async function parseAssignments(courseCode) {
         return (element)
             ? element
             : alert(`Incorrect selector: ${selector}`);
+    }
+    function parseCourseCode() {
+        return document.querySelector(CONSTANTS.SELECTORS.COURSE_CODE)?.innerHTML ?? 'Unknown Course Code';
     }
     function parseAvailableDate(assignment) {
         const availableStatus = assignment.querySelector(CONSTANTS.SELECTORS.AVAILABLE_STATUS);
@@ -298,7 +305,7 @@ async function parseAssignments(courseCode) {
             return [];
         return [{
                 name: assignmentTitle.textContent.trim(),
-                course: CONSTANTS.COURSE,
+                course: parseCourseCode(),
                 url: assignmentTitle.href,
                 available: parseAvailableDate(assignment),
                 due: assignment.querySelector(CONSTANTS.SELECTORS.DUE_DATE)?.textContent?.trim() ?? '',
@@ -308,8 +315,9 @@ async function parseAssignments(courseCode) {
     const parsedAssignments = Object.values(assignments).flatMap(assignment => parseAssignment(assignment));
     if (parsedAssignments.length) {
         const { savedAssignments } = await chrome.storage.local.get({ savedAssignments: {} });
-        savedAssignments[courseCode] = parsedAssignments;
+        savedAssignments[parseCourseCode()] = parsedAssignments;
         chrome.storage.local.set({ savedAssignments });
+        return parseCourseCode();
     }
     else
         alert('No Canvas assignments found on this page.\n\nPlease ensure this is a valid Canvas Course Assignments page.\n\nIf this is a valid assignments page, the Canvas Class Names options may be incorrect.');
@@ -353,19 +361,15 @@ if (Object.values(buttons).every(button => button !== null)) {
     viewCoursesButton.addEventListener('click', () => updateSavedCoursesList());
     parseButton.addEventListener('click', async () => {
         const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-        const courseCodeInput = document.getElementById('courseCode');
-        if (!tab.id || !courseCodeInput || !(courseCodeInput instanceof HTMLInputElement))
+        if (!tab.id)
             return;
-        if (!courseCodeInput.value)
-            return alert('You must enter the course code.');
-        await chrome.scripting.executeScript({
+        const [{ result: courseCode }] = await chrome.scripting.executeScript({
             target: { tabId: tab.id },
             func: parseAssignments,
-            args: [courseCodeInput.value],
         });
         updateSavedCoursesList();
-        parseButton.innerHTML = `Saved ${courseCodeInput.value}!`;
-        courseCodeInput.value = '';
+        if (courseCode)
+            parseButton.innerHTML = `Saved ${courseCode}!`;
     });
     notionImportButton.addEventListener('click', async () => {
         notionImportButton.innerHTML = 'Importing to Notion...';

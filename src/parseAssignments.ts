@@ -13,8 +13,8 @@ export interface SavedAssignments {
 type valueof<T> = T[keyof T];
 
 interface Constants {
-	COURSE: string;
 	CLASSES: {
+		BREADCRUMBS: string;
 		ASSIGNMENT: string;
 		TITLE: string;
 		AVAILABLE_DATE: string;
@@ -26,14 +26,17 @@ interface Constants {
 		[key: string]: string;
 	};
 	VALUES: {
+		COURSE_CODE_N: number,
 		NOT_AVAILABLE_STATUS: string;
 	};
 }
 
-async function parseAssignments(courseCode: string): Promise<void> {
+async function parseAssignments(): Promise<void | string | 'Unknown Course Code'> {
 	const classSelector = (className: string): string => `.${className}`;
 
 	const options = await chrome.storage.local.get({
+		breadcrumbs: 'ic-app-crumbs',
+		courseCodeN: 2,
 		canvasAssignment: 'assignment',
 		assignmentTitle: 'ig-title',
 		availableDate: 'assignment-date-available',
@@ -44,8 +47,8 @@ async function parseAssignments(courseCode: string): Promise<void> {
 	});
 
 	const CONSTANTS: Constants = {
-		COURSE: courseCode,
 		CLASSES: {
+			BREADCRUMBS: options.breadcrumbs,
 			ASSIGNMENT: options.canvasAssignment,
 			TITLE: options.assignmentTitle,
 			AVAILABLE_DATE: options.availableDate,
@@ -54,11 +57,13 @@ async function parseAssignments(courseCode: string): Promise<void> {
 			SCREENREADER_ONLY: options.dateElement,
 		},
 		SELECTORS: {
+			get COURSE_CODE() { return `${classSelector(CONSTANTS.CLASSES.BREADCRUMBS)} li:nth-of-type(${CONSTANTS.VALUES.COURSE_CODE_N}) span`; },
 			get AVAILABLE_STATUS() { return `${classSelector(CONSTANTS.CLASSES.AVAILABLE_DATE)} ${classSelector(CONSTANTS.CLASSES.AVAILABLE_STATUS)}`; },
 			get AVAILABLE_DATE() { return `${classSelector(CONSTANTS.CLASSES.AVAILABLE_DATE)} ${classSelector(CONSTANTS.CLASSES.SCREENREADER_ONLY)}`; },
 			get DUE_DATE() { return `${classSelector(CONSTANTS.CLASSES.DUE_DATE)} ${classSelector(CONSTANTS.CLASSES.SCREENREADER_ONLY)}`; },
 		},
 		VALUES: {
+			COURSE_CODE_N: options.courseCodeN,
 			NOT_AVAILABLE_STATUS: options.notAvailableStatus,
 		},
 	};
@@ -69,6 +74,10 @@ async function parseAssignments(courseCode: string): Promise<void> {
 		return (element)
 			? element
 			: alert(`Incorrect selector: ${selector}`);
+	}
+
+	function parseCourseCode(): string | 'Unknown Course Code' {
+		return document.querySelector(CONSTANTS.SELECTORS.COURSE_CODE)?.innerHTML ?? 'Unknown Course Code';
 	}
 
 	function parseAvailableDate(assignment: NonNullable<ReturnType<Element['querySelector']>>): string {
@@ -89,7 +98,7 @@ async function parseAssignments(courseCode: string): Promise<void> {
 
 		return [{
 			name: assignmentTitle.textContent.trim(),
-			course: CONSTANTS.COURSE,
+			course: parseCourseCode(),
 			url: assignmentTitle.href,
 			available: parseAvailableDate(assignment),
 			due: assignment.querySelector(CONSTANTS.SELECTORS.DUE_DATE)?.textContent?.trim() ?? '',
@@ -103,9 +112,11 @@ async function parseAssignments(courseCode: string): Promise<void> {
 	if (parsedAssignments.length) {
 		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
 
-		savedAssignments[courseCode] = parsedAssignments;
+		savedAssignments[parseCourseCode()] = parsedAssignments;
 
 		chrome.storage.local.set({ savedAssignments });
+
+		return parseCourseCode();
 	}
 
 	else alert('No Canvas assignments found on this page.\n\nPlease ensure this is a valid Canvas Course Assignments page.\n\nIf this is a valid assignments page, the Canvas Class Names options may be incorrect.');
@@ -174,22 +185,17 @@ if (Object.values(buttons).every(button => button !== null)) {
 
 	parseButton.addEventListener('click', async () => {
 		const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-		const courseCodeInput = document.getElementById('courseCode');
 
-		if (!tab.id || !courseCodeInput || !(courseCodeInput instanceof HTMLInputElement)) return;
+		if (!tab.id) return;
 
-		if (!courseCodeInput.value) return alert('You must enter the course code.');
-
-		await chrome.scripting.executeScript({
+		const [{ result: courseCode }] = await chrome.scripting.executeScript({
 			target: { tabId: tab.id },
 			func: parseAssignments,
-			args: [courseCodeInput.value],
 		});
 
 		updateSavedCoursesList();
 
-		parseButton.innerHTML = `Saved ${courseCodeInput.value}!`;
-		courseCodeInput.value = '';
+		if (courseCode) parseButton.innerHTML = `Saved ${courseCode}!`;
 	});
 
 	notionImportButton.addEventListener('click', async () => {
