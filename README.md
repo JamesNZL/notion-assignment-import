@@ -16,7 +16,7 @@
 
 5. Open the assignments page for the course you wish to import.
 
-6. Enter the course code in the `Course code:` input field, and click `Save Current Page Assignments`.
+6. Click `Save Current Page Assignments`.
 
 7. You should see the course code appear in the `Current Saved Courses` list.
    1. Click `View Saved Assignments` to view the raw stored JSON.
