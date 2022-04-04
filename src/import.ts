@@ -6,6 +6,9 @@ type PageProperties = CreatePageParameters['properties'];
 type DateRequest = NonNullable<NonNullable<Extract<PageProperties[keyof PageProperties], { type?: 'date'; }>['date']>>;
 type TimeZoneRequest = DateRequest['time_zone'];
 
+type PageIcon = NonNullable<CreatePageParameters['icon']>;
+type EmojiRequest = Extract<PageIcon, { type?: 'emoji'; }>['emoji'];
+
 interface PaginatedRequest {
 	start_cursor?: string;
 	page_size?: number;
@@ -20,7 +23,6 @@ interface PaginatedResponse {
 
 function isPaginatedResponse<R>(response: void | R): response is (R & PaginatedResponse) {
 	if (!response) return false;
-
 	return 'has_more' in response;
 }
 
@@ -31,6 +33,7 @@ type ArrayElement<ArrayType extends readonly unknown[]> = ArrayType extends read
 interface Assignment extends InputAssignment {
 	available: string;
 	due: string;
+	icon: EmojiRequest | null;
 }
 
 interface Constants {
@@ -166,6 +169,9 @@ export = async function notionImport(): Promise<void | Assignment[]> {
 				database_id: databaseId,
 			};
 
+			const icon: CreatePageParameters['icon'] = (assignment.icon)
+				? { emoji: assignment.icon } : null;
+
 			// Construct the properties object
 			const properties: PageProperties = {
 				Name: {
@@ -217,7 +223,7 @@ export = async function notionImport(): Promise<void | Assignment[]> {
 			};
 
 			// Create the page
-			return await createPage({ parent, properties });
+			return await createPage({ parent, icon, properties });
 		}
 	}
 
@@ -242,12 +248,15 @@ export = async function notionImport(): Promise<void | Assignment[]> {
 					return [];
 				}
 
+				console.log(assignment.icon);
+
 				return [{
 					name: assignment.name,
 					course: assignment.course,
 					url: assignment.url,
 					available: chrono.parseDate(assignment.available, { timezone: CONSTANTS.TIMEZONE ?? undefined }).toISOString(),
 					due: chrono.parseDate(assignment.due, { timezone: CONSTANTS.TIMEZONE ?? undefined }).toISOString(),
+					icon: <EmojiRequest | null>assignment.icon,
 				}];
 			});
 	}

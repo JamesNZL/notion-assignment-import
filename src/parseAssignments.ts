@@ -4,6 +4,7 @@ export interface InputAssignment {
 	url: string;
 	available?: string;
 	due?: string;
+	icon: string | null;
 }
 
 export interface SavedAssignments {
@@ -45,6 +46,7 @@ async function parseAssignments(): Promise<void | string | 'Unknown Course Code'
 		dateElement: 'screenreader-only',
 		notAvailableStatus: 'Not available until',
 		courseCodeOverrides: '{}',
+		courseEmojis: '{}',
 	});
 
 	const CONSTANTS: Constants = {
@@ -92,6 +94,10 @@ async function parseAssignments(): Promise<void | string | 'Unknown Course Code'
 		return overrides?.[parsedCourseCode] ?? parsedCourseCode;
 	}
 
+	function parseCourseEmoji(emojis: { [key: string]: string; }, course: string): string | null {
+		return emojis?.[course] ?? null;
+	}
+
 	function parseAvailableDate(assignment: NonNullable<ReturnType<Element['querySelector']>>): string {
 		const availableStatus = assignment.querySelector(CONSTANTS.SELECTORS.AVAILABLE_STATUS);
 		const availableDate = assignment.querySelector(CONSTANTS.SELECTORS.AVAILABLE_DATE);
@@ -102,7 +108,7 @@ async function parseAssignments(): Promise<void | string | 'Unknown Course Code'
 		return availableDate?.textContent?.trim() ?? '';
 	}
 
-	function parseAssignment(course: string, assignment: NonNullable<ReturnType<Element['querySelector']>>): InputAssignment[] {
+	function parseAssignment(course: string, emojis: { [key: string]: string; }, assignment: NonNullable<ReturnType<Element['querySelector']>>): InputAssignment[] {
 		const assignmentTitle = verifySelector(assignment, classSelector(CONSTANTS.CLASSES.TITLE));
 
 		// Ensure the configured selectors are valid
@@ -114,14 +120,18 @@ async function parseAssignments(): Promise<void | string | 'Unknown Course Code'
 			url: assignmentTitle.href,
 			available: parseAvailableDate(assignment),
 			due: assignment.querySelector(CONSTANTS.SELECTORS.DUE_DATE)?.textContent?.trim() ?? '',
+			icon: parseCourseEmoji(emojis, course),
 		}];
 	}
 
 	const courseCodeOverrides = parseJSON(options.courseCodeOverrides);
 	if (courseCodeOverrides === null) return alert(`The configured string for the Canvas Course Code Overrides option is not valid JSON.\n\nPlease verify this is a valid JSON object.\n\nCurrent configuration:\n${options.courseCodeOverrides}`);
 
+	const courseEmojis = parseJSON(options.courseEmojis);
+	if (courseEmojis === null) return alert(`The configured string for the Notion Course Emojis option is not valid JSON.\n\nPlease verify this is a valid JSON object.\n\nCurrent configuration:\n${options.courseEmojis}`);
+
 	const assignments = document.getElementsByClassName(CONSTANTS.CLASSES.ASSIGNMENT);
-	const parsedAssignments = Object.values(assignments).flatMap(assignment => parseAssignment(parseCourseCode(courseCodeOverrides), assignment));
+	const parsedAssignments = Object.values(assignments).flatMap(assignment => parseAssignment(parseCourseCode(courseCodeOverrides), courseEmojis, assignment));
 
 	if (parsedAssignments.length) {
 		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });

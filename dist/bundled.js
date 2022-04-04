@@ -127,6 +127,8 @@ module.exports = async function notionImport() {
                 type: 'database_id',
                 database_id: databaseId,
             };
+            const icon = (assignment.icon)
+                ? { emoji: assignment.icon } : null;
             // Construct the properties object
             const properties = {
                 Name: {
@@ -177,7 +179,7 @@ module.exports = async function notionImport() {
                 },
             };
             // Create the page
-            return await createPage({ parent, properties });
+            return await createPage({ parent, icon, properties });
         }
     }
     function roundToNextHour(date) {
@@ -197,12 +199,14 @@ module.exports = async function notionImport() {
                 console.log(`Skipping assignment ${assignment.course} ${assignment.name} as no due date`);
                 return [];
             }
+            console.log(assignment.icon);
             return [{
                     name: assignment.name,
                     course: assignment.course,
                     url: assignment.url,
                     available: chrono.parseDate(assignment.available, { timezone: CONSTANTS.TIMEZONE ?? undefined }).toISOString(),
                     due: chrono.parseDate(assignment.due, { timezone: CONSTANTS.TIMEZONE ?? undefined }).toISOString(),
+                    icon: assignment.icon,
                 }];
         });
     }
@@ -260,6 +264,7 @@ async function parseAssignments() {
         dateElement: 'screenreader-only',
         notAvailableStatus: 'Not available until',
         courseCodeOverrides: '{}',
+        courseEmojis: '{}',
     });
     const CONSTANTS = {
         CLASSES: {
@@ -300,6 +305,9 @@ async function parseAssignments() {
         const parsedCourseCode = document.querySelector(CONSTANTS.SELECTORS.COURSE_CODE)?.innerHTML ?? 'Unknown Course Code';
         return overrides?.[parsedCourseCode] ?? parsedCourseCode;
     }
+    function parseCourseEmoji(emojis, course) {
+        return emojis?.[course] ?? null;
+    }
     function parseAvailableDate(assignment) {
         const availableStatus = assignment.querySelector(CONSTANTS.SELECTORS.AVAILABLE_STATUS);
         const availableDate = assignment.querySelector(CONSTANTS.SELECTORS.AVAILABLE_DATE);
@@ -308,7 +316,7 @@ async function parseAssignments() {
             return '';
         return availableDate?.textContent?.trim() ?? '';
     }
-    function parseAssignment(course, assignment) {
+    function parseAssignment(course, emojis, assignment) {
         const assignmentTitle = verifySelector(assignment, classSelector(CONSTANTS.CLASSES.TITLE));
         // Ensure the configured selectors are valid
         if (!assignmentTitle?.textContent || !(assignmentTitle instanceof HTMLAnchorElement))
@@ -319,13 +327,17 @@ async function parseAssignments() {
                 url: assignmentTitle.href,
                 available: parseAvailableDate(assignment),
                 due: assignment.querySelector(CONSTANTS.SELECTORS.DUE_DATE)?.textContent?.trim() ?? '',
+                icon: parseCourseEmoji(emojis, course),
             }];
     }
     const courseCodeOverrides = parseJSON(options.courseCodeOverrides);
     if (courseCodeOverrides === null)
         return alert(`The configured string for the Canvas Course Code Overrides option is not valid JSON.\n\nPlease verify this is a valid JSON object.\n\nCurrent configuration:\n${options.courseCodeOverrides}`);
+    const courseEmojis = parseJSON(options.courseEmojis);
+    if (courseEmojis === null)
+        return alert(`The configured string for the Notion Course Emojis option is not valid JSON.\n\nPlease verify this is a valid JSON object.\n\nCurrent configuration:\n${options.courseEmojis}`);
     const assignments = document.getElementsByClassName(CONSTANTS.CLASSES.ASSIGNMENT);
-    const parsedAssignments = Object.values(assignments).flatMap(assignment => parseAssignment(parseCourseCode(courseCodeOverrides), assignment));
+    const parsedAssignments = Object.values(assignments).flatMap(assignment => parseAssignment(parseCourseCode(courseCodeOverrides), courseEmojis, assignment));
     if (parsedAssignments.length) {
         const { savedAssignments } = await chrome.storage.local.get({ savedAssignments: {} });
         savedAssignments[parseCourseCode(courseCodeOverrides)] = parsedAssignments;

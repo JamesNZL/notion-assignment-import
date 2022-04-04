@@ -126,6 +126,8 @@ module.exports = async function notionImport() {
                 type: 'database_id',
                 database_id: databaseId,
             };
+            const icon = (assignment.icon)
+                ? { emoji: assignment.icon } : null;
             // Construct the properties object
             const properties = {
                 Name: {
@@ -176,7 +178,7 @@ module.exports = async function notionImport() {
                 },
             };
             // Create the page
-            return await createPage({ parent, properties });
+            return await createPage({ parent, icon, properties });
         }
     }
     function roundToNextHour(date) {
@@ -196,12 +198,14 @@ module.exports = async function notionImport() {
                 console.log(`Skipping assignment ${assignment.course} ${assignment.name} as no due date`);
                 return [];
             }
+            console.log(assignment.icon);
             return [{
                     name: assignment.name,
                     course: assignment.course,
                     url: assignment.url,
                     available: chrono.parseDate(assignment.available, { timezone: CONSTANTS.TIMEZONE ?? undefined }).toISOString(),
                     due: chrono.parseDate(assignment.due, { timezone: CONSTANTS.TIMEZONE ?? undefined }).toISOString(),
+                    icon: assignment.icon,
                 }];
         });
     }
