@@ -14,6 +14,6 @@
     "chrono-node": "^2.3.6"
   },
   "scripts": {
-    "build": "tsc & browserify dist/parseAssignments.js -o dist/bundled.js"
+    "build": "tsc & browserify dist/extension.js -o dist/bundled.js & browserify dist/parseAssignments.js -o dist/parseAssignments.js"
   }
 }
