@@ -4,6 +4,10 @@ const browserify = require('browserify');
 const tsify = require('tsify');
 const source = require('vinyl-source-stream');
 
+const yargs = require('yargs/yargs');
+const { hideBin } = require('yargs/helpers');
+const { debug = false } = yargs(hideBin(process.argv)).argv;
+
 const globs = {
 	map(key, func) {
 		return this[key].map(func);
@@ -22,7 +26,7 @@ function copy(glob) {
 function bundle(glob) {
 	return function bundleGlob() {
 		return browserify({
-			debug: false,
+			debug,
 			entries: glob,
 		})
 			.plugin(tsify)

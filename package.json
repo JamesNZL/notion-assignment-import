@@ -22,7 +22,8 @@
     "chrono-node": "^2.3.6"
   },
   "scripts": {
-    "build": "gulp",
+    "debug": "gulp --debug=true",
+    "build": "gulp --debug=false",
     "release": "standard-version --sign"
   },
   "standard-version": {
