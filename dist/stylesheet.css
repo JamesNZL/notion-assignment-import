@@ -179,7 +179,7 @@ textarea {
 
 input:focus,
 textarea:focus {
-	box-shadow: 0 0 0 0.2rem rgb(20 20 20 / 50%) !important
+	box-shadow: 0 0 0 0.2rem rgb(20 20 20 / 50%);
 }
 
 input:focus-visible,
