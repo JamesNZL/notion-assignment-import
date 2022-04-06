@@ -25,3 +25,16 @@
 8. Repeat steps 5–7 as appropriate.
 
 9. Once you have saved the assignments of all your desired courses, click the `Export Saved Assignments` button to export to Notion.
+
+# Screenshots
+
+## Extension Popup
+<img src='./src/assets/popup.png' alt='Extension popup' style='max-width:100%;'>
+
+## Notion Database Example
+<img src='./src/assets/notion.png' alt='Notion database example' style='max-width:100%;'>
+
+## Extension Options
+<img src='./src/assets/options1.png' alt='Options page part 1' style='max-width:100%;'>
+<img src='./src/assets/options2.png' alt='Options page part 2' style='max-width:100%;'>
+<img src='./src/assets/options3.png' alt='Options page part 3' style='max-width:100%;'>
