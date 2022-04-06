@@ -9,7 +9,6 @@
     "@types/chrome": "^0.0.179",
     "@types/node": "^17.0.17",
     "browserify": "^17.0.0",
-    "concurrently": "^7.1.0",
     "gulp": "^4.0.2",
     "standard-version": "^9.3.2",
     "tinyify": "^3.0.0",
@@ -21,7 +20,7 @@
   },
   "scripts": {
     "build": "tsc & npm run browserify",
-    "browserify": "concurrently \"browserify -p tinyify dist/extension.js -o dist/extension.js\" \"browserify -p tinyify dist/parseAssignments.js -o dist/parseAssignments.js\" \"browserify -p tinyify dist/options.js -o dist/options.js\"",
+    "browserify": "browserify -p tinyify dist/extension.js -o dist/extension.js & browserify -p tinyify dist/parseAssignments.js -o dist/parseAssignments.js & browserify -p tinyify dist/options.js -o dist/options.js",
     "release": "standard-version --sign"
   },
   "standard-version": {
