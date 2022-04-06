@@ -38,7 +38,22 @@ if (Object.values(buttons).every(button => button !== null)) {
 		[key: string]: NonNullable<valueof<typeof buttons>>;
 	}>buttons;
 
-	// TODO: Default button values
+	const BUTTON_TEXT = {
+		DEFAULT: {
+			optionsButton: optionsButton.innerHTML,
+			clearStorageButton: clearStorageButton.innerHTML,
+			viewSavedButton: viewSavedButton.innerHTML,
+			copySavedButton: copySavedButton.innerHTML,
+			viewCoursesButton: viewCoursesButton.innerHTML,
+			parseButton: parseButton.innerHTML,
+			notionImportButton: notionImportButton.innerHTML,
+		},
+		reset(button: HTMLElement, delay: number) {
+			setTimeout(() => {
+				button.innerHTML = this.DEFAULT[<keyof typeof this.DEFAULT>button.id];
+			}, delay);
+		},
+	};
 
 	optionsButton.addEventListener('click', () => {
 		if (chrome.runtime.openOptionsPage) {
@@ -55,9 +70,8 @@ if (Object.values(buttons).every(button => button !== null)) {
 
 		if (clearStorageButton.innerHTML !== verifyPrompt) {
 			clearStorageButton.innerHTML = verifyPrompt;
-			return setTimeout(() => {
-				clearStorageButton.innerHTML = 'Clear Saved Assignments';
-			}, 1325);
+
+			return BUTTON_TEXT.reset(clearStorageButton, 1325);
 		}
 
 		chrome.storage.local.remove('savedAssignments');
@@ -65,9 +79,7 @@ if (Object.values(buttons).every(button => button !== null)) {
 		updateSavedCoursesList();
 
 		clearStorageButton.innerHTML = 'Cleared saved assignments!';
-		setTimeout(() => {
-			clearStorageButton.innerHTML = 'Clear Saved Assignments';
-		}, 3500);
+		BUTTON_TEXT.reset(clearStorageButton, 3500);
 	});
 
 	viewSavedButton.addEventListener('click', async () => {
@@ -89,9 +101,7 @@ if (Object.values(buttons).every(button => button !== null)) {
 		await navigator.clipboard.writeText(JSON.stringify(savedAssignments));
 
 		copySavedButton.innerHTML = 'Copied to clipboard!';
-		setTimeout(() => {
-			copySavedButton.innerHTML = 'Copy <code>JSON</code> to Clipboard';
-		}, 1325);
+		BUTTON_TEXT.reset(copySavedButton, 1325);
 	});
 
 	viewCoursesButton.addEventListener('click', () => updateSavedCoursesList());
@@ -116,9 +126,7 @@ if (Object.values(buttons).every(button => button !== null)) {
 		updateSavedCoursesList();
 		if (courseCode) {
 			parseButton.innerHTML = `Saved ${courseCode}!`;
-			setTimeout(() => {
-				parseButton.innerHTML = 'Save Canvas Assignments';
-			}, 1325);
+			BUTTON_TEXT.reset(parseButton, 1325);
 		}
 	});
 
@@ -133,9 +141,7 @@ if (Object.values(buttons).every(button => button !== null)) {
 				: '';
 
 			notionImportButton.innerHTML = `Imported ${createdAssignments.length} assignments!`;
-			setTimeout(() => {
-				notionImportButton.innerHTML = 'Export Saved Assignments';
-			}, 3500);
+			BUTTON_TEXT.reset(notionImportButton, 3500);
 			alert(`Created ${createdAssignments.length} new assignments.${createdNames}`);
 		}
 	});
