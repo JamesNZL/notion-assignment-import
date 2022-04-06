@@ -18,7 +18,7 @@
   },
   "scripts": {
     "build": "tsc & npm run browserify",
-    "browserify": "browserify -p tinyify dist/extension.js -o dist/extension.js & browserify -p tinyify dist/parseAssignments.js -o dist/parseAssignments.js & browserify -p tinyify dist/options.js -o dist/options.js",
+    "browserify": "concurrently \"browserify -p tinyify dist/extension.js -o dist/extension.js\" \"browserify -p tinyify dist/parseAssignments.js -o dist/parseAssignments.js\" \"browserify -p tinyify dist/options.js -o dist/options.js\"",
     "release": "standard-version --sign"
   },
   "standard-version": {
