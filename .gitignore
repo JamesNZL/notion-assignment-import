@@ -78,6 +78,5 @@ typings/
 # FuseBox cache
 .fusebox/
 
-# Compiled JavaScript
-dist/*.js
-dist/*.js.map
+# Gulp build output
+dist/
