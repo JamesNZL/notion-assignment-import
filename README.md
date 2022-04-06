@@ -32,7 +32,9 @@
 <img src='./assets/popup.png' alt='Extension popup' style='max-width:100%;'>
 
 ## Notion Database Example
-<img src='./assets/notion.png' alt='Notion database example' style='max-width:100%;'>
+<img src='./assets/board.png' alt='Notion board example' style='max-width:100%;'>
+<img src='./assets/timeline.png' alt='Notion timeline example' style='max-width:100%;'>
+<img src='./assets/calendar.png' alt='Notion calendar example' style='max-width:100%;'>
 
 ## Extension Options
 <img src='./assets/options1.png' alt='Options page part 1' style='max-width:100%;'>
