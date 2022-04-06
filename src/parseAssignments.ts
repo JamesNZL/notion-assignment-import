@@ -146,7 +146,7 @@ interface Constants {
 		}
 
 		public getCourse(): string | 'Unknown Course Code' {
-			return this.course;
+			return `${(this.icon) ? `${this.icon} ` : ''}${this.course}`;
 		}
 
 		public toAssignment(): Assignment {
