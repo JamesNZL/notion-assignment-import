@@ -216,20 +216,28 @@ interface Constants {
 
 	const assignments = document.getElementsByClassName(CONSTANTS.CLASSES.ASSIGNMENT);
 
-	if (!assignments.length) return alert('No Canvas assignments found on this page.\n\nPlease ensure this is a valid Canvas Course Assignments page.\n\nIf this is a valid assignments page, the Canvas Class Names options may be incorrect.');
+	if (!assignments.length) return alert('No Canvas assignments were found on this page.\n\nPlease ensure this is a valid Canvas Course Assignments page.\n\nIf this is a Canvas Assignments page, the configured Canvas Class Names options may be incorrect.');
 
-	const parsedAssignments = Object.values(assignments)
+	const canvasAssignments = Object.values(assignments)
 		.map(assignment => new CanvasAssignment(assignment))
 		.filter(assignment => assignment.isValid());
 
-	if (parsedAssignments.length) {
+	if (canvasAssignments.length) {
 		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
 
-		savedAssignments[parsedAssignments[0].getCourse()] = parsedAssignments.map(assignment => assignment.toAssignment());
+		savedAssignments[canvasAssignments[0].getCourse()] = canvasAssignments.map(assignment => assignment.toAssignment());
 
 		await chrome.storage.local.set({
 			savedAssignments,
-			savedCourse: parsedAssignments[0].getCourse(),
+			savedCourse: canvasAssignments[0].getCourse(),
+		});
+	}
+
+	else {
+		alert('No valid assignments were found on this page.\n\nNOTE: Assignments without due dates are treated as invalid.');
+
+		await chrome.storage.local.set({
+			savedCourse: '',
 		});
 	}
 })();
