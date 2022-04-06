@@ -216,6 +216,8 @@ interface Constants {
 
 	const assignments = document.getElementsByClassName(CONSTANTS.CLASSES.ASSIGNMENT);
 
+	if (!assignments.length) return alert('No Canvas assignments found on this page.\n\nPlease ensure this is a valid Canvas Course Assignments page.\n\nIf this is a valid assignments page, the Canvas Class Names options may be incorrect.');
+
 	const parsedAssignments = Object.values(assignments)
 		.map(assignment => new CanvasAssignment(assignment))
 		.filter(assignment => assignment.isValid());
@@ -230,6 +232,4 @@ interface Constants {
 			savedCourse: parsedAssignments[0].getCourse(),
 		});
 	}
-
-	else alert('No Canvas assignments found on this page.\n\nPlease ensure this is a valid Canvas Course Assignments page.\n\nIf this is a valid assignments page, the Canvas Class Names options may be incorrect.');
 })();
