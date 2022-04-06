@@ -6,40 +6,31 @@
 </head>
 
 <body>
-	<h1>Notion Canvas Assignment Import</h1>
-	<hr>
+	<h1>Notion Assignment Import</h1>
 
 	<div>
-		<h2>Configure Options</h2>
-		<button id='optionsButton'>Configure Options</button>
+		<button class='half-width' id='optionsButton'>Configure Options</button>
+		<a class='button half-width' href='https://github.com/JamesNZL/notion-assignment-import' target='_blank'>
+			View on GitHub
+		</a>
+	</div>
+
+	<div>
+		<h2>Save and Export</h2>
+		<button class='half-width green' id='parseButton'>Save Canvas Assignments</button>
+		<button class='half-width green' id='notionImportButton'>Export Saved Assignments</button>
 	</div>
 
 	<div id='currentSavedCourses'>
-		<h2>Current Saved Courses</h2>
+		<h2>Saved Assignments</h2>
+
+		<button class='half-width' id='viewSavedButton'>View Saved <code>JSON</code></button>
+		<button class='half-width' id='viewCoursesButton'>List Saved Courses</button>
+		<button class='half-width' id='copySavedButton'>Copy <code>JSON</code> To Clipboard</button>
 
 		<div id='savedCoursesList'></div>
 
-		<button id='viewSavedButton'>View Saved Assignments</button><br>
-		<button id='copySavedButton'>Copy Saved Assignments To Clipboard</button><br>
-		<button id='viewCoursesButton'>View Saved Courses</button><br>
-		<button id='clearStorageButton'>Clear Saved Assignments</button><br>
-	</div>
-
-	<div>
-		<h2>Save Current Course Assignments</h2>
-		<button id='parseButton'>Save Assignments on Page</button>
-	</div>
-
-	<div>
-		<h2>Import in Notion</h2>
-		<button id='notionImportButton'>Export Saved Assignments</button><br>
-	</div>
-
-	<div>
-		<h2>GitHub Repository</h2>
-		<a href='https://github.com/JamesNZL/notion-assignment-import' target='_blank'>
-			JamesNZL/notion-assignment-import
-		</a>
+		<button class='full-width red' id='clearStorageButton'>Clear Saved Assignments</button>
 	</div>
 
 	<script type='module' src='bundled.js'></script>

@@ -13,6 +13,18 @@ const buttons = {
 	notionImportButton: document.getElementById('notionImportButton'),
 };
 
+const displayButton = {
+	handler(button: HTMLElement | null, display: 'none' | 'inline-block') {
+		if (button instanceof HTMLElement) button.style.display = display;
+	},
+	JSON(display: 'none' | 'inline-block') {
+		this.handler(buttons.viewSavedButton, display);
+	},
+	listCourses(display: 'none' | 'inline-block') {
+		this.handler(buttons.viewCoursesButton, display);
+	},
+};
+
 if (Object.values(buttons).every(button => button !== null)) {
 	const {
 		optionsButton,
@@ -26,6 +38,8 @@ if (Object.values(buttons).every(button => button !== null)) {
 		[key: string]: NonNullable<valueof<typeof buttons>>;
 	}>buttons;
 
+	// TODO: Default button values
+
 	optionsButton.addEventListener('click', () => {
 		if (chrome.runtime.openOptionsPage) {
 			chrome.runtime.openOptionsPage();
@@ -37,9 +51,23 @@ if (Object.values(buttons).every(button => button !== null)) {
 	});
 
 	clearStorageButton.addEventListener('click', () => {
+		const verifyPrompt = 'I\'m sure!';
+
+		if (clearStorageButton.innerHTML !== verifyPrompt) {
+			clearStorageButton.innerHTML = verifyPrompt;
+			return setTimeout(() => {
+				clearStorageButton.innerHTML = 'Clear Saved Assignments';
+			}, 1325);
+		}
+
 		chrome.storage.local.remove('savedAssignments');
 
 		updateSavedCoursesList();
+
+		clearStorageButton.innerHTML = 'Cleared saved assignments!';
+		setTimeout(() => {
+			clearStorageButton.innerHTML = 'Clear Saved Assignments';
+		}, 3500);
 	});
 
 	viewSavedButton.addEventListener('click', async () => {
@@ -48,7 +76,10 @@ if (Object.values(buttons).every(button => button !== null)) {
 		if (savedCourses) {
 			const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
 
-			savedCourses.innerHTML = `<p><code>${JSON.stringify(savedAssignments)}</code></p>`;
+			displayButton.JSON('none');
+			displayButton.listCourses('inline-block');
+
+			savedCourses.innerHTML = `<p><code>${JSON.stringify(savedAssignments).replace(/,/g, ',<wbr>')}</code></p>`;
 		}
 	});
 
@@ -58,6 +89,9 @@ if (Object.values(buttons).every(button => button !== null)) {
 		await navigator.clipboard.writeText(JSON.stringify(savedAssignments));
 
 		copySavedButton.innerHTML = 'Copied to clipboard!';
+		setTimeout(() => {
+			copySavedButton.innerHTML = 'Copy <code>JSON</code> to Clipboard';
+		}, 1325);
 	});
 
 	viewCoursesButton.addEventListener('click', () => updateSavedCoursesList());
@@ -80,7 +114,12 @@ if (Object.values(buttons).every(button => button !== null)) {
 		}
 
 		updateSavedCoursesList();
-		if (courseCode) parseButton.innerHTML = `Saved ${courseCode}!`;
+		if (courseCode) {
+			parseButton.innerHTML = `Saved ${courseCode}!`;
+			setTimeout(() => {
+				parseButton.innerHTML = 'Save Canvas Assignments';
+			}, 1325);
+		}
 	});
 
 	notionImportButton.addEventListener('click', async () => {
@@ -94,6 +133,9 @@ if (Object.values(buttons).every(button => button !== null)) {
 				: '';
 
 			notionImportButton.innerHTML = `Imported ${createdAssignments.length} assignments!`;
+			setTimeout(() => {
+				notionImportButton.innerHTML = 'Export Saved Assignments';
+			}, 3500);
 			alert(`Created ${createdAssignments.length} new assignments.${createdNames}`);
 		}
 	});
@@ -105,7 +147,10 @@ async function updateSavedCoursesList() {
 	if (savedCourses) {
 		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
 
-		const coursesList = Object.entries(savedAssignments).reduce((list: string, [course, assignments]) => list + `<li>${course} (${assignments.length} assignments)</li>\n`, '');
+		const coursesList = Object.entries(savedAssignments).reduce((list: string, [course, assignments]) => list + `<li>${course} (<code>${assignments.length}</code> assignments)</li>\n`, '');
+
+		displayButton.listCourses('none');
+		displayButton.JSON('inline-block');
 
 		savedCourses.innerHTML = (coursesList)
 			? `<ol>${coursesList}</ol>`

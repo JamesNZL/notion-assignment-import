@@ -1,5 +1,48 @@
+:root {
+	--background: #323232;
+	--margin: .25em;
+	--dark-grey: #242424;
+	--dark-grey-hover: #000000;
+	--border-radius: .325rem;
+}
+
+::-webkit-scrollbar {
+	width: 0.85rem;
+	height: 0.85rem;
+}
+
+::-webkit-scrollbar-button {
+	display: none;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--dark-grey);
+	border-radius: 10px;
+	cursor: pointer;
+	border: 3px solid transparent;
+	background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: var(--dark-grey-hover);
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-corner {
+	background: transparent;
+}
+
 html {
-	width: 500px;
+	width: 400px;
+	background-color: var(--background);
+	color: #ffffff;
+}
+
+body {
+	margin: 1rem;
 }
 
 body#options {
@@ -7,20 +50,80 @@ body#options {
 	width: 100vw;
 }
 
-#clearStorageButton {
+.full-width {
+	width: 100%;
+}
+
+.half-width {
+	width: calc(50% - var(--margin));
+}
+
+.half-width:last-of-type {
+	margin-left: var(--margin);
+}
+
+.half-width:first-child {
+	margin-left: 0;
+}
+
+#savedCoursesList {
+	background-color: var(--dark-grey-hover);
+	color: #d6d6d6;
+	margin-top: var(--margin);
+	margin-bottom: calc(1.5 * var(--margin));
+	padding: var(--margin) 0;
+	border-radius: var(--border-radius);
+}
+
+#savedCoursesList p {
+	margin: 1em calc(1em + var(--margin));
+	word-break: break-word;
+	color: #bbb;
+}
+
+button,
+.button {
+	cursor: pointer;
+	user-select: none;
+	margin: var(--margin) 0;
+	padding: 10px;
+	display: inline-block;
+	background-color: var(--dark-grey);
+	color: #ffffff;
+	font-family: inherit;
+	font-size: .825rem;
+	text-decoration: none;
+	text-align: center;
+	border-radius: var(--border-radius);
+	border: 1px solid transparent;
+	box-sizing: border-box;
+	transition: color .15s ease-in-out,
+		background-color .15s ease-in-out,
+		border-color .15s ease-in-out,
+		box-shadow .15s ease-in-out;
+}
+
+button:hover,
+.button:hover {
+	background-color: var(--dark-grey-hover);
+}
+
+button.red {
 	background-color: firebrick;
 	color: white;
 }
 
-#clearStorageButton:hover {
+button.red:hover {
 	background-color: darkred;
 	color: white;
 }
 
-#parseButton {
-	background-color: greenyellow;
+button.green {
+	background-color: #00cc00;
+	color: black;
 }
 
-#parseButton:hover {
-	background-color: lawngreen;
+button.green:hover {
+	background-color: #4dff4d;
+	color: black;
 }
