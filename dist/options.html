@@ -1,80 +1,106 @@
 <!DOCTYPE html>
-<html>
+<html id='options'>
 
 <head>
 	<title>Notion Canvas Assignment Import Options</title>
 	<link rel='stylesheet' href='stylesheet.css'>
 </head>
 
-<body id='options'>
+<body>
 	<h1>Canvas Class Names</h1>
+
 	<label for="breadcrumbs">Breadcrumbs class:</label><br>
 	<input type="text" id="breadcrumbs" name="breadcrumbs"><br>
+
 	<label for="courseCodeN">Course code nth li:</label><br>
 	<input type="text" id="courseCodeN" name="courseCodeN"><br>
+
 	<label for="canvasAssignment">Assignment class:</label><br>
 	<input type="text" id="canvasAssignment" name="canvasAssignment"><br>
+
 	<label for="assignmentTitle">Assignment title:</label><br>
 	<input type="text" id="assignmentTitle" name="assignmentTitle"><br>
+
 	<label for="availableDate">Available Date:</label><br>
 	<input type="text" id="availableDate" name="availableDate"><br>
+
 	<label for="availableStatus">Available Status:</label><br>
 	<input type="text" id="availableStatus" name="availableStatus"><br>
+
 	<label for="dueDate">Due Date:</label><br>
 	<input type="text" id="dueDate" name="dueDate"><br>
+
 	<label for="dateElement">Date Element:</label><br>
 	<input type="text" id="dateElement" name="dateElement"><br>
+
 	<label for="notAvailableStatus">Not available status:</label><br>
 	<input type="text" id="notAvailableStatus" name="notAvailableStatus"><br>
 
 	<h1>Notion Environment Variables</h1>
+
 	<label for="notionKey">Notion Integration Key:</label><br>
 	<input type="password" id="notionKey" name="notionKey"><br>
+
 	<label for="databaseId">Notion Database ID:</label><br>
 	<input type="text" id="databaseId" name="databaseId"><br>
+
 	<label for="timezone">Timezone (must be a valid <a target='_blank' href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>TZ database name</a>):</label><br>
 	<input type="text" id="timezone" name="timezone"><br>
 
 	<h1>Notion Database Properties</h1>
+
 	<h2>Property Names</h2>
-	<label for="toDoName">Page 'name' property (this is unlikely to change):</label><br>
+
+	<label for="toDoName">Page 'name' property:</label><br>
 	<input type="text" id="toDoName" name="toDoName"><br>
+
 	<label for="toDoCategory">Category property name:</label><br>
 	<input type="text" id="toDoCategory" name="toDoCategory"><br>
-	<label for="toDoCourse">Course property name:'</label><br>
+
+	<label for="toDoCourse">Course property name:</label><br>
 	<input type="text" id="toDoCourse" name="toDoCourse"><br>
+
 	<label for="toDoURL">URL property name:</label><br>
 	<input type="text" id="toDoURL" name="toDoURL"><br>
+
 	<label for="toDoStatus">Status property name:</label><br>
 	<input type="text" id="toDoStatus" name="toDoStatus"><br>
+
 	<label for="toDoAvailable">Available date property name:</label><br>
 	<input type="text" id="toDoAvailable" name="toDoAvailable"><br>
+
 	<label for="toDoDue">Due date property name:</label><br>
 	<input type="text" id="toDoDue" name="toDoDue"><br>
+
 	<label for="toDoSpan">Date span property name:</label><br>
 	<input type="text" id="toDoSpan" name="toDoSpan"><br>
+
 	<h2>Property Values</h2>
+
 	<label for="categoryCanvas">Category property Canvas value:</label><br>
 	<input type="text" id="categoryCanvas" name="categoryCanvas"><br>
+
 	<label for="statusToDo">Status property To Do value:</label><br>
 	<input type="text" id="statusToDo" name="statusToDo"><br>
+
 	<h3>Canvas Course Code Overrides</h3>
 	<p>This must be a valid JSON object string.</p>
-	<h4>Example:</h4>
-	<p>{ "Canvas Course Code": "I'm the course code in the database" }</p>
-	<label for="courseCodeOverrides">JSON object string:</label><br>
-	<input type="text" id="courseCodeOverrides" name="courseCodeOverrides"><br>
-	<h2>Notion Course Emojis</h2>
+	<strong>Example:</strong>
+	<p><code>{ "Canvas Course Code": "I'm the course code in the database" }</code></p>
+	<label for="courseCodeOverrides">Course code overrides:</label><br>
+	<textarea id="courseCodeOverrides" name="courseCodeOverrides"></textarea><br>
+
+	<h1>Notion Course Emojis</h1>
+
 	<p>This must be a valid JSON object string.</p>
-	<h4>Example:</h4>
-	<p>{ "Database Course Code": "&#x1F468;&#x200D;&#x1F4BB;" }</p>
-	<label for="courseEmojis">JSON object string:</label><br>
-	<input type="text" id="courseEmojis" name="courseEmojis"><br>
+	<strong>Example:</strong>
+	<p><code>{ "Database Course Code": "&#x1F468;&#x200D;&#x1F4BB;" }</code></p>
+	<label for="courseEmojis">Course emojis:</label><br>
+	<textarea id="courseEmojis" name="courseEmojis"></textarea><br>
 
 	<br>
 
-	<div id="status"></div>
-	<button id="saveButton">Save</button>
+	<button class='full-width outline green' id="saveButton">Save</button>
 
 	<script type='module' src="options.js"></script>
 </body>

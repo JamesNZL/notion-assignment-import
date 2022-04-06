@@ -1,52 +1,13 @@
 function queryId(id: string): string | void {
 	const element = document.getElementById(id);
 
-	if (element && element instanceof HTMLInputElement) return element.value;
+	if (element && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) return element.value;
 }
 
 function setValueById(id: string, value: string): void {
 	const element = document.getElementById(id);
 
-	if (element && element instanceof HTMLInputElement) element.value = value;
-}
-
-async function saveOptions() {
-	await chrome.storage.local.set({
-		breadcrumbs: queryId('breadcrumbs'),
-		courseCodeN: queryId('courseCodeN'),
-		canvasAssignment: queryId('canvasAssignment'),
-		assignmentTitle: queryId('assignmentTitle'),
-		availableDate: queryId('availableDate'),
-		availableStatus: queryId('availableStatus'),
-		dueDate: queryId('dueDate'),
-		dateElement: queryId('dateElement'),
-		notAvailableStatus: queryId('notAvailableStatus'),
-		notionKey: queryId('notionKey'),
-		databaseId: queryId('databaseId'),
-		timezone: queryId('timezone'),
-		toDoName: queryId('toDoName'),
-		toDoCategory: queryId('toDoCategory'),
-		toDoCourse: queryId('toDoCourse'),
-		toDoURL: queryId('toDoURL'),
-		toDoStatus: queryId('toDoStatus'),
-		toDoAvailable: queryId('toDoAvailable'),
-		toDoDue: queryId('toDoDue'),
-		toDoSpan: queryId('toDoSpan'),
-		categoryCanvas: queryId('categoryCanvas'),
-		statusToDo: queryId('statusToDo'),
-		courseCodeOverrides: queryId('courseCodeOverrides'),
-		courseEmojis: queryId('courseEmojis'),
-	});
-
-	// Update status to let user know options were saved.
-	const status = document.getElementById('status');
-
-	if (status) {
-		status.textContent = 'Options saved.';
-		setTimeout(() => {
-			status.textContent = '';
-		}, 750);
-	}
+	if (element && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) element.value = value;
 }
 
 async function restoreOptions() {
@@ -80,7 +41,46 @@ async function restoreOptions() {
 	Object.entries(options).forEach(([key, value]) => setValueById(key, value));
 }
 
+async function saveOptions() {
+	await chrome.storage.local.set({
+		breadcrumbs: queryId('breadcrumbs'),
+		courseCodeN: queryId('courseCodeN'),
+		canvasAssignment: queryId('canvasAssignment'),
+		assignmentTitle: queryId('assignmentTitle'),
+		availableDate: queryId('availableDate'),
+		availableStatus: queryId('availableStatus'),
+		dueDate: queryId('dueDate'),
+		dateElement: queryId('dateElement'),
+		notAvailableStatus: queryId('notAvailableStatus'),
+		notionKey: queryId('notionKey'),
+		databaseId: queryId('databaseId'),
+		timezone: queryId('timezone'),
+		toDoName: queryId('toDoName'),
+		toDoCategory: queryId('toDoCategory'),
+		toDoCourse: queryId('toDoCourse'),
+		toDoURL: queryId('toDoURL'),
+		toDoStatus: queryId('toDoStatus'),
+		toDoAvailable: queryId('toDoAvailable'),
+		toDoDue: queryId('toDoDue'),
+		toDoSpan: queryId('toDoSpan'),
+		categoryCanvas: queryId('categoryCanvas'),
+		statusToDo: queryId('statusToDo'),
+		courseCodeOverrides: queryId('courseCodeOverrides'),
+		courseEmojis: queryId('courseEmojis'),
+	});
+}
+
 document.addEventListener('DOMContentLoaded', restoreOptions);
 
 const saveButton = document.getElementById('saveButton');
-if (saveButton) saveButton.addEventListener('click', saveOptions);
+if (saveButton) {
+	saveButton.addEventListener('click', () => {
+		saveButton.innerHTML = 'Saved!';
+
+		setTimeout(() => {
+			saveButton.innerHTML = 'Save';
+		}, 1325);
+
+		saveOptions();
+	});
+}

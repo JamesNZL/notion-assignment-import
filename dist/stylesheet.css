@@ -36,18 +36,19 @@
 }
 
 html {
-	width: 400px;
+	width: 425px;
 	background-color: var(--background);
 	color: #ffffff;
 }
 
-body {
-	margin: 1rem;
+#options {
+	text-align: center;
+	margin: auto;
+	width: 550px;
 }
 
-body#options {
-	text-align: center;
-	width: 100vw;
+body {
+	margin: 2rem 1.5rem;
 }
 
 .full-width {
@@ -126,4 +127,62 @@ button.green {
 button.green:hover {
 	background-color: #4dff4d;
 	color: black;
+}
+
+button.outline.green {
+	color: #00cc00;
+	border-color: #00cc00;
+	background-color: var(--background);
+}
+
+button.outline.green:hover {
+	border-color: transparent;
+	background-color: #4dff4d;
+	color: black;
+}
+
+#options a {
+	color: rgba(255, 255, 255, .5);
+	text-decoration: none;
+}
+
+#options a:hover {
+	color: rgba(255, 255, 255, .75);
+}
+
+label,
+#options code {
+	font-size: .825rem;
+}
+
+input,
+textarea {
+	width: 100%;
+	margin: calc(2 * var(--margin)) 0;
+	padding: 8px 10px;
+	text-align: center;
+	align-items: center;
+	font-family: monospace;
+	font-size: .75rem;
+	background-color: var(--dark-grey);
+	color: #ccc;
+	border-radius: var(--border-radius);
+	border: 1px solid rgba(0, 0, 0, .125);
+	box-sizing: border-box;
+	transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+textarea {
+	min-height: 75px;
+	max-width: 100%;
+}
+
+input:focus,
+textarea:focus {
+	box-shadow: 0 0 0 0.2rem rgb(20 20 20 / 50%) !important
+}
+
+input:focus-visible,
+textarea:focus-visible {
+	outline: none;
 }
