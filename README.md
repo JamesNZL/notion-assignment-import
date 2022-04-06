@@ -13,13 +13,13 @@
 4. Configure the `Timezone` and `Notion Database Properties` if necessary.
 	> You should only change the `Canvas Class Names` options if the extension is not parsing assignments correctly, and you know what you are doing.
 
-5. Open the assignments page for the course you wish to import.
+5. Open the Canvas Assignments page for the course you wish to import.
 
-6. Click `Save Assignments on Page`.
+6. Click `Save Canvas Assignments`.
 
-7. You should see the course code appear in the `Current Saved Courses` list.
-   1. Click `View Saved Assignments` to view the raw stored JSON.
-   2. Click `View Saved Courses` to return to the ordered list of course codes.
+7. You should see the course code appear in the `Saved Assignments` list.
+   1. Click `View Saved JSON` to view the raw stored JSON.
+   2. Click `List Saved Courses` to return to the ordered list of course codes.
    3. Click `Clear Saved Assignments` to remove the saved assignments from storage.
 
 8. Repeat steps 5–7 as appropriate.
