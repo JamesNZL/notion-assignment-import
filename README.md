@@ -29,12 +29,12 @@
 # Screenshots
 
 ## Extension Popup
-<img src='./src/assets/popup.png' alt='Extension popup' style='max-width:100%;'>
+<img src='./assets/popup.png' alt='Extension popup' style='max-width:100%;'>
 
 ## Notion Database Example
-<img src='./src/assets/notion.png' alt='Notion database example' style='max-width:100%;'>
+<img src='./assets/notion.png' alt='Notion database example' style='max-width:100%;'>
 
 ## Extension Options
-<img src='./src/assets/options1.png' alt='Options page part 1' style='max-width:100%;'>
-<img src='./src/assets/options2.png' alt='Options page part 2' style='max-width:100%;'>
-<img src='./src/assets/options3.png' alt='Options page part 3' style='max-width:100%;'>
+<img src='./assets/options1.png' alt='Options page part 1' style='max-width:100%;'>
+<img src='./assets/options2.png' alt='Options page part 2' style='max-width:100%;'>
+<img src='./assets/options3.png' alt='Options page part 3' style='max-width:100%;'>
