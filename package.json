@@ -21,8 +21,7 @@
     "chrono-node": "^2.3.6"
   },
   "scripts": {
-    "build": "tsc & npm run browserify",
-    "browserify": "browserify -p tinyify dist/extension.js -o dist/extension.js & browserify -p tinyify dist/parseAssignments.js -o dist/parseAssignments.js & browserify -p tinyify dist/options.js -o dist/options.js",
+    "build": "gulp",
     "release": "standard-version --sign"
   },
   "standard-version": {
