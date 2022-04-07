@@ -168,7 +168,7 @@ Configure the `Notion Course Emojis` to the following:
 
 4. The configured `Notion Integration Key` is used to authorise with the [Notion API](https://developers.notion.com/).
 
-5. The saved assignment data is retrived from local storage.
+5. The saved assignment data is retrieved from local storage.
 
 6. The configured `Database ID` is queried to avoid import of duplicate assignments (matching assignment URLs).
 
