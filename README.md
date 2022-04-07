@@ -114,7 +114,7 @@ This enables many possible use-cases, such as:
    5. Sorting assignments by *due date*, rather than only being able to sort by available date.
       > There is no ability to sort Notion `Date` (span) properties by their end date — only their start date.
 
-Of course, you are welcome to configure any of these property names to be empty (or `null`) and remove them from the database.
+Of course, you are welcome to configure any of these property names to be empty — empty properties are ignored on import.
 
 ### `Canvas Course Code Overrides`
 

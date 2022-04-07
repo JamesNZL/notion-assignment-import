@@ -1,16 +1,16 @@
 import { CreatePageParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
-import { TimeZoneRequest, EmojiRequest, NotionHandler } from './notionHandler';
+import { valueof, TimeZoneRequest, EmojiRequest, NotionHandler } from './notionHandler';
 import { Assignment, SavedAssignments } from './parseAssignments';
 
 type ArrayElement<ArrayType extends readonly unknown[]> = ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
 
 interface Constants {
-	TIMEZONE: TimeZoneRequest;
+	TIMEZONE: TimeZoneRequest | null;
 	PROPERTY_NAMES: {
-		[key: string]: string;
+		[key: string]: string | null;
 	};
 	PROPERTY_VALUES: {
-		[key: string]: string;
+		[key: string]: string | null;
 	};
 }
 
@@ -30,20 +30,20 @@ export async function notionImport(): Promise<void | Assignment[]> {
 	});
 
 	const CONSTANTS: Constants = {
-		TIMEZONE: options.timezone,
+		TIMEZONE: options.timezone || null,
 		PROPERTY_NAMES: {
-			TO_DO_NAME: options.toDoName,
-			TO_DO_CATEGORY: options.toDoCategory,
-			TO_DO_COURSE: options.toDoCourse,
-			TO_DO_URL: options.toDoURL,
-			TO_DO_STATUS: options.toDoStatus,
-			TO_DO_AVAIALBLE: options.toDoAvailable,
-			TO_DO_DUE: options.toDoDue,
-			TO_DO_SPAN: options.toDoSpan,
+			TO_DO_NAME: options.toDoName || null,
+			TO_DO_CATEGORY: options.toDoCategory || null,
+			TO_DO_COURSE: options.toDoCourse || null,
+			TO_DO_URL: options.toDoURL || null,
+			TO_DO_STATUS: options.toDoStatus || null,
+			TO_DO_AVAIALBLE: options.toDoAvailable || null,
+			TO_DO_DUE: options.toDoDue || null,
+			TO_DO_SPAN: options.toDoSpan || null,
 		},
 		PROPERTY_VALUES: {
-			CATEGORY_CANVAS: options.categoryCanvas,
-			STATUS_TO_DO: options.statusToDo,
+			CATEGORY_CANVAS: options.categoryCanvas || null,
+			STATUS_TO_DO: options.statusToDo || null,
 		},
 	};
 
@@ -78,61 +78,66 @@ export async function notionImport(): Promise<void | Assignment[]> {
 			return this.assignment.due;
 		}
 
+		private static verifySelectValue(value: string | null): Extract<valueof<CreatePageParameters['properties']>, { type?: 'select'; }>['select'] {
+			return (value)
+				? {
+					name: value,
+				}
+				: null;
+		}
+
 		public notionPageParameters(databaseId: string): CreatePageParameters {
+			const _properties: CreatePageParameters['properties'] = {
+				[CONSTANTS.PROPERTY_NAMES.TO_DO_NAME ?? '']: {
+					title: [
+						{
+							text: {
+								content: this.name,
+							},
+						},
+					],
+				},
+				[CONSTANTS.PROPERTY_NAMES.TO_DO_CATEGORY ?? '']: {
+					select: SavedAssignment.verifySelectValue(CONSTANTS.PROPERTY_VALUES.CATEGORY_CANVAS),
+				},
+				[CONSTANTS.PROPERTY_NAMES.TO_DO_COURSE ?? '']: {
+					select: {
+						name: this.course,
+					},
+				},
+				[CONSTANTS.PROPERTY_NAMES.TO_DO_URL ?? '']: {
+					url: this.url,
+				},
+				[CONSTANTS.PROPERTY_NAMES.TO_DO_STATUS ?? '']: {
+					select: SavedAssignment.verifySelectValue(CONSTANTS.PROPERTY_VALUES.STATUS_TO_DO),
+				},
+				[CONSTANTS.PROPERTY_NAMES.TO_DO_AVAIALBLE ?? '']: {
+					date: {
+						start: this.available,
+						time_zone: CONSTANTS.TIMEZONE,
+					},
+				},
+				[CONSTANTS.PROPERTY_NAMES.TO_DO_DUE ?? '']: {
+					date: {
+						start: this.due,
+						time_zone: CONSTANTS.TIMEZONE,
+					},
+				},
+				[CONSTANTS.PROPERTY_NAMES.TO_DO_SPAN ?? '']: {
+					date: {
+						start: this.available,
+						end: this.due,
+						time_zone: CONSTANTS.TIMEZONE,
+					},
+				},
+			};
+
 			return {
 				parent: {
 					type: 'database_id',
 					database_id: databaseId,
 				},
-				properties: {
-					[CONSTANTS.PROPERTY_NAMES.TO_DO_NAME]: {
-						title: [
-							{
-								text: {
-									content: this.name,
-								},
-							},
-						],
-					},
-					// TODO: ignore any database property names set to empty or null
-					[CONSTANTS.PROPERTY_NAMES.TO_DO_CATEGORY]: {
-						select: {
-							name: CONSTANTS.PROPERTY_VALUES.CATEGORY_CANVAS,
-						},
-					},
-					[CONSTANTS.PROPERTY_NAMES.TO_DO_COURSE]: {
-						select: {
-							name: this.course,
-						},
-					},
-					[CONSTANTS.PROPERTY_NAMES.TO_DO_URL]: {
-						url: this.url,
-					},
-					[CONSTANTS.PROPERTY_NAMES.TO_DO_STATUS]: {
-						select: {
-							name: CONSTANTS.PROPERTY_VALUES.STATUS_TO_DO,
-						},
-					},
-					[CONSTANTS.PROPERTY_NAMES.TO_DO_AVAIALBLE]: {
-						date: {
-							start: this.available,
-							time_zone: CONSTANTS.TIMEZONE,
-						},
-					},
-					[CONSTANTS.PROPERTY_NAMES.TO_DO_DUE]: {
-						date: {
-							start: this.due,
-							time_zone: CONSTANTS.TIMEZONE,
-						},
-					},
-					[CONSTANTS.PROPERTY_NAMES.TO_DO_SPAN]: {
-						date: {
-							start: this.available,
-							end: this.due,
-							time_zone: CONSTANTS.TIMEZONE,
-						},
-					},
-				},
+				properties: Object.fromEntries(Object.entries(_properties).filter(([propertyName]) => propertyName !== '')),
 				icon: (this.icon)
 					? {
 						emoji: this.icon,
@@ -154,6 +159,8 @@ export async function notionImport(): Promise<void | Assignment[]> {
 		}
 
 		public get course(): string | undefined {
+			if (!CONSTANTS.PROPERTY_NAMES.TO_DO_COURSE) return undefined;
+
 			if ('properties' in this.assignment && CONSTANTS.PROPERTY_NAMES.TO_DO_COURSE in this.assignment.properties) {
 				// Extract the course property from the page
 				const courseProperty = this.assignment.properties[CONSTANTS.PROPERTY_NAMES.TO_DO_COURSE];
@@ -167,6 +174,8 @@ export async function notionImport(): Promise<void | Assignment[]> {
 		}
 
 		public get url(): string | undefined {
+			if (!CONSTANTS.PROPERTY_NAMES.TO_DO_URL) return undefined;
+
 			if ('properties' in this.assignment && CONSTANTS.PROPERTY_NAMES.TO_DO_URL in this.assignment.properties) {
 				const urlProperty = this.assignment.properties[CONSTANTS.PROPERTY_NAMES.TO_DO_URL];
 
@@ -187,12 +196,18 @@ export async function notionImport(): Promise<void | Assignment[]> {
 		}
 
 		async function queryNotionAssignments(): Promise<void | NotionAssignment[]> {
-			const filterForCanvasAssignments = {
-				property: CONSTANTS.PROPERTY_NAMES.TO_DO_CATEGORY,
-				select: {
-					equals: CONSTANTS.PROPERTY_VALUES.CATEGORY_CANVAS,
-				},
-			};
+			const filterForCanvasAssignments = (CONSTANTS.PROPERTY_NAMES.TO_DO_CATEGORY)
+				? {
+					property: CONSTANTS.PROPERTY_NAMES.TO_DO_CATEGORY,
+					select: (CONSTANTS.PROPERTY_VALUES.CATEGORY_CANVAS)
+						? {
+							equals: CONSTANTS.PROPERTY_VALUES.CATEGORY_CANVAS,
+						}
+						: {
+							is_empty: <const>true,
+						},
+				}
+				: undefined;
 
 			const notionAssignments = await notionHandler.queryDatabase(databaseId, filterForCanvasAssignments);
 
