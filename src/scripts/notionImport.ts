@@ -85,7 +85,7 @@ export async function notionImport(): Promise<void | Assignment[]> {
 					database_id: databaseId,
 				},
 				properties: {
-					Name: {
+					[CONSTANTS.PROPERTY_NAMES.TO_DO_NAME]: {
 						title: [
 							{
 								text: {
