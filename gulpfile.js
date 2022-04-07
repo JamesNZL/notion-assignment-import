@@ -1,4 +1,7 @@
 const { src, dest, parallel } = require('gulp');
+const zip = require('gulp-zip');
+
+const fs = require('fs');
 
 const browserify = require('browserify');
 const tsify = require('tsify');
@@ -71,9 +74,21 @@ function bundle(source) {
 	};
 }
 
+function release() {
+	const { version } = JSON.parse(fs.readFileSync('manifest.json', { encoding: 'utf-8' }));
+
+	return src(['dist/**/*', 'manifest.json'], {
+		base: '.',
+	})
+		.pipe(zip(`notion - assignment - import_v${version}.zip`))
+		.pipe(dest('releases'));
+}
+
 exports.default = parallel(
 	...sources.map('markup', copy),
 	...sources.map('style', copy),
 	...sources.map('assets', copy),
 	...sources.map('scripts', bundle),
 );
+
+exports.release = release;

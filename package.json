@@ -25,9 +25,13 @@
   "scripts": {
     "debug": "gulp --debug=true",
     "build": "gulp --debug=false",
-    "release": "standard-version --sign"
+    "release": "standard-version --sign --commit-all",
+    "publish": "git push --follow-tags origin master"
   },
   "standard-version": {
+    "scripts": {
+      "postbump": "gulp release && git add releases"
+    },
     "bumpFiles": [
       {
         "filename": "package.json",
