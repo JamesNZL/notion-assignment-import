@@ -210,7 +210,7 @@ export async function notionImport(): Promise<void | Assignment[]> {
 
 	const { notionKey: NOTION_KEY, databaseId: DATABASE_ID } = await chrome.storage.local.get(['notionKey', 'databaseId']);
 
-	if (!NOTION_KEY || !DATABASE_ID) return alert('Invalid Notion Environment Variables.');
+	if (!NOTION_KEY || !DATABASE_ID) return alert('Invalid Notion Integration Key or Database ID.\n\nRefer to the extension set-up instructions on GitHub for more information.');
 
 	const notionHandler = new NotionHandler({ auth: NOTION_KEY });
 
