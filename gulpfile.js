@@ -74,5 +74,6 @@ function bundle(source) {
 exports.default = parallel(
 	...sources.map('markup', copy),
 	...sources.map('style', copy),
+	...sources.map('assets', copy),
 	...sources.map('scripts', bundle),
 );
