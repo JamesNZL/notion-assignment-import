@@ -94,6 +94,7 @@ export async function notionImport(): Promise<void | Assignment[]> {
 							},
 						],
 					},
+					// TODO: ignore any database property names set to empty or null
 					[CONSTANTS.PROPERTY_NAMES.TO_DO_CATEGORY]: {
 						select: {
 							name: CONSTANTS.PROPERTY_VALUES.CATEGORY_CANVAS,
