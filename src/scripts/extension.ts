@@ -34,9 +34,7 @@ if (Object.values(buttons).every(button => button !== null)) {
 		viewCoursesButton,
 		parseButton,
 		notionImportButton,
-	} = <{
-		[key: string]: NonNullable<valueof<typeof buttons>>;
-	}>buttons;
+	} = <Record<string, NonNullable<valueof<typeof buttons>>>>buttons;
 
 	const BUTTON_TEXT = {
 		DEFAULT: {
