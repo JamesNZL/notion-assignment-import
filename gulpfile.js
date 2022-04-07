@@ -76,7 +76,7 @@ function release() {
 	return src(['dist/**/*', 'manifest.json'], {
 		base: '.',
 	})
-		.pipe(zip(`notion - assignment - import_v${version}.zip`))
+		.pipe(zip(`notion-assignment-import_v${version}.zip`))
 		.pipe(dest('releases'));
 }
 
