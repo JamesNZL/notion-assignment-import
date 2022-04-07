@@ -42,6 +42,14 @@ async function restoreOptions() {
 }
 
 async function saveOptions() {
+	if (saveButton) {
+		saveButton.innerHTML = 'Saved!';
+
+		setTimeout(() => {
+			saveButton.innerHTML = 'Save';
+		}, 1325);
+	}
+
 	await chrome.storage.local.set({
 		breadcrumbs: queryId('breadcrumbs'),
 		courseCodeN: queryId('courseCodeN'),
@@ -74,13 +82,12 @@ document.addEventListener('DOMContentLoaded', restoreOptions);
 
 const saveButton = document.getElementById('saveButton');
 if (saveButton) {
-	saveButton.addEventListener('click', () => {
-		saveButton.innerHTML = 'Saved!';
-
-		setTimeout(() => {
-			saveButton.innerHTML = 'Save';
-		}, 1325);
-
-		saveOptions();
-	});
+	saveButton.addEventListener('click', saveOptions);
 }
+
+document.addEventListener('keydown', keyEvent => {
+	if (keyEvent.ctrlKey && keyEvent.key === 's') {
+		keyEvent.preventDefault();
+		saveOptions();
+	}
+});
