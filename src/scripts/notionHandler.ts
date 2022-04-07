@@ -2,12 +2,12 @@ import { Client, isNotionClientError } from '@notionhq/client';
 import { ClientOptions } from '@notionhq/client/build/src/Client';
 import { CreatePageParameters, CreatePageResponse, QueryDatabaseParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
 
-type PageProperties = CreatePageParameters['properties'];
-type DateRequest = NonNullable<NonNullable<Extract<PageProperties[keyof PageProperties], { type?: 'date'; }>['date']>>;
+export type valueof<T> = T[keyof T];
+
+type DateRequest = NonNullable<NonNullable<Extract<valueof<CreatePageParameters['properties']>, { type?: 'date'; }>['date']>>;
 export type TimeZoneRequest = DateRequest['time_zone'];
 
-type PageIcon = NonNullable<CreatePageParameters['icon']>;
-export type EmojiRequest = Extract<PageIcon, { type?: 'emoji'; }>['emoji'];
+export type EmojiRequest = Extract<CreatePageParameters['icon'], { type?: 'emoji'; }>['emoji'];
 
 interface PaginatedRequest {
 	start_cursor?: string;

@@ -1,7 +1,6 @@
 import { SavedAssignments } from './parseAssignments';
+import { valueof } from './notionHandler';
 import { notionImport } from './notionImport';
-
-type valueof<T> = T[keyof T];
 
 const buttons = {
 	optionsButton: document.getElementById('optionsButton'),
