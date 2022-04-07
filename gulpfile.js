@@ -17,14 +17,14 @@ const sources = {
 	},
 	markup: [
 		{
-			glob: 'src/*.html',
-			base: 'src',
+			glob: 'src/markup/*.html',
+			base: 'src/markup',
 		},
 	],
 	style: [
 		{
-			glob: 'src/*.css',
-			base: 'src',
+			glob: 'src/style/*.css',
+			base: 'src/style',
 		},
 	],
 	assets: [
@@ -35,15 +35,15 @@ const sources = {
 	],
 	scripts: [
 		{
-			glob: 'src/extension.ts',
+			glob: 'src/scripts/extension.ts',
 			outFile: 'extension.js',
 		},
 		{
-			glob: 'src/parseAssignments.ts',
+			glob: 'src/scripts/parseAssignments.ts',
 			outFile: 'parseAssignments.js',
 		},
 		{
-			glob: 'src/options.ts',
+			glob: 'src/scripts/options.ts',
 			outFile: 'options.js',
 		},
 	],
