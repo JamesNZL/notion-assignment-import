@@ -166,7 +166,7 @@ Configure the `Notion Course Emojis` to the following:
 
 ## Notion Import
 
-4. The configured `Notion Integration Key` is used to authorise with the Notion API.
+4. The configured `Notion Integration Key` is used to authorise with the [Notion API](https://developers.notion.com/).
 
 5. The saved assignment data is retrived from local storage.
 
