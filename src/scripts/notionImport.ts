@@ -208,20 +208,20 @@ export async function notionImport(): Promise<void | Assignment[]> {
 
 	// Set up Notion API handler
 
-	const { notionKey: NOTION_KEY, databaseId: TO_DO_ID } = await chrome.storage.local.get(['notionKey', 'databaseId']);
+	const { notionKey: NOTION_KEY, databaseId: DATABASE_ID } = await chrome.storage.local.get(['notionKey', 'databaseId']);
 
-	if (!NOTION_KEY || !TO_DO_ID) return alert('Invalid Notion Environment Variables.');
+	if (!NOTION_KEY || !DATABASE_ID) return alert('Invalid Notion Environment Variables.');
 
 	const notionHandler = new NotionHandler({ auth: NOTION_KEY });
 
 	// Create assignments
 
-	const assignments = await getNewAssignments(TO_DO_ID);
+	const assignments = await getNewAssignments(DATABASE_ID);
 	let errorCount = 0;
 
 	const createdAssignments = await Promise.all(
 		assignments.map(async assignment => {
-			const page = await notionHandler.createPage(assignment.notionPageParameters(TO_DO_ID));
+			const page = await notionHandler.createPage(assignment.notionPageParameters(DATABASE_ID));
 
 			if (page) {
 				console.log(`Created assignment ${assignment.course} ${assignment.name}`);
