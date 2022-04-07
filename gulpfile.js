@@ -36,17 +36,14 @@ const sources = {
 	scripts: [
 		{
 			glob: 'src/extension.ts',
-			base: 'src',
 			outFile: 'extension.js',
 		},
 		{
 			glob: 'src/parseAssignments.ts',
-			base: 'src',
 			outFile: 'parseAssignments.js',
 		},
 		{
 			glob: 'src/options.ts',
-			base: 'src',
 			outFile: 'options.js',
 		},
 	],
@@ -64,7 +61,6 @@ function bundle(source) {
 		return browserify({
 			debug,
 			entries: source.glob,
-			basedir: source?.base ?? '.',
 		})
 			.plugin(tsify)
 			.plugin('tinyify')
