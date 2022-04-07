@@ -32,14 +32,14 @@ export async function notionImport(): Promise<void | Assignment[]> {
 	const CONSTANTS: Constants = {
 		TIMEZONE: options.timezone || null,
 		PROPERTY_NAMES: {
-			TO_DO_NAME: options.toDoName || null,
-			TO_DO_CATEGORY: options.toDoCategory || null,
-			TO_DO_COURSE: options.toDoCourse || null,
-			TO_DO_URL: options.toDoURL || null,
-			TO_DO_STATUS: options.toDoStatus || null,
-			TO_DO_AVAIALBLE: options.toDoAvailable || null,
-			TO_DO_DUE: options.toDoDue || null,
-			TO_DO_SPAN: options.toDoSpan || null,
+			NAME: options.toDoName || null,
+			CATEGORY: options.toDoCategory || null,
+			COURSE: options.toDoCourse || null,
+			URL: options.toDoURL || null,
+			STATUS: options.toDoStatus || null,
+			AVAIALBLE: options.toDoAvailable || null,
+			DUE: options.toDoDue || null,
+			SPAN: options.toDoSpan || null,
 		},
 		PROPERTY_VALUES: {
 			CATEGORY_CANVAS: options.categoryCanvas || null,
@@ -88,7 +88,7 @@ export async function notionImport(): Promise<void | Assignment[]> {
 
 		public notionPageParameters(databaseId: string): CreatePageParameters {
 			const _properties: CreatePageParameters['properties'] = {
-				[CONSTANTS.PROPERTY_NAMES.TO_DO_NAME ?? '']: {
+				[CONSTANTS.PROPERTY_NAMES.NAME ?? '']: {
 					title: [
 						{
 							text: {
@@ -97,33 +97,33 @@ export async function notionImport(): Promise<void | Assignment[]> {
 						},
 					],
 				},
-				[CONSTANTS.PROPERTY_NAMES.TO_DO_CATEGORY ?? '']: {
+				[CONSTANTS.PROPERTY_NAMES.CATEGORY ?? '']: {
 					select: SavedAssignment.verifySelectValue(CONSTANTS.PROPERTY_VALUES.CATEGORY_CANVAS),
 				},
-				[CONSTANTS.PROPERTY_NAMES.TO_DO_COURSE ?? '']: {
+				[CONSTANTS.PROPERTY_NAMES.COURSE ?? '']: {
 					select: {
 						name: this.course,
 					},
 				},
-				[CONSTANTS.PROPERTY_NAMES.TO_DO_URL ?? '']: {
+				[CONSTANTS.PROPERTY_NAMES.URL ?? '']: {
 					url: this.url,
 				},
-				[CONSTANTS.PROPERTY_NAMES.TO_DO_STATUS ?? '']: {
+				[CONSTANTS.PROPERTY_NAMES.STATUS ?? '']: {
 					select: SavedAssignment.verifySelectValue(CONSTANTS.PROPERTY_VALUES.STATUS_TO_DO),
 				},
-				[CONSTANTS.PROPERTY_NAMES.TO_DO_AVAIALBLE ?? '']: {
+				[CONSTANTS.PROPERTY_NAMES.AVAIALBLE ?? '']: {
 					date: {
 						start: this.available,
 						time_zone: CONSTANTS.TIMEZONE,
 					},
 				},
-				[CONSTANTS.PROPERTY_NAMES.TO_DO_DUE ?? '']: {
+				[CONSTANTS.PROPERTY_NAMES.DUE ?? '']: {
 					date: {
 						start: this.due,
 						time_zone: CONSTANTS.TIMEZONE,
 					},
 				},
-				[CONSTANTS.PROPERTY_NAMES.TO_DO_SPAN ?? '']: {
+				[CONSTANTS.PROPERTY_NAMES.SPAN ?? '']: {
 					date: {
 						start: this.available,
 						end: this.due,
@@ -159,11 +159,11 @@ export async function notionImport(): Promise<void | Assignment[]> {
 		}
 
 		public get course(): string | undefined {
-			if (!CONSTANTS.PROPERTY_NAMES.TO_DO_COURSE) return undefined;
+			if (!CONSTANTS.PROPERTY_NAMES.COURSE) return undefined;
 
-			if ('properties' in this.assignment && CONSTANTS.PROPERTY_NAMES.TO_DO_COURSE in this.assignment.properties) {
+			if ('properties' in this.assignment && CONSTANTS.PROPERTY_NAMES.COURSE in this.assignment.properties) {
 				// Extract the course property from the page
-				const courseProperty = this.assignment.properties[CONSTANTS.PROPERTY_NAMES.TO_DO_COURSE];
+				const courseProperty = this.assignment.properties[CONSTANTS.PROPERTY_NAMES.COURSE];
 
 				// If the course property is a select property, return its name
 				if ('select' in courseProperty) return courseProperty.select?.name;
@@ -174,10 +174,10 @@ export async function notionImport(): Promise<void | Assignment[]> {
 		}
 
 		public get url(): string | undefined {
-			if (!CONSTANTS.PROPERTY_NAMES.TO_DO_URL) return undefined;
+			if (!CONSTANTS.PROPERTY_NAMES.URL) return undefined;
 
-			if ('properties' in this.assignment && CONSTANTS.PROPERTY_NAMES.TO_DO_URL in this.assignment.properties) {
-				const urlProperty = this.assignment.properties[CONSTANTS.PROPERTY_NAMES.TO_DO_URL];
+			if ('properties' in this.assignment && CONSTANTS.PROPERTY_NAMES.URL in this.assignment.properties) {
+				const urlProperty = this.assignment.properties[CONSTANTS.PROPERTY_NAMES.URL];
 
 				if ('url' in urlProperty && urlProperty?.url) return urlProperty.url;
 			}
@@ -196,9 +196,9 @@ export async function notionImport(): Promise<void | Assignment[]> {
 		}
 
 		async function queryNotionAssignments(): Promise<void | NotionAssignment[]> {
-			const filterForCanvasAssignments = (CONSTANTS.PROPERTY_NAMES.TO_DO_CATEGORY)
+			const filterForCanvasAssignments = (CONSTANTS.PROPERTY_NAMES.CATEGORY)
 				? {
-					property: CONSTANTS.PROPERTY_NAMES.TO_DO_CATEGORY,
+					property: CONSTANTS.PROPERTY_NAMES.CATEGORY,
 					select: (CONSTANTS.PROPERTY_VALUES.CATEGORY_CANVAS)
 						? {
 							equals: CONSTANTS.PROPERTY_VALUES.CATEGORY_CANVAS,
