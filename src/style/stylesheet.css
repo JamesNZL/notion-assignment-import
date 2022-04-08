@@ -74,6 +74,12 @@ body {
 	margin-bottom: calc(1.5 * var(--margin));
 	padding: var(--margin) 0;
 	border-radius: var(--border-radius);
+	max-height: 185px;
+	overflow-y: scroll;
+}
+
+#savedCoursesList::-webkit-scrollbar-thumb:hover {
+	background-color: var(--background);
 }
 
 #savedCoursesList p {
