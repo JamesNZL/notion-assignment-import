@@ -21,6 +21,8 @@
 	cursor: pointer;
 	border: 3px solid transparent;
 	background-clip: content-box;
+	min-height: 40%;
+	max-height: 60%;
 }
 
 ::-webkit-scrollbar-thumb:hover {
