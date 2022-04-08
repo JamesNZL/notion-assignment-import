@@ -11,7 +11,7 @@ export interface Assignment {
 }
 
 export interface SavedAssignments {
-	[key: string]: Assignment[];
+	[course: string]: Assignment[];
 }
 
 interface Constants {
