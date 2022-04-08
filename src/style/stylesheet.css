@@ -61,12 +61,8 @@ body {
 	width: calc(50% - var(--margin));
 }
 
-.half-width:last-of-type {
+.half-width.right {
 	margin-left: var(--margin);
-}
-
-.half-width:first-child {
-	margin-left: 0;
 }
 
 #savedCoursesList {
