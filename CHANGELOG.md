@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.3.0](https://github.com/JamesNZL/notion-assignment-import/compare/v2.2.0...v2.3.0) (2022-04-08)
+
+
+### Features
+
+* **extension:** :lipstick: display `nth li` in monospace font ([39e605f](https://github.com/JamesNZL/notion-assignment-import/commit/39e605fe3d07a4a4407d1238dfbeb2fc89f477f6))
+* **extension:** :sparkles: allow configuration of empty notion database property names/values ([ee81734](https://github.com/JamesNZL/notion-assignment-import/commit/ee8173468f852b502a3fa2cf416bb501c18447b0))
+* **extension:** :speech_balloon: refer to set-up instructions on `NOTION_KEY` or `DATABASE_ID` error ([30aa9d3](https://github.com/JamesNZL/notion-assignment-import/commit/30aa9d3470c8602f33dcdbf78c7fc0d92249392e))
+* **interface:** :lipstick: change `background-color` on `input` field `:focus` ([c1bfa29](https://github.com/JamesNZL/notion-assignment-import/commit/c1bfa2925c8c39380feed36297d1810ef1c18345))
+* **interface:** :lipstick: lighten `--dark-grey-hover` ([2468dc8](https://github.com/JamesNZL/notion-assignment-import/commit/2468dc8222b573f73814ed0ed18813afac1d0602))
+* **interface:** :sparkles: allow `ctrl`+`s` to save options ([9bf9b86](https://github.com/JamesNZL/notion-assignment-import/commit/9bf9b861d6cf22377a93b02dd50181d2362ddd26))
+* **options:** :children_crossing: implement required fields ([6db44ed](https://github.com/JamesNZL/notion-assignment-import/commit/6db44edf79eff181b301eb1f63f505a5e4861697))
+
+
+### Bug Fixes
+
+* **import:** :adhesive_bandage: use configured page name property ([02061d7](https://github.com/JamesNZL/notion-assignment-import/commit/02061d733d37f4d3649f209d41512e7a15ee5f54))
+* **import:** :bug: only import saved assignments with due dates in the future ([1ea21ea](https://github.com/JamesNZL/notion-assignment-import/commit/1ea21eae7b0d2429416012bd3b9f7f7209924bce))
+* **parser:** :bug: set assignments with due dates in the past as invalid ([cede31c](https://github.com/JamesNZL/notion-assignment-import/commit/cede31ca6a46dd6fce2ae86ca0263966ac2dda2f))
+
 ## 2.2.0 (2022-04-07)
 
 
