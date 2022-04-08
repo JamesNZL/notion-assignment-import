@@ -1,3 +1,7 @@
+<div align="center">
+   <img src="assets/header.png" width="50%">
+</div>
+
 # Notion Assignment Import
 
 A fully-configurable [Chromium extension](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/) to load [Canvas](https://www.instructure.com/canvas) assignments into a [Notion](https://www.notion.so/) database, at just the click of a button — unlock your full time-management and productivity potential!
