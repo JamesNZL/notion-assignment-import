@@ -208,9 +208,15 @@ interface Constants {
 		private parseDue(): string | '' {
 			const dueString = this.queryRequired(CONSTANTS.SELECTORS.DUE_DATE, false)?.textContent?.trim();
 
-			return (dueString)
-				? chrono.parseDate(dueString, { timezone: CONSTANTS.TIMEZONE ?? undefined }).toISOString()
-				: '';
+			if (dueString) {
+				const dueDate = chrono.parseDate(dueString, { timezone: CONSTANTS.TIMEZONE ?? undefined });
+
+				if (dueDate.valueOf() > Date.now()) return dueDate.toISOString();
+				else this.setInvalid();
+			}
+
+			// if due date was unable to be parsed, or if the due date is in the past, return ''
+			return '';
 		}
 	}
 
