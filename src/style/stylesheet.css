@@ -2,6 +2,7 @@
 	--background: #242424;
 	--dark-grey: #161616;
 	--darker-grey: #080808;
+	--text-colour: #ffffff;
 	--margin: .25em;
 	--border-radius: .325rem;
 }
@@ -40,7 +41,7 @@
 html {
 	width: 425px;
 	background-color: var(--background);
-	color: #ffffff;
+	color: var(--text-colour);
 }
 
 #options {
@@ -94,7 +95,7 @@ button,
 	padding: 10px;
 	display: inline-block;
 	background-color: var(--dark-grey);
-	color: #ffffff;
+	color: var(--text-colour);
 	font-family: inherit;
 	font-size: .825rem;
 	text-decoration: none;
