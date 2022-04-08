@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.4.0](https://github.com/JamesNZL/notion-assignment-import/compare/v2.3.0...v2.4.0) (2022-04-08)
+
+
+### Features
+
+* **import:** :goal_net: implement notion rate limit handler ([8f23f4c](https://github.com/JamesNZL/notion-assignment-import/commit/8f23f4ca6b8e311784106169d138c7aa2fc4140a))
+* **interface:** :lipstick: `overflow-y: scroll` saved JSON within its container ([ad0114e](https://github.com/JamesNZL/notion-assignment-import/commit/ad0114e276fdae1616e2003968372b43505dc3a0))
+* **interface:** :lipstick: contain `textarea` `min-width` too ([b417a3c](https://github.com/JamesNZL/notion-assignment-import/commit/b417a3c20a3e9d6f93141de8bec1e83b36f399a9))
+* **interface:** :lipstick: set `min-height` and `max-height` of scrollbar thumb ([5eb0709](https://github.com/JamesNZL/notion-assignment-import/commit/5eb07096e877b4fdeb5a721df1ee42a75b293bff))
+
+
+### Bug Fixes
+
+* **interface:** :lipstick: fix scrollbar hover colour matching background colour ([6d08196](https://github.com/JamesNZL/notion-assignment-import/commit/6d08196a16ac1c9c28329abbf23619ccb120c880))
+
 ## [2.3.0](https://github.com/JamesNZL/notion-assignment-import/compare/v2.2.0...v2.3.0) (2022-04-08)
 
 
