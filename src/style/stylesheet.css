@@ -197,6 +197,7 @@ textarea.missing-required {
 
 textarea {
 	min-height: 75px;
+	min-width: 100%;
 	max-width: 100%;
 }
 
