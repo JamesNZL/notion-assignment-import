@@ -192,7 +192,8 @@ export async function notionImport(): Promise<void | Assignment[]> {
 
 			return Object.values(savedAssignments)
 				.flat()
-				.map(assignment => new SavedAssignment(assignment));
+				.map(assignment => new SavedAssignment(assignment))
+				.filter(assignment => Date.parse(assignment.due) > Date.now());
 		}
 
 		async function queryNotionAssignments(): Promise<void | NotionAssignment[]> {
