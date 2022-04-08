@@ -2,7 +2,7 @@
 
 ## 2.3.1
 
-- [ ] Implement [rate limit](https://developers.notion.com/reference/request-limits) handler
+- [x] Implement [rate limit](https://developers.notion.com/reference/request-limits) handler
 
 ## 3.0.0
 

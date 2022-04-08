@@ -1,4 +1,4 @@
-import { Client, isNotionClientError } from '@notionhq/client';
+import { APIErrorCode, Client, isNotionClientError } from '@notionhq/client';
 import { ClientOptions } from '@notionhq/client/build/src/Client';
 import { CreatePageParameters, CreatePageResponse, QueryDatabaseParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
 
@@ -37,6 +37,14 @@ export class NotionHandler extends Client {
 		}
 
 		catch (error: unknown) {
+			if (isNotionClientError(error)) {
+				if (error.code === APIErrorCode.RateLimited) {
+					const retryAfter = parseInt(<NonNullable<string>>error.headers.get('Retry-After'));
+					await new Promise(resolve => setTimeout(resolve, retryAfter * 1000));
+					return await NotionHandler.makeRequest(method, parameters);
+				}
+			}
+
 			const type = (isNotionClientError(error)) ? 'NOTION_ERROR' : 'UNKNOWN_ERROR';
 			console.error({ type, error });
 		}
