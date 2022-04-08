@@ -38,10 +38,15 @@ async function restoreOptions() {
 		courseEmojis: '{}',
 	});
 
-	Object.entries(options).forEach(([key, value]) => setValueById(key, value));
+	Object.entries(options).forEach(([id, value]) => setValueById(id, value));
 }
 
-async function saveOptions() {
+function verifyRequiredField(this: HTMLInputElement) {
+	if (!this.value) this.classList.add('missing-required');
+	else this.classList.remove('missing-required');
+}
+
+function saveSuccess() {
 	if (saveButton) {
 		saveButton.innerHTML = 'Saved!';
 
@@ -49,6 +54,29 @@ async function saveOptions() {
 			saveButton.innerHTML = 'Save';
 		}, 1325);
 	}
+}
+
+function saveError() {
+	if (saveButton) {
+		saveButton.innerHTML = 'Missing required fields!';
+		saveButton.classList.add('red');
+		saveButton.classList.remove('green');
+
+		setTimeout(() => {
+			saveButton.innerHTML = 'Save';
+			saveButton.classList.add('green');
+			saveButton.classList.remove('red');
+		}, 3000);
+	}
+}
+
+async function saveOptions() {
+	// check if any required fields are missing
+	if (Object.values(requiredFields).some(input => !input.value)) {
+		return saveError();
+	}
+
+	saveSuccess();
 
 	await chrome.storage.local.set({
 		breadcrumbs: queryId('breadcrumbs'),
@@ -79,6 +107,10 @@ async function saveOptions() {
 }
 
 document.addEventListener('DOMContentLoaded', restoreOptions);
+
+const requiredFields = (<NodeListOf<HTMLInputElement>>document.querySelectorAll('input[required]'));
+
+requiredFields.forEach(element => element.addEventListener('input', verifyRequiredField));
 
 const saveButton = document.getElementById('saveButton');
 if (saveButton) {

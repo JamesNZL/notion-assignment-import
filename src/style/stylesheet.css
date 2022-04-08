@@ -155,6 +155,11 @@ label,
 	font-size: .825rem;
 }
 
+label.required:before {
+	content: "*";
+	color: red;
+}
+
 input,
 textarea {
 	width: 100%;
@@ -172,6 +177,11 @@ textarea {
 	transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
+input.missing-required,
+textarea.missing-required {
+	box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 25%);
+}
+
 textarea {
 	min-height: 75px;
 	max-width: 100%;
@@ -181,6 +191,11 @@ input:focus,
 textarea:focus {
 	box-shadow: 0 0 0 0.2rem rgb(20 20 20 / 50%);
 	background-color: var(--dark-grey-hover);
+}
+
+input:required:focus,
+textarea:required:focus {
+	box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 7.5%);
 }
 
 input:focus-visible,
