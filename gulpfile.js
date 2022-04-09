@@ -63,12 +63,18 @@ function copy(source) {
 
 function bundle(source) {
 	return function bundleGlob() {
-		return browserify({
+		const tsified = browserify({
 			debug,
 			entries: source.glob,
 		})
-			.plugin(tsify)
-			.plugin('tinyify')
+			.plugin(tsify);
+
+		return (
+			(debug)
+				? tsified
+				: tsified
+					.plugin('tinyify')
+		)
 			.bundle()
 			.pipe(sourceStream(`${source?.outFile ?? 'bundle.js'}`))
 			.pipe(dest('dist'));
