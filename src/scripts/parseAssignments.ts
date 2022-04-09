@@ -1,4 +1,4 @@
-import * as chrono from 'chrono-node';
+import { parseDate } from 'chrono-node';
 import { EmojiRequest } from './notionHandler';
 
 export interface Assignment {
@@ -202,14 +202,14 @@ interface Constants {
 				? CanvasAssignment.getNextHour()
 				: availableDate?.textContent?.trim() ?? CanvasAssignment.getNextHour();
 
-			return chrono.parseDate(availableString, { timezone: CONSTANTS.TIMEZONE ?? undefined }).toISOString();
+			return parseDate(availableString, { timezone: CONSTANTS.TIMEZONE ?? undefined }).toISOString();
 		}
 
 		private parseDue(): string | '' {
 			const dueString = this.queryRequired(CONSTANTS.SELECTORS.DUE_DATE, false)?.textContent?.trim();
 
 			if (dueString) {
-				const dueDate = chrono.parseDate(dueString, { timezone: CONSTANTS.TIMEZONE ?? undefined });
+				const dueDate = parseDate(dueString, { timezone: CONSTANTS.TIMEZONE ?? undefined });
 
 				if (dueDate.valueOf() > Date.now()) return dueDate.toISOString();
 				else this.setInvalid();
