@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.1](https://github.com/JamesNZL/notion-assignment-import/compare/v2.4.0...v2.4.1) (2022-04-09)
+
+
+### Bug Fixes
+
+* **interface:** :lipstick: darken interface ([fe02c2b](https://github.com/JamesNZL/notion-assignment-import/commit/fe02c2bad5161f2f9f5e9cab98d1efd008fae817))
+* **interface:** :lipstick: fix spacing between `.half-width` buttons ([56a6a09](https://github.com/JamesNZL/notion-assignment-import/commit/56a6a098b315ca3a194cf307fa9ca94f218964bf))
+* **interface:** :lipstick: tweak background colour ([d68cded](https://github.com/JamesNZL/notion-assignment-import/commit/d68cded0756b264274fd2a3d8429c3d7cb701e36))
+
 ## [2.4.0](https://github.com/JamesNZL/notion-assignment-import/compare/v2.3.0...v2.4.0) (2022-04-08)
 
 
