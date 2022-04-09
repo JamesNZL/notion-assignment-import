@@ -20,7 +20,7 @@
     "yargs": "^17.4.0"
   },
   "dependencies": {
-    "@notionhq/client": "^0.4.13",
+    "@notionhq/client": "^1.0.4",
     "chrono-node": "^2.3.8"
   },
   "scripts": {
