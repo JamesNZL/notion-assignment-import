@@ -1,4 +1,5 @@
-const { src, dest, parallel } = require('gulp');
+const { src, dest, series, parallel } = require('gulp');
+const del = require('del');
 const zip = require('gulp-zip');
 
 const fs = require('fs');
@@ -49,6 +50,10 @@ const sources = {
 	],
 };
 
+function clean() {
+	return del('dist/**', { force: true });
+}
+
 function copy(source) {
 	return function copyGlob() {
 		return src(source.glob, { base: source?.base ?? '.' })
@@ -80,11 +85,13 @@ function release() {
 		.pipe(dest('releases'));
 }
 
-exports.default = parallel(
-	...sources.map('markup', copy),
-	...sources.map('style', copy),
-	...sources.map('assets', copy),
-	...sources.map('scripts', bundle),
+exports.default = series(clean,
+	parallel(
+		...sources.map('markup', copy),
+		...sources.map('style', copy),
+		...sources.map('assets', copy),
+		...sources.map('scripts', bundle),
+	),
 );
 
 exports.release = release;
