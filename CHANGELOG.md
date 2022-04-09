@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.4.2](https://github.com/JamesNZL/notion-assignment-import/compare/v2.4.1...v2.4.2) (2022-04-09)
+
+
+### Bug Fixes
+
+* **gulp:** :bug: fix parsing of `--debug` flag for source map generation ([b061cfa](https://github.com/JamesNZL/notion-assignment-import/commit/b061cfa23e7dd10c0c361671bec5c1f82da2c388))
+
 ### [2.4.1](https://github.com/JamesNZL/notion-assignment-import/compare/v2.4.0...v2.4.1) (2022-04-09)
 
 
