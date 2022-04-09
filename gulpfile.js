@@ -10,7 +10,7 @@ const sourceStream = require('vinyl-source-stream');
 
 const yargs = require('yargs/yargs');
 const { hideBin } = require('yargs/helpers');
-const { debug = false } = yargs(hideBin(process.argv)).argv;
+const debug = yargs(hideBin(process.argv)).argv.debug === 'true';
 
 const sources = {
 	map(key, func) {
