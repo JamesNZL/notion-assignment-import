@@ -4,6 +4,9 @@
 
 # Notion Assignment Import
 
+[![Download for Chrome](https://img.shields.io/badge/Download_for-Chrome-4285F4?style=for-the-badge&logo=googlechrome&logoColor=FFFFFF)](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/)
+[![Download for Edge](https://img.shields.io/badge/Download_for-Edge-0078D7?style=for-the-badge&logo=microsoftedge&logoColor=FFFFFF)](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/)
+
 A fully-configurable [Chromium extension](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/) to load [Canvas](https://www.instructure.com/canvas) assignments into a [Notion](https://www.notion.so/) database, at just the click of a button — unlock your full time-management and productivity potential!
 
 - [Features](#features)
