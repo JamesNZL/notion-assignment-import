@@ -8,8 +8,9 @@
 
 - [ ] Use Canvas API to `GET` assignments directly rather than parsing webpages
    - [ ] Authenticate with OAUTH2
-   - [ ] Implement [pagination](https://canvas.instructure.com/doc/api/file.pagination.html) handler
-   - [ ] Implemenet [throttling](https://canvas.instructure.com/doc/api/file.throttling.html) handler
+   - [ ] ~Implement [pagination](https://canvas.instructure.com/doc/api/file.pagination.html) handler~
+   - [ ] ~Implemenet [throttling](https://canvas.instructure.com/doc/api/file.throttling.html) handler~
+   - [ ] Install [@kth/canvas-api](https://github.com/KTH/canvas-api)
    - [ ] [List user courses](https://canvas.instructure.com/doc/api/courses.html#method.courses.index)
       - [ ] Course selection functionality
    - [ ] [List user assignments](https://canvas.instructure.com/doc/api/assignments.html#method.assignments_api.index) for each (configured) course
