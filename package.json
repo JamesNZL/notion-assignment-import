@@ -26,12 +26,13 @@
   "scripts": {
     "debug": "gulp --debug=true",
     "build": "gulp --debug=false",
-    "release": "npm run build && standard-version --sign --commit-all",
+    "release": "standard-version --sign --commit-all",
     "publish": "git push --follow-tags origin master"
   },
   "standard-version": {
     "scripts": {
-      "postbump": "gulp release && git add releases"
+      "prerelease": "npm update -D",
+      "postbump": "npm run build && gulp release && git add releases"
     },
     "bumpFiles": [
       {
