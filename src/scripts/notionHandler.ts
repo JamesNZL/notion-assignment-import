@@ -1,6 +1,7 @@
 import { APIErrorCode, Client, isNotionClientError } from '@notionhq/client';
 import { ClientOptions } from '@notionhq/client/build/src/Client';
 import { CreatePageParameters, CreatePageResponse, QueryDatabaseParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
+import { time } from 'console';
 
 export type valueof<T> = T[keyof T];
 
@@ -26,32 +27,85 @@ function isPaginatedResponse<R>(response: void | R): response is (R & PaginatedR
 	return 'has_more' in response;
 }
 
+interface HandlerClientOptions extends ClientOptions {
+	auth: string;
+}
+
 export class NotionHandler extends Client {
-	public constructor(options?: ClientOptions) {
+	// rate limits are stored in static field by auth as multiple instances may exist that use the same auth
+	// this ensures a different secret is not affected if another is rate limited, while ensuring different instances
+	// of the same secret cannot make new requests while rate limited
+	private static rateLimits: {
+		[auth: string]: {
+			isRateLimited: boolean;
+			retryAfterPromise: Promise<void> | null;
+		};
+	} = {};
+
+	private auth: string;
+
+	public constructor(options: HandlerClientOptions) {
 		super(options);
+		this.auth = options.auth;
 	}
 
-	private static async makeRequest<T, R>(method: (arg: T) => Promise<R>, parameters: T): Promise<void | R> {
+	private get isRateLimited() {
+		return NotionHandler.rateLimits[this.auth]?.isRateLimited ?? false;
+	}
+
+	private set isRateLimited(isRateLimited: boolean) {
+		NotionHandler.rateLimits[this.auth].isRateLimited = isRateLimited;
+	}
+
+	private get retryAfterPromise() {
+		return NotionHandler.rateLimits[this.auth]?.retryAfterPromise ?? null;
+	}
+
+	private set retryAfterPromise(promise: Promise<void> | null) {
+		NotionHandler.rateLimits[this.auth].retryAfterPromise = promise;
+	}
+
+	private static async sleep(ms: number): Promise<void> {
+		return await new Promise(resolve => setTimeout(resolve, ms));
+	}
+
+	private async makeRequest<T, R>(method: (arg: T) => Promise<R>, parameters: T): Promise<void | R> {
 		try {
+			// if the handler is currently rate-limited, delay the request
+			if (this.isRateLimited && this.retryAfterPromise !== null) {
+				await this.retryAfterPromise;
+			}
+
 			return await method(parameters);
 		}
 
 		catch (error: unknown) {
-			if (isNotionClientError(error)) {
-				if (error.code === APIErrorCode.RateLimited) {
-					const retryAfter = parseInt(<NonNullable<string>>error.headers.get('Retry-After'));
-					await new Promise(resolve => setTimeout(resolve, retryAfter * 1000));
-					return await NotionHandler.makeRequest(method, parameters);
-				}
-			}
-
 			const type = (isNotionClientError(error)) ? 'NOTION_ERROR' : 'UNKNOWN_ERROR';
 			console.error({ type, error });
+
+			if (isNotionClientError(error)) {
+				if (error.code === APIErrorCode.RateLimited) {
+					// get Retry-After header from API response
+					const retryAfter = parseInt(<NonNullable<string>>error.headers.get('Retry-After'));
+
+					// pause for Retry-After seconds
+					this.isRateLimited = true;
+					this.retryAfterPromise = NotionHandler.sleep(retryAfter * 1000);
+					await this.retryAfterPromise;
+
+					// reset rate-limit state
+					this.isRateLimited = false;
+					this.retryAfterPromise = null;
+
+					// make the request again
+					return await this.makeRequest(method, parameters);
+				}
+			}
 		}
 	}
 
-	private static async makePaginatedRequest<T, R>(method: (arg: T) => Promise<R>, parameters: T & PaginatedRequest): Promise<void | R> {
-		let response = await NotionHandler.makeRequest(method, parameters);
+	private async makePaginatedRequest<T, R>(method: (arg: T) => Promise<R>, parameters: T & PaginatedRequest): Promise<void | R> {
+		let response = await this.makeRequest(method, parameters);
 
 		if (isPaginatedResponse(response)) {
 			const _results = response.results;
@@ -59,7 +113,7 @@ export class NotionHandler extends Client {
 			while (isPaginatedResponse(response) && response.has_more) {
 				parameters.start_cursor = response.next_cursor;
 
-				response = await NotionHandler.makeRequest(method, parameters);
+				response = await this.makeRequest(method, parameters);
 
 				if (isPaginatedResponse(response)) _results.push(...response.results);
 			}
@@ -71,7 +125,7 @@ export class NotionHandler extends Client {
 	}
 
 	public async queryDatabase(databaseId: string, filter?: QueryDatabaseParameters['filter']): Promise<void | QueryDatabaseResponse> {
-		return await NotionHandler.makePaginatedRequest<QueryDatabaseParameters, QueryDatabaseResponse>(
+		return await this.makePaginatedRequest<QueryDatabaseParameters, QueryDatabaseResponse>(
 			this.databases.query,
 			{
 				database_id: databaseId,
@@ -81,7 +135,7 @@ export class NotionHandler extends Client {
 	}
 
 	public async createPage(parameters: CreatePageParameters): Promise<void | CreatePageResponse> {
-		return await NotionHandler.makeRequest<CreatePageParameters, CreatePageResponse>(
+		return await this.makeRequest<CreatePageParameters, CreatePageResponse>(
 			this.pages.create,
 			parameters,
 		);
