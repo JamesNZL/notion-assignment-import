@@ -1,7 +1,6 @@
 import { APIErrorCode, Client, isNotionClientError } from '@notionhq/client';
 import { ClientOptions } from '@notionhq/client/build/src/Client';
 import { CreatePageParameters, CreatePageResponse, QueryDatabaseParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
-import { time } from 'console';
 
 export type valueof<T> = T[keyof T];
 
