@@ -167,7 +167,35 @@ async function restoreOptions() {
 		courseEmojis: '{}',
 	});
 
-	Object.entries(options).forEach(([id, value]) => setValueById(id, value));
+	// TODO: fix this 💩 temp fix 😃
+
+	const _temp = {
+		'breadcrumbs': options.breadcrumbs,
+		'course-code-n': options.courseCodeN,
+		'assignment-class': options.canvasAssignment,
+		'assignment-title': options.assignmentTitle,
+		'available-date': options.availableDate,
+		'available-status': options.availableStatus,
+		'due-date': options.dueDate,
+		'date-element': options.dateElement,
+		'status-not-available': options.notAvailableStatus,
+		'notion-key': options.notionKey,
+		'database-id': options.databaseId,
+		'timezone': options.timezone,
+		'notion-property-name': options.toDoName,
+		'notion-property-category': options.toDoCategory,
+		'notion-property-course': options.toDoCourse,
+		'notion-property-url': options.toDoURL,
+		'notion-property-status': options.toDoStatus,
+		'notion-property-available': options.toDoAvailable,
+		'notion-property-due': options.toDoDue,
+		'notion-property-span': options.toDoSpan,
+		'notion-category-canvas': options.categoryCanvas,
+		'notion-status-todo': options.statusToDo,
+		'course-code-overrides': options.courseCodeOverrides,
+		'course-emojis': options.courseEmojis,
+	};
+	Object.entries(_temp).forEach(([id, value]) => setValueById(id, value));
 }
 
 function verifyRequiredField(this: HTMLInputElement) {
@@ -209,29 +237,29 @@ async function saveOptions() {
 
 	await chrome.storage.local.set({
 		breadcrumbs: queryId('breadcrumbs'),
-		courseCodeN: queryId('courseCodeN'),
-		canvasAssignment: queryId('canvasAssignment'),
-		assignmentTitle: queryId('assignmentTitle'),
-		availableDate: queryId('availableDate'),
-		availableStatus: queryId('availableStatus'),
-		dueDate: queryId('dueDate'),
-		dateElement: queryId('dateElement'),
-		notAvailableStatus: queryId('notAvailableStatus'),
-		notionKey: queryId('notionKey'),
-		databaseId: queryId('databaseId'),
+		courseCodeN: queryId('course-code-n'),
+		canvasAssignment: queryId('assignment-class'),
+		assignmentTitle: queryId('assignment-title'),
+		availableDate: queryId('available-date'),
+		availableStatus: queryId('available-status'),
+		dueDate: queryId('due-date'),
+		dateElement: queryId('date-element'),
+		notAvailableStatus: queryId('status-not-available'),
+		notionKey: queryId('notion-key'),
+		databaseId: queryId('database-id'),
 		timezone: queryId('timezone'),
-		toDoName: queryId('toDoName'),
-		toDoCategory: queryId('toDoCategory'),
-		toDoCourse: queryId('toDoCourse'),
-		toDoURL: queryId('toDoURL'),
-		toDoStatus: queryId('toDoStatus'),
-		toDoAvailable: queryId('toDoAvailable'),
-		toDoDue: queryId('toDoDue'),
-		toDoSpan: queryId('toDoSpan'),
-		categoryCanvas: queryId('categoryCanvas'),
-		statusToDo: queryId('statusToDo'),
-		courseCodeOverrides: queryId('courseCodeOverrides'),
-		courseEmojis: queryId('courseEmojis'),
+		toDoName: queryId('notion-property-name'),
+		toDoCategory: queryId('notion-property-category'),
+		toDoCourse: queryId('notion-property-course'),
+		toDoURL: queryId('notion-property-url'),
+		toDoStatus: queryId('notion-property-status'),
+		toDoAvailable: queryId('notion-property-available'),
+		toDoDue: queryId('notion-property-due'),
+		toDoSpan: queryId('notion-property-span'),
+		categoryCanvas: queryId('notion-category-canvas'),
+		statusToDo: queryId('notion-status-todo'),
+		courseCodeOverrides: queryId('course-code-overrides'),
+		courseEmojis: queryId('course-emojis'),
 	});
 }
 
