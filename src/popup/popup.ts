@@ -1,16 +1,16 @@
 import { SavedAssignments } from './parse';
 import { exportToNotion } from './import';
 
-import { valueof } from '../typings/utils';
+import { assertHTMLElements } from '../types/utils';
 
-const buttons = {
-	optionsButton: document.getElementById('optionsButton'),
-	clearStorageButton: document.getElementById('clearStorageButton'),
-	viewSavedButton: document.getElementById('viewSavedButton'),
-	copySavedButton: document.getElementById('copySavedButton'),
-	viewCoursesButton: document.getElementById('viewCoursesButton'),
-	parseButton: document.getElementById('parseButton'),
-	notionImportButton: document.getElementById('notionImportButton'),
+const buttons: Record<string, HTMLElement | null> = {
+	options: document.getElementById('options-button'),
+	parse: document.getElementById('parse-button'),
+	export: document.getElementById('export-button'),
+	viewJSON: document.getElementById('view-json-button'),
+	listCourses: document.getElementById('list-courses-button'),
+	copyJSON: document.getElementById('copy-json-button'),
+	clearStorage: document.getElementById('clear-storage-button'),
 };
 
 const displayButton = {
@@ -18,33 +18,23 @@ const displayButton = {
 		if (button instanceof HTMLElement) button.style.display = display;
 	},
 	JSON(display: 'none' | 'inline-block') {
-		this.handler(buttons.viewSavedButton, display);
+		this.handler(buttons.viewJSON, display);
 	},
 	listCourses(display: 'none' | 'inline-block') {
-		this.handler(buttons.viewCoursesButton, display);
+		this.handler(buttons.listCourses, display);
 	},
 };
 
-if (Object.values(buttons).every(button => button !== null)) {
-	const {
-		optionsButton,
-		clearStorageButton,
-		viewSavedButton,
-		copySavedButton,
-		viewCoursesButton,
-		parseButton,
-		notionImportButton,
-	} = <Record<string, NonNullable<valueof<typeof buttons>>>>buttons;
-
+if (assertHTMLElements(buttons)) {
 	const BUTTON_TEXT = {
 		DEFAULT: {
-			optionsButton: optionsButton.innerHTML,
-			clearStorageButton: clearStorageButton.innerHTML,
-			viewSavedButton: viewSavedButton.innerHTML,
-			copySavedButton: copySavedButton.innerHTML,
-			viewCoursesButton: viewCoursesButton.innerHTML,
-			parseButton: parseButton.innerHTML,
-			notionImportButton: notionImportButton.innerHTML,
+			options: buttons.options.innerHTML,
+			parse: buttons.parse.innerHTML,
+			export: buttons.export.innerHTML,
+			viewJSON: buttons.viewJSON.innerHTML,
+			listCourses: buttons.listCourses.innerHTML,
+			copyJSON: buttons.copyJSON.innerHTML,
+			clearStorage: buttons.clearStorage.innerHTML,
 		},
 		reset(button: HTMLElement, delay: number) {
 			setTimeout(() => {
@@ -53,7 +43,7 @@ if (Object.values(buttons).every(button => button !== null)) {
 		},
 	};
 
-	optionsButton.addEventListener('click', () => {
+	buttons.options.addEventListener('click', () => {
 		if (chrome.runtime.openOptionsPage) {
 			chrome.runtime.openOptionsPage();
 		}
@@ -63,48 +53,7 @@ if (Object.values(buttons).every(button => button !== null)) {
 		}
 	});
 
-	clearStorageButton.addEventListener('click', () => {
-		const verifyPrompt = 'I\'m sure!';
-
-		if (clearStorageButton.innerHTML !== verifyPrompt) {
-			clearStorageButton.innerHTML = verifyPrompt;
-
-			return BUTTON_TEXT.reset(clearStorageButton, 1325);
-		}
-
-		chrome.storage.local.remove('savedAssignments');
-
-		updateSavedCoursesList();
-
-		clearStorageButton.innerHTML = 'Cleared saved assignments!';
-		BUTTON_TEXT.reset(clearStorageButton, 3500);
-	});
-
-	viewSavedButton.addEventListener('click', async () => {
-		const savedCourses = document.getElementById('savedCoursesList');
-
-		if (savedCourses) {
-			const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
-
-			displayButton.JSON('none');
-			displayButton.listCourses('inline-block');
-
-			savedCourses.innerHTML = `<p><code>${JSON.stringify(savedAssignments).replace(/,/g, ',<wbr>')}</code></p>`;
-		}
-	});
-
-	copySavedButton.addEventListener('click', async () => {
-		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
-
-		await navigator.clipboard.writeText(JSON.stringify(savedAssignments));
-
-		copySavedButton.innerHTML = 'Copied to clipboard!';
-		BUTTON_TEXT.reset(copySavedButton, 1325);
-	});
-
-	viewCoursesButton.addEventListener('click', () => updateSavedCoursesList());
-
-	parseButton.addEventListener('click', async () => {
+	buttons.parse.addEventListener('click', async () => {
 		await chrome.storage.local.remove('savedCourse');
 
 		const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -123,13 +72,13 @@ if (Object.values(buttons).every(button => button !== null)) {
 
 		updateSavedCoursesList();
 		if (courseCode) {
-			parseButton.innerHTML = `Saved ${courseCode}!`;
-			BUTTON_TEXT.reset(parseButton, 1325);
+			buttons.parse.innerHTML = `Saved ${courseCode}!`;
+			BUTTON_TEXT.reset(buttons.parse, 1325);
 		}
 	});
 
-	notionImportButton.addEventListener('click', async () => {
-		notionImportButton.innerHTML = 'Exporting to Notion...';
+	buttons.export.addEventListener('click', async () => {
+		buttons.export.innerHTML = 'Exporting to Notion...';
 
 		const createdAssignments = await exportToNotion();
 
@@ -138,15 +87,56 @@ if (Object.values(buttons).every(button => button !== null)) {
 				? createdAssignments.reduce((list, { course, name }, index) => list + `${index + 1}. ${course} ${name}\n`, '\n\n')
 				: '';
 
-			notionImportButton.innerHTML = `Imported ${createdAssignments.length} assignments!`;
-			BUTTON_TEXT.reset(notionImportButton, 3500);
+			buttons.export.innerHTML = `Imported ${createdAssignments.length} assignments!`;
+			BUTTON_TEXT.reset(buttons.export, 3500);
 			alert(`Created ${createdAssignments.length} new assignments.${createdNames}`);
 		}
+	});
+
+	buttons.viewJSON.addEventListener('click', async () => {
+		const savedCourses = document.getElementById('saved-courses-list');
+
+		if (savedCourses) {
+			const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
+
+			displayButton.JSON('none');
+			displayButton.listCourses('inline-block');
+
+			savedCourses.innerHTML = `<p><code>${JSON.stringify(savedAssignments).replace(/,/g, ',<wbr>')}</code></p>`;
+		}
+	});
+
+	buttons.listCourses.addEventListener('click', () => updateSavedCoursesList());
+
+	buttons.copyJSON.addEventListener('click', async () => {
+		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
+
+		await navigator.clipboard.writeText(JSON.stringify(savedAssignments));
+
+		buttons.copyJSON.innerHTML = 'Copied to clipboard!';
+		BUTTON_TEXT.reset(buttons.copyJSON, 1325);
+	});
+
+	buttons.clearStorage.addEventListener('click', () => {
+		const verifyPrompt = 'I\'m sure!';
+
+		if (buttons.clearStorage.innerHTML !== verifyPrompt) {
+			buttons.clearStorage.innerHTML = verifyPrompt;
+
+			return BUTTON_TEXT.reset(buttons.clearStorage, 1325);
+		}
+
+		chrome.storage.local.remove('savedAssignments');
+
+		updateSavedCoursesList();
+
+		buttons.clearStorage.innerHTML = 'Cleared saved assignments!';
+		BUTTON_TEXT.reset(buttons.clearStorage, 3500);
 	});
 }
 
 async function updateSavedCoursesList() {
-	const savedCourses = document.getElementById('savedCoursesList');
+	const savedCourses = document.getElementById('saved-courses-list');
 
 	if (savedCourses) {
 		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });

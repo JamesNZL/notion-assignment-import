@@ -9,7 +9,7 @@
 	<h1>Notion Assignment Import</h1>
 
 	<div>
-		<button class='half-width' id='optionsButton'>Configure Options</button>
+		<button class='half-width' id='options-button'>Configure Options</button>
 		<a class='button half-width right' href='https://github.com/JamesNZL/notion-assignment-import' target='_blank'>
 			View on GitHub
 		</a>
@@ -17,20 +17,20 @@
 
 	<div>
 		<h2>Save and Export</h2>
-		<button class='half-width green' id='parseButton'>Save Canvas Assignments</button>
-		<button class='half-width green right' id='notionImportButton'>Export Saved Assignments</button>
+		<button class='half-width green' id='parse-button'>Save Canvas Assignments</button>
+		<button class='half-width green right' id='export-button'>Export Saved Assignments</button>
 	</div>
 
-	<div id='currentSavedCourses'>
+	<div id='current-saved-courses'>
 		<h2>Saved Assignments</h2>
 
-		<button class='half-width' id='viewSavedButton'>View Saved <code>JSON</code></button>
-		<button class='half-width' id='viewCoursesButton'>List Saved Courses</button>
-		<button class='half-width right' id='copySavedButton'>Copy <code>JSON</code> To Clipboard</button>
+		<button class='half-width' id='view-json-button'>View Saved <code>JSON</code></button>
+		<button class='half-width' id='list-courses-button'>List Saved Courses</button>
+		<button class='half-width right' id='copy-json-button'>Copy <code>JSON</code> To Clipboard</button>
 
 		<div id='saved-courses-list'></div>
 
-		<button class='full-width red' id='clearStorageButton'>Clear Saved Assignments</button>
+		<button class='full-width red' id='clear-storage-button'>Clear Saved Assignments</button>
 	</div>
 
 	<script type='module' src='popup.js'></script>
