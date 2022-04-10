@@ -29,15 +29,9 @@ const displayButton = {
 
 if (assertHTMLElements(buttons)) {
 	const BUTTON_TEXT = {
-		DEFAULT: {
-			options: buttons.options.innerHTML,
-			parse: buttons.parse.innerHTML,
-			export: buttons.export.innerHTML,
-			viewJSON: buttons.viewJSON.innerHTML,
-			listCourses: buttons.listCourses.innerHTML,
-			copyJSON: buttons.copyJSON.innerHTML,
-			clearStorage: buttons.clearStorage.innerHTML,
-		},
+		DEFAULT: <Record<ButtonNames[number], string>>Object.fromEntries(
+			Object.entries(buttons).map(([buttonName, buttonElement]) => [buttonName, buttonElement.innerHTML]),
+		),
 		reset(button: HTMLElement, delay: number) {
 			setTimeout(() => {
 				button.innerHTML = this.DEFAULT[<keyof typeof this.DEFAULT>button.id];
