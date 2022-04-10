@@ -15,17 +15,9 @@ const buttons: Record<ButtonNames[number], HTMLElement | null> = {
 	clearStorage: document.getElementById('clear-storage-button'),
 };
 
-const displayButton = {
-	handler(button: HTMLElement | null, display: 'none' | 'inline-block') {
-		if (button instanceof HTMLElement) button.style.display = display;
-	},
-	JSON(display: 'none' | 'inline-block') {
-		this.handler(buttons.viewJSON, display);
-	},
-	listCourses(display: 'none' | 'inline-block') {
-		this.handler(buttons.listCourses, display);
-	},
-};
+function setButtonDisplay(button: HTMLElement | null, display: 'none' | 'inline-block') {
+	if (button instanceof HTMLElement) button.style.display = display;
+}
 
 if (assertHTMLElements(buttons)) {
 	const BUTTON_TEXT = {
@@ -95,8 +87,8 @@ if (assertHTMLElements(buttons)) {
 		if (savedCourses) {
 			const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
 
-			displayButton.JSON('none');
-			displayButton.listCourses('inline-block');
+			setButtonDisplay(buttons.viewJSON, 'none');
+			setButtonDisplay(buttons.listCourses, 'inline-block');
 
 			savedCourses.innerHTML = `<p><code>${JSON.stringify(savedAssignments).replace(/,/g, ',<wbr>')}</code></p>`;
 		}
@@ -139,8 +131,8 @@ async function updateSavedCoursesList() {
 
 		const coursesList = Object.entries(savedAssignments).reduce((list: string, [course, assignments]) => list + `<li>${course} (<code>${assignments.length}</code> assignments)</li>\n`, '');
 
-		displayButton.listCourses('none');
-		displayButton.JSON('inline-block');
+		setButtonDisplay(buttons.listCourses, 'none');
+		setButtonDisplay(buttons.viewJSON, 'inline-block');
 
 		savedCourses.innerHTML = (coursesList)
 			? `<ol>${coursesList}</ol>`
