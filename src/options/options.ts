@@ -1,9 +1,12 @@
 import { EmojiRequest, TimeZoneRequest } from '../api-handlers/notion';
 // import CONFIGURATION from './configuration';
 
+type NonEmptyString<T extends string> = '' extends T ? never : T;
+type EmptyString = '';
+
 export interface SavedOptions {
 	// TODO: validate before save
-	timeZone?: TimeZoneRequest;
+	timeZone: NonNullable<TimeZoneRequest> | EmptyString;
 	canvas: {
 		timeZone: SavedOptions['timeZone'];
 		classNames: {
@@ -26,35 +29,52 @@ export interface SavedOptions {
 			availableDate: string;
 			dueDate: string;
 		};
-		courseCodeOverrides?: string;
+		courseCodeOverrides: string | EmptyString;
 	};
 	notion: {
 		notionKey: string;
 		databaseId: string;
 		timeZone: SavedOptions['timeZone'];
 		propertyNames: {
-			name?: string;
-			category?: string;
-			course?: string;
-			url?: string;
-			status?: string;
-			available?: string;
-			due?: string;
-			span?: string;
+			name: string | EmptyString;
+			category: string | EmptyString;
+			course: string | EmptyString;
+			url: string | EmptyString;
+			status: string | EmptyString;
+			available: string | EmptyString;
+			due: string | EmptyString;
+			span: string | EmptyString;
 		};
 		propertyValues: {
-			categoryCanvas?: string;
-			statusToDo?: string;
+			categoryCanvas: string | EmptyString;
+			statusToDo: string | EmptyString;
 		};
-		courseEmojis?: string;
+		courseEmojis: string | EmptyString;
 	};
 }
 
 export type Options = SavedOptions & {
+	timeZone: string | null;
 	canvas: {
+		timeZone: Options['timeZone'];
 		courseCodeOverrides: Record<string, string>;
 	};
 	notion: {
+		timeZone: Options['timeZone'];
+		propertyNames: {
+			name: string | null;
+			category: string | null;
+			course: string | null;
+			url: string | null;
+			status: string | null;
+			available: string | null;
+			due: string | null;
+			span: string | null;
+		};
+		propertyValues: {
+			categoryCanvas: string | null;
+			statusToDo: string | null;
+		};
 		// TODO: validate before save
 		courseEmojis: Record<string, EmojiRequest>;
 	};
