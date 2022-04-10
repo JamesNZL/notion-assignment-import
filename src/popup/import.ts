@@ -2,7 +2,7 @@ import { CreatePageParameters, QueryDatabaseResponse } from '@notionhq/client/bu
 import { EmojiRequest, NotionHandler } from '../api-handlers/notion';
 import { ParsedAssignment, SavedAssignments } from './parse';
 
-import { valueof, ArrayElement } from '../typings/utils';
+import { valueof, ArrayElement } from '../types/utils';
 
 export async function exportToNotion(): Promise<void | ParsedAssignment[]> {
 	const options = await chrome.storage.local.get({

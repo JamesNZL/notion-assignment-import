@@ -2,7 +2,7 @@ import { APIErrorCode, Client, isNotionClientError } from '@notionhq/client';
 import { ClientOptions } from '@notionhq/client/build/src/Client';
 import { CreatePageParameters, CreatePageResponse, QueryDatabaseParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
 
-import { valueof } from '../typings/utils';
+import { valueof } from '../types/utils';
 
 type DateRequest = NonNullable<NonNullable<Extract<valueof<CreatePageParameters['properties']>, { type?: 'date'; }>['date']>>;
 export type TimeZoneRequest = DateRequest['time_zone'];
