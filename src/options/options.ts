@@ -260,7 +260,7 @@ const requiredFields = (<NodeListOf<HTMLInputElement>>document.querySelectorAll(
 
 requiredFields.forEach(element => element.addEventListener('input', verifyRequiredField));
 
-const saveButton = document.getElementById('saveButton');
+const saveButton = document.getElementById('save-button');
 if (saveButton) {
 	saveButton.addEventListener('click', saveOptions);
 }
