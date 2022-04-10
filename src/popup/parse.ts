@@ -1,5 +1,5 @@
 import { parseDate } from 'chrono-node';
-import { EmojiRequest } from './notionHandler';
+import { EmojiRequest } from '../handlers/notion';
 
 export interface Assignment {
 	name: string;

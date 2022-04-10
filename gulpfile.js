@@ -18,8 +18,8 @@ const sources = {
 	},
 	markup: [
 		{
-			glob: 'src/markup/*.html',
-			base: 'src/markup',
+			glob: 'src/**/*.html',
+			base: 'src/',
 		},
 	],
 	style: [
@@ -36,16 +36,16 @@ const sources = {
 	],
 	scripts: [
 		{
-			glob: 'src/scripts/extension.ts',
-			outFile: 'extension.js',
+			glob: 'src/popup/popup.ts',
+			outFile: 'popup/popup.js',
 		},
 		{
-			glob: 'src/scripts/parseAssignments.ts',
-			outFile: 'parseAssignments.js',
+			glob: 'src/popup/parse.ts',
+			outFile: 'popup/parse.js',
 		},
 		{
-			glob: 'src/scripts/options.ts',
-			outFile: 'options.js',
+			glob: 'src/options/options.ts',
+			outFile: 'options/options.js',
 		},
 	],
 };

@@ -1,6 +1,6 @@
-import { SavedAssignments } from './parseAssignments';
-import { valueof } from './notionHandler';
-import { notionImport } from './notionImport';
+import { SavedAssignments } from './parse';
+import { valueof } from '../handlers/notion';
+import { notionImport } from './import';
 
 const buttons = {
 	optionsButton: document.getElementById('optionsButton'),
@@ -112,7 +112,7 @@ if (Object.values(buttons).every(button => button !== null)) {
 
 		await chrome.scripting.executeScript({
 			target: { tabId: tab.id },
-			files: ['dist/parseAssignments.js'],
+			files: ['dist/popup/parse.js'],
 		});
 
 		let courseCode = undefined;

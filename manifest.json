@@ -4,11 +4,11 @@
 	"version": "2.4.2",
 	"manifest_version": 3,
 	"options_ui": {
-		"page": "dist/options.html",
+		"page": "dist/options/options.html",
 		"open_in_tab": true
 	},
 	"action": {
-		"default_popup": "dist/popup.html",
+		"default_popup": "dist/popup/popup.html",
 		"default_icon": {
 			"16": "dist/favicon/favicon-16x16.png",
 			"32": "dist/favicon/favicon-32x32.png",

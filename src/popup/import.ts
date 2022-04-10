@@ -1,6 +1,6 @@
 import { CreatePageParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
-import { valueof, TimeZoneRequest, EmojiRequest, NotionHandler } from './notionHandler';
-import { Assignment, SavedAssignments } from './parseAssignments';
+import { valueof, TimeZoneRequest, EmojiRequest, NotionHandler } from '../handlers/notion';
+import { Assignment, SavedAssignments } from './parse';
 
 type ArrayElement<ArrayType extends readonly unknown[]> = ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
 
