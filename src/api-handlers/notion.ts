@@ -90,7 +90,7 @@ export class NotionHandler extends Client {
 			if (isNotionClientError(error)) {
 				if (error.code === APIErrorCode.RateLimited) {
 					// get Retry-After header from API response
-					const retryAfter = parseInt(<NonNullable<string>>error.headers.get('Retry-After'));
+					const retryAfter = Number(<NonNullable<string>>error.headers.get('Retry-After'));
 
 					// pause for Retry-After seconds
 					this.isRateLimited = true;
