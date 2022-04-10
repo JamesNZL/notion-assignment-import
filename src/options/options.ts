@@ -114,10 +114,10 @@ export async function getOptionsFromStorage(): Promise<Options> {
 } */
 
 
-function queryId(id: string): string | void {
+function queryId(id: string): NullIfEmpty<string> | void {
 	const element = document.getElementById(id);
 
-	if (element && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) return element.value;
+	if (element && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) return element.value || null;
 }
 
 function setValueById(id: string, value: string): void {
