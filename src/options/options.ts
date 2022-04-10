@@ -16,8 +16,7 @@ interface RequiredFields {
 			dateElement: string;
 		};
 		classValues: {
-			// TODO: validate before save
-			courseCodeN: number,
+			courseCodeN: string,
 			notAvailable: string;
 		};
 		selectors: {
@@ -67,6 +66,10 @@ export type Options = SavedOptions & {
 	timeZone: NullIfEmpty<string>;
 	canvas: {
 		timeZone: Options['timeZone'];
+		classValues: {
+			// TODO: validate before save
+			courseCodeN: number;
+		};
 		courseCodeOverrides: Record<string, string>;
 	};
 	notion: {

@@ -52,7 +52,7 @@ export = <NestedKeyOf<SavedOptions>>{
 		classValues: {
 			courseCodeN: {
 				elementId: 'course-code-n',
-				defaultValue: 2,
+				defaultValue: '2',
 			},
 			notAvailable: {
 				elementId: 'status-not-available',
