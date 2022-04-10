@@ -174,7 +174,7 @@ Configure the `Notion Course Emojis` to the following:
 
 2. Assignments are individually parsed for their name, course, URL, available (from) date, and due date:
    1. `Canvas Course Code Overrides` are applied as configured,
-   2. `Notion Course Emojis` are applied as configured,
+   2. `Notion Course Emojis` are applied as configured, and
    3. Assignments without due dates are ignored.
    > Assignments without 'available date' information (or are already available), are set to be available from the top of the next hour (relative to parsing time).
 
