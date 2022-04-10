@@ -21,12 +21,6 @@ interface RequiredFields {
 			courseCodeN: NeverEmpty<string>,
 			notAvailable: NeverEmpty<string>;
 		};
-		selectors: {
-			courseCode: NeverEmpty<string>;
-			availableStatus: NeverEmpty<string>;
-			availableDate: NeverEmpty<string>;
-			dueDate: NeverEmpty<string>;
-		};
 	};
 	notion: {
 		// initialised to null, but can never be cleared once set
@@ -68,6 +62,12 @@ export type Options = SavedOptions & {
 		classValues: {
 			// TODO: validate before save
 			courseCodeN: number;
+		};
+		selectors: {
+			courseCode: NeverEmpty<string>;
+			availableStatus: NeverEmpty<string>;
+			availableDate: NeverEmpty<string>;
+			dueDate: NeverEmpty<string>;
 		};
 		courseCodeOverrides: Record<string, string>;
 	};

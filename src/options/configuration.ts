@@ -1,7 +1,7 @@
 import { SavedOptions } from './options';
 
 type NestedKeyOf<I> = {
-	[K in keyof I]: I[K] extends object ? NestedKeyOf<I[K]> | OptionsConfiguration<I[K]> | null : OptionsConfiguration<I[K]>;
+	[K in keyof I]: I[K] extends object ? NestedKeyOf<I[K]> | OptionsConfiguration<I[K]> : OptionsConfiguration<I[K]>;
 };
 
 interface OptionsConfiguration<T> {
@@ -9,7 +9,7 @@ interface OptionsConfiguration<T> {
 	defaultValue: T;
 }
 
-export = <NestedKeyOf<SavedOptions>>{
+const CONFIGURATION: NestedKeyOf<SavedOptions> = {
 	timeZone: {
 		elementId: 'timezone',
 		defaultValue: 'Pacific/Auckland',
@@ -55,7 +55,6 @@ export = <NestedKeyOf<SavedOptions>>{
 				defaultValue: 'Not available until',
 			},
 		},
-		selectors: null,
 		courseCodeOverrides: {
 			elementId: 'course-code-overrides',
 			defaultValue: '{}',
@@ -120,3 +119,5 @@ export = <NestedKeyOf<SavedOptions>>{
 		},
 	},
 };
+
+export = CONFIGURATION;
