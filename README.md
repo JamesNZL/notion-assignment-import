@@ -6,8 +6,8 @@
 
 [![GitHub issues](https://img.shields.io/github/issues/jamesnzl/notion-assignment-import)](https://github.com/JamesNZL/notion-assignment-import/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/jamesnzl/notion-assignment-import)](https://github.com/JamesNZL/notion-assignment-import/pulls)
-[![GitHub last commit](https://img.shields.io/github/last-commit/jamesnzl/notion-assignment-import)](https://github.com/JamesNZL/notion-assignment-import/commits)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/jamesnzl/notion-assignment-import/Gulp%20Build)](https://github.com/JamesNZL/notion-assignment-import/actions/workflows/npm-gulp.yml)
+[![GitHub last commit](https://img.shields.io/github/last-commit/jamesnzl/notion-assignment-import)](https://github.com/JamesNZL/notion-assignment-import/commits)
 
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/jamesnzl/notion-assignment-import)](https://github.com/JamesNZL/notion-assignment-import/releases)
 [![GitHub file size in bytes](https://img.shields.io/github/size/jamesnzl/notion-assignment-import/releases/notion-assignment-import_latest.zip)](https://github.com/JamesNZL/notion-assignment-import/blob/master/releases/notion-assignment-import_latest.zip)
