@@ -168,8 +168,26 @@ async function restoreOptions() {
 }
 
 function verifyRequiredField(this: HTMLInputElement) {
-	if (!this.value) this.classList.add('missing-required');
-	else this.classList.remove('missing-required');
+	// TODO: make this more elegant
+	if (saveButton) {
+		if (Object.values(requiredFields).some(input => !input.value)) {
+			saveButton.innerHTML = 'Missing required fields!';
+			saveButton.classList.add('red');
+			saveButton.classList.remove('green');
+		}
+		else {
+			saveButton.innerHTML = 'Save';
+			saveButton.classList.add('green');
+			saveButton.classList.remove('red');
+		}
+	}
+
+	if (!this.value) {
+		this.classList.add('missing-required');
+	}
+	else {
+		this.classList.remove('missing-required');
+	}
 }
 
 function saveSuccess() {
@@ -182,24 +200,10 @@ function saveSuccess() {
 	}
 }
 
-function saveError() {
-	if (saveButton) {
-		saveButton.innerHTML = 'Missing required fields!';
-		saveButton.classList.add('red');
-		saveButton.classList.remove('green');
-
-		setTimeout(() => {
-			saveButton.innerHTML = 'Save';
-			saveButton.classList.add('green');
-			saveButton.classList.remove('red');
-		}, 3000);
-	}
-}
-
 async function saveOptions() {
 	// check if any required fields are missing
 	if (Object.values(requiredFields).some(input => !input.value)) {
-		return saveError();
+		return;
 	}
 
 	saveSuccess();
