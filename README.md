@@ -4,6 +4,15 @@
 
 # Notion Assignment Import
 
+[![GitHub issues](https://img.shields.io/github/issues/jamesnzl/notion-assignment-import)](https://github.com/JamesNZL/notion-assignment-import/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/jamesnzl/notion-assignment-import)](https://github.com/JamesNZL/notion-assignment-import/pulls)
+[![GitHub last commit](https://img.shields.io/github/last-commit/jamesnzl/notion-assignment-import)](https://github.com/JamesNZL/notion-assignment-import/commits)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/jamesnzl/notion-assignment-import/Gulp%20Build)](https://github.com/JamesNZL/notion-assignment-import/actions/workflows/npm-gulp.yml)
+
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/jamesnzl/notion-assignment-import)](https://github.com/JamesNZL/notion-assignment-import/releases)
+[![GitHub file size in bytes](https://img.shields.io/github/size/jamesnzl/notion-assignment-import/releases/notion-assignment-import_latest.zip)](https://github.com/JamesNZL/notion-assignment-import/blob/master/releases/notion-assignment-import_latest.zip)
+[![Chrome Web Store version](https://img.shields.io/chrome-web-store/v/elbkjcjgakaoccocmbglokgmalkoacie)](https://chrome.google.com/webstore/detail/notion-canvas-assignment/elbkjcjgakaoccocmbglokgmalkoacie)
+
 [![Download for Chrome](https://img.shields.io/badge/Download_for-Chrome-4285F4?style=for-the-badge&logo=googlechrome&logoColor=FFFFFF)](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/)
 [![Download for Edge](https://img.shields.io/badge/Download_for-Edge-0078D7?style=for-the-badge&logo=microsoftedge&logoColor=FFFFFF)](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/)
 
