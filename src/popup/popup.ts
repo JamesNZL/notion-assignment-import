@@ -3,7 +3,9 @@ import { exportToNotion } from './import';
 
 import { assertHTMLElements } from '../types/utils';
 
-const buttons: Record<string, HTMLElement | null> = {
+type ButtonNames = ['options', 'parse', 'export', 'viewJSON', 'listCourses', 'copyJSON', 'clearStorage'];
+
+const buttons: Record<ButtonNames[number], HTMLElement | null> = {
 	options: document.getElementById('options-button'),
 	parse: document.getElementById('parse-button'),
 	export: document.getElementById('export-button'),
