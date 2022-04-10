@@ -1,57 +1,10 @@
 import { EmojiRequest, TimeZoneRequest } from '../api-handlers/notion';
+// import CONFIGURATION from './configuration';
 
-type NestedKeyOf<I> = {
-	[K in keyof I]: I[K] extends object ? NestedKeyOf<I[K]> | OptionsConfiguration<I[K]> | null : OptionsConfiguration<I[K]>;
-};
-
-type OptionsConfiguration<T> = [elementId: string, defaultValue: T | null];
-
-const OPTIONS_CONFIGURATION: NestedKeyOf<Options> = {
-	timeZone: ['timezone', 'Pacific/Auckland'],
+export interface SavedOptions {
+	timeZone?: string;
 	canvas: {
-		timeZone: ['timezone', 'Pacific/Auckland'],
-		classNames: {
-			breadcrumbs: ['breadcrumbs', 'ic-app-crumbs'],
-			assignment: ['assignment-class', 'assignment'],
-			title: ['assignment-title', 'ig-title'],
-			availableDate: ['available-date', 'assignment-date-available'],
-			availableStatus: ['available-status', 'status-description'],
-			dueDate: ['due-date', 'assignment-date-due'],
-			dateElement: ['date-element', 'screenreader-only'],
-		},
-		classValues: {
-			courseCodeN: ['course-code-n', 2],
-			notAvailable: ['status-not-available', 'Not available until'],
-		},
-		selectors: null,
-		courseCodeOverrides: ['course-code-overrides', {}],
-	},
-	notion: {
-		notionKey: ['notion-key', null],
-		databaseId: ['database-id', null],
-		timeZone: ['timezone', 'Pacific/Auckland'],
-		propertyNames: {
-			name: ['notion-property-name', 'Name'],
-			category: ['notion-property-category', 'Category'],
-			course: ['notion-property-course', 'Course'],
-			url: ['notion-property-url', 'URL'],
-			status: ['notion-property-status', 'Status'],
-			available: ['notion-property-available', 'Reminder'],
-			due: ['notion-property-due', 'Due'],
-			span: ['notion-property-span', 'Date Span'],
-		},
-		propertyValues: {
-			categoryCanvas: ['notion-category-canvas', 'Canvas'],
-			statusToDo: ['notion-status-todo', 'To Do'],
-		},
-		courseEmojis: ['course-emojis', {}],
-	},
-};
-
-interface Options {
-	timeZone: TimeZoneRequest | null;
-	canvas: {
-		timeZone: Options['timeZone'];
+		timeZone: SavedOptions['timeZone'];
 		classNames: {
 			breadcrumbs: string;
 			assignment: string;
@@ -71,33 +24,49 @@ interface Options {
 			availableDate: string;
 			dueDate: string;
 		};
-		courseCodeOverrides: Record<string, string>;
+		courseCodeOverrides?: string;
 	};
 	notion: {
 		notionKey: string;
 		databaseId: string;
-		timeZone: Options['timeZone'];
+		timeZone: SavedOptions['timeZone'];
 		propertyNames: {
-			name: string | null;
-			category: string | null;
-			course: string | null;
-			url: string | null;
-			status: string | null;
-			available: string | null;
-			due: string | null;
-			span: string | null;
+			name?: string;
+			category?: string;
+			course?: string;
+			url?: string;
+			status?: string;
+			available?: string;
+			due?: string;
+			span?: string;
 		};
 		propertyValues: {
-			categoryCanvas: string | null;
-			statusToDo: string | null;
+			categoryCanvas?: string;
+			statusToDo?: string;
 		};
-		courseEmojis: Record<string, EmojiRequest>;
+		courseEmojis?: string;
 	};
 }
 
+export type Options = SavedOptions & {
+	timeZone?: TimeZoneRequest;
+	canvas: {
+		timeZone: Options['timeZone'];
+		courseCodeOverrides: Record<string, string>;
+	};
+	notion: {
+		timeZone: Options['timeZone'];
+		courseEmojis: Record<string, EmojiRequest>;
+	};
+};
+
 // TODO
 
-/* export async function getOptionsFromStorage(): Options {
+/* function flattenOptions(options): Record<string, string | number | null> {
+
+}
+
+export async function getOptionsFromStorage(): Promise<Options> {
 	await chrome.storage.local.get({
 		breadcrumbs: 'ic-app-crumbs',
 		courseCodeN: 2,
