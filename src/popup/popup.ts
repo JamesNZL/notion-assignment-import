@@ -1,7 +1,7 @@
 import { SavedAssignments } from './parse';
 import { exportToNotion } from './import';
 
-import { assertHTMLElements } from '../types/utils';
+import { areHTMLElements } from '../types/utils';
 
 type ButtonNames = ['options', 'parse', 'export', 'viewJSON', 'listCourses', 'copyJSON', 'clearStorage'];
 
@@ -19,7 +19,7 @@ function setButtonDisplay(button: HTMLElement | null, display: 'none' | 'inline-
 	if (button instanceof HTMLElement) button.style.display = display;
 }
 
-if (assertHTMLElements(buttons)) {
+if (areHTMLElements(buttons)) {
 	const BUTTON_TEXT = {
 		DEFAULT: <Record<ButtonNames[number], string>>Object.fromEntries(
 			Object.entries(buttons).map(([buttonName, buttonElement]) => [buttonName, buttonElement.innerHTML]),
