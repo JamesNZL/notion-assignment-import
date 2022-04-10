@@ -6,34 +6,34 @@ import { valueof, ArrayElement } from '../types/utils';
 
 export async function exportToNotion(): Promise<void | ParsedAssignment[]> {
 	const options = await chrome.storage.local.get({
-		timezone: 'Pacific/Auckland',
-		toDoName: 'Name',
-		toDoCategory: 'Category',
-		toDoCourse: 'Course',
-		toDoURL: 'URL',
-		toDoStatus: 'Status',
-		toDoAvailable: 'Reminder',
-		toDoDue: 'Due',
-		toDoSpan: 'Date Span',
-		categoryCanvas: 'Canvas',
-		statusToDo: 'To Do',
+		'timezone': 'Pacific/Auckland',
+		'notion.propertyNames.name': 'Name',
+		'notion.propertyNames.category': 'Category',
+		'notion.propertyNames.course': 'Course',
+		'notion.propertyNames.url': 'URL',
+		'notion.propertyNames.status': 'Status',
+		'notion.propertyNames.available': 'Reminder',
+		'notion.propertyNames.due': 'Due',
+		'notion.propertyNames.span': 'Date Span',
+		'notion.propertyValues.categoryCanvas': 'Canvas',
+		'notion.propertyValues.statusToDo': 'To Do',
 	});
 
 	const CONSTANTS = {
-		TIMEZONE: options.timezone || null,
+		TIMEZONE: options['timezone'] || null,
 		PROPERTY_NAMES: {
-			NAME: options.toDoName || null,
-			CATEGORY: options.toDoCategory || null,
-			COURSE: options.toDoCourse || null,
-			URL: options.toDoURL || null,
-			STATUS: options.toDoStatus || null,
-			AVAIALBLE: options.toDoAvailable || null,
-			DUE: options.toDoDue || null,
-			SPAN: options.toDoSpan || null,
+			NAME: options['notion.propertyNames.name'] || null,
+			CATEGORY: options['notion.propertyNames.category'] || null,
+			COURSE: options['notion.propertyNames.course'] || null,
+			URL: options['notion.propertyNames.url'] || null,
+			STATUS: options['notion.propertyNames.status'] || null,
+			AVAIALBLE: options['notion.propertyNames.available'] || null,
+			DUE: options['notion.propertyNames.due'] || null,
+			SPAN: options['notion.propertyNames.span'] || null,
 		},
 		PROPERTY_VALUES: {
-			CATEGORY_CANVAS: options.categoryCanvas || null,
-			STATUS_TO_DO: options.statusToDo || null,
+			CATEGORY_CANVAS: options['notion.propertyValues.categoryCanvas'] || null,
+			STATUS_TO_DO: options['notion.propertyValues.statusToDo'] || null,
 		},
 	};
 
@@ -215,7 +215,7 @@ export async function exportToNotion(): Promise<void | ParsedAssignment[]> {
 
 	// Set up Notion API handler
 
-	const { notionKey: NOTION_KEY, databaseId: DATABASE_ID } = await chrome.storage.local.get(['notionKey', 'databaseId']);
+	const { 'notion.notionKey': NOTION_KEY, 'notion.databaseId': DATABASE_ID } = await chrome.storage.local.get(['notion.notionKey', 'notion.databaseId']);
 
 	if (!NOTION_KEY || !DATABASE_ID) return alert('Invalid Notion Integration Key or Database ID.\n\nRefer to the extension set-up instructions on GitHub for more information.');
 

@@ -18,30 +18,30 @@ export interface SavedAssignments {
 	const classSelector = (className: string): string => `.${className}`;
 
 	const options = await chrome.storage.local.get({
-		timezone: 'Pacific/Auckland',
-		breadcrumbs: 'ic-app-crumbs',
-		courseCodeN: 2,
-		canvasAssignment: 'assignment',
-		assignmentTitle: 'ig-title',
-		availableDate: 'assignment-date-available',
-		availableStatus: 'status-description',
-		dueDate: 'assignment-date-due',
-		dateElement: 'screenreader-only',
-		notAvailableStatus: 'Not available until',
-		courseCodeOverrides: '{}',
-		courseEmojis: '{}',
+		'timezone': 'Pacific/Auckland',
+		'canvas.classNames.breadcrumbs': 'ic-app-crumbs',
+		'canvas.classNames.assignment': 'assignment',
+		'canvas.classNames.title': 'ig-title',
+		'canvas.classNames.availableDate': 'assignment-date-available',
+		'canvas.classNames.availableStatus': 'status-description',
+		'canvas.classNames.dueDate': 'assignment-date-due',
+		'canvas.classNames.dateElement': 'screenreader-only',
+		'canvas.classValues.courseCodeN': 2,
+		'canvas.classValues.notAvailable': 'Not available until',
+		'canvas.courseCodeOverrides': '{}',
+		'notion.courseEmojis': '{}',
 	});
 
 	const CONSTANTS = {
-		TIMEZONE: options.timezone,
+		TIMEZONE: options['timezone'],
 		CLASSES: {
-			BREADCRUMBS: options.breadcrumbs,
-			ASSIGNMENT: options.canvasAssignment,
-			TITLE: options.assignmentTitle,
-			AVAILABLE_DATE: options.availableDate,
-			AVAILABLE_STATUS: options.availableStatus,
-			DUE_DATE: options.dueDate,
-			SCREENREADER_ONLY: options.dateElement,
+			BREADCRUMBS: options['canvas.classNames.breadcrumbs'],
+			ASSIGNMENT: options['canvas.classNames.assignment'],
+			TITLE: options['canvas.classNames.title'],
+			AVAILABLE_DATE: options['canvas.classNames.availableDate'],
+			AVAILABLE_STATUS: options['canvas.classNames.availableStatus'],
+			DUE_DATE: options['canvas.classNames.dueDate'],
+			SCREENREADER_ONLY: options['canvas.classNames.dateElement'],
 		},
 		SELECTORS: {
 			get COURSE_CODE() { return `${classSelector(CONSTANTS.CLASSES.BREADCRUMBS)} li:nth-of-type(${CONSTANTS.VALUES.COURSE_CODE_N}) span`; },
@@ -50,14 +50,14 @@ export interface SavedAssignments {
 			get DUE_DATE() { return `${classSelector(CONSTANTS.CLASSES.DUE_DATE)} ${classSelector(CONSTANTS.CLASSES.SCREENREADER_ONLY)}`; },
 		},
 		VALUES: {
-			COURSE_CODE_N: options.courseCodeN,
-			NOT_AVAILABLE_STATUS: options.notAvailableStatus,
+			COURSE_CODE_N: options['canvas.classValues.courseCodeN'],
+			NOT_AVAILABLE_STATUS: options['canvas.classValues.notAvailable'],
 		},
 	};
 
 	class CanvasAssignment {
-		public static courseCodeOverrides = CanvasAssignment.parseOption(options.courseCodeOverrides, 'Canvas Course Code Overrides');
-		public static courseEmojis = CanvasAssignment.parseOption(options.courseEmojis, 'Notion Course Emojis');
+		public static courseCodeOverrides = CanvasAssignment.parseOption(options['canvas.courseCodeOverrides'], 'Canvas Course Code Overrides');
+		public static courseEmojis = CanvasAssignment.parseOption(options['notion.courseEmojis'], 'Notion Course Emojis');
 
 		private static validSelectors = new Set();
 		private static invalidSelectors = new Set();
