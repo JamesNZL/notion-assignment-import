@@ -15,10 +15,6 @@ export = <NestedKeyOf<SavedOptions>>{
 		defaultValue: 'Pacific/Auckland',
 	},
 	canvas: {
-		timeZone: {
-			elementId: 'timezone',
-			defaultValue: 'Pacific/Auckland',
-		},
 		classNames: {
 			breadcrumbs: {
 				elementId: 'breadcrumbs',
@@ -73,10 +69,6 @@ export = <NestedKeyOf<SavedOptions>>{
 		databaseId: {
 			elementId: 'database-id',
 			defaultValue: null,
-		},
-		timeZone: {
-			elementId: 'timezone',
-			defaultValue: 'Pacific/Auckland',
 		},
 		propertyNames: {
 			name: {

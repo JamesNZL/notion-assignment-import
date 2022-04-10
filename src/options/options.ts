@@ -39,11 +39,9 @@ interface OptionalFields {
 	// TODO: validate before save
 	timeZone: NullIfEmpty<NonNullable<TimeZoneRequest>>;
 	canvas: {
-		timeZone: OptionalFields['timeZone'];
 		courseCodeOverrides: NullIfEmpty<string>;
 	};
 	notion: {
-		timeZone: OptionalFields['timeZone'];
 		propertyNames: {
 			name: NullIfEmpty<string>;
 			category: NullIfEmpty<string>;
@@ -66,6 +64,7 @@ export type SavedOptions = RequiredFields & OptionalFields;
 
 export type Options = SavedOptions & {
 	canvas: {
+		timeZone: OptionalFields['timeZone'];
 		classValues: {
 			// TODO: validate before save
 			courseCodeN: number;
@@ -73,6 +72,7 @@ export type Options = SavedOptions & {
 		courseCodeOverrides: Record<string, string>;
 	};
 	notion: {
+		timeZone: OptionalFields['timeZone'];
 		// TODO: validate before save
 		courseEmojis: Record<string, EmojiRequest>;
 	};
