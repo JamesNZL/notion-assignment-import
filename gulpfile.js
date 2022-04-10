@@ -88,6 +88,7 @@ function release() {
 		base: '.',
 	})
 		.pipe(zip(`notion-assignment-import_v${version}.zip`))
+		.pipe(zip('notion-assignment-import_latest.zip'))
 		.pipe(dest('releases'));
 }
 
