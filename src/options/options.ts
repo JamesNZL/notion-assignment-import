@@ -2,7 +2,8 @@ import { EmojiRequest, TimeZoneRequest } from '../api-handlers/notion';
 // import CONFIGURATION from './configuration';
 
 export interface SavedOptions {
-	timeZone?: string;
+	// TODO: validate before save
+	timeZone?: TimeZoneRequest;
 	canvas: {
 		timeZone: SavedOptions['timeZone'];
 		classNames: {
@@ -15,6 +16,7 @@ export interface SavedOptions {
 			dateElement: string;
 		};
 		classValues: {
+			// TODO: validate before save
 			courseCodeN: number,
 			notAvailable: string;
 		};
@@ -49,13 +51,11 @@ export interface SavedOptions {
 }
 
 export type Options = SavedOptions & {
-	timeZone?: TimeZoneRequest;
 	canvas: {
-		timeZone: Options['timeZone'];
 		courseCodeOverrides: Record<string, string>;
 	};
 	notion: {
-		timeZone: Options['timeZone'];
+		// TODO: validate before save
 		courseEmojis: Record<string, EmojiRequest>;
 	};
 };
