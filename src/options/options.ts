@@ -1,29 +1,31 @@
 import { EmojiRequest, TimeZoneRequest } from '../api-handlers/notion';
 import CONFIGURATION from './configuration';
 
-type Optional<T> = T | '';
-type NullIfEmpty<T> = T | null;
+type NeverEmpty<T extends string> = T extends '' ? never : T;
+type NullIfEmpty<T extends string | null> = (T extends '' ? null : T) | null;
+
+// TODO: enforce null if empty on save
 
 interface RequiredFields {
 	canvas: {
 		classNames: {
-			breadcrumbs: string;
-			assignment: string;
-			title: string;
-			availableDate: string;
-			availableStatus: string;
-			dueDate: string;
-			dateElement: string;
+			breadcrumbs: NeverEmpty<string>;
+			assignment: NeverEmpty<string>;
+			title: NeverEmpty<string>;
+			availableDate: NeverEmpty<string>;
+			availableStatus: NeverEmpty<string>;
+			dueDate: NeverEmpty<string>;
+			dateElement: NeverEmpty<string>;
 		};
 		classValues: {
-			courseCodeN: string,
-			notAvailable: string;
+			courseCodeN: NeverEmpty<string>,
+			notAvailable: NeverEmpty<string>;
 		};
 		selectors: {
-			courseCode: string;
-			availableStatus: string;
-			availableDate: string;
-			dueDate: string;
+			courseCode: NeverEmpty<string>;
+			availableStatus: NeverEmpty<string>;
+			availableDate: NeverEmpty<string>;
+			dueDate: NeverEmpty<string>;
 		};
 	};
 	notion: {
@@ -35,45 +37,13 @@ interface RequiredFields {
 
 interface OptionalFields {
 	// TODO: validate before save
-	timeZone: Optional<NonNullable<TimeZoneRequest>>;
+	timeZone: NullIfEmpty<NonNullable<TimeZoneRequest>>;
 	canvas: {
 		timeZone: OptionalFields['timeZone'];
-		courseCodeOverrides: Optional<string>;
+		courseCodeOverrides: NullIfEmpty<string>;
 	};
 	notion: {
 		timeZone: OptionalFields['timeZone'];
-		propertyNames: {
-			name: Optional<string>;
-			category: Optional<string>;
-			course: Optional<string>;
-			url: Optional<string>;
-			status: Optional<string>;
-			available: Optional<string>;
-			due: Optional<string>;
-			span: Optional<string>;
-		};
-		propertyValues: {
-			categoryCanvas: Optional<string>;
-			statusToDo: Optional<string>;
-		};
-		courseEmojis: Optional<string>;
-	};
-}
-
-export type SavedOptions = RequiredFields & OptionalFields;
-
-export type Options = SavedOptions & {
-	timeZone: NullIfEmpty<string>;
-	canvas: {
-		timeZone: Options['timeZone'];
-		classValues: {
-			// TODO: validate before save
-			courseCodeN: number;
-		};
-		courseCodeOverrides: Record<string, string>;
-	};
-	notion: {
-		timeZone: Options['timeZone'];
 		propertyNames: {
 			name: NullIfEmpty<string>;
 			category: NullIfEmpty<string>;
@@ -88,6 +58,21 @@ export type Options = SavedOptions & {
 			categoryCanvas: NullIfEmpty<string>;
 			statusToDo: NullIfEmpty<string>;
 		};
+		courseEmojis: NullIfEmpty<string>;
+	};
+}
+
+export type SavedOptions = RequiredFields & OptionalFields;
+
+export type Options = SavedOptions & {
+	canvas: {
+		classValues: {
+			// TODO: validate before save
+			courseCodeN: number;
+		};
+		courseCodeOverrides: Record<string, string>;
+	};
+	notion: {
 		// TODO: validate before save
 		courseEmojis: Record<string, EmojiRequest>;
 	};
