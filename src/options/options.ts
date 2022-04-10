@@ -1,6 +1,8 @@
 import { EmojiRequest, TimeZoneRequest } from '../api-handlers/notion';
 import CONFIGURATION from './configuration';
 
+import { ModifyDeep } from '../types/utils';
+
 type NeverEmpty<T extends string> = T extends '' ? never : T;
 type NullIfEmpty<T extends string | null> = (T extends '' ? null : T) | null;
 
@@ -56,7 +58,7 @@ interface OptionalFields {
 
 export type SavedOptions = RequiredFields & OptionalFields;
 
-export type Options = SavedOptions & {
+export type Options = ModifyDeep<SavedOptions, {
 	canvas: {
 		timeZone: OptionalFields['timeZone'];
 		classValues: {
@@ -76,7 +78,7 @@ export type Options = SavedOptions & {
 		// TODO: validate before save
 		courseEmojis: Record<string, EmojiRequest>;
 	};
-};
+}>;
 
 // TODO
 
