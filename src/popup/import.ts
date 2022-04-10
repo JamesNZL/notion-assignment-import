@@ -1,20 +1,10 @@
 import { CreatePageParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
-import { valueof, TimeZoneRequest, EmojiRequest, NotionHandler } from '../handlers/notion';
-import { Assignment, SavedAssignments } from './parse';
+import { EmojiRequest, NotionHandler } from '../api-handlers/notion';
+import { ParsedAssignment, SavedAssignments } from './parse';
 
-type ArrayElement<ArrayType extends readonly unknown[]> = ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
+import { valueof, ArrayElement } from '../typings/utils';
 
-interface Constants {
-	TIMEZONE: TimeZoneRequest | null;
-	PROPERTY_NAMES: {
-		[key: string]: string | null;
-	};
-	PROPERTY_VALUES: {
-		[key: string]: string | null;
-	};
-}
-
-export async function notionImport(): Promise<void | Assignment[]> {
+export async function exportToNotion(): Promise<void | ParsedAssignment[]> {
 	const options = await chrome.storage.local.get({
 		timezone: 'Pacific/Auckland',
 		toDoName: 'Name',
@@ -29,7 +19,7 @@ export async function notionImport(): Promise<void | Assignment[]> {
 		statusToDo: 'To Do',
 	});
 
-	const CONSTANTS: Constants = {
+	const CONSTANTS = {
 		TIMEZONE: options.timezone || null,
 		PROPERTY_NAMES: {
 			NAME: options.toDoName || null,
@@ -47,10 +37,10 @@ export async function notionImport(): Promise<void | Assignment[]> {
 		},
 	};
 
-	class SavedAssignment implements Assignment {
-		private assignment: Assignment;
+	class SavedAssignment implements ParsedAssignment {
+		private assignment: ParsedAssignment;
 
-		public constructor(assignment: Assignment) {
+		public constructor(assignment: ParsedAssignment) {
 			this.assignment = assignment;
 		}
 

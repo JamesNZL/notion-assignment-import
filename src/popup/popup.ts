@@ -1,6 +1,7 @@
 import { SavedAssignments } from './parse';
-import { valueof } from '../handlers/notion';
-import { notionImport } from './import';
+import { exportToNotion } from './import';
+
+import { valueof } from '../typings/utils';
 
 const buttons = {
 	optionsButton: document.getElementById('optionsButton'),
@@ -130,7 +131,7 @@ if (Object.values(buttons).every(button => button !== null)) {
 	notionImportButton.addEventListener('click', async () => {
 		notionImportButton.innerHTML = 'Exporting to Notion...';
 
-		const createdAssignments = await notionImport();
+		const createdAssignments = await exportToNotion();
 
 		if (createdAssignments) {
 			const createdNames = (createdAssignments.length)

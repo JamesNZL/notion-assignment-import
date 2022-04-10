@@ -1,7 +1,7 @@
 import { parseDate } from 'chrono-node';
-import { EmojiRequest } from '../handlers/notion';
+import { EmojiRequest } from '../api-handlers/notion';
 
-export interface Assignment {
+export interface ParsedAssignment {
 	name: string;
 	course: string;
 	icon: EmojiRequest | null;
@@ -11,27 +11,7 @@ export interface Assignment {
 }
 
 export interface SavedAssignments {
-	[course: string]: Assignment[];
-}
-
-interface Constants {
-	TIMEZONE: string;
-	CLASSES: {
-		BREADCRUMBS: string;
-		ASSIGNMENT: string;
-		TITLE: string;
-		AVAILABLE_DATE: string;
-		AVAILABLE_STATUS: string;
-		DUE_DATE: string;
-		SCREENREADER_ONLY: string;
-	};
-	SELECTORS: {
-		[key: string]: string;
-	};
-	VALUES: {
-		COURSE_CODE_N: number,
-		NOT_AVAILABLE_STATUS: string;
-	};
+	[course: string]: ParsedAssignment[];
 }
 
 (async function parseAssignments(): Promise<void> {
@@ -52,7 +32,7 @@ interface Constants {
 		courseEmojis: '{}',
 	});
 
-	const CONSTANTS: Constants = {
+	const CONSTANTS = {
 		TIMEZONE: options.timezone,
 		CLASSES: {
 			BREADCRUMBS: options.breadcrumbs,
@@ -149,7 +129,7 @@ interface Constants {
 			return `${(this.icon) ? `${this.icon} ` : ''}${this.course}`;
 		}
 
-		public toAssignment(): Assignment {
+		public toAssignment(): ParsedAssignment {
 			return {
 				name: this.name,
 				course: this.course,
