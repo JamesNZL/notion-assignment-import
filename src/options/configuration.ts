@@ -1,13 +1,13 @@
 import { SavedOptions } from './options';
 
-type NestedKeyOf<I> = {
-	[K in keyof I]: I[K] extends object ? NestedKeyOf<I[K]> | OptionsConfiguration<I[K]> : OptionsConfiguration<I[K]>;
-};
-
 interface OptionsConfiguration<T> {
 	elementId: string;
 	defaultValue: T;
 }
+
+type NestedKeyOf<I> = {
+	[K in keyof I]: I[K] extends object ? NestedKeyOf<I[K]> | OptionsConfiguration<I[K]> : OptionsConfiguration<I[K]>;
+};
 
 const CONFIGURATION: NestedKeyOf<SavedOptions> = {
 	timeZone: {
