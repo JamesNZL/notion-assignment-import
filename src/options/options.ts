@@ -1,14 +1,11 @@
 import { EmojiRequest, TimeZoneRequest } from '../api-handlers/notion';
-// import CONFIGURATION from './configuration';
+import CONFIGURATION from './configuration';
 
-type NonEmptyString<T extends string> = '' extends T ? never : T;
-type EmptyString = '';
+type Optional<T> = T | '';
+type NullIfEmpty<T> = T | null;
 
-export interface SavedOptions {
-	// TODO: validate before save
-	timeZone: NonNullable<TimeZoneRequest> | EmptyString;
+interface RequiredFields {
 	canvas: {
-		timeZone: SavedOptions['timeZone'];
 		classNames: {
 			breadcrumbs: string;
 			assignment: string;
@@ -29,32 +26,45 @@ export interface SavedOptions {
 			availableDate: string;
 			dueDate: string;
 		};
-		courseCodeOverrides: string | EmptyString;
 	};
 	notion: {
-		notionKey: string;
-		databaseId: string;
-		timeZone: SavedOptions['timeZone'];
-		propertyNames: {
-			name: string | EmptyString;
-			category: string | EmptyString;
-			course: string | EmptyString;
-			url: string | EmptyString;
-			status: string | EmptyString;
-			available: string | EmptyString;
-			due: string | EmptyString;
-			span: string | EmptyString;
-		};
-		propertyValues: {
-			categoryCanvas: string | EmptyString;
-			statusToDo: string | EmptyString;
-		};
-		courseEmojis: string | EmptyString;
+		// initialised to null, but can never be cleared once set
+		notionKey: NullIfEmpty<string>;
+		databaseId: NullIfEmpty<string>;
 	};
 }
 
+interface OptionalFields {
+	// TODO: validate before save
+	timeZone: Optional<NonNullable<TimeZoneRequest>>;
+	canvas: {
+		timeZone: OptionalFields['timeZone'];
+		courseCodeOverrides: Optional<string>;
+	};
+	notion: {
+		timeZone: OptionalFields['timeZone'];
+		propertyNames: {
+			name: Optional<string>;
+			category: Optional<string>;
+			course: Optional<string>;
+			url: Optional<string>;
+			status: Optional<string>;
+			available: Optional<string>;
+			due: Optional<string>;
+			span: Optional<string>;
+		};
+		propertyValues: {
+			categoryCanvas: Optional<string>;
+			statusToDo: Optional<string>;
+		};
+		courseEmojis: Optional<string>;
+	};
+}
+
+export type SavedOptions = RequiredFields & OptionalFields;
+
 export type Options = SavedOptions & {
-	timeZone: string | null;
+	timeZone: NullIfEmpty<string>;
 	canvas: {
 		timeZone: Options['timeZone'];
 		courseCodeOverrides: Record<string, string>;
@@ -62,18 +72,18 @@ export type Options = SavedOptions & {
 	notion: {
 		timeZone: Options['timeZone'];
 		propertyNames: {
-			name: string | null;
-			category: string | null;
-			course: string | null;
-			url: string | null;
-			status: string | null;
-			available: string | null;
-			due: string | null;
-			span: string | null;
+			name: NullIfEmpty<string>;
+			category: NullIfEmpty<string>;
+			course: NullIfEmpty<string>;
+			url: NullIfEmpty<string>;
+			status: NullIfEmpty<string>;
+			available: NullIfEmpty<string>;
+			due: NullIfEmpty<string>;
+			span: NullIfEmpty<string>;
 		};
 		propertyValues: {
-			categoryCanvas: string | null;
-			statusToDo: string | null;
+			categoryCanvas: NullIfEmpty<string>;
+			statusToDo: NullIfEmpty<string>;
 		};
 		// TODO: validate before save
 		courseEmojis: Record<string, EmojiRequest>;

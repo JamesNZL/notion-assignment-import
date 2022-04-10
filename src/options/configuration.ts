@@ -6,7 +6,7 @@ type NestedKeyOf<I> = {
 
 interface OptionsConfiguration<T> {
 	elementId: string;
-	defaultValue: T | null;
+	defaultValue: T;
 }
 
 export = <NestedKeyOf<SavedOptions>>{
