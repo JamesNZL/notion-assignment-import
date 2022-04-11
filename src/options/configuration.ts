@@ -1,12 +1,12 @@
 import { SavedOptions } from './options';
 
-interface OptionsConfiguration<T> {
+interface OptionConfiguration<T> {
 	elementId: string;
 	defaultValue: T;
 }
 
 type NestedKeyOf<I> = {
-	[K in keyof I]: I[K] extends object ? NestedKeyOf<I[K]> | OptionsConfiguration<I[K]> : OptionsConfiguration<I[K]>;
+	[K in keyof I]: I[K] extends object ? NestedKeyOf<I[K]> : OptionConfiguration<I[K]>;
 };
 
 const CONFIGURATION: NestedKeyOf<SavedOptions> = {
