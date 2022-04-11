@@ -208,38 +208,16 @@ async function saveOptions() {
 
 	saveSuccess();
 
-	function queryId(id: string): NullIfEmpty<string> | void {
+	function getElementValueById(id: string): NullIfEmpty<string> | void {
 		const element = document.getElementById(id);
-
 		if (element && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) return element.value || null;
 	}
 
-	await chrome.storage.local.set({
-		'timeZone': queryId('timezone'),
-		'canvas.classNames.breadcrumbs': queryId('breadcrumbs'),
-		'canvas.classNames.assignment': queryId('assignment-class'),
-		'canvas.classNames.title': queryId('assignment-title'),
-		'canvas.classNames.availableDate': queryId('available-date'),
-		'canvas.classNames.availableStatus': queryId('available-status'),
-		'canvas.classNames.dueDate': queryId('due-date'),
-		'canvas.classNames.dateElement': queryId('date-element'),
-		'canvas.classValues.courseCodeN': queryId('course-code-n'),
-		'canvas.classValues.notAvailable': queryId('status-not-available'),
-		'canvas.courseCodeOverrides': queryId('course-code-overrides'),
-		'notion.notionKey': queryId('notion-key'),
-		'notion.databaseId': queryId('database-id'),
-		'notion.propertyNames.name': queryId('notion-property-name'),
-		'notion.propertyNames.category': queryId('notion-property-category'),
-		'notion.propertyNames.course': queryId('notion-property-course'),
-		'notion.propertyNames.url': queryId('notion-property-url'),
-		'notion.propertyNames.status': queryId('notion-property-status'),
-		'notion.propertyNames.available': queryId('notion-property-available'),
-		'notion.propertyNames.due': queryId('notion-property-due'),
-		'notion.propertyNames.span': queryId('notion-property-span'),
-		'notion.propertyValues.categoryCanvas': queryId('notion-category-canvas'),
-		'notion.propertyValues.statusToDo': queryId('notion-status-todo'),
-		'notion.courseEmojis': queryId('course-emojis'),
-	});
+	const fieldElementValues = Object.fromEntries(
+		Object.entries(CONFIGURATION.FIELDS).map(([field, { elementId }]) => [field, getElementValueById(elementId)]),
+	);
+
+	await chrome.storage.local.set(fieldElementValues);
 }
 
 document.addEventListener('DOMContentLoaded', restoreOptions);
@@ -249,6 +227,7 @@ const requiredFields = (<NodeListOf<HTMLInputElement>>document.querySelectorAll(
 requiredFields.forEach(element => element.addEventListener('input', verifyRequiredField));
 
 const saveButton = document.getElementById('save-button');
+
 if (saveButton) {
 	saveButton.addEventListener('click', saveOptions);
 }
