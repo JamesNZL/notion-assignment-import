@@ -223,8 +223,19 @@ function saveSuccess() {
 
 async function saveOptions() {
 	// check if any required fields are missing
-	if (Object.values(requiredFields).some(input => !input.value)) {
-		return;
+	// TODO: make this more elegant
+	if (saveButton) {
+		if (Object.values(requiredFields).some(input => !input.value)) {
+			saveButton.innerHTML = 'Missing required fields!';
+			saveButton.classList.add('red');
+			saveButton.classList.remove('green');
+			return;
+		}
+		else {
+			saveButton.innerHTML = 'Save';
+			saveButton.classList.add('green');
+			saveButton.classList.remove('red');
+		}
 	}
 
 	saveSuccess();
