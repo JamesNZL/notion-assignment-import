@@ -115,6 +115,7 @@ export async function getOptionsFromStorage(): Promise<Options> {
 	});
 } */
 
+// TODO: type known ids like in ../popup/popup.ts
 
 function queryId(id: string): NullIfEmpty<string> | void {
 	const element = document.getElementById(id);

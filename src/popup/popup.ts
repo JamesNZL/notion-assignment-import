@@ -3,29 +3,39 @@ import { exportToNotion } from './import';
 
 import { valueof, areHTMLElements } from '../types/utils';
 
-// TODO: global interface for all ids, to include eg saved-courses-list below
-
-interface Buttons {
-	'options': 'options-button';
-	'parse': 'parse-button';
-	'export': 'export-button';
-	'viewJSON': 'view-json-button';
-	'listCourses': 'list-courses-button';
-	'copyJSON': 'copy-json-button';
-	'clearStorage': 'clear-storage-button';
+// if an id ever changes in HTML, it must be updated here
+// static type checking will then be available through ElementId
+interface Elements {
+	buttons: {
+		options: 'options-button';
+		parse: 'parse-button';
+		export: 'export-button';
+		viewJSON: 'view-json-button';
+		listCourses: 'list-courses-button';
+		copyJSON: 'copy-json-button';
+		clearStorage: 'clear-storage-button';
+	};
+	elements: {
+		savedCourses: 'saved-courses-list';
+	};
 }
 
-type ButtonName = keyof Buttons;
-type ButtonId = valueof<Buttons>;
+type ButtonName = keyof Elements['buttons'];
+type ButtonId = valueof<Elements['buttons']>;
+type ElementId = ButtonId | valueof<Elements['elements']>;
 
-const buttons: Record<ButtonName, HTMLElement | null> = {
-	options: document.getElementById('options-button'),
-	parse: document.getElementById('parse-button'),
-	export: document.getElementById('export-button'),
-	viewJSON: document.getElementById('view-json-button'),
-	listCourses: document.getElementById('list-courses-button'),
-	copyJSON: document.getElementById('copy-json-button'),
-	clearStorage: document.getElementById('clear-storage-button'),
+function getElementById(id: ElementId): HTMLElement | null {
+	return document.getElementById(id);
+}
+
+const buttons: Record<ButtonName, ReturnType<typeof getElementById>> = {
+	options: getElementById('options-button'),
+	parse: getElementById('parse-button'),
+	export: getElementById('export-button'),
+	viewJSON: getElementById('view-json-button'),
+	listCourses: getElementById('list-courses-button'),
+	copyJSON: getElementById('copy-json-button'),
+	clearStorage: getElementById('clear-storage-button'),
 };
 
 function setButtonDisplay(button: HTMLElement | null, display: 'none' | 'inline-block') {
@@ -95,7 +105,7 @@ if (areHTMLElements(buttons)) {
 	});
 
 	buttons.viewJSON.addEventListener('click', async () => {
-		const savedCourses = document.getElementById('saved-courses-list');
+		const savedCourses = getElementById('saved-courses-list');
 
 		if (savedCourses) {
 			const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
@@ -137,7 +147,7 @@ if (areHTMLElements(buttons)) {
 }
 
 async function updateSavedCoursesList() {
-	const savedCourses = document.getElementById('saved-courses-list');
+	const savedCourses = getElementById('saved-courses-list');
 
 	if (savedCourses) {
 		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
