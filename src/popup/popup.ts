@@ -24,9 +24,9 @@ if (areHTMLElements(buttons)) {
 		DEFAULT: <Record<ButtonNames[number], string>>Object.fromEntries(
 			Object.entries(buttons).map(([buttonName, buttonElement]) => [buttonName, buttonElement.innerHTML]),
 		),
-		reset(button: HTMLElement, delay: number) {
+		reset(name: ButtonNames[number], delay: number) {
 			setTimeout(() => {
-				button.innerHTML = this.DEFAULT[<keyof typeof this.DEFAULT>button.id];
+				buttons[name].innerHTML = this.DEFAULT[name];
 			}, delay);
 		},
 	};
@@ -61,7 +61,7 @@ if (areHTMLElements(buttons)) {
 		updateSavedCoursesList();
 		if (courseCode) {
 			buttons.parse.innerHTML = `Saved ${courseCode}!`;
-			BUTTON_TEXT.reset(buttons.parse, 1325);
+			BUTTON_TEXT.reset('parse', 1325);
 		}
 	});
 
@@ -76,7 +76,7 @@ if (areHTMLElements(buttons)) {
 				: '';
 
 			buttons.export.innerHTML = `Imported ${createdAssignments.length} assignments!`;
-			BUTTON_TEXT.reset(buttons.export, 3500);
+			BUTTON_TEXT.reset('export', 3500);
 			alert(`Created ${createdAssignments.length} new assignments.${createdNames}`);
 		}
 	});
@@ -102,7 +102,7 @@ if (areHTMLElements(buttons)) {
 		await navigator.clipboard.writeText(JSON.stringify(savedAssignments));
 
 		buttons.copyJSON.innerHTML = 'Copied to clipboard!';
-		BUTTON_TEXT.reset(buttons.copyJSON, 1325);
+		BUTTON_TEXT.reset('copyJSON', 1325);
 	});
 
 	buttons.clearStorage.addEventListener('click', () => {
@@ -111,7 +111,7 @@ if (areHTMLElements(buttons)) {
 		if (buttons.clearStorage.innerHTML !== verifyPrompt) {
 			buttons.clearStorage.innerHTML = verifyPrompt;
 
-			return BUTTON_TEXT.reset(buttons.clearStorage, 1325);
+			return BUTTON_TEXT.reset('clearStorage', 1325);
 		}
 
 		chrome.storage.local.remove('savedAssignments');
@@ -119,7 +119,7 @@ if (areHTMLElements(buttons)) {
 		updateSavedCoursesList();
 
 		buttons.clearStorage.innerHTML = 'Cleared saved assignments!';
-		BUTTON_TEXT.reset(buttons.clearStorage, 3500);
+		BUTTON_TEXT.reset('clearStorage', 3500);
 	});
 }
 
