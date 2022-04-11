@@ -138,14 +138,6 @@ export async function getOptionsFromStorage(): Promise<Options> {
 	});
 } */
 
-// TODO: type known ids like in ../popup/popup.ts
-
-function queryId(id: string): NullIfEmpty<string> | void {
-	const element = document.getElementById(id);
-
-	if (element && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) return element.value || null;
-}
-
 async function restoreOptions() {
 	const fieldsWithDefault = Object.fromEntries(
 		Object.entries(CONFIGURATION.FIELDS).map(([field, { defaultValue }]) => [field, defaultValue]),
@@ -215,6 +207,12 @@ async function saveOptions() {
 	}
 
 	saveSuccess();
+
+	function queryId(id: string): NullIfEmpty<string> | void {
+		const element = document.getElementById(id);
+
+		if (element && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) return element.value || null;
+	}
 
 	await chrome.storage.local.set({
 		'timeZone': queryId('timezone'),
