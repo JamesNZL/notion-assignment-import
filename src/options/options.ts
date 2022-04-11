@@ -130,7 +130,7 @@ function setValueById(id: string, value: string): void {
 
 async function restoreOptions() {
 	const options = await chrome.storage.local.get({
-		'timezone': 'Pacific/Auckland',
+		'timeZone': 'Pacific/Auckland',
 		'canvas.classNames.breadcrumbs': 'ic-app-crumbs',
 		'canvas.classNames.assignment': 'assignment',
 		'canvas.classNames.title': 'ig-title',
@@ -159,7 +159,7 @@ async function restoreOptions() {
 	// TODO: fix this 💩 temp fix 😃
 
 	const _temp = {
-		'timezone': options['timezone'],
+		'timezone': options['timeZone'],
 		'breadcrumbs': options['canvas.classNames.breadcrumbs'],
 		'assignment-class': options['canvas.classNames.assignment'],
 		'assignment-title': options['canvas.classNames.title'],
@@ -229,7 +229,7 @@ async function saveOptions() {
 	saveSuccess();
 
 	await chrome.storage.local.set({
-		'timezone': queryId('timezone'),
+		'timeZone': queryId('timezone'),
 		'canvas.classNames.breadcrumbs': queryId('breadcrumbs'),
 		'canvas.classNames.assignment': queryId('assignment-class'),
 		'canvas.classNames.title': queryId('assignment-title'),

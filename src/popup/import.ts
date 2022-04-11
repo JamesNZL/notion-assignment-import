@@ -6,7 +6,7 @@ import { valueof, ArrayElement } from '../types/utils';
 
 export async function exportToNotion(): Promise<void | ParsedAssignment[]> {
 	const options = await chrome.storage.local.get({
-		'timezone': 'Pacific/Auckland',
+		'timeZone': 'Pacific/Auckland',
 		'notion.propertyNames.name': 'Name',
 		'notion.propertyNames.category': 'Category',
 		'notion.propertyNames.course': 'Course',
@@ -20,7 +20,7 @@ export async function exportToNotion(): Promise<void | ParsedAssignment[]> {
 	});
 
 	const CONSTANTS = {
-		TIMEZONE: options['timezone'] || null,
+		TIMEZONE: options['timeZone'] || null,
 		PROPERTY_NAMES: {
 			NAME: options['notion.propertyNames.name'] || null,
 			CATEGORY: options['notion.propertyNames.category'] || null,

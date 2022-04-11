@@ -18,7 +18,7 @@ export interface SavedAssignments {
 	const classSelector = (className: string): string => `.${className}`;
 
 	const options = await chrome.storage.local.get({
-		'timezone': 'Pacific/Auckland',
+		'timeZone': 'Pacific/Auckland',
 		'canvas.classNames.breadcrumbs': 'ic-app-crumbs',
 		'canvas.classNames.assignment': 'assignment',
 		'canvas.classNames.title': 'ig-title',
@@ -33,7 +33,7 @@ export interface SavedAssignments {
 	});
 
 	const CONSTANTS = {
-		TIMEZONE: options['timezone'],
+		TIMEZONE: options['timeZone'],
 		CLASSES: {
 			BREADCRUMBS: options['canvas.classNames.breadcrumbs'],
 			ASSIGNMENT: options['canvas.classNames.assignment'],
