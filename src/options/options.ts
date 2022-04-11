@@ -156,30 +156,26 @@ async function restoreOptions() {
 	});
 }
 
-function verifyRequiredField(this: HTMLInputElement) {
-	// TODO: make this more elegant
+function missingRequiredFields() {
 	if (saveButton) {
 		if (Object.values(requiredFields).some(input => !input.value)) {
 			saveButton.innerHTML = 'Missing required fields!';
 			saveButton.classList.add('red');
 			saveButton.classList.remove('green');
+			return true;
 		}
 		else {
 			saveButton.innerHTML = 'Save';
 			saveButton.classList.add('green');
 			saveButton.classList.remove('red');
+			return false;
 		}
-	}
-
-	if (!this.value) {
-		this.classList.add('missing-required');
-	}
-	else {
-		this.classList.remove('missing-required');
 	}
 }
 
-function saveSuccess() {
+async function saveOptions() {
+	if (missingRequiredFields()) return;
+
 	if (saveButton) {
 		saveButton.innerHTML = 'Saved!';
 
@@ -187,26 +183,6 @@ function saveSuccess() {
 			saveButton.innerHTML = 'Save';
 		}, 1325);
 	}
-}
-
-async function saveOptions() {
-	// check if any required fields are missing
-	// TODO: make this more elegant
-	if (saveButton) {
-		if (Object.values(requiredFields).some(input => !input.value)) {
-			saveButton.innerHTML = 'Missing required fields!';
-			saveButton.classList.add('red');
-			saveButton.classList.remove('green');
-			return;
-		}
-		else {
-			saveButton.innerHTML = 'Save';
-			saveButton.classList.add('green');
-			saveButton.classList.remove('red');
-		}
-	}
-
-	saveSuccess();
 
 	function getElementValueById(id: string): NullIfEmpty<string> | void {
 		const element = document.getElementById(id);
@@ -220,17 +196,24 @@ async function saveOptions() {
 	await chrome.storage.local.set(fieldElementValues);
 }
 
+function verifyRequiredField(this: HTMLInputElement) {
+	missingRequiredFields();
+
+	if (!this.value) {
+		this.classList.add('missing-required');
+	}
+	else {
+		this.classList.remove('missing-required');
+	}
+}
+
 document.addEventListener('DOMContentLoaded', restoreOptions);
 
 const requiredFields = (<NodeListOf<HTMLInputElement>>document.querySelectorAll('input[required]'));
-
 requiredFields.forEach(element => element.addEventListener('input', verifyRequiredField));
 
 const saveButton = document.getElementById('save-button');
-
-if (saveButton) {
-	saveButton.addEventListener('click', saveOptions);
-}
+if (saveButton) saveButton.addEventListener('click', saveOptions);
 
 document.addEventListener('keydown', keyEvent => {
 	if (keyEvent.ctrlKey && keyEvent.key === 's') {
