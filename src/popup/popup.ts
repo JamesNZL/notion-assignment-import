@@ -1,11 +1,24 @@
 import { SavedAssignments } from './parse';
 import { exportToNotion } from './import';
 
-import { areHTMLElements } from '../types/utils';
+import { valueof, areHTMLElements } from '../types/utils';
 
-type ButtonNames = ['options', 'parse', 'export', 'viewJSON', 'listCourses', 'copyJSON', 'clearStorage'];
+// TODO: global interface for all ids, to include eg saved-courses-list below
 
-const buttons: Record<ButtonNames[number], HTMLElement | null> = {
+interface Buttons {
+	'options': 'options-button';
+	'parse': 'parse-button';
+	'export': 'export-button';
+	'viewJSON': 'view-json-button';
+	'listCourses': 'list-courses-button';
+	'copyJSON': 'copy-json-button';
+	'clearStorage': 'clear-storage-button';
+}
+
+type ButtonName = keyof Buttons;
+type ButtonId = valueof<Buttons>;
+
+const buttons: Record<ButtonName, HTMLElement | null> = {
 	options: document.getElementById('options-button'),
 	parse: document.getElementById('parse-button'),
 	export: document.getElementById('export-button'),
@@ -21,12 +34,12 @@ function setButtonDisplay(button: HTMLElement | null, display: 'none' | 'inline-
 
 if (areHTMLElements(buttons)) {
 	const BUTTON_TEXT = {
-		DEFAULT: <Record<ButtonNames[number], string>>Object.fromEntries(
-			Object.entries(buttons).map(([buttonName, buttonElement]) => [buttonName, buttonElement.innerHTML]),
+		DEFAULT: <Record<ButtonId, string>>Object.fromEntries(
+			Object.values(buttons).map(button => [<ButtonId>button.id, button.innerHTML]),
 		),
-		reset(name: ButtonNames[number], delay: number) {
+		reset(button: valueof<typeof buttons>, delay: number) {
 			setTimeout(() => {
-				buttons[name].innerHTML = this.DEFAULT[name];
+				button.innerHTML = this.DEFAULT[<ButtonId>button.id];
 			}, delay);
 		},
 	};
@@ -61,7 +74,7 @@ if (areHTMLElements(buttons)) {
 		updateSavedCoursesList();
 		if (courseCode) {
 			buttons.parse.innerHTML = `Saved ${courseCode}!`;
-			BUTTON_TEXT.reset('parse', 1325);
+			BUTTON_TEXT.reset(buttons.parse, 1325);
 		}
 	});
 
@@ -76,7 +89,7 @@ if (areHTMLElements(buttons)) {
 				: '';
 
 			buttons.export.innerHTML = `Imported ${createdAssignments.length} assignments!`;
-			BUTTON_TEXT.reset('export', 3500);
+			BUTTON_TEXT.reset(buttons.export, 3500);
 			alert(`Created ${createdAssignments.length} new assignments.${createdNames}`);
 		}
 	});
@@ -102,7 +115,7 @@ if (areHTMLElements(buttons)) {
 		await navigator.clipboard.writeText(JSON.stringify(savedAssignments));
 
 		buttons.copyJSON.innerHTML = 'Copied to clipboard!';
-		BUTTON_TEXT.reset('copyJSON', 1325);
+		BUTTON_TEXT.reset(buttons.copyJSON, 1325);
 	});
 
 	buttons.clearStorage.addEventListener('click', () => {
@@ -111,7 +124,7 @@ if (areHTMLElements(buttons)) {
 		if (buttons.clearStorage.innerHTML !== verifyPrompt) {
 			buttons.clearStorage.innerHTML = verifyPrompt;
 
-			return BUTTON_TEXT.reset('clearStorage', 1325);
+			return BUTTON_TEXT.reset(buttons.clearStorage, 1325);
 		}
 
 		chrome.storage.local.remove('savedAssignments');
@@ -119,7 +132,7 @@ if (areHTMLElements(buttons)) {
 		updateSavedCoursesList();
 
 		buttons.clearStorage.innerHTML = 'Cleared saved assignments!';
-		BUTTON_TEXT.reset('clearStorage', 3500);
+		BUTTON_TEXT.reset(buttons.clearStorage, 3500);
 	});
 }
 
