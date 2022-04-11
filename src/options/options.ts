@@ -146,69 +146,22 @@ function queryId(id: string): NullIfEmpty<string> | void {
 	if (element && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) return element.value || null;
 }
 
-function setValueById(id: string, value: string): void {
-	const element = document.getElementById(id);
-
-	if (element && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) element.value = value;
-}
-
 async function restoreOptions() {
-	const options = await chrome.storage.local.get({
-		'timeZone': 'Pacific/Auckland',
-		'canvas.classNames.breadcrumbs': 'ic-app-crumbs',
-		'canvas.classNames.assignment': 'assignment',
-		'canvas.classNames.title': 'ig-title',
-		'canvas.classNames.availableDate': 'assignment-date-available',
-		'canvas.classNames.availableStatus': 'status-description',
-		'canvas.classNames.dueDate': 'assignment-date-due',
-		'canvas.classNames.dateElement': 'screenreader-only',
-		'canvas.classValues.courseCodeN': 2,
-		'canvas.classValues.notAvailable': 'Not available until',
-		'canvas.courseCodeOverrides': '{}',
-		'notion.notionKey': null,
-		'notion.databaseId': null,
-		'notion.propertyNames.name': 'Name',
-		'notion.propertyNames.category': 'Category',
-		'notion.propertyNames.course': 'Course',
-		'notion.propertyNames.url': 'URL',
-		'notion.propertyNames.status': 'Status',
-		'notion.propertyNames.available': 'Reminder',
-		'notion.propertyNames.due': 'Due',
-		'notion.propertyNames.span': 'Date Span',
-		'notion.propertyValues.categoryCanvas': 'Canvas',
-		'notion.propertyValues.statusToDo': 'To Do',
-		'notion.courseEmojis': '{}',
+	const fieldsWithDefault = Object.fromEntries(
+		Object.entries(CONFIGURATION.FIELDS).map(([field, { defaultValue }]) => [field, defaultValue]),
+	);
+
+	const savedFields = <SavedFields>await chrome.storage.local.get(fieldsWithDefault);
+
+	function setElementValueById(id: string, value: string) {
+		const element = document.getElementById(id);
+		if (element && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) element.value = value;
+	}
+
+	Object.entries(savedFields).forEach(([field, value]) => {
+		const fieldElementId = CONFIGURATION.FIELDS[<keyof typeof savedFields>field].elementId;
+		setElementValueById(fieldElementId, value);
 	});
-
-	// TODO: fix this 💩 temp fix 😃
-
-	const _temp = {
-		'timezone': options['timeZone'],
-		'breadcrumbs': options['canvas.classNames.breadcrumbs'],
-		'assignment-class': options['canvas.classNames.assignment'],
-		'assignment-title': options['canvas.classNames.title'],
-		'available-date': options['canvas.classNames.availableDate'],
-		'available-status': options['canvas.classNames.availableStatus'],
-		'due-date': options['canvas.classNames.dueDate'],
-		'date-element': options['canvas.classNames.dateElement'],
-		'course-code-n': options['canvas.classValues.courseCodeN'],
-		'status-not-available': options['canvas.classValues.notAvailable'],
-		'course-code-overrides': options['canvas.courseCodeOverrides'],
-		'notion-key': options['notion.notionKey'],
-		'database-id': options['notion.databaseId'],
-		'notion-property-name': options['notion.propertyNames.name'],
-		'notion-property-category': options['notion.propertyNames.category'],
-		'notion-property-course': options['notion.propertyNames.course'],
-		'notion-property-url': options['notion.propertyNames.url'],
-		'notion-property-status': options['notion.propertyNames.status'],
-		'notion-property-available': options['notion.propertyNames.available'],
-		'notion-property-due': options['notion.propertyNames.due'],
-		'notion-property-span': options['notion.propertyNames.span'],
-		'notion-category-canvas': options['notion.propertyValues.categoryCanvas'],
-		'notion-status-todo': options['notion.propertyValues.statusToDo'],
-		'course-emojis': options['notion.courseEmojis'],
-	};
-	Object.entries(_temp).forEach(([id, value]) => setValueById(id, value));
 }
 
 function verifyRequiredField(this: HTMLInputElement) {
