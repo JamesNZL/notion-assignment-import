@@ -9,54 +9,77 @@ type NullIfEmpty<T extends string | null> = (T extends '' ? null : T) | null;
 // TODO: enforce null if empty on save
 
 interface RequiredFields {
-	canvas: {
-		classNames: {
-			breadcrumbs: NeverEmpty<string>;
-			assignment: NeverEmpty<string>;
-			title: NeverEmpty<string>;
-			availableDate: NeverEmpty<string>;
-			availableStatus: NeverEmpty<string>;
-			dueDate: NeverEmpty<string>;
-			dateElement: NeverEmpty<string>;
-		};
-		classValues: {
-			courseCodeN: NeverEmpty<string>,
-			notAvailable: NeverEmpty<string>;
-		};
-	};
-	notion: {
-		// initialised to null, but can never be cleared once set
-		notionKey: NullIfEmpty<string>;
-		databaseId: NullIfEmpty<string>;
-	};
+	'canvas.classNames.breadcrumbs': NeverEmpty<string>;
+	'canvas.classNames.assignment': NeverEmpty<string>;
+	'canvas.classNames.title': NeverEmpty<string>;
+	'canvas.classNames.availableDate': NeverEmpty<string>;
+	'canvas.classNames.availableStatus': NeverEmpty<string>;
+	'canvas.classNames.dueDate': NeverEmpty<string>;
+	'canvas.classNames.dateElement': NeverEmpty<string>;
+	'canvas.classValues.courseCodeN': NeverEmpty<string>,
+	'canvas.classValues.notAvailable': NeverEmpty<string>;
+	// initialised to null, but can never be cleared once set
+	'notion.notionKey': NullIfEmpty<string>;
+	'notion.databaseId': NullIfEmpty<string>;
 }
 
 interface OptionalFields {
 	// TODO: validate before save
-	timeZone: NullIfEmpty<NonNullable<TimeZoneRequest>>;
-	canvas: {
-		courseCodeOverrides: NullIfEmpty<string>;
-	};
-	notion: {
-		propertyNames: {
-			name: NullIfEmpty<string>;
-			category: NullIfEmpty<string>;
-			course: NullIfEmpty<string>;
-			url: NullIfEmpty<string>;
-			status: NullIfEmpty<string>;
-			available: NullIfEmpty<string>;
-			due: NullIfEmpty<string>;
-			span: NullIfEmpty<string>;
-		};
-		propertyValues: {
-			categoryCanvas: NullIfEmpty<string>;
-			statusToDo: NullIfEmpty<string>;
-		};
-		courseEmojis: NullIfEmpty<string>;
-	};
+	'timeZone': NullIfEmpty<NonNullable<TimeZoneRequest>>;
+	'canvas.courseCodeOverrides': NullIfEmpty<string>;
+	'notion.propertyNames.name': NullIfEmpty<string>;
+	'notion.propertyNames.category': NullIfEmpty<string>;
+	'notion.propertyNames.course': NullIfEmpty<string>;
+	'notion.propertyNames.url': NullIfEmpty<string>;
+	'notion.propertyNames.status': NullIfEmpty<string>;
+	'notion.propertyNames.available': NullIfEmpty<string>;
+	'notion.propertyNames.due': NullIfEmpty<string>;
+	'notion.propertyNames.span': NullIfEmpty<string>;
+	'notion.propertyValues.categoryCanvas': NullIfEmpty<string>;
+	'notion.propertyValues.statusToDo': NullIfEmpty<string>;
+	'notion.courseEmojis': NullIfEmpty<string>;
 }
 
-export type SavedOptions = RequiredFields & OptionalFields;
+export type SavedFields = RequiredFields & OptionalFields;
+
+export type SavedOptions = {
+	timeZone: OptionalFields['timeZone'];
+	canvas: {
+		classNames: {
+			breadcrumbs: RequiredFields['canvas.classNames.breadcrumbs'];
+			assignment: RequiredFields['canvas.classNames.assignment'];
+			title: RequiredFields['canvas.classNames.title'];
+			availableDate: RequiredFields['canvas.classNames.availableDate'];
+			availableStatus: RequiredFields['canvas.classNames.availableStatus'];
+			dueDate: RequiredFields['canvas.classNames.dueDate'];
+			dateElement: RequiredFields['canvas.classNames.dateElement'];
+		},
+		classValues: {
+			courseCodeN: RequiredFields['canvas.classValues.courseCodeN'];
+			notAvailable: RequiredFields['canvas.classValues.notAvailable'];
+		},
+		courseCodeOverrides: OptionalFields['canvas.courseCodeOverrides'];
+	},
+	notion: {
+		notionKey: RequiredFields['notion.notionKey'];
+		databaseId: RequiredFields['notion.databaseId'];
+		propertyNames: {
+			name: OptionalFields['notion.propertyNames.name'];
+			category: OptionalFields['notion.propertyNames.category'];
+			course: OptionalFields['notion.propertyNames.course'];
+			url: OptionalFields['notion.propertyNames.url'];
+			status: OptionalFields['notion.propertyNames.status'];
+			available: OptionalFields['notion.propertyNames.available'];
+			due: OptionalFields['notion.propertyNames.due'];
+			span: OptionalFields['notion.propertyNames.span'];
+		},
+		propertyValues: {
+			categoryCanvas: OptionalFields['notion.propertyValues.categoryCanvas'];
+			statusToDo: OptionalFields['notion.propertyValues.statusToDo'];
+		},
+		courseEmojis: OptionalFields['notion.courseEmojis'];
+	},
+};
 
 export type Options = ModifyDeep<SavedOptions, {
 	canvas: {
