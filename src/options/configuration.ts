@@ -41,7 +41,8 @@ const CONFIGURATION: {
 			return [[<keyof SavedFields>keyPath, valueObject]];
 		}
 
-		return Object.fromEntries(
+		delete (<Partial<typeof this>>this).FIELDS;
+		return this.FIELDS = Object.fromEntries(
 			(Object.entries(CONFIGURATION.OPTIONS) as Parameters<typeof flattenOptions>).flatMap(flattenOptions),
 		) as Record<keyof SavedFields, OptionConfiguration<unknown>>;
 	},
