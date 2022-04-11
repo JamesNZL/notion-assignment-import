@@ -5,11 +5,11 @@ interface OptionConfiguration<T> {
 	defaultValue: T;
 }
 
-type NestedKeyOf<I> = {
-	[K in keyof I]: I[K] extends object ? NestedKeyOf<I[K]> : OptionConfiguration<I[K]>;
+type NestedConfigurationsOf<I> = {
+	[K in keyof I]: I[K] extends object ? NestedConfigurationsOf<I[K]> : OptionConfiguration<I[K]>;
 };
 
-const CONFIGURATION: NestedKeyOf<SavedOptions> = {
+const CONFIGURATION: NestedConfigurationsOf<SavedOptions> = {
 	timeZone: {
 		elementId: 'timezone',
 		defaultValue: 'Pacific/Auckland',
