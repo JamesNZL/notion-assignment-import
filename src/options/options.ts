@@ -26,7 +26,8 @@ interface RequiredFields {
 interface OptionalFields {
 	// TODO: validate before save
 	'timeZone': NullIfEmpty<NonNullable<TimeZoneRequest>>;
-	'canvas.courseCodeOverrides': NullIfEmpty<string>;
+	// TODO: replace empty string with empty '{}' on save
+	'canvas.courseCodeOverrides': NeverEmpty<string>;
 	'notion.propertyNames.name': NullIfEmpty<string>;
 	'notion.propertyNames.category': NullIfEmpty<string>;
 	'notion.propertyNames.course': NullIfEmpty<string>;
@@ -37,7 +38,8 @@ interface OptionalFields {
 	'notion.propertyNames.span': NullIfEmpty<string>;
 	'notion.propertyValues.categoryCanvas': NullIfEmpty<string>;
 	'notion.propertyValues.statusToDo': NullIfEmpty<string>;
-	'notion.courseEmojis': NullIfEmpty<string>;
+	// TODO: replace empty string with empty '{}' on save
+	'notion.courseEmojis': NeverEmpty<string>;
 }
 
 export type SavedFields = RequiredFields & OptionalFields;
