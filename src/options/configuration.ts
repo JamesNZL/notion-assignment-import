@@ -10,8 +10,8 @@ interface OptionConfiguration<T> {
 }
 
 function isOptionConfiguration(object: NestedConfigurationsOf<unknown> | OptionConfiguration<unknown>): object is OptionConfiguration<unknown> {
-	const configurationProperties: (keyof OptionConfiguration<unknown>)[] = ['elementId', 'defaultValue'];
-	return Object.keys(object).every(key => (<string[]>configurationProperties).includes(key));
+	const configurationProperties: (keyof OptionConfiguration<unknown>)[] = ['elementId', 'defaultValue', 'inputValidator'];
+	return (<string[]>configurationProperties).every(key => Object.keys(object).includes(key));
 }
 
 type NestedConfigurationsOf<I> = {
