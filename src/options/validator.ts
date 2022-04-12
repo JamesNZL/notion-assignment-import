@@ -61,9 +61,9 @@ export abstract class InputValidator {
 	}
 
 	private static disableSaveButton() {
-		// TODO: html disabled?
-		if (InputValidator.saveButton) {
+		if (InputValidator.saveButton && InputValidator.saveButton instanceof HTMLButtonElement) {
 			InputValidator.saveButton.innerHTML = `${InputValidator.invalidFields.size} invalid input${(InputValidator.invalidFields.size > 1) ? 's' : ''}!`;
+			InputValidator.saveButton.disabled = true;
 			InputValidator.saveButton.classList.add('red');
 			InputValidator.saveButton.classList.remove('green');
 		}
@@ -72,8 +72,9 @@ export abstract class InputValidator {
 	private static restoreSaveButton() {
 		if (InputValidator.invalidFields.size > 0) return InputValidator.disableSaveButton();
 
-		if (InputValidator.saveButton) {
+		if (InputValidator.saveButton && InputValidator.saveButton instanceof HTMLButtonElement) {
 			InputValidator.saveButton.innerHTML = 'Save';
+			InputValidator.saveButton.disabled = false;
 			InputValidator.saveButton.classList.add('green');
 			InputValidator.saveButton.classList.remove('red');
 		}

@@ -146,6 +146,10 @@ button.outline.green:hover {
 	color: black;
 }
 
+button:disabled {
+	cursor: not-allowed;
+}
+
 #options a {
 	color: rgba(255, 255, 255, .5);
 	text-decoration: none;
