@@ -1,5 +1,5 @@
 import { NullIfEmpty, SavedFields, Options } from './';
-import { InputValidator } from './validator';
+import { InputValidatorConstructor, InputValidator } from './validator';
 import CONFIGURATION from './configuration';
 
 async function getFields(): Promise<SavedFields> {
@@ -75,41 +75,54 @@ async function restoreOptions() {
 	});
 }
 
-async function saveOptions() {
+function validateElementInput(elementId: string, inputValidator: InputValidatorConstructor) {
 	function getElementValueById(id: string): NullIfEmpty<string> | void {
 		const element = document.getElementById(id);
 		if (element && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) return element.value.trim() || null;
 	}
 
+	const inputValue = getElementValueById(elementId) ?? null;
+
+	return new inputValidator(elementId, inputValue).validate();
+}
+
+function getFieldInputs(): Record<keyof SavedFields, NullIfEmpty<string>> | null {
 	const fieldEntries = Object.fromEntries(
 		Object.entries(CONFIGURATION.FIELDS).map(([field, { elementId, inputValidator }]) => {
-			const inputValue = getElementValueById(elementId) ?? null;
-			const validatedInput = new inputValidator(elementId, inputValue).validate();
+			const validatedInput = validateElementInput(elementId, inputValidator);
 			return [field, validatedInput];
 		}),
 	);
 
-	if (Object.values(fieldEntries).some(value => value === InputValidator.INVALID_INPUT)) return;
+	if (Object.values(fieldEntries).every(value => value !== InputValidator.INVALID_INPUT)) return <Record<keyof SavedFields, NullIfEmpty<string>>>fieldEntries;
 
-	await chrome.storage.local.set(fieldEntries);
+	return null;
+}
 
-	if (saveButton) {
-		saveButton.innerHTML = 'Saved!';
+async function saveOptions() {
+	const fieldEntries = getFieldInputs();
 
-		setTimeout(() => {
-			saveButton.innerHTML = 'Save';
-		}, 1325);
+	if (fieldEntries) {
+		await chrome.storage.local.set(fieldEntries);
+
+		if (saveButton) {
+			saveButton.innerHTML = 'Saved!';
+
+			setTimeout(() => {
+				saveButton.innerHTML = 'Save';
+			}, 1325);
+		}
+
+		restoreOptions();
 	}
-
-	restoreOptions();
 }
 
 document.addEventListener('DOMContentLoaded', restoreOptions);
 
-// TODO: ensure required fields are checked on input
-// TODO: maybe do this by running validateFields() on every input or something?
-// const requiredFields = (<NodeListOf<HTMLInputElement>>document.querySelectorAll('input[required]'));
-// requiredFields.forEach(element => element.addEventListener('input', () => new Input()));
+// validate fields on input
+Object.values(CONFIGURATION.FIELDS).forEach(({ elementId, inputValidator }) => {
+	document.getElementById(elementId)?.addEventListener('input', () => validateElementInput(elementId, inputValidator));
+});
 
 const saveButton = document.getElementById('save-button');
 if (saveButton) saveButton.addEventListener('click', saveOptions);

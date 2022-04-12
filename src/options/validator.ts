@@ -17,6 +17,8 @@ const typeGuards: Record<string, TypeGuard> = {
 	},
 };
 
+export type InputValidatorConstructor = new (elementId: string, inputValue: NullIfEmpty<string>) => InputValidator;
+
 export abstract class InputValidator {
 	public static readonly INVALID_INPUT: unique symbol = Symbol('INVALID_INPUT');
 
@@ -124,36 +126,4 @@ export class JSONEmojiObjectInput extends JSONObjectInput {
 	}
 }
 
-// class Field extends Input<T> {
-// 	/* private static fieldTypes: Record<keyof RequiredFields, Input<unknown>> & Partial<Record<keyof OptionalFields, Input<unknown>>> = {
-// 		'canvas.classNames.breadcrumbs': RequiredStringInput,
-// 		'canvas.classNames.assignment': RequiredStringInput,
-// 		'canvas.classNames.title': RequiredStringInput,
-// 		'canvas.classNames.availableDate': RequiredStringInput,
-// 		'canvas.classNames.availableStatus': RequiredStringInput,
-// 		'canvas.classNames.dueDate': RequiredStringInput,
-// 		'canvas.classNames.dateElement': RequiredStringInput,
-// 		'canvas.classValues.notAvailable': RequiredStringInput,
-// 		'notion.notionKey': RequiredStringInput,
-// 		'notion.databaseId': RequiredStringInput,
-// 		'canvas.classValues.courseCodeN': RequiredNumberInput,
-// 		'canvas.courseCodeOverrides': JSONStringObjectInput,
-// 		'notion.courseEmojis': JSONEmojiObjectInput,
-// 	}; */
-
-// 	protected field: keyof SavedFields;
-
-// 	public constructor(field: keyof SavedFields, elementId: string, inputValue: NullIfEmpty<string>) {
-
-// 		this.field = field;
-// 	}
-
-// 	public validateField(): ReturnType<Validator> {
-// 		if (Field.fieldTypes[this.field]) {
-// 			const a = new <Field>(Field.fieldTypes[this.field])(this.field);
-// 		}
-// 	}
-// }
-
-// const requiredFields = (<NodeListOf<HTMLInputElement>>document.querySelectorAll('input[required]'));
 // const saveButton = document.getElementById('save-button');

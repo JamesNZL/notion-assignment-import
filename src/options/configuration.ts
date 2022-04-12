@@ -1,12 +1,19 @@
-import { NullIfEmpty, SavedFields, SavedOptions } from './';
-import { InputValidator, JSONEmojiObjectInput, JSONStringObjectInput, RequiredNumberInput, RequiredStringInput, StringInput } from './validator';
+import { SavedFields, SavedOptions } from './';
+import {
+	InputValidatorConstructor,
+	JSONEmojiObjectInput,
+	JSONStringObjectInput,
+	RequiredNumberInput,
+	RequiredStringInput,
+	StringInput,
+} from './validator';
 
 import { valueof } from '../types/utils';
 
 interface OptionConfiguration<T> {
 	elementId: string;
 	defaultValue: T;
-	inputValidator: { new(elementId: string, inputValue: NullIfEmpty<string>): InputValidator; };
+	inputValidator: InputValidatorConstructor;
 }
 
 function isOptionConfiguration(object: NestedConfigurationsOf<unknown> | OptionConfiguration<unknown>): object is OptionConfiguration<unknown> {
