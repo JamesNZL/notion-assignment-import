@@ -1,41 +1,12 @@
 import { CreatePageParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
 import { EmojiRequest, NotionHandler } from '../api-handlers/notion';
+import { getOptions } from '../options/options';
 import { ParsedAssignment, SavedAssignments } from './parse';
 
 import { valueof, ArrayElement } from '../types/utils';
 
 export async function exportToNotion(): Promise<void | ParsedAssignment[]> {
-	const options = await chrome.storage.local.get({
-		'timeZone': 'Pacific/Auckland',
-		'notion.propertyNames.name': 'Name',
-		'notion.propertyNames.category': 'Category',
-		'notion.propertyNames.course': 'Course',
-		'notion.propertyNames.url': 'URL',
-		'notion.propertyNames.status': 'Status',
-		'notion.propertyNames.available': 'Reminder',
-		'notion.propertyNames.due': 'Due',
-		'notion.propertyNames.span': 'Date Span',
-		'notion.propertyValues.categoryCanvas': 'Canvas',
-		'notion.propertyValues.statusToDo': 'To Do',
-	});
-
-	const CONSTANTS = {
-		TIMEZONE: options['timeZone'] || null,
-		PROPERTY_NAMES: {
-			NAME: options['notion.propertyNames.name'] || null,
-			CATEGORY: options['notion.propertyNames.category'] || null,
-			COURSE: options['notion.propertyNames.course'] || null,
-			URL: options['notion.propertyNames.url'] || null,
-			STATUS: options['notion.propertyNames.status'] || null,
-			AVAIALBLE: options['notion.propertyNames.available'] || null,
-			DUE: options['notion.propertyNames.due'] || null,
-			SPAN: options['notion.propertyNames.span'] || null,
-		},
-		PROPERTY_VALUES: {
-			CATEGORY_CANVAS: options['notion.propertyValues.categoryCanvas'] || null,
-			STATUS_TO_DO: options['notion.propertyValues.statusToDo'] || null,
-		},
-	};
+	const { notion: options } = await getOptions();
 
 	class SavedAssignment implements ParsedAssignment {
 		private assignment: ParsedAssignment;
@@ -78,7 +49,7 @@ export async function exportToNotion(): Promise<void | ParsedAssignment[]> {
 
 		public notionPageParameters(databaseId: string): CreatePageParameters {
 			const _properties: CreatePageParameters['properties'] = {
-				[CONSTANTS.PROPERTY_NAMES.NAME ?? '']: {
+				[options.propertyNames.name ?? '']: {
 					title: [
 						{
 							text: {
@@ -87,37 +58,37 @@ export async function exportToNotion(): Promise<void | ParsedAssignment[]> {
 						},
 					],
 				},
-				[CONSTANTS.PROPERTY_NAMES.CATEGORY ?? '']: {
-					select: SavedAssignment.verifySelectValue(CONSTANTS.PROPERTY_VALUES.CATEGORY_CANVAS),
+				[options.propertyNames.category ?? '']: {
+					select: SavedAssignment.verifySelectValue(options.propertyValues.categoryCanvas),
 				},
-				[CONSTANTS.PROPERTY_NAMES.COURSE ?? '']: {
+				[options.propertyNames.course ?? '']: {
 					select: {
 						name: this.course,
 					},
 				},
-				[CONSTANTS.PROPERTY_NAMES.URL ?? '']: {
+				[options.propertyNames.url ?? '']: {
 					url: this.url,
 				},
-				[CONSTANTS.PROPERTY_NAMES.STATUS ?? '']: {
-					select: SavedAssignment.verifySelectValue(CONSTANTS.PROPERTY_VALUES.STATUS_TO_DO),
+				[options.propertyNames.status ?? '']: {
+					select: SavedAssignment.verifySelectValue(options.propertyValues.statusToDo),
 				},
-				[CONSTANTS.PROPERTY_NAMES.AVAIALBLE ?? '']: {
+				[options.propertyNames.available ?? '']: {
 					date: {
 						start: this.available,
-						time_zone: CONSTANTS.TIMEZONE,
+						time_zone: options.timeZone,
 					},
 				},
-				[CONSTANTS.PROPERTY_NAMES.DUE ?? '']: {
+				[options.propertyNames.due ?? '']: {
 					date: {
 						start: this.due,
-						time_zone: CONSTANTS.TIMEZONE,
+						time_zone: options.timeZone,
 					},
 				},
-				[CONSTANTS.PROPERTY_NAMES.SPAN ?? '']: {
+				[options.propertyNames.span ?? '']: {
 					date: {
 						start: this.available,
 						end: this.due,
-						time_zone: CONSTANTS.TIMEZONE,
+						time_zone: options.timeZone,
 					},
 				},
 			};
@@ -149,11 +120,11 @@ export async function exportToNotion(): Promise<void | ParsedAssignment[]> {
 		}
 
 		public get course(): string | undefined {
-			if (!CONSTANTS.PROPERTY_NAMES.COURSE) return undefined;
+			if (!options.propertyNames.course) return undefined;
 
-			if ('properties' in this.assignment && CONSTANTS.PROPERTY_NAMES.COURSE in this.assignment.properties) {
+			if ('properties' in this.assignment && options.propertyNames.course in this.assignment.properties) {
 				// Extract the course property from the page
-				const courseProperty = this.assignment.properties[CONSTANTS.PROPERTY_NAMES.COURSE];
+				const courseProperty = this.assignment.properties[options.propertyNames.course];
 
 				// If the course property is a select property, return its name
 				if ('select' in courseProperty) return courseProperty.select?.name;
@@ -164,10 +135,10 @@ export async function exportToNotion(): Promise<void | ParsedAssignment[]> {
 		}
 
 		public get url(): string | undefined {
-			if (!CONSTANTS.PROPERTY_NAMES.URL) return undefined;
+			if (!options.propertyNames.url) return undefined;
 
-			if ('properties' in this.assignment && CONSTANTS.PROPERTY_NAMES.URL in this.assignment.properties) {
-				const urlProperty = this.assignment.properties[CONSTANTS.PROPERTY_NAMES.URL];
+			if ('properties' in this.assignment && options.propertyNames.url in this.assignment.properties) {
+				const urlProperty = this.assignment.properties[options.propertyNames.url];
 
 				if ('url' in urlProperty && urlProperty?.url) return urlProperty.url;
 			}
@@ -187,12 +158,12 @@ export async function exportToNotion(): Promise<void | ParsedAssignment[]> {
 		}
 
 		async function queryNotionAssignments(): Promise<void | NotionAssignment[]> {
-			const filterForCanvasAssignments = (CONSTANTS.PROPERTY_NAMES.CATEGORY)
+			const filterForCanvasAssignments = (options.propertyNames.category)
 				? {
-					property: CONSTANTS.PROPERTY_NAMES.CATEGORY,
-					select: (CONSTANTS.PROPERTY_VALUES.CATEGORY_CANVAS)
+					property: options.propertyNames.category,
+					select: (options.propertyValues.categoryCanvas)
 						? {
-							equals: CONSTANTS.PROPERTY_VALUES.CATEGORY_CANVAS,
+							equals: options.propertyValues.categoryCanvas,
 						}
 						: {
 							is_empty: <const>true,
@@ -215,20 +186,18 @@ export async function exportToNotion(): Promise<void | ParsedAssignment[]> {
 
 	// Set up Notion API handler
 
-	const { 'notion.notionKey': NOTION_KEY, 'notion.databaseId': DATABASE_ID } = await chrome.storage.local.get(['notion.notionKey', 'notion.databaseId']);
+	if (!options.notionKey || !options.databaseId) return alert('Invalid Notion Integration Key or Database ID.\n\nRefer to the extension set-up instructions on GitHub for more information.');
 
-	if (!NOTION_KEY || !DATABASE_ID) return alert('Invalid Notion Integration Key or Database ID.\n\nRefer to the extension set-up instructions on GitHub for more information.');
-
-	const notionHandler = new NotionHandler({ auth: NOTION_KEY });
+	const notionHandler = new NotionHandler({ auth: options.notionKey });
 
 	// Create assignments
 
-	const assignments = await getNewAssignments(DATABASE_ID);
+	const assignments = await getNewAssignments(options.databaseId);
 	let errorCount = 0;
 
 	const createdAssignments = await Promise.all(
 		assignments.map(async assignment => {
-			const page = await notionHandler.createPage(assignment.notionPageParameters(DATABASE_ID));
+			const page = await notionHandler.createPage(assignment.notionPageParameters(<NonNullable<typeof options.databaseId>>options.databaseId));
 
 			if (page) {
 				console.log(`Created assignment ${assignment.course} ${assignment.name}`);

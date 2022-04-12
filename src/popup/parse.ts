@@ -1,5 +1,6 @@
 import { parseDate } from 'chrono-node';
 import { EmojiRequest } from '../api-handlers/notion';
+import { getOptions } from '../options/options';
 
 export interface ParsedAssignment {
 	name: string;
@@ -15,50 +16,9 @@ export interface SavedAssignments {
 }
 
 (async function parseAssignments(): Promise<void> {
-	const classSelector = (className: string): string => `.${className}`;
-
-	const options = await chrome.storage.local.get({
-		'timeZone': 'Pacific/Auckland',
-		'canvas.classNames.breadcrumbs': 'ic-app-crumbs',
-		'canvas.classNames.assignment': 'assignment',
-		'canvas.classNames.title': 'ig-title',
-		'canvas.classNames.availableDate': 'assignment-date-available',
-		'canvas.classNames.availableStatus': 'status-description',
-		'canvas.classNames.dueDate': 'assignment-date-due',
-		'canvas.classNames.dateElement': 'screenreader-only',
-		'canvas.classValues.courseCodeN': 2,
-		'canvas.classValues.notAvailable': 'Not available until',
-		'canvas.courseCodeOverrides': '{}',
-		'notion.courseEmojis': '{}',
-	});
-
-	const CONSTANTS = {
-		TIMEZONE: options['timeZone'],
-		CLASSES: {
-			BREADCRUMBS: options['canvas.classNames.breadcrumbs'],
-			ASSIGNMENT: options['canvas.classNames.assignment'],
-			TITLE: options['canvas.classNames.title'],
-			AVAILABLE_DATE: options['canvas.classNames.availableDate'],
-			AVAILABLE_STATUS: options['canvas.classNames.availableStatus'],
-			DUE_DATE: options['canvas.classNames.dueDate'],
-			SCREENREADER_ONLY: options['canvas.classNames.dateElement'],
-		},
-		SELECTORS: {
-			get COURSE_CODE() { return `${classSelector(CONSTANTS.CLASSES.BREADCRUMBS)} li:nth-of-type(${CONSTANTS.VALUES.COURSE_CODE_N}) span`; },
-			get AVAILABLE_STATUS() { return `${classSelector(CONSTANTS.CLASSES.AVAILABLE_DATE)} ${classSelector(CONSTANTS.CLASSES.AVAILABLE_STATUS)}`; },
-			get AVAILABLE_DATE() { return `${classSelector(CONSTANTS.CLASSES.AVAILABLE_DATE)} ${classSelector(CONSTANTS.CLASSES.SCREENREADER_ONLY)}`; },
-			get DUE_DATE() { return `${classSelector(CONSTANTS.CLASSES.DUE_DATE)} ${classSelector(CONSTANTS.CLASSES.SCREENREADER_ONLY)}`; },
-		},
-		VALUES: {
-			COURSE_CODE_N: options['canvas.classValues.courseCodeN'],
-			NOT_AVAILABLE_STATUS: options['canvas.classValues.notAvailable'],
-		},
-	};
+	const options = await getOptions();
 
 	class CanvasAssignment {
-		public static courseCodeOverrides = CanvasAssignment.parseOption(options['canvas.courseCodeOverrides'], 'Canvas Course Code Overrides');
-		public static courseEmojis = CanvasAssignment.parseOption(options['notion.courseEmojis'], 'Notion Course Emojis');
-
 		private static validSelectors = new Set();
 		private static invalidSelectors = new Set();
 
@@ -107,7 +67,7 @@ export interface SavedAssignments {
 				return date;
 			}
 
-			return roundToNextHour(new Date()).toLocaleString('en-US', { timeZone: CONSTANTS.TIMEZONE ?? undefined });
+			return roundToNextHour(new Date()).toLocaleString('en-US', { timeZone: options.timeZone ?? undefined });
 		}
 
 		public constructor(assignment: NonNullable<ReturnType<Element['querySelector']>>) {
@@ -151,7 +111,7 @@ export interface SavedAssignments {
 		}
 
 		private parseTitle(): void | HTMLAnchorElement {
-			const title = this.queryRequired(classSelector(CONSTANTS.CLASSES.TITLE));
+			const title = this.queryRequired(`.${options.canvas.classNames.title}`);
 			return <HTMLAnchorElement>title;
 		}
 
@@ -160,13 +120,13 @@ export interface SavedAssignments {
 		}
 
 		private parseCourse(): string | 'Unknown Course Code' {
-			const parsedCourseCode = CanvasAssignment.querySelector(document, CONSTANTS.SELECTORS.COURSE_CODE)?.innerHTML ?? 'Unknown Course Code';
+			const parsedCourseCode = CanvasAssignment.querySelector(document, options.canvas.selectors.courseCode)?.innerHTML ?? 'Unknown Course Code';
 
-			return CanvasAssignment.courseCodeOverrides?.[parsedCourseCode] ?? parsedCourseCode;
+			return options.canvas.courseCodeOverrides[parsedCourseCode] ?? parsedCourseCode;
 		}
 
 		private queryIcon(): EmojiRequest | null {
-			return CanvasAssignment.courseEmojis?.[this.course] ?? null;
+			return options.notion.courseEmojis[this.course] ?? null;
 		}
 
 		private parseURL(): string | '' {
@@ -174,22 +134,22 @@ export interface SavedAssignments {
 		}
 
 		private parseAvailable(): string {
-			const availableStatus = CanvasAssignment.querySelector(this.assignment, CONSTANTS.SELECTORS.AVAILABLE_STATUS, false);
-			const availableDate = CanvasAssignment.querySelector(this.assignment, CONSTANTS.SELECTORS.AVAILABLE_DATE, false);
+			const availableStatus = CanvasAssignment.querySelector(this.assignment, options.canvas.selectors.availableStatus, false);
+			const availableDate = CanvasAssignment.querySelector(this.assignment, options.canvas.selectors.availableDate, false);
 
 			// If the AVAILABLE_STATUS class actually contains the 'available until' date, return an empty string
-			const availableString = (availableStatus?.textContent?.trim() !== CONSTANTS.VALUES.NOT_AVAILABLE_STATUS)
+			const availableString = (availableStatus?.textContent?.trim() !== options.canvas.classValues.notAvailable)
 				? CanvasAssignment.getNextHour()
 				: availableDate?.textContent?.trim() ?? CanvasAssignment.getNextHour();
 
-			return parseDate(availableString, { timezone: CONSTANTS.TIMEZONE ?? undefined }).toISOString();
+			return parseDate(availableString, { timezone: options.timeZone ?? undefined }).toISOString();
 		}
 
 		private parseDue(): string | '' {
-			const dueString = this.queryRequired(CONSTANTS.SELECTORS.DUE_DATE, false)?.textContent?.trim();
+			const dueString = this.queryRequired(options.canvas.selectors.dueDate, false)?.textContent?.trim();
 
 			if (dueString) {
-				const dueDate = parseDate(dueString, { timezone: CONSTANTS.TIMEZONE ?? undefined });
+				const dueDate = parseDate(dueString, { timezone: options.timeZone ?? undefined });
 
 				if (dueDate.valueOf() > Date.now()) return dueDate.toISOString();
 				else this.setInvalid();
@@ -200,7 +160,7 @@ export interface SavedAssignments {
 		}
 	}
 
-	const assignments = document.getElementsByClassName(CONSTANTS.CLASSES.ASSIGNMENT);
+	const assignments = document.getElementsByClassName(options.canvas.classNames.assignment);
 
 	if (!assignments.length) return alert('No Canvas assignments were found on this page.\n\nPlease ensure this is a valid Canvas Course Assignments page.\n\nIf this is a Canvas Assignments page, the configured Canvas Class Names options may be incorrect.');
 
