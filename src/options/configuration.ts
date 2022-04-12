@@ -1,11 +1,11 @@
 import { SavedFields, SavedOptions } from './';
 import {
 	InputValidatorConstructor,
-	JSONEmojiObjectInput,
-	JSONStringObjectInput,
-	RequiredNumberInput,
-	RequiredStringInput,
 	StringInput,
+	RequiredStringInput,
+	RequiredNumberInput,
+	JSONStringObjectInput,
+	JSONEmojiObjectInput,
 } from './validator';
 
 import { valueof } from '../types/utils';
