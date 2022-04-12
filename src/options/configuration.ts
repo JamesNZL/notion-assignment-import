@@ -1,10 +1,12 @@
-import { SavedFields, SavedOptions } from './';
+import { NullIfEmpty, SavedFields, SavedOptions } from './';
+import { InputValidator, JSONEmojiObjectInput, JSONStringObjectInput, RequiredNumberInput, RequiredStringInput, StringInput } from './validator';
 
 import { valueof } from '../types/utils';
 
 interface OptionConfiguration<T> {
 	elementId: string;
 	defaultValue: T;
+	inputValidator: { new(elementId: string, inputValue: NullIfEmpty<string>): InputValidator; };
 }
 
 function isOptionConfiguration(object: NestedConfigurationsOf<unknown> | OptionConfiguration<unknown>): object is OptionConfiguration<unknown> {
@@ -50,109 +52,133 @@ const CONFIGURATION: {
 		timeZone: {
 			elementId: 'timezone',
 			defaultValue: 'Pacific/Auckland',
+			inputValidator: StringInput,
 		},
 		canvas: {
 			classNames: {
 				breadcrumbs: {
 					elementId: 'breadcrumbs',
 					defaultValue: 'ic-app-crumbs',
+					inputValidator: RequiredStringInput,
 				},
 				assignment: {
 					elementId: 'assignment-class',
 					defaultValue: 'assignment',
+					inputValidator: RequiredStringInput,
 				},
 				title: {
 					elementId: 'assignment-title',
 					defaultValue: 'ig-title',
+					inputValidator: RequiredStringInput,
 				},
 				availableDate: {
 					elementId: 'available-date',
 					defaultValue: 'assignment-date-available',
+					inputValidator: RequiredStringInput,
 				},
 				availableStatus: {
 					elementId: 'available-status',
 					defaultValue: 'status-description',
+					inputValidator: RequiredStringInput,
 				},
 				dueDate: {
 					elementId: 'due-date',
 					defaultValue: 'assignment-date-due',
+					inputValidator: RequiredStringInput,
 				},
 				dateElement: {
 					elementId: 'date-element',
 					defaultValue: 'screenreader-only',
+					inputValidator: RequiredStringInput,
 				},
 			},
 			classValues: {
 				courseCodeN: {
 					elementId: 'course-code-n',
 					defaultValue: '2',
+					inputValidator: RequiredNumberInput,
 				},
 				notAvailable: {
 					elementId: 'status-not-available',
 					defaultValue: 'Not available until',
+					inputValidator: RequiredStringInput,
 				},
 			},
 			courseCodeOverrides: {
 				elementId: 'course-code-overrides',
 				defaultValue: '{}',
+				inputValidator: JSONStringObjectInput,
 			},
 		},
 		notion: {
 			notionKey: {
 				elementId: 'notion-key',
 				defaultValue: null,
+				inputValidator: RequiredStringInput,
 			},
 			databaseId: {
 				elementId: 'database-id',
 				defaultValue: null,
+				inputValidator: RequiredStringInput,
 			},
 			propertyNames: {
 				name: {
 					elementId: 'notion-property-name',
 					defaultValue: 'Name',
+					inputValidator: StringInput,
 				},
 				category: {
 					elementId: 'notion-property-category',
 					defaultValue: 'Category',
+					inputValidator: StringInput,
 				},
 				course: {
 					elementId: 'notion-property-course',
 					defaultValue: 'Course',
+					inputValidator: StringInput,
 				},
 				url: {
 					elementId: 'notion-property-url',
 					defaultValue: 'URL',
+					inputValidator: StringInput,
 				},
 				status: {
 					elementId: 'notion-property-status',
 					defaultValue: 'Status',
+					inputValidator: StringInput,
 				},
 				available: {
 					elementId: 'notion-property-available',
 					defaultValue: 'Reminder',
+					inputValidator: StringInput,
 				},
 				due: {
 					elementId: 'notion-property-due',
 					defaultValue: 'Due',
+					inputValidator: StringInput,
 				},
 				span: {
 					elementId: 'notion-property-span',
 					defaultValue: 'Date Span',
+					inputValidator: StringInput,
 				},
 			},
 			propertyValues: {
 				categoryCanvas: {
 					elementId: 'notion-category-canvas',
 					defaultValue: 'Canvas',
+					inputValidator: StringInput,
 				},
 				statusToDo: {
 					elementId: 'notion-status-todo',
 					defaultValue: 'To Do',
+					inputValidator: StringInput,
 				},
 			},
 			courseEmojis: {
 				elementId: 'course-emojis',
 				defaultValue: '{}',
+				inputValidator: JSONEmojiObjectInput,
 			},
 		},
 	},

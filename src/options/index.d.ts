@@ -5,8 +5,6 @@ import { ModifyDeep } from '../types/utils';
 type NeverEmpty<T extends string> = T extends '' ? never : T;
 type NullIfEmpty<T extends string | null> = (T extends '' ? null : T) | null;
 
-// TODO: enforce null if empty on save
-
 interface RequiredFields {
 	'canvas.classNames.breadcrumbs': NeverEmpty<string>;
 	'canvas.classNames.assignment': NeverEmpty<string>;
@@ -23,7 +21,7 @@ interface RequiredFields {
 }
 
 interface OptionalFields {
-	// TODO: validate before save
+
 	'timeZone': NullIfEmpty<NonNullable<TimeZoneRequest>>;
 	// TODO: replace empty string with empty '{}' on save
 	'canvas.courseCodeOverrides': NeverEmpty<string>;
