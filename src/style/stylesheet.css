@@ -189,7 +189,12 @@ textarea::-webkit-scrollbar-thumb:hover {
 
 input.invalid-input,
 textarea.invalid-input {
-	box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 25%);
+	box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 27.5%);
+}
+
+input.invalid-input:focus,
+textarea.invalid-input:focus {
+	box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 15%);
 }
 
 textarea {
@@ -202,11 +207,6 @@ input:focus,
 textarea:focus {
 	box-shadow: 0 0 0 0.2rem rgb(20 20 20 / 50%);
 	background-color: var(--darker-grey);
-}
-
-input:required:focus,
-textarea:required:focus {
-	box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 7.5%);
 }
 
 input:focus-visible,

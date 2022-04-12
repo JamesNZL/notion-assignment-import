@@ -32,21 +32,42 @@ export abstract class InputValidator {
 		this.typeGuard = typeGuard;
 	}
 
-	public validate(): NullIfEmpty<string> | typeof InputValidator.INVALID_INPUT {
+	protected validator(): NullIfEmpty<string> | typeof InputValidator.INVALID_INPUT {
 		return (this.typeGuard(this.inputValue))
 			? this.inputValue
 			: InputValidator.INVALID_INPUT;
 	}
 
-	public addInvalidError() {
-		document.getElementById(this.elementId)?.insertAdjacentHTML('beforebegin', '<span>Invalid input! blahblah</span>');
+	public validate(): NullIfEmpty<string> | typeof InputValidator.INVALID_INPUT {
+		const validatedInput = this.validator();
+
+		(validatedInput === InputValidator.INVALID_INPUT)
+			? this.addInvalidError('TEST++++++')
+			: this.removeInvalidError();
+
+		return validatedInput;
 	}
 
-	// public removeInvalidError();
+	private addInvalidError(error: string) {
+		const element = document.getElementById(this.elementId);
+
+		if (element) {
+			element.classList.add('invalid-input');
+
+		}
+	}
+
+	private removeInvalidError() {
+		const element = document.getElementById(this.elementId);
+
+		if (element) {
+			element.classList.remove('invalid-input');
+		}
+	}
 }
 
 abstract class RequiredInput extends InputValidator {
-	public override validate(): NeverEmpty<string> | typeof InputValidator.INVALID_INPUT {
+	protected override validator(): NeverEmpty<string> | typeof InputValidator.INVALID_INPUT {
 		if (this.inputValue && this.typeGuard(this.inputValue)) {
 			// ! document.getElementById(this.elementId)?.classList?.remove('invalid-input');
 
@@ -72,7 +93,7 @@ abstract class RequiredInput extends InputValidator {
 }
 
 abstract class JSONObjectInput extends InputValidator {
-	public override validate(): NeverEmpty<string> | '{}' | typeof InputValidator.INVALID_INPUT {
+	protected override validator(): NeverEmpty<string> | '{}' | typeof InputValidator.INVALID_INPUT {
 		// ! TODO: invalid input
 		try {
 			if (!this.inputValue) return '{}';
