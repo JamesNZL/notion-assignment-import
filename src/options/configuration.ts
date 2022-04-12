@@ -1,11 +1,11 @@
 import { SavedFields, SavedOptions } from './';
 import {
-	InputValidatorConstructor,
-	StringInput,
-	RequiredStringInput,
-	RequiredNumberInput,
-	JSONStringObjectInput,
-	JSONEmojiObjectInput,
+	ValidatorConstructor,
+	StringField,
+	RequiredStringField,
+	RequiredNumberField,
+	JSONStringObjectField,
+	JSONEmojiObjectField,
 } from './validator';
 
 import { valueof } from '../types/utils';
@@ -13,11 +13,11 @@ import { valueof } from '../types/utils';
 interface OptionConfiguration<T> {
 	elementId: string;
 	defaultValue: T;
-	inputValidator: InputValidatorConstructor;
+	validator: ValidatorConstructor;
 }
 
 function isOptionConfiguration(object: NestedConfigurationsOf<unknown> | OptionConfiguration<unknown>): object is OptionConfiguration<unknown> {
-	const configurationProperties: (keyof OptionConfiguration<unknown>)[] = ['elementId', 'defaultValue', 'inputValidator'];
+	const configurationProperties: (keyof OptionConfiguration<unknown>)[] = ['elementId', 'defaultValue', 'validator'];
 	return (<string[]>configurationProperties).every(key => Object.keys(object).includes(key));
 }
 
@@ -59,133 +59,133 @@ const CONFIGURATION: {
 		timeZone: {
 			elementId: 'timezone',
 			defaultValue: 'Pacific/Auckland',
-			inputValidator: StringInput,
+			validator: StringField,
 		},
 		canvas: {
 			classNames: {
 				breadcrumbs: {
 					elementId: 'breadcrumbs',
 					defaultValue: 'ic-app-crumbs',
-					inputValidator: RequiredStringInput,
+					validator: RequiredStringField,
 				},
 				assignment: {
 					elementId: 'assignment-class',
 					defaultValue: 'assignment',
-					inputValidator: RequiredStringInput,
+					validator: RequiredStringField,
 				},
 				title: {
 					elementId: 'assignment-title',
 					defaultValue: 'ig-title',
-					inputValidator: RequiredStringInput,
+					validator: RequiredStringField,
 				},
 				availableDate: {
 					elementId: 'available-date',
 					defaultValue: 'assignment-date-available',
-					inputValidator: RequiredStringInput,
+					validator: RequiredStringField,
 				},
 				availableStatus: {
 					elementId: 'available-status',
 					defaultValue: 'status-description',
-					inputValidator: RequiredStringInput,
+					validator: RequiredStringField,
 				},
 				dueDate: {
 					elementId: 'due-date',
 					defaultValue: 'assignment-date-due',
-					inputValidator: RequiredStringInput,
+					validator: RequiredStringField,
 				},
 				dateElement: {
 					elementId: 'date-element',
 					defaultValue: 'screenreader-only',
-					inputValidator: RequiredStringInput,
+					validator: RequiredStringField,
 				},
 			},
 			classValues: {
 				courseCodeN: {
 					elementId: 'course-code-n',
 					defaultValue: '2',
-					inputValidator: RequiredNumberInput,
+					validator: RequiredNumberField,
 				},
 				notAvailable: {
 					elementId: 'status-not-available',
 					defaultValue: 'Not available until',
-					inputValidator: RequiredStringInput,
+					validator: RequiredStringField,
 				},
 			},
 			courseCodeOverrides: {
 				elementId: 'course-code-overrides',
 				defaultValue: '{}',
-				inputValidator: JSONStringObjectInput,
+				validator: JSONStringObjectField,
 			},
 		},
 		notion: {
 			notionKey: {
 				elementId: 'notion-key',
 				defaultValue: null,
-				inputValidator: RequiredStringInput,
+				validator: RequiredStringField,
 			},
 			databaseId: {
 				elementId: 'database-id',
 				defaultValue: null,
-				inputValidator: RequiredStringInput,
+				validator: RequiredStringField,
 			},
 			propertyNames: {
 				name: {
 					elementId: 'notion-property-name',
 					defaultValue: 'Name',
-					inputValidator: RequiredStringInput,
+					validator: RequiredStringField,
 				},
 				category: {
 					elementId: 'notion-property-category',
 					defaultValue: 'Category',
-					inputValidator: StringInput,
+					validator: StringField,
 				},
 				course: {
 					elementId: 'notion-property-course',
 					defaultValue: 'Course',
-					inputValidator: StringInput,
+					validator: StringField,
 				},
 				url: {
 					elementId: 'notion-property-url',
 					defaultValue: 'URL',
-					inputValidator: StringInput,
+					validator: StringField,
 				},
 				status: {
 					elementId: 'notion-property-status',
 					defaultValue: 'Status',
-					inputValidator: StringInput,
+					validator: StringField,
 				},
 				available: {
 					elementId: 'notion-property-available',
 					defaultValue: 'Reminder',
-					inputValidator: StringInput,
+					validator: StringField,
 				},
 				due: {
 					elementId: 'notion-property-due',
 					defaultValue: 'Due',
-					inputValidator: StringInput,
+					validator: StringField,
 				},
 				span: {
 					elementId: 'notion-property-span',
 					defaultValue: 'Date Span',
-					inputValidator: StringInput,
+					validator: StringField,
 				},
 			},
 			propertyValues: {
 				categoryCanvas: {
 					elementId: 'notion-category-canvas',
 					defaultValue: 'Canvas',
-					inputValidator: StringInput,
+					validator: StringField,
 				},
 				statusToDo: {
 					elementId: 'notion-status-todo',
 					defaultValue: 'To Do',
-					inputValidator: StringInput,
+					validator: StringField,
 				},
 			},
 			courseEmojis: {
 				elementId: 'course-emojis',
 				defaultValue: '{}',
-				inputValidator: JSONEmojiObjectInput,
+				validator: JSONEmojiObjectField,
 			},
 		},
 	},

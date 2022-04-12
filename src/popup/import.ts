@@ -1,5 +1,5 @@
 import { CreatePageParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
-import { EmojiRequest, NotionHandler } from '../api-handlers/notion';
+import { EmojiRequest, NotionClient } from '../api-handlers/notion';
 import { getOptions } from '../options/options';
 import { ParsedAssignment, SavedAssignments } from './parse';
 
@@ -171,7 +171,7 @@ export async function exportToNotion(): Promise<void | ParsedAssignment[]> {
 				}
 				: undefined;
 
-			const notionAssignments = await notionHandler.queryDatabase(databaseId, filterForCanvasAssignments);
+			const notionAssignments = await notionClient.queryDatabase(databaseId, filterForCanvasAssignments);
 
 			return notionAssignments?.results?.map(assignment => new NotionAssignment(assignment));
 		}
@@ -188,7 +188,7 @@ export async function exportToNotion(): Promise<void | ParsedAssignment[]> {
 
 	if (!options.notionKey || !options.databaseId) return alert('Invalid Notion Integration Key or Database ID.\n\nRefer to the extension set-up instructions on GitHub for more information.');
 
-	const notionHandler = new NotionHandler({ auth: options.notionKey });
+	const notionClient = new NotionClient({ auth: options.notionKey });
 
 	// Create assignments
 
@@ -197,7 +197,7 @@ export async function exportToNotion(): Promise<void | ParsedAssignment[]> {
 
 	const createdAssignments = await Promise.all(
 		assignments.map(async assignment => {
-			const page = await notionHandler.createPage(assignment.notionPageParameters(<NonNullable<typeof options.databaseId>>options.databaseId));
+			const page = await notionClient.createPage(assignment.notionPageParameters(<NonNullable<typeof options.databaseId>>options.databaseId));
 
 			if (page) {
 				console.log(`Created assignment ${assignment.course} ${assignment.name}`);

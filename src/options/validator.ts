@@ -2,9 +2,9 @@ import { NullIfEmpty, NeverEmpty } from './';
 
 type TypeGuard = (value: unknown) => boolean;
 
-export type InputValidatorConstructor = new (elementId: string, inputValue: NullIfEmpty<string>) => InputValidator;
+export type ValidatorConstructor = new (elementId: string, inputValue: NullIfEmpty<string>) => FieldValidator;
 
-export abstract class InputValidator {
+export abstract class FieldValidator {
 	public static readonly INVALID_INPUT: unique symbol = Symbol('INVALID_INPUT');
 	private static readonly saveButton = document.getElementById('save-button');
 	private static invalidFields = new Set<string>();
@@ -21,24 +21,24 @@ export abstract class InputValidator {
 		this.type = type;
 	}
 
-	protected validator(): NullIfEmpty<string> | typeof InputValidator.INVALID_INPUT {
+	protected validator(): NullIfEmpty<string> | typeof FieldValidator.INVALID_INPUT {
 		if (this.typeGuard(this.inputValue)) return this.inputValue;
 		else {
 			this.addInvalidError(`Input must be a ${this.type}!`);
-			return InputValidator.INVALID_INPUT;
+			return FieldValidator.INVALID_INPUT;
 		}
 	}
 
-	public validate(): NullIfEmpty<string> | typeof InputValidator.INVALID_INPUT {
+	public validate(): NullIfEmpty<string> | typeof FieldValidator.INVALID_INPUT {
 		const validatedInput = this.validator();
 
-		if (validatedInput !== InputValidator.INVALID_INPUT) this.removeInvalidError();
+		if (validatedInput !== FieldValidator.INVALID_INPUT) this.removeInvalidError();
 
 		return validatedInput;
 	}
 
 	protected addInvalidError(error: string) {
-		InputValidator.invalidFields.add(this.elementId);
+		FieldValidator.invalidFields.add(this.elementId);
 
 		const fieldElement = document.getElementById(this.elementId);
 
@@ -52,53 +52,53 @@ export abstract class InputValidator {
 			else errorElement.innerHTML = errorHTML;
 		}
 
-		InputValidator.disableSaveButton();
+		FieldValidator.disableSaveButton();
 	}
 
 	private removeInvalidError() {
-		InputValidator.invalidFields.delete(this.elementId);
+		FieldValidator.invalidFields.delete(this.elementId);
 
 		document.getElementById(this.elementId)?.classList.remove('invalid-input');
 		document.getElementById(`invalid-input-${this.elementId}`)?.remove();
 
-		InputValidator.restoreSaveButton();
+		FieldValidator.restoreSaveButton();
 	}
 
 	private static disableSaveButton() {
-		if (InputValidator.saveButton && InputValidator.saveButton instanceof HTMLButtonElement) {
-			InputValidator.saveButton.innerHTML = `${InputValidator.invalidFields.size} invalid input${(InputValidator.invalidFields.size > 1) ? 's' : ''}!`;
-			InputValidator.saveButton.disabled = true;
-			InputValidator.saveButton.classList.add('red');
-			InputValidator.saveButton.classList.remove('green');
+		if (FieldValidator.saveButton && FieldValidator.saveButton instanceof HTMLButtonElement) {
+			FieldValidator.saveButton.innerHTML = `${FieldValidator.invalidFields.size} invalid input${(FieldValidator.invalidFields.size > 1) ? 's' : ''}!`;
+			FieldValidator.saveButton.disabled = true;
+			FieldValidator.saveButton.classList.add('red');
+			FieldValidator.saveButton.classList.remove('green');
 		}
 	}
 
 	private static restoreSaveButton() {
-		if (InputValidator.invalidFields.size > 0) return InputValidator.disableSaveButton();
+		if (FieldValidator.invalidFields.size > 0) return FieldValidator.disableSaveButton();
 
-		if (InputValidator.saveButton && InputValidator.saveButton instanceof HTMLButtonElement) {
-			InputValidator.saveButton.innerHTML = 'Save';
-			InputValidator.saveButton.disabled = false;
-			InputValidator.saveButton.classList.add('green');
-			InputValidator.saveButton.classList.remove('red');
+		if (FieldValidator.saveButton && FieldValidator.saveButton instanceof HTMLButtonElement) {
+			FieldValidator.saveButton.innerHTML = 'Save';
+			FieldValidator.saveButton.disabled = false;
+			FieldValidator.saveButton.classList.add('green');
+			FieldValidator.saveButton.classList.remove('red');
 		}
 	}
 }
 
-abstract class RequiredInput extends InputValidator {
-	protected override validator(): NeverEmpty<string> | typeof InputValidator.INVALID_INPUT {
+abstract class RequiredField extends FieldValidator {
+	protected override validator(): NeverEmpty<string> | typeof FieldValidator.INVALID_INPUT {
 		if (this.inputValue) {
 			if (this.typeGuard(this.inputValue)) return this.inputValue;
 			else this.addInvalidError(`Input must be a ${this.type}!`);
 		}
 		else this.addInvalidError('Input field cannot be empty!');
 
-		return InputValidator.INVALID_INPUT;
+		return FieldValidator.INVALID_INPUT;
 	}
 }
 
-abstract class JSONObjectInput extends InputValidator {
-	protected override validator(): NeverEmpty<string> | '{}' | typeof InputValidator.INVALID_INPUT {
+abstract class JSONObjectField extends FieldValidator {
+	protected override validator(): NeverEmpty<string> | '{}' | typeof FieldValidator.INVALID_INPUT {
 		try {
 			if (!this.inputValue) return '{}';
 
@@ -114,11 +114,11 @@ abstract class JSONObjectInput extends InputValidator {
 			}
 			else this.addInvalidError('Input must be an object <code>{}</code>.');
 
-			return InputValidator.INVALID_INPUT;
+			return FieldValidator.INVALID_INPUT;
 		}
 		catch {
 			this.addInvalidError('Input is not valid <code>JSON</code>.');
-			return InputValidator.INVALID_INPUT;
+			return FieldValidator.INVALID_INPUT;
 		}
 	}
 }
@@ -139,31 +139,31 @@ const typeGuards: Record<string, TypeGuard> = {
 	},
 };
 
-export class StringInput extends InputValidator {
+export class StringField extends FieldValidator {
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
 		super(elementId, inputValue, typeGuards.isNullableString, 'string');
 	}
 }
 
-export class RequiredStringInput extends RequiredInput {
+export class RequiredStringField extends RequiredField {
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
 		super(elementId, inputValue, typeGuards.isString, 'string');
 	}
 }
 
-export class RequiredNumberInput extends RequiredInput {
+export class RequiredNumberField extends RequiredField {
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
 		super(elementId, inputValue, typeGuards.isParsableNumber, 'number');
 	}
 }
 
-export class JSONStringObjectInput extends JSONObjectInput {
+export class JSONStringObjectField extends JSONObjectField {
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
 		super(elementId, inputValue, typeGuards.isString, 'string');
 	}
 }
 
-export class JSONEmojiObjectInput extends JSONObjectInput {
+export class JSONEmojiObjectField extends JSONObjectField {
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
 		super(elementId, inputValue, typeGuards.isEmojiRequest, 'emoji');
 	}

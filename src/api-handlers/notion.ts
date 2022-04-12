@@ -30,7 +30,7 @@ interface HandlerClientOptions extends ClientOptions {
 	auth: string;
 }
 
-export class NotionHandler extends Client {
+export class NotionClient extends Client {
 	// rate limits are stored in static field by auth as multiple instances may exist that use the same auth
 	// this ensures a different secret is not affected if another is rate limited, while ensuring different instances
 	// of the same secret cannot make new requests while rate limited
@@ -49,19 +49,19 @@ export class NotionHandler extends Client {
 	}
 
 	private get isRateLimited() {
-		return NotionHandler.rateLimits[this.auth]?.isRateLimited ?? false;
+		return NotionClient.rateLimits[this.auth]?.isRateLimited ?? false;
 	}
 
 	private set isRateLimited(isRateLimited: boolean) {
-		NotionHandler.rateLimits[this.auth].isRateLimited = isRateLimited;
+		NotionClient.rateLimits[this.auth].isRateLimited = isRateLimited;
 	}
 
 	private get retryAfterPromise() {
-		return NotionHandler.rateLimits[this.auth]?.retryAfterPromise ?? null;
+		return NotionClient.rateLimits[this.auth]?.retryAfterPromise ?? null;
 	}
 
 	private set retryAfterPromise(promise: Promise<void> | null) {
-		NotionHandler.rateLimits[this.auth].retryAfterPromise = promise;
+		NotionClient.rateLimits[this.auth].retryAfterPromise = promise;
 	}
 
 	private static alertRateLimited() {
@@ -76,7 +76,7 @@ export class NotionHandler extends Client {
 		try {
 			// if the handler is currently rate-limited, delay the request
 			if (this.isRateLimited && this.retryAfterPromise !== null) {
-				NotionHandler.alertRateLimited;
+				NotionClient.alertRateLimited;
 				await this.retryAfterPromise;
 			}
 
@@ -94,8 +94,8 @@ export class NotionHandler extends Client {
 
 					// pause for Retry-After seconds
 					this.isRateLimited = true;
-					this.retryAfterPromise = NotionHandler.sleep(retryAfter * 1000);
-					NotionHandler.alertRateLimited;
+					this.retryAfterPromise = NotionClient.sleep(retryAfter * 1000);
+					NotionClient.alertRateLimited;
 					await this.retryAfterPromise;
 
 					// reset rate-limit state
