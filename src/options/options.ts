@@ -105,47 +105,67 @@ export type Options = ModifyDeep<SavedOptions, {
 	};
 }>;
 
-// TODO
-
-/* function flattenOptions(options): Record<string, string | number | null> {
-
-}
-
-export async function getOptionsFromStorage(): Promise<Options> {
-	await chrome.storage.local.get({
-		breadcrumbs: 'ic-app-crumbs',
-		courseCodeN: 2,
-		canvasAssignment: 'assignment',
-		assignmentTitle: 'ig-title',
-		availableDate: 'assignment-date-available',
-		availableStatus: 'status-description',
-		dueDate: 'assignment-date-due',
-		dateElement: 'screenreader-only',
-		notAvailableStatus: 'Not available until',
-		notionKey: null,
-		databaseId: null,
-		timezone: 'Pacific/Auckland',
-		toDoName: 'Name',
-		toDoCategory: 'Category',
-		toDoCourse: 'Course',
-		toDoURL: 'URL',
-		toDoStatus: 'Status',
-		toDoAvailable: 'Reminder',
-		toDoDue: 'Due',
-		toDoSpan: 'Date Span',
-		categoryCanvas: 'Canvas',
-		statusToDo: 'To Do',
-		courseCodeOverrides: '{}',
-		courseEmojis: '{}',
-	});
-} */
-
-async function restoreOptions() {
-	const fieldsWithDefault = Object.fromEntries(
+async function getFields(): Promise<SavedFields> {
+	const fieldsWithDefaultValues = Object.fromEntries(
 		Object.entries(CONFIGURATION.FIELDS).map(([field, { defaultValue }]) => [field, defaultValue]),
 	);
 
-	const savedFields = <SavedFields>await chrome.storage.local.get(fieldsWithDefault);
+	return await <Promise<SavedFields>>chrome.storage.local.get(fieldsWithDefaultValues);
+}
+
+export async function getOptions(): Promise<Options> {
+	const savedFields = await getFields();
+
+	return {
+		timeZone: savedFields['timeZone'],
+		canvas: {
+			timeZone: savedFields['timeZone'],
+			classNames: {
+				breadcrumbs: savedFields['canvas.classNames.breadcrumbs'],
+				assignment: savedFields['canvas.classNames.assignment'],
+				title: savedFields['canvas.classNames.title'],
+				availableDate: savedFields['canvas.classNames.availableDate'],
+				availableStatus: savedFields['canvas.classNames.availableStatus'],
+				dueDate: savedFields['canvas.classNames.dueDate'],
+				dateElement: savedFields['canvas.classNames.dateElement'],
+			},
+			classValues: {
+				courseCodeN: Number(savedFields['canvas.classValues.courseCodeN']),
+				notAvailable: savedFields['canvas.classValues.notAvailable'],
+			},
+			selectors: {
+				get courseCode() { return `.${savedFields['canvas.classNames.breadcrumbs']} li:nth-of-type(${savedFields['canvas.classValues.courseCodeN']}) span`; },
+				get availableStatus() { return `.${savedFields['canvas.classNames.availableDate']} .${savedFields['canvas.classNames.availableStatus']}`; },
+				get availableDate() { return `.${savedFields['canvas.classNames.availableDate']} .${savedFields['canvas.classNames.dateElement']}`; },
+				get dueDate() { return `.${savedFields['canvas.classNames.dueDate']} .${savedFields['canvas.classNames.dateElement']}`; },
+			},
+			courseCodeOverrides: JSON.parse(savedFields['canvas.courseCodeOverrides']),
+		},
+		notion: {
+			timeZone: savedFields['timeZone'],
+			notionKey: savedFields['notion.notionKey'],
+			databaseId: savedFields['notion.databaseId'],
+			propertyNames: {
+				name: savedFields['notion.propertyNames.name'],
+				category: savedFields['notion.propertyNames.category'],
+				course: savedFields['notion.propertyNames.course'],
+				url: savedFields['notion.propertyNames.url'],
+				status: savedFields['notion.propertyNames.status'],
+				available: savedFields['notion.propertyNames.available'],
+				due: savedFields['notion.propertyNames.due'],
+				span: savedFields['notion.propertyNames.span'],
+			},
+			propertyValues: {
+				categoryCanvas: savedFields['notion.propertyValues.categoryCanvas'],
+				statusToDo: savedFields['notion.propertyValues.statusToDo'],
+			},
+			courseEmojis: JSON.parse(savedFields['notion.courseEmojis']),
+		},
+	};
+}
+
+async function restoreOptions() {
+	const savedFields = await getFields();
 
 	function setElementValueById(id: string, value: string) {
 		const element = document.getElementById(id);
