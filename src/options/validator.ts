@@ -4,10 +4,10 @@ type TypeGuard = (value: unknown) => boolean;
 
 const typeGuards: Record<string, TypeGuard> = {
 	isNullableString(value) {
-		return typeof value === 'string' || value === null;
+		return (typeof value === 'string' || value === null);
 	},
 	isString(value) {
-		return typeof value === 'string';
+		return (typeof value === 'string');
 	},
 	isCastableNumber(value) {
 		return (typeof value === 'string' && !isNaN(Number(value)));
