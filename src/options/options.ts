@@ -100,6 +100,8 @@ async function saveOptions() {
 			saveButton.innerHTML = 'Save';
 		}, 1325);
 	}
+
+	restoreOptions();
 }
 
 document.addEventListener('DOMContentLoaded', restoreOptions);
