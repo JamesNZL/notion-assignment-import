@@ -22,9 +22,7 @@ interface RequiredFields {
 }
 
 interface OptionalFields {
-
 	'timeZone': NullIfEmpty<NonNullable<TimeZoneRequest>>;
-	// TODO: replace empty string with empty '{}' on save
 	'canvas.courseCodeOverrides': NeverEmpty<string>;
 	'notion.propertyNames.category': NullIfEmpty<string>;
 	'notion.propertyNames.course': NullIfEmpty<string>;
@@ -35,7 +33,6 @@ interface OptionalFields {
 	'notion.propertyNames.span': NullIfEmpty<string>;
 	'notion.propertyValues.categoryCanvas': NullIfEmpty<string>;
 	'notion.propertyValues.statusToDo': NullIfEmpty<string>;
-	// TODO: replace empty string with empty '{}' on save
 	'notion.courseEmojis': NeverEmpty<string>;
 }
 

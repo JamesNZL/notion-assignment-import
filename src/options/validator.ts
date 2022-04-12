@@ -70,16 +70,16 @@ abstract class RequiredInput extends InputValidator {
 }
 
 abstract class JSONObjectInput extends InputValidator {
-	public override validate() {
+	public override validate(): NeverEmpty<string> | '{}' | typeof InputValidator.INVALID_INPUT {
 		// ! TODO: invalid input
 		try {
-			if (this.inputValue) {
-				const parsed = JSON.parse(this.inputValue);
+			if (!this.inputValue) return '{}';
 
-				if (parsed instanceof Object && Object.values(parsed).every(this.typeGuard)) {
-					document.getElementById(this.elementId)?.classList?.remove('invalid-input');
-					return this.inputValue;
-				}
+			const parsed = JSON.parse(this.inputValue);
+
+			if (parsed instanceof Object && Object.values(parsed).every(this.typeGuard)) {
+				document.getElementById(this.elementId)?.classList?.remove('invalid-input');
+				return this.inputValue;
 			}
 
 			// ! boo
