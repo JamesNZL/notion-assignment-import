@@ -91,7 +91,6 @@ export type Options = ModifyDeep<SavedOptions, {
 	canvas: {
 		timeZone: OptionalFields['timeZone'];
 		classValues: {
-			// TODO: validate before save
 			courseCodeN: number;
 		};
 		selectors: {
@@ -104,7 +103,6 @@ export type Options = ModifyDeep<SavedOptions, {
 	};
 	notion: {
 		timeZone: OptionalFields['timeZone'];
-		// TODO: validate before save
 		courseEmojis: Record<string, EmojiRequest>;
 	};
 }>;
