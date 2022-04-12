@@ -130,8 +130,7 @@ const typeGuards: Record<string, TypeGuard> = {
 	isString(value) {
 		return (typeof value === 'string');
 	},
-	// TODO: rename
-	isCastableNumber(value) {
+	isParsableNumber(value) {
 		return (typeof value === 'string' && !isNaN(Number(value)));
 	},
 	isEmojiRequest(value) {
@@ -153,7 +152,7 @@ export class RequiredStringInput extends RequiredInput {
 
 export class RequiredNumberInput extends RequiredInput {
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
-		super(elementId, inputValue, typeGuards.isCastableNumber, 'number');
+		super(elementId, inputValue, typeGuards.isParsableNumber, 'number');
 	}
 }
 
