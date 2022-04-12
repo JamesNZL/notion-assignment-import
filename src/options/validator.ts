@@ -46,7 +46,7 @@ export abstract class InputValidator {
 abstract class RequiredInput extends InputValidator {
 	public override validate(): NeverEmpty<string> | typeof InputValidator.INVALID_INPUT {
 		if (this.inputValue && this.typeGuard(this.inputValue)) {
-			// ! document.getElementById(this.elementId)?.classList?.remove('missing-required');
+			// ! document.getElementById(this.elementId)?.classList?.remove('invalid-input');
 
 			// ! if (Object.values(requiredFields).every(input => input.value) && saveButton) {
 			// ! 	saveButton.innerHTML = 'Save';
@@ -57,7 +57,7 @@ abstract class RequiredInput extends InputValidator {
 			return this.inputValue;
 		}
 
-		// ! document.getElementById(this.elementId)?.classList?.add('missing-required');
+		// ! document.getElementById(this.elementId)?.classList?.add('invalid-input');
 
 		// ! if (saveButton) {
 		// ! 	saveButton.innerHTML = 'Missing required fields!';
@@ -77,7 +77,7 @@ abstract class JSONObjectInput extends InputValidator {
 				const parsed = JSON.parse(this.inputValue);
 
 				if (parsed instanceof Object && Object.values(parsed).every(this.typeGuard)) {
-					document.getElementById(this.elementId)?.classList?.remove('missing-required');
+					document.getElementById(this.elementId)?.classList?.remove('invalid-input');
 					return this.inputValue;
 				}
 			}
@@ -86,7 +86,7 @@ abstract class JSONObjectInput extends InputValidator {
 			throw 'ERORROAWDAWd';
 		}
 		catch (error) {
-			// ! document.getElementById(this.elementId)?.classList?.add('missing-required');
+			// ! document.getElementById(this.elementId)?.classList?.add('invalid-input');
 			// ! document.getElementById(this.elementId)?.insertAdjacentHTML('beforebegin', '<span>Invalid input! blahblah</span>');
 
 			return InputValidator.INVALID_INPUT;
