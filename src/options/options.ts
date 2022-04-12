@@ -78,7 +78,7 @@ async function restoreOptions() {
 async function saveOptions() {
 	function getElementValueById(id: string): NullIfEmpty<string> | void {
 		const element = document.getElementById(id);
-		if (element && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) return element.value || null;
+		if (element && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) return element.value.trim() || null;
 	}
 
 	const fieldEntries = Object.fromEntries(
