@@ -81,15 +81,15 @@ async function saveOptions() {
 		if (element && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) return element.value || null;
 	}
 
-	const fieldElementValues = Object.entries(CONFIGURATION.FIELDS).map(([field, { elementId, inputValidator }]) => {
+	const fieldEntries = Object.entries(CONFIGURATION.FIELDS).map(([field, { elementId, inputValidator }]) => {
 		const inputValue = getElementValueById(elementId) ?? null;
 		const validatedInput = new inputValidator(elementId, inputValue).validate();
 		return [field, validatedInput];
 	});
 
-	if (fieldElementValues.some(([value]) => value === InputValidator.INVALID_INPUT)) return;
+	if (fieldEntries.some(([value]) => value === InputValidator.INVALID_INPUT)) return;
 
-	await chrome.storage.local.set(fieldElementValues);
+	await chrome.storage.local.set(Object.fromEntries(fieldEntries));
 
 	if (saveButton) {
 		saveButton.innerHTML = 'Saved!';
