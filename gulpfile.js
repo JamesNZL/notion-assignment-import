@@ -73,7 +73,7 @@ function bundle(source) {
 			(debug)
 				? tsified
 				: tsified
-					.plugin('tinyify')
+					// .plugin('tinyify')
 		)
 			.bundle()
 			.pipe(sourceStream(`${source?.outFile ?? 'bundle.js'}`))
