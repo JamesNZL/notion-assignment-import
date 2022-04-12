@@ -91,7 +91,7 @@ abstract class RequiredInput extends InputValidator {
 			if (this.typeGuard(this.inputValue)) return this.inputValue;
 			else this.addInvalidError(`Input must be a ${this.type}!`);
 		}
-		else this.addInvalidError('Field cannot be empty!');
+		else this.addInvalidError('Input field cannot be empty!');
 
 		return InputValidator.INVALID_INPUT;
 	}
@@ -110,9 +110,9 @@ abstract class JSONObjectInput extends InputValidator {
 					document.getElementById(this.elementId)?.classList?.remove('invalid-input');
 					return this.inputValue;
 				}
-				else this.addInvalidError(`Object values must all be ${this.type}s!`);
+				else this.addInvalidError(`All object values must be ${this.type}s!`);
 			}
-			else this.addInvalidError('Input must be an object <code>{}</code>!');
+			else this.addInvalidError('Input must be an object <code>{}</code>.');
 
 			return InputValidator.INVALID_INPUT;
 		}
