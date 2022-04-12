@@ -104,15 +104,15 @@ abstract class JSONObjectInput extends InputValidator {
 
 			const parsed = JSON.parse(this.inputValue);
 
-			// TODO: arrays are also Object!
-			if (parsed instanceof Object) {
+			// JSON can't serialise any non-primitives other than 'objects' and arrays, so this will do
+			if (parsed instanceof Object && !Array.isArray(parsed)) {
 				if (Object.values(parsed).every(this.typeGuard)) {
 					document.getElementById(this.elementId)?.classList?.remove('invalid-input');
 					return this.inputValue;
 				}
-				else this.addInvalidError(`<code>Object</code> values must all be ${this.type}s!`);
+				else this.addInvalidError(`Object values must all be ${this.type}s!`);
 			}
-			else this.addInvalidError('Input must be an <code>Object</code>!');
+			else this.addInvalidError('Input must be an object <code>{}</code>!');
 
 			return InputValidator.INVALID_INPUT;
 		}
