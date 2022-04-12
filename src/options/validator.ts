@@ -2,25 +2,12 @@ import { NullIfEmpty, NeverEmpty } from './';
 
 type TypeGuard = (value: unknown) => boolean;
 
-const typeGuards: Record<string, TypeGuard> = {
-	isNullableString(value) {
-		return (typeof value === 'string' || value === null);
-	},
-	isString(value) {
-		return (typeof value === 'string');
-	},
-	isCastableNumber(value) {
-		return (typeof value === 'string' && !isNaN(Number(value)));
-	},
-	isEmojiRequest(value) {
-		return (typeof value === 'string' && /\p{Extended_Pictographic}/ug.test(value));
-	},
-};
-
 export type InputValidatorConstructor = new (elementId: string, inputValue: NullIfEmpty<string>) => InputValidator;
 
 export abstract class InputValidator {
 	public static readonly INVALID_INPUT: unique symbol = Symbol('INVALID_INPUT');
+	private static readonly saveButton = document.getElementById('save-button');
+	private static invalidFields = new Set<string>();
 
 	protected elementId: string;
 	protected inputValue: NullIfEmpty<string>;
@@ -49,19 +36,46 @@ export abstract class InputValidator {
 	}
 
 	private addInvalidError(error: string) {
+		InputValidator.invalidFields.add(this.elementId);
+
 		const element = document.getElementById(this.elementId);
 
 		if (element) {
 			element.classList.add('invalid-input');
 
+			if (!document.getElementById(`invalid-input-${this.elementId}`)) {
+				element.insertAdjacentHTML('beforebegin', `<span id='invalid-input-${this.elementId}' class='invalid-input-error'>Invalid input! ${error}</span>`);
+			}
 		}
+
+		InputValidator.disableSaveButton();
 	}
 
 	private removeInvalidError() {
-		const element = document.getElementById(this.elementId);
+		InputValidator.invalidFields.delete(this.elementId);
 
-		if (element) {
-			element.classList.remove('invalid-input');
+		document.getElementById(this.elementId)?.classList.remove('invalid-input');
+		document.getElementById(`invalid-input-${this.elementId}`)?.remove();
+
+		InputValidator.restoreSaveButton();
+	}
+
+	private static disableSaveButton() {
+		// TODO: html disabled?
+		if (InputValidator.saveButton) {
+			InputValidator.saveButton.innerHTML = `${InputValidator.invalidFields.size} invalid input${(InputValidator.invalidFields.size > 1) ? 's' : ''}!`;
+			InputValidator.saveButton.classList.add('red');
+			InputValidator.saveButton.classList.remove('green');
+		}
+	}
+
+	private static restoreSaveButton() {
+		if (InputValidator.invalidFields.size > 0) return InputValidator.disableSaveButton();
+
+		if (InputValidator.saveButton) {
+			InputValidator.saveButton.innerHTML = 'Save';
+			InputValidator.saveButton.classList.add('green');
+			InputValidator.saveButton.classList.remove('red');
 		}
 	}
 }
@@ -69,25 +83,8 @@ export abstract class InputValidator {
 abstract class RequiredInput extends InputValidator {
 	protected override validator(): NeverEmpty<string> | typeof InputValidator.INVALID_INPUT {
 		if (this.inputValue && this.typeGuard(this.inputValue)) {
-			// ! document.getElementById(this.elementId)?.classList?.remove('invalid-input');
-
-			// ! if (Object.values(requiredFields).every(input => input.value) && saveButton) {
-			// ! 	saveButton.innerHTML = 'Save';
-			// ! 	saveButton.classList.add('green');
-			// ! 	saveButton.classList.remove('red');
-			// ! }
-
 			return this.inputValue;
 		}
-
-		// ! document.getElementById(this.elementId)?.classList?.add('invalid-input');
-
-		// ! if (saveButton) {
-		// ! 	saveButton.innerHTML = 'Missing required fields!';
-		// ! 	saveButton.classList.add('red');
-		// ! 	saveButton.classList.remove('green');
-		// ! }
-
 		return InputValidator.INVALID_INPUT;
 	}
 }
@@ -116,6 +113,21 @@ abstract class JSONObjectInput extends InputValidator {
 		}
 	}
 }
+
+const typeGuards: Record<string, TypeGuard> = {
+	isNullableString(value) {
+		return (typeof value === 'string' || value === null);
+	},
+	isString(value) {
+		return (typeof value === 'string');
+	},
+	isCastableNumber(value) {
+		return (typeof value === 'string' && !isNaN(Number(value)));
+	},
+	isEmojiRequest(value) {
+		return (typeof value === 'string' && /\p{Extended_Pictographic}/ug.test(value));
+	},
+};
 
 export class StringInput extends InputValidator {
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
@@ -146,5 +158,3 @@ export class JSONEmojiObjectInput extends JSONObjectInput {
 		super(elementId, inputValue, typeGuards.isEmojiRequest);
 	}
 }
-
-// const saveButton = document.getElementById('save-button');
