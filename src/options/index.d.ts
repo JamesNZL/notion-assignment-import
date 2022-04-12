@@ -18,6 +18,7 @@ interface RequiredFields {
 	// initialised to null, but can never be cleared once set
 	'notion.notionKey': NullIfEmpty<string>;
 	'notion.databaseId': NullIfEmpty<string>;
+	'notion.propertyNames.name': NeverEmpty<string>;
 }
 
 interface OptionalFields {
@@ -25,7 +26,6 @@ interface OptionalFields {
 	'timeZone': NullIfEmpty<NonNullable<TimeZoneRequest>>;
 	// TODO: replace empty string with empty '{}' on save
 	'canvas.courseCodeOverrides': NeverEmpty<string>;
-	'notion.propertyNames.name': NullIfEmpty<string>;
 	'notion.propertyNames.category': NullIfEmpty<string>;
 	'notion.propertyNames.course': NullIfEmpty<string>;
 	'notion.propertyNames.url': NullIfEmpty<string>;
@@ -70,7 +70,7 @@ export type SavedOptions = {
 		notionKey: RequiredFields['notion.notionKey'];
 		databaseId: RequiredFields['notion.databaseId'];
 		propertyNames: {
-			name: OptionalFields['notion.propertyNames.name'];
+			name: RequiredFields['notion.propertyNames.name'];
 			category: OptionalFields['notion.propertyNames.category'];
 			course: OptionalFields['notion.propertyNames.course'];
 			url: OptionalFields['notion.propertyNames.url'];

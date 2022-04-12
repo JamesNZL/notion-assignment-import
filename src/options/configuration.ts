@@ -125,7 +125,7 @@ const CONFIGURATION: {
 				name: {
 					elementId: 'notion-property-name',
 					defaultValue: 'Name',
-					inputValidator: StringInput,
+					inputValidator: RequiredStringInput,
 				},
 				category: {
 					elementId: 'notion-property-category',
