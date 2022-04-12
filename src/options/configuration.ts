@@ -1,4 +1,4 @@
-import { SavedFields, SavedOptions } from './options';
+import { SavedFields, SavedOptions } from './';
 
 import { valueof } from '../types/utils';
 
