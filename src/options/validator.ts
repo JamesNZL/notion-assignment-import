@@ -6,9 +6,44 @@ type TypeGuard = (value: unknown) => boolean;
 
 export type ValidatorConstructor = new (elementId: string, inputValue: NullIfEmpty<string>) => FieldValidator;
 
+const enum SaveButtonUpdates {
+	Pending,
+	Disable,
+	Restore,
+}
+
+const SaveButton = {
+	saveButton: document.getElementById('save-button'),
+	updateSaveButton(update: SaveButtonUpdates): void {
+		if (this.saveButton && this.saveButton instanceof HTMLButtonElement) {
+			switch (update) {
+				case SaveButtonUpdates.Pending:
+					this.saveButton.innerHTML = `Validating ${FieldValidator.countValidatingFields()} inputs...`;
+					this.saveButton.disabled = true;
+					break;
+				case SaveButtonUpdates.Disable:
+					this.saveButton.innerHTML = `${FieldValidator.countInvalidFields()} invalid input${(FieldValidator.countInvalidFields() > 1) ? 's' : ''}!`;
+					this.saveButton.disabled = true;
+					this.saveButton.classList.add('red');
+					this.saveButton.classList.remove('green');
+					break;
+				case SaveButtonUpdates.Restore:
+					if (FieldValidator.countInvalidFields() > 0) return this.updateSaveButton(SaveButtonUpdates.Disable);
+					else if (FieldValidator.countValidatingFields() > 0) return this.updateSaveButton(SaveButtonUpdates.Pending);
+
+					this.saveButton.innerHTML = 'Save';
+					this.saveButton.disabled = false;
+					this.saveButton.classList.add('green');
+					this.saveButton.classList.remove('red');
+					break;
+			}
+		}
+	},
+};
+
 export abstract class FieldValidator {
 	public static readonly INVALID_INPUT: unique symbol = Symbol('INVALID_INPUT');
-	private static readonly saveButton = document.getElementById('save-button');
+	private static validatingFields = new Set<string>();
 	private static invalidFields = new Set<string>();
 
 	protected elementId: string;
@@ -23,6 +58,14 @@ export abstract class FieldValidator {
 		this.type = type;
 	}
 
+	public static countValidatingFields(): number {
+		return FieldValidator.validatingFields.size;
+	}
+
+	public static countInvalidFields(): number {
+		return FieldValidator.invalidFields.size;
+	}
+
 	protected async validator(): Promise<NullIfEmpty<string> | typeof FieldValidator.INVALID_INPUT> {
 		if (this.typeGuard(this.inputValue)) return this.inputValue;
 		else {
@@ -32,11 +75,39 @@ export abstract class FieldValidator {
 	}
 
 	public async validate(): Promise<NullIfEmpty<string> | typeof FieldValidator.INVALID_INPUT> {
+		this.addValidatingStatus();
 		const validatedInput = await this.validator();
+		this.removeValidatingStatus();
 
 		if (validatedInput !== FieldValidator.INVALID_INPUT) this.removeInvalidError();
 
 		return validatedInput;
+	}
+
+	protected addValidatingStatus() {
+		this.removeInvalidError();
+
+		FieldValidator.validatingFields.add(this.elementId);
+
+		const fieldElement = document.getElementById(this.elementId);
+
+		if (fieldElement) {
+			const statusElement = document.getElementById(`validating-input-${this.elementId}`);
+			const statusHTML = `<span id='validating-input-${this.elementId}' class='validating-input-status'>Validating input...</span>`;
+
+			if (!statusElement) fieldElement.insertAdjacentHTML('beforebegin', statusHTML);
+			else statusElement.innerHTML = statusHTML;
+		}
+
+		SaveButton.updateSaveButton(SaveButtonUpdates.Pending);
+	}
+
+	private removeValidatingStatus() {
+		FieldValidator.validatingFields.delete(this.elementId);
+
+		document.getElementById(`validating-input-${this.elementId}`)?.remove();
+
+		SaveButton.updateSaveButton(SaveButtonUpdates.Restore);
 	}
 
 	protected addInvalidError(error: string) {
@@ -54,7 +125,7 @@ export abstract class FieldValidator {
 			else errorElement.innerHTML = errorHTML;
 		}
 
-		FieldValidator.disableSaveButton();
+		SaveButton.updateSaveButton(SaveButtonUpdates.Disable);
 	}
 
 	private removeInvalidError() {
@@ -63,27 +134,7 @@ export abstract class FieldValidator {
 		document.getElementById(this.elementId)?.classList.remove('invalid-input');
 		document.getElementById(`invalid-input-${this.elementId}`)?.remove();
 
-		FieldValidator.restoreSaveButton();
-	}
-
-	private static disableSaveButton() {
-		if (FieldValidator.saveButton && FieldValidator.saveButton instanceof HTMLButtonElement) {
-			FieldValidator.saveButton.innerHTML = `${FieldValidator.invalidFields.size} invalid input${(FieldValidator.invalidFields.size > 1) ? 's' : ''}!`;
-			FieldValidator.saveButton.disabled = true;
-			FieldValidator.saveButton.classList.add('red');
-			FieldValidator.saveButton.classList.remove('green');
-		}
-	}
-
-	private static restoreSaveButton() {
-		if (FieldValidator.invalidFields.size > 0) return FieldValidator.disableSaveButton();
-
-		if (FieldValidator.saveButton && FieldValidator.saveButton instanceof HTMLButtonElement) {
-			FieldValidator.saveButton.innerHTML = 'Save';
-			FieldValidator.saveButton.disabled = false;
-			FieldValidator.saveButton.classList.add('green');
-			FieldValidator.saveButton.classList.remove('red');
-		}
+		SaveButton.updateSaveButton(SaveButtonUpdates.Restore);
 	}
 }
 

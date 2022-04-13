@@ -208,6 +208,13 @@ textarea.invalid-input:focus {
 	color: rgb(255, 25, 25);
 }
 
+.validating-input-status {
+	display: block;
+	margin-block-start: 1em;
+	margin-block-end: .125em;
+	color: rgb(25, 255, 25);
+}
+
 textarea {
 	min-height: 75px;
 	min-width: 100%;
