@@ -122,8 +122,8 @@ async function saveOptions() {
 document.addEventListener('DOMContentLoaded', restoreOptions);
 
 // validate fields on input
-Object.values(CONFIGURATION.FIELDS).forEach(({ elementId, validator }) => {
-	document.getElementById(elementId)?.addEventListener('input', () => validateElementInput(elementId, validator));
+Object.values(CONFIGURATION.FIELDS).forEach(({ elementId, validator, validateOn = 'input' }) => {
+	document.getElementById(elementId)?.addEventListener(validateOn, () => validateElementInput(elementId, validator));
 });
 
 const saveButton = document.getElementById('save-button');

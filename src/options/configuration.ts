@@ -15,6 +15,8 @@ interface OptionConfiguration<T> {
 	elementId: string;
 	defaultValue: T;
 	validator: ValidatorConstructor;
+	// default to 'input' if undefined
+	validateOn?: 'input' | 'change';
 }
 
 function isOptionConfiguration(object: NestedConfigurationsOf<unknown> | OptionConfiguration<unknown>): object is OptionConfiguration<unknown> {
@@ -123,6 +125,8 @@ const CONFIGURATION: {
 				elementId: 'notion-key',
 				defaultValue: null,
 				validator: RequiredNotionKeyField,
+				// only validate on change to avoid spamming the api
+				validateOn: 'change',
 			},
 			databaseId: {
 				elementId: 'database-id',
