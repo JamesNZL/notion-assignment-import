@@ -13,28 +13,28 @@ const enum SaveButtonUpdates {
 }
 
 const SaveButton = {
-	saveButton: document.getElementById('save-button'),
-	updateSaveButton(update: SaveButtonUpdates): void {
-		if (this.saveButton && this.saveButton instanceof HTMLButtonElement) {
+	button: document.getElementById('save-button'),
+	updateState(update: SaveButtonUpdates): void {
+		if (this.button && this.button instanceof HTMLButtonElement) {
 			switch (update) {
 				case SaveButtonUpdates.Pending:
-					this.saveButton.innerHTML = `Validating ${FieldValidator.countValidatingFields()} input${(FieldValidator.countValidatingFields() > 1) ? 's' : ''}...`;
-					this.saveButton.disabled = true;
+					this.button.innerHTML = `Validating ${FieldValidator.countValidatingFields()} input${(FieldValidator.countValidatingFields() > 1) ? 's' : ''}...`;
+					this.button.disabled = true;
 					break;
 				case SaveButtonUpdates.Disable:
-					this.saveButton.innerHTML = `${FieldValidator.countInvalidFields()} invalid input${(FieldValidator.countInvalidFields() > 1) ? 's' : ''}!`;
-					this.saveButton.disabled = true;
-					this.saveButton.classList.add('red');
-					this.saveButton.classList.remove('green');
+					this.button.innerHTML = `${FieldValidator.countInvalidFields()} invalid input${(FieldValidator.countInvalidFields() > 1) ? 's' : ''}!`;
+					this.button.disabled = true;
+					this.button.classList.add('red');
+					this.button.classList.remove('green');
 					break;
 				case SaveButtonUpdates.Restore:
-					if (FieldValidator.countInvalidFields() > 0) return this.updateSaveButton(SaveButtonUpdates.Disable);
-					else if (FieldValidator.countValidatingFields() > 0) return this.updateSaveButton(SaveButtonUpdates.Pending);
+					if (FieldValidator.countInvalidFields() > 0) return this.updateState(SaveButtonUpdates.Disable);
+					else if (FieldValidator.countValidatingFields() > 0) return this.updateState(SaveButtonUpdates.Pending);
 
-					this.saveButton.innerHTML = 'Save';
-					this.saveButton.disabled = false;
-					this.saveButton.classList.add('green');
-					this.saveButton.classList.remove('red');
+					this.button.innerHTML = 'Save';
+					this.button.disabled = false;
+					this.button.classList.add('green');
+					this.button.classList.remove('red');
 					break;
 			}
 		}
@@ -99,7 +99,7 @@ export abstract class FieldValidator {
 			else statusElement.innerHTML = statusHTML;
 		}
 
-		SaveButton.updateSaveButton(SaveButtonUpdates.Pending);
+		SaveButton.updateState(SaveButtonUpdates.Pending);
 	}
 
 	private removeValidatingStatus() {
@@ -107,7 +107,7 @@ export abstract class FieldValidator {
 
 		document.getElementById(`validating-input-${this.elementId}`)?.remove();
 
-		SaveButton.updateSaveButton(SaveButtonUpdates.Restore);
+		SaveButton.updateState(SaveButtonUpdates.Restore);
 	}
 
 	protected addInvalidError(error: string) {
@@ -125,7 +125,7 @@ export abstract class FieldValidator {
 			else errorElement.innerHTML = errorHTML;
 		}
 
-		SaveButton.updateSaveButton(SaveButtonUpdates.Disable);
+		SaveButton.updateState(SaveButtonUpdates.Disable);
 	}
 
 	private removeInvalidError() {
@@ -134,7 +134,7 @@ export abstract class FieldValidator {
 		document.getElementById(this.elementId)?.classList.remove('invalid-input');
 		document.getElementById(`invalid-input-${this.elementId}`)?.remove();
 
-		SaveButton.updateSaveButton(SaveButtonUpdates.Restore);
+		SaveButton.updateState(SaveButtonUpdates.Restore);
 	}
 }
 
@@ -210,21 +210,20 @@ export class RequiredNumberField extends RequiredField {
 	}
 }
 
-abstract class RequiredCachedField extends RequiredField {
+abstract class RequiredFieldCache extends RequiredField {
 	protected static cache: Record<string, NeverEmpty<string>> = {};
 
 	public getCachedInput(): NeverEmpty<string> {
-		// console.log(RequiredCachedField.cache);
-		return RequiredCachedField.cache[this.elementId];
+		return RequiredFieldCache.cache[this.elementId];
 	}
 
 	protected cacheInput<T extends NeverEmpty<string>>(inputValue: T): T {
-		if (this.inputValue) RequiredCachedField.cache[this.elementId] = inputValue;
+		if (this.inputValue) RequiredFieldCache.cache[this.elementId] = inputValue;
 		return inputValue;
 	}
 }
 
-export class RequiredNotionKeyField extends RequiredCachedField {
+export class RequiredNotionKeyField extends RequiredFieldCache {
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
 		super(elementId, inputValue, typeGuards.isString, 'string');
 	}
@@ -245,7 +244,7 @@ export class RequiredNotionKeyField extends RequiredCachedField {
 	}
 }
 
-export class RequiredNotionDatabaseIdField extends RequiredCachedField {
+export class RequiredNotionDatabaseIdField extends RequiredFieldCache {
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
 		super(elementId, inputValue, typeGuards.isString, 'string');
 	}
@@ -259,12 +258,12 @@ export class RequiredNotionDatabaseIdField extends RequiredCachedField {
 			const keyInput = keyFieldElement.value.trim() || null;
 
 			if (keyInput) {
-				const keyValidator = new keyConfiguration.validator(keyConfiguration.elementId, keyInput);
+				const keyValidator = new keyConfiguration.Validator(keyConfiguration.elementId, keyInput);
 
 				// if the keyInput has been cached by RequiredNotionKeyField, just return it without validating again
-				if (keyValidator instanceof RequiredCachedField && keyValidator.getCachedInput() === keyInput) return keyInput;
+				if (keyValidator instanceof RequiredFieldCache && keyValidator.getCachedInput() === keyInput) return keyInput;
 
-				const validatedKey = await new keyConfiguration.validator(keyConfiguration.elementId, keyInput).validate();
+				const validatedKey = await new keyConfiguration.Validator(keyConfiguration.elementId, keyInput).validate();
 				if (validatedKey !== FieldValidator.INVALID_INPUT) return validatedKey;
 			}
 		}

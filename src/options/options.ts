@@ -75,7 +75,7 @@ async function restoreOptions() {
 	});
 }
 
-async function validateElementInput(elementId: string, validator: ValidatorConstructor) {
+async function validateElementInput(elementId: string, Validator: ValidatorConstructor) {
 	function getElementValueById(id: string): NullIfEmpty<string> | void {
 		const element = document.getElementById(id);
 		if (element && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) return element.value.trim() || null;
@@ -83,14 +83,14 @@ async function validateElementInput(elementId: string, validator: ValidatorConst
 
 	const inputValue = getElementValueById(elementId) ?? null;
 
-	return await new validator(elementId, inputValue).validate();
+	return await new Validator(elementId, inputValue).validate();
 }
 
 async function getFieldInputs(): Promise<Record<keyof SavedFields, NullIfEmpty<string>> | null> {
 	const fieldEntries = Object.fromEntries(
 		await Promise.all(
-			Object.entries(CONFIGURATION.FIELDS).map(async ([field, { elementId, validator }]) => {
-				const validatedInput = await validateElementInput(elementId, validator);
+			Object.entries(CONFIGURATION.FIELDS).map(async ([field, { elementId, Validator }]) => {
+				const validatedInput = await validateElementInput(elementId, Validator);
 				return [field, validatedInput];
 			}),
 		),
@@ -122,8 +122,8 @@ async function saveOptions() {
 document.addEventListener('DOMContentLoaded', restoreOptions);
 
 // validate fields on input
-Object.values(CONFIGURATION.FIELDS).forEach(({ elementId, validator, validateOn = 'input' }) => {
-	document.getElementById(elementId)?.addEventListener(validateOn, () => validateElementInput(elementId, validator));
+Object.values(CONFIGURATION.FIELDS).forEach(({ elementId, Validator, validateOn = 'input' }) => {
+	document.getElementById(elementId)?.addEventListener(validateOn, () => validateElementInput(elementId, Validator));
 });
 
 const saveButton = document.getElementById('save-button');
