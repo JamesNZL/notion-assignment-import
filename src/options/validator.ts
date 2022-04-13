@@ -134,7 +134,7 @@ const typeGuards: Record<string, TypeGuard> = {
 		return (typeof value === 'string' && !isNaN(Number(value)));
 	},
 	isEmojiRequest(value) {
-		const emojiRegExp = /^[\p{Extended_Pictographic}\u200D]+$/u;
+		const emojiRegExp = /^[\p{Emoji_Presentation}\u200D]+$/u;
 		return (typeof value === 'string' && emojiRegExp.test(value));
 	},
 };
