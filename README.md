@@ -47,17 +47,17 @@ A fully-configurable [Chromium extension](https://chrome.google.com/webstore/det
 # Screenshots
 
 ## Extension Popup
-![Extension popup](./assets/popup.png)
+![Extension popup](./assets/screenshots/popup.png)
 
 ## Notion Database Examples
-![Notion board example](./assets/board.png)
-![Notion timeline example](./assets/timeline.png)
-![Notion calendar example](./assets/calendar.png)
+![Notion board example](./assets/screenshots/board.png)
+![Notion timeline example](./assets/screenshots/timeline.png)
+![Notion calendar example](./assets/screenshots/calendar.png)
 
 ## Extension Options
-![Options page part 1](./assets/options1.png)
-![Options page part 2](./assets/options2.png)
-![Options page part 3](./assets/options3.png)
+![Options page part 1](./assets/screenshots/options1.png)
+![Options page part 2](./assets/screenshots/options2.png)
+![Options page part 3](./assets/screenshots/options3.png)
 
 # Setup Instructions
 
