@@ -48,8 +48,10 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 		}
 
 		public getPageParameters(databaseId: string): CreatePageParameters {
-			const _properties: CreatePageParameters['properties'] = {
-				[options.propertyNames.name ?? '']: {
+			const EMPTY_PROPERTY: unique symbol = Symbol('EMPTY_PROPERTY');
+
+			const _properties: Record<string | symbol, valueof<CreatePageParameters['properties']>> = {
+				[options.propertyNames.name ?? EMPTY_PROPERTY]: {
 					title: [
 						{
 							text: {
@@ -58,33 +60,33 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 						},
 					],
 				},
-				[options.propertyNames.category ?? '']: {
+				[options.propertyNames.category ?? EMPTY_PROPERTY]: {
 					select: ParsedAssignment.verifySelectValue(options.propertyValues.categoryCanvas),
 				},
-				[options.propertyNames.course ?? '']: {
+				[options.propertyNames.course ?? EMPTY_PROPERTY]: {
 					select: {
 						name: this.course,
 					},
 				},
-				[options.propertyNames.url ?? '']: {
+				[options.propertyNames.url ?? EMPTY_PROPERTY]: {
 					url: this.url,
 				},
-				[options.propertyNames.status ?? '']: {
+				[options.propertyNames.status ?? EMPTY_PROPERTY]: {
 					select: ParsedAssignment.verifySelectValue(options.propertyValues.statusToDo),
 				},
-				[options.propertyNames.available ?? '']: {
+				[options.propertyNames.available ?? EMPTY_PROPERTY]: {
 					date: {
 						start: this.available,
 						time_zone: options.timeZone,
 					},
 				},
-				[options.propertyNames.due ?? '']: {
+				[options.propertyNames.due ?? EMPTY_PROPERTY]: {
 					date: {
 						start: this.due,
 						time_zone: options.timeZone,
 					},
 				},
-				[options.propertyNames.span ?? '']: {
+				[options.propertyNames.span ?? EMPTY_PROPERTY]: {
 					date: {
 						start: this.available,
 						end: this.due,
@@ -93,12 +95,16 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 				},
 			};
 
-			return {
+			// remove the EMPTY_PROPERTY symbol property
+			// symbol properties are not included in Object.entries() (and similar methods)
+			const properties: CreatePageParameters['properties'] = Object.fromEntries(Object.entries(_properties));
+
+			return <CreatePageParameters>{
 				parent: {
-					type: 'database_id',
 					database_id: databaseId,
+					type: 'database_id',
 				},
-				properties: Object.fromEntries(Object.entries(_properties).filter(([propertyName]) => propertyName !== '')),
+				properties,
 				icon: (this.icon)
 					? {
 						emoji: this.icon,
