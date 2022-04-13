@@ -93,7 +93,7 @@ abstract class RequiredField extends FieldValidator {
 			if (this.typeGuard(this.inputValue)) return this.inputValue;
 			else this.addInvalidError(`Input must be a ${this.type}!`);
 		}
-		else this.addInvalidError('Input field cannot be empty!');
+		else this.addInvalidError('Required field cannot be empty!');
 
 		return FieldValidator.INVALID_INPUT;
 	}
