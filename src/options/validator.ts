@@ -282,7 +282,7 @@ export class RequiredNotionDatabaseIdField extends RequiredCachedField {
 				if (navigator.onLine) {
 					const notionClient = new NotionClient({ auth: notionKey });
 					if (await notionClient.retrieveDatabase(this.inputValue)) return this.cacheInput(this.inputValue);
-					else this.addInvalidError('Input is not a valid Notion database identifier, or the integration does not have access to it.');
+					else this.addInvalidError('Could not find the database.<br>Verify the ID and make sure the database is shared with your integration.');
 				}
 				else this.addInvalidError('Please connect to the Internet to validate this input.');
 			}
