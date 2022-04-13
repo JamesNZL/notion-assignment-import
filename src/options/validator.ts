@@ -18,7 +18,7 @@ const SaveButton = {
 		if (this.saveButton && this.saveButton instanceof HTMLButtonElement) {
 			switch (update) {
 				case SaveButtonUpdates.Pending:
-					this.saveButton.innerHTML = `Validating ${FieldValidator.countValidatingFields()} inputs...`;
+					this.saveButton.innerHTML = `Validating ${FieldValidator.countValidatingFields()} input${(FieldValidator.countValidatingFields() > 1) ? 's' : ''}...`;
 					this.saveButton.disabled = true;
 					break;
 				case SaveButtonUpdates.Disable:
