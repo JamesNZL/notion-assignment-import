@@ -165,16 +165,11 @@ export class RequiredNotionKeyField extends RequiredField {
 	}
 
 	protected override async validator(): Promise<NeverEmpty<string> | typeof FieldValidator.INVALID_INPUT> {
-		if (this.inputValue) {
-			if (this.typeGuard(this.inputValue)) {
-				const notionClient = new NotionClient({ auth: this.inputValue });
-				if (await notionClient.retrieveMe()) return this.inputValue;
-				else this.addInvalidError('Input is not a valid Notion Integration Key.');
-			}
-			else this.addInvalidError(`Input must be a ${this.type}!`);
+		if (await super.validator() === this.inputValue) {
+			const notionClient = new NotionClient({ auth: this.inputValue });
+			if (await notionClient.retrieveMe()) return this.inputValue;
+			else this.addInvalidError('Input is not a valid Notion Integration Key.');
 		}
-		else this.addInvalidError('Input field cannot be empty!');
-
 		return FieldValidator.INVALID_INPUT;
 	}
 }
@@ -202,20 +197,15 @@ export class RequiredNotionDatabaseIdField extends RequiredField {
 	}
 
 	protected override async validator(): Promise<NeverEmpty<string> | typeof FieldValidator.INVALID_INPUT> {
-		if (this.inputValue) {
-			if (this.typeGuard(this.inputValue)) {
-				const notionKey = await this.getNotionKey();
-				if (notionKey) {
-					const notionClient = new NotionClient({ auth: notionKey });
-					if (await notionClient.retrieveDatabase(this.inputValue)) return this.inputValue;
-					else this.addInvalidError('Input is not a valid Notion database identifier, or the integration does not have access to it.');
-				}
-				else this.addInvalidError('Invalid Notion Integration Key.');
+		if (await super.validator() === this.inputValue) {
+			const notionKey = await this.getNotionKey();
+			if (notionKey) {
+				const notionClient = new NotionClient({ auth: notionKey });
+				if (await notionClient.retrieveDatabase(this.inputValue)) return this.inputValue;
+				else this.addInvalidError('Input is not a valid Notion database identifier, or the integration does not have access to it.');
 			}
-			else this.addInvalidError(`Input must be a ${this.type}!`);
+			else this.addInvalidError('Invalid Notion Integration Key.');
 		}
-		else this.addInvalidError('Input field cannot be empty!');
-
 		return FieldValidator.INVALID_INPUT;
 	}
 }
