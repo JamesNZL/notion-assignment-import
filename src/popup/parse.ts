@@ -33,17 +33,6 @@ export interface SavedAssignments {
 		private available: string;
 		private due: string | '';
 
-		private static parseOption(text: string, option: string): ReturnType<typeof JSON.parse> | Record<string, never> {
-			try {
-				return JSON.parse(text);
-			}
-
-			catch {
-				alert(`The configured string for the ${option} option is not valid JSON.\n\nPlease verify this is a valid JSON object.\n\nCurrent configuration: \n${text}`);
-				return {};
-			}
-		}
-
 		private static querySelector(parent: ParentNode, selector: string, verifySelector = true): NonNullable<ReturnType<Element['querySelector']>> | void {
 			const element = parent.querySelector(selector);
 
