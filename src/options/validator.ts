@@ -303,3 +303,24 @@ export class JSONEmojiObjectField extends JSONObjectField {
 		super(elementId, inputValue, typeGuards.isEmojiRequest, 'emoji');
 	}
 }
+
+export class TimeZoneField extends FieldValidator {
+	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
+		super(elementId, inputValue, typeGuards.isNullableString, 'string');
+	}
+
+	protected override async validator(): Promise<NullIfEmpty<string> | typeof FieldValidator.INVALID_INPUT> {
+		if (!this.inputValue) return null;
+
+		if (await super.validator() === this.inputValue) {
+			try {
+				Intl.DateTimeFormat(undefined, { timeZone: this.inputValue });
+				return this.inputValue;
+			}
+			catch {
+				this.addInvalidError('Invalid time zone.');
+			}
+		}
+		return FieldValidator.INVALID_INPUT;
+	}
+}

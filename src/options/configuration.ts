@@ -8,6 +8,7 @@ import {
 	RequiredNotionDatabaseIdField,
 	JSONStringObjectField,
 	JSONEmojiObjectField,
+	TimeZoneField,
 } from './validator';
 
 import { valueof } from '../types/utils';
@@ -64,7 +65,7 @@ export const CONFIGURATION: {
 		timeZone: {
 			elementId: 'timezone',
 			defaultValue: 'Pacific/Auckland',
-			validator: StringField,
+			validator: TimeZoneField,
 		},
 		canvas: {
 			classNames: {
