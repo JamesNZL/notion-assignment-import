@@ -9,7 +9,7 @@
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/jamesnzl/notion-assignment-import/Gulp%20Build)](https://github.com/JamesNZL/notion-assignment-import/actions/workflows/npm-gulp.yml)
 [![GitHub last commit](https://img.shields.io/github/last-commit/jamesnzl/notion-assignment-import)](https://github.com/JamesNZL/notion-assignment-import/commits)
 
-[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/jamesnzl/notion-assignment-import?style=flat-square)](https://github.com/JamesNZL/notion-assignment-import/releases)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/jamesnzl/notion-assignment-import?label=latest&sort=semver&style=flat-square)](https://github.com/JamesNZL/notion-assignment-import/releases)
 [![GitHub file size in bytes](https://img.shields.io/github/size/jamesnzl/notion-assignment-import/releases/notion-assignment-import_latest.zip?style=flat-square)](https://github.com/JamesNZL/notion-assignment-import/blob/master/releases/notion-assignment-import_latest.zip)
 [![Chrome Web Store version](https://img.shields.io/chrome-web-store/v/elbkjcjgakaoccocmbglokgmalkoacie?style=flat-square)](https://chrome.google.com/webstore/detail/notion-canvas-assignment/elbkjcjgakaoccocmbglokgmalkoacie)
 
