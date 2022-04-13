@@ -2,6 +2,70 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/JamesNZL/notion-assignment-import/compare/v2.4.2...v3.0.0) (2022-04-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* **options:** :boom: fix `timeZone` storage key
+* **options:** :boom: change options storage keys to match `Options` interface
+
+### Features
+
+* **import:** :speech_balloon: alert the user on rate-limit ([9542109](https://github.com/JamesNZL/notion-assignment-import/commit/9542109ff52668546457d05293411dac55590be9))
+* **interface:** :lipstick: style invalid input error messages ([59bbfce](https://github.com/JamesNZL/notion-assignment-import/commit/59bbfcec49f0662f3b78efdcbc3e492d7cc67776))
+* **options:** :building_construction: finish implementation of `Options` object ([1e92478](https://github.com/JamesNZL/notion-assignment-import/commit/1e924789910a0b0264c3e7deb6971192a5f4b2f2))
+* **options:** :card_file_box: enforce `null` if option is empty ([0a38336](https://github.com/JamesNZL/notion-assignment-import/commit/0a383363e39088e1e086bd07a12ca2e81c692c8e))
+* **options:** :children_crossing: show red border when input is invalid ([77bf1b2](https://github.com/JamesNZL/notion-assignment-import/commit/77bf1b23fcedf435c921da8d1c49d931ea2b3e95))
+* **options:** :construction: implement input validation ([27fd4a8](https://github.com/JamesNZL/notion-assignment-import/commit/27fd4a865f86f5b286154655059f1321fb182577))
+* **options:** :goal_net: validate fields on input ([d7aae2b](https://github.com/JamesNZL/notion-assignment-import/commit/d7aae2b4e4e8071ff3f56d15fa4cfd85e963460e))
+* **options:** :label: complete options types and implement ability to convert from `Options` nested object to `Fields` 'flat' object ([2c7968f](https://github.com/JamesNZL/notion-assignment-import/commit/2c7968fa54e95cea7532fbec637ea19d95843278))
+* **options:** :lipstick: disable button if invalid and display `not-allowed` cursor ([559e69f](https://github.com/JamesNZL/notion-assignment-import/commit/559e69f888f1d86b3202a36827ba651bd032e1ec))
+* **options:** :lipstick: reimplement save button error state and add WIP field error messages ([9bb02e3](https://github.com/JamesNZL/notion-assignment-import/commit/9bb02e3d69effd01cf31730b22d5d2dc4c189518))
+* **options:** :lipstick: show missing required error automatically ([25b8fb9](https://github.com/JamesNZL/notion-assignment-import/commit/25b8fb9de7cf726a815049f4f86c637f88586e07))
+* **options:** :sparkles: finish strongly/statically typing options ([3edc194](https://github.com/JamesNZL/notion-assignment-import/commit/3edc194098218e81ccdc6fca363dadb3cc9c626c))
+* **options:** :sparkles: restore options on save ([8617091](https://github.com/JamesNZL/notion-assignment-import/commit/8617091b608a90c9d6319456f5c9674bcd4db901))
+* **types:** :construction: add types for extension options ([36d46be](https://github.com/JamesNZL/notion-assignment-import/commit/36d46bec283f273d81fe67538e7769f4e2c2f023))
+* **types:** :label: strongly type html ids in `popup.ts` ([36a5ad1](https://github.com/JamesNZL/notion-assignment-import/commit/36a5ad1ddb654b612595c8298c01c43e92db6f03))
+* **types:** :label: strongly type record keys ([039bbea](https://github.com/JamesNZL/notion-assignment-import/commit/039bbea7e7b01a74c69fe13d7c10dd703797ccfd))
+* **validator:** :lipstick: implement validator error messages ([24e5b3b](https://github.com/JamesNZL/notion-assignment-import/commit/24e5b3b5a44400a7ff956db8e402730282c45464))
+* **validator:** :sparkles: implement support for only validating `onchange` ([cfb932a](https://github.com/JamesNZL/notion-assignment-import/commit/cfb932ac88f16de9d7910ef273d75e3eb6e6e40b))
+* **validator:** :sparkles: implement validation of `databaseId` ([a082f05](https://github.com/JamesNZL/notion-assignment-import/commit/a082f05a696681f566d24d40cbf343b7f76360b6))
+* **validator:** :sparkles: implement validation of `notionKey` ([6a062c3](https://github.com/JamesNZL/notion-assignment-import/commit/6a062c3c40bc8aa662c4e6d66e96de188b09adf3))
+* **validator:** :sparkles: implement validation of `tz` time zone names ([9bcca21](https://github.com/JamesNZL/notion-assignment-import/commit/9bcca21b97fc920ffdccb84e4256fd3987d42cfe))
+* **validator:** :speech_balloon: add validating status label and decouple save button from `FieldValidator` ([4ff7722](https://github.com/JamesNZL/notion-assignment-import/commit/4ff77226dcb9a81b10a9c721fdf1ad646478b5e9))
+* **validator:** :speech_balloon: add validation error if offline ([e4d2170](https://github.com/JamesNZL/notion-assignment-import/commit/e4d2170a5a2506ec5833d51c975e5c6e161a0272))
+
+
+### Bug Fixes
+
+* **extension:** :lipstick: explicitly declare favicon ([ade8974](https://github.com/JamesNZL/notion-assignment-import/commit/ade897489db5e482cc9d29c5c54834c37c380ce9))
+* **gitignore:** :truck: rename `typings/` -> `types/` due to `.gitignore` ([cdd0991](https://github.com/JamesNZL/notion-assignment-import/commit/cdd09915bc22ea02f74923332953cc96ac45ca28))
+* **gulp:** :green_heart: use `\p{Emoji_Presentation}` regex flag instead ([1b47292](https://github.com/JamesNZL/notion-assignment-import/commit/1b47292cd1ec2509d494ee9b1080f89f4fbcff91))
+* **import:** :goal_net: do not make new requests whilst rate-limited ([4431473](https://github.com/JamesNZL/notion-assignment-import/commit/4431473cc933719da5511cfc39477cd8858c1479))
+* **options:** :boom: fix `timeZone` storage key ([60f5e7b](https://github.com/JamesNZL/notion-assignment-import/commit/60f5e7ba6997b3ecec3655e96c5fc45e58658a9b))
+* **options:** :bug: display missing fields error if user tries to save without changing initial partial default values ([ae23909](https://github.com/JamesNZL/notion-assignment-import/commit/ae23909ebc7275daa36b24b4e705b3ec6122b731))
+* **options:** :bug: fix `notion-property-status` id ([c417b60](https://github.com/JamesNZL/notion-assignment-import/commit/c417b6079e8701c243cc419e5d814f51ff30ad23))
+* **options:** :bug: fix check for `INVALID_INPUT` ([59cb40d](https://github.com/JamesNZL/notion-assignment-import/commit/59cb40db341d3e1271eaeda14f76a5dc438504a9))
+* **options:** :bug: reconstruct entries object before storage ([49b0d78](https://github.com/JamesNZL/notion-assignment-import/commit/49b0d7823963befb95e0a495f7f2aca6839bd2d0))
+* **options:** :bug: reverse the check for valid `OptionConfiguration` keys ([7a435c0](https://github.com/JamesNZL/notion-assignment-import/commit/7a435c06ef68cd7d5db29dc217e0e5a0bf9bc7cc))
+* **options:** :children_crossing: allow empty json object input ([870e921](https://github.com/JamesNZL/notion-assignment-import/commit/870e92184080b1050cdc1499d845f742597384f5))
+* **options:** :goal_net: trim input whitespaces ([50bed6b](https://github.com/JamesNZL/notion-assignment-import/commit/50bed6b44ddd78fa03bb6c85ab2ed5c9d42a4bf4))
+* **options:** :poop: temp fix after changed html ids ([62892fa](https://github.com/JamesNZL/notion-assignment-import/commit/62892fa7dc7bb98603b0d03a9a458d4d599985ed))
+* **popup:** :bug: fix record indexing by id rather than `ButtonName` (introduced in 039bbea) ([0b90bb4](https://github.com/JamesNZL/notion-assignment-import/commit/0b90bb46ee2b2d6354eee3fcb94b6b0bf053fb5d))
+* **types:** :bug: fix `ModifyDeep` giving primitive when modifying a primitive with an object type ([3cfb436](https://github.com/JamesNZL/notion-assignment-import/commit/3cfb436c5c627088a34814f785e87c992e1e7c71))
+* **types:** :label: `courseCodeN` is actually saved as a `string` ([9606471](https://github.com/JamesNZL/notion-assignment-import/commit/96064711d63492e7e7dc3e70aa3429f7bcb8ca66))
+* **types:** :label: `notion.propertyNames.name` is required ([14c660f](https://github.com/JamesNZL/notion-assignment-import/commit/14c660f1956a092be8d3db63b00ef227f22ce089))
+* **types:** :label: `selectors` should only be in `Options`, not `SavedOptions` ([50ca28c](https://github.com/JamesNZL/notion-assignment-import/commit/50ca28c8ff99566141a33534414e106f02ff1df6))
+* **types:** :label: every nested option must have its own `OptionConfiguration` ([d3aed46](https://github.com/JamesNZL/notion-assignment-import/commit/d3aed4688fb22ad21f114772fd8b3d2540a91575))
+* **types:** :label: fix override of `SavedOptions` type ([8af55f9](https://github.com/JamesNZL/notion-assignment-import/commit/8af55f9c85094038b9197a890b4729b98c068728))
+* **types:** :poop: a key of `SavedOptions` will never be null, only `''` ([cf7f34d](https://github.com/JamesNZL/notion-assignment-import/commit/cf7f34d329e573bbd56447718dbc308dc4462730))
+* **validator:** :bug: fix emoji type guard by enforcing `^$` and matching `&zwj` ([de9a816](https://github.com/JamesNZL/notion-assignment-import/commit/de9a816c273b9f30c713f3839572569885696d7e))
+* **validator:** :bug: properly check for `object Object` type, and not just a non-primitive ([d745c36](https://github.com/JamesNZL/notion-assignment-import/commit/d745c362c5d6295518533aca0f1486c96b4229ea))
+
+
+* **options:** :boom: change options storage keys to match `Options` interface ([837cdc3](https://github.com/JamesNZL/notion-assignment-import/commit/837cdc3606367b85d291c7370d59bc27eb1c2333))
+
 ### [2.4.2](https://github.com/JamesNZL/notion-assignment-import/compare/v2.4.1...v2.4.2) (2022-04-09)
 
 
