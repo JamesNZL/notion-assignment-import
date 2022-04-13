@@ -130,7 +130,7 @@ export class NotionClient extends Client {
 	}
 
 	public async queryDatabase(databaseId: string, filter?: QueryDatabaseParameters['filter']): Promise<void | QueryDatabaseResponse> {
-		return await this.makePaginatedRequest<QueryDatabaseParameters, QueryDatabaseResponse>(
+		return await this.makePaginatedRequest(
 			this.databases.query,
 			{
 				database_id: databaseId,
@@ -140,7 +140,7 @@ export class NotionClient extends Client {
 	}
 
 	public async createPage(parameters: CreatePageParameters): Promise<void | CreatePageResponse> {
-		return await this.makeRequest<CreatePageParameters, CreatePageResponse>(
+		return await this.makeRequest(
 			this.pages.create,
 			parameters,
 		);
