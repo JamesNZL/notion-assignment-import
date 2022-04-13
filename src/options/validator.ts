@@ -234,9 +234,12 @@ export class RequiredNotionKeyField extends RequiredCachedField {
 		if (this.getCachedInput() === this.inputValue) return this.inputValue;
 
 		if (await super.validator() === this.inputValue) {
-			const notionClient = new NotionClient({ auth: this.inputValue });
-			if (await notionClient.retrieveMe()) return this.cacheInput(this.inputValue);
-			else this.addInvalidError('Input is not a valid Notion Integration Key.');
+			if (navigator.onLine) {
+				const notionClient = new NotionClient({ auth: this.inputValue });
+				if (await notionClient.retrieveMe()) return this.cacheInput(this.inputValue);
+				else this.addInvalidError('Input is not a valid Notion Integration Key.');
+			}
+			else this.addInvalidError('Please connect to the Internet to validate this input.');
 		}
 		return FieldValidator.INVALID_INPUT;
 	}
@@ -276,9 +279,12 @@ export class RequiredNotionDatabaseIdField extends RequiredCachedField {
 		if (await super.validator() === this.inputValue) {
 			const notionKey = await this.getNotionKey();
 			if (notionKey) {
-				const notionClient = new NotionClient({ auth: notionKey });
-				if (await notionClient.retrieveDatabase(this.inputValue)) return this.cacheInput(this.inputValue);
-				else this.addInvalidError('Input is not a valid Notion database identifier, or the integration does not have access to it.');
+				if (navigator.onLine) {
+					const notionClient = new NotionClient({ auth: notionKey });
+					if (await notionClient.retrieveDatabase(this.inputValue)) return this.cacheInput(this.inputValue);
+					else this.addInvalidError('Input is not a valid Notion database identifier, or the integration does not have access to it.');
+				}
+				else this.addInvalidError('Please connect to the Internet to validate this input.');
 			}
 			else this.addInvalidError('Invalid Notion Integration Key.');
 		}
