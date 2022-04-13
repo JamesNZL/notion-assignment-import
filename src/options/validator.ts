@@ -1,7 +1,7 @@
 import { NotionClient } from '../api-handlers/notion';
 import { NullIfEmpty, NeverEmpty } from './';
 
-type TypeGuard = (value: unknown) => Promise<boolean>;
+type TypeGuard = (value: unknown) => boolean;
 
 export type ValidatorConstructor = new (elementId: string, inputValue: NullIfEmpty<string>) => FieldValidator;
 
@@ -23,7 +23,7 @@ export abstract class FieldValidator {
 	}
 
 	protected async validator(): Promise<NullIfEmpty<string> | typeof FieldValidator.INVALID_INPUT> {
-		if (await this.typeGuard(this.inputValue)) return this.inputValue;
+		if (this.typeGuard(this.inputValue)) return this.inputValue;
 		else {
 			this.addInvalidError(`Input must be a ${this.type}!`);
 			return FieldValidator.INVALID_INPUT;
@@ -89,7 +89,7 @@ export abstract class FieldValidator {
 abstract class RequiredField extends FieldValidator {
 	protected override async validator(): Promise<NeverEmpty<string> | typeof FieldValidator.INVALID_INPUT> {
 		if (this.inputValue) {
-			if (await this.typeGuard(this.inputValue)) return this.inputValue;
+			if (this.typeGuard(this.inputValue)) return this.inputValue;
 			else this.addInvalidError(`Input must be a ${this.type}!`);
 		}
 		else this.addInvalidError('Input field cannot be empty!');
@@ -107,7 +107,7 @@ abstract class JSONObjectField extends FieldValidator {
 
 			// JSON can't serialise any non-primitives other than 'objects' and arrays, so this will do
 			if (parsed instanceof Object && !Array.isArray(parsed)) {
-				if ((await Promise.all(Object.values(parsed).map(this.typeGuard))).every(typeGuard => typeGuard === true)) {
+				if (Object.values(parsed).every(this.typeGuard)) {
 					document.getElementById(this.elementId)?.classList?.remove('invalid-input');
 					return this.inputValue;
 				}
@@ -125,25 +125,18 @@ abstract class JSONObjectField extends FieldValidator {
 }
 
 const typeGuards: Record<string, TypeGuard> = {
-	async isNullableString(value) {
+	isNullableString(value) {
 		return (typeof value === 'string' || value === null);
 	},
-	async isString(value) {
+	isString(value) {
 		return (typeof value === 'string');
 	},
-	async isParsableNumber(value) {
+	isParsableNumber(value) {
 		return (typeof value === 'string' && !isNaN(Number(value)));
 	},
-	async isEmojiRequest(value) {
+	isEmojiRequest(value) {
 		const emojiRegExp = /^[\p{Emoji_Presentation}\u200D]+$/u;
 		return (typeof value === 'string' && emojiRegExp.test(value));
-	},
-	async isNotionKey(value) {
-		if (typeof value === 'string') {
-			const notionClient = new NotionClient({ auth: value });
-			if (await notionClient.retrieveMe()) return true;
-		}
-		return false;
 	},
 };
 
@@ -167,7 +160,21 @@ export class RequiredNumberField extends RequiredField {
 
 export class RequiredNotionKeyField extends RequiredField {
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
-		super(elementId, inputValue, typeGuards.isNotionKey, 'valid Notion Integration Key');
+		super(elementId, inputValue, typeGuards.isString, 'string');
+	}
+
+	protected override async validator(): Promise<NeverEmpty<string> | typeof FieldValidator.INVALID_INPUT> {
+		if (this.inputValue) {
+			if (this.typeGuard(this.inputValue)) {
+				const notionClient = new NotionClient({ auth: this.inputValue });
+				if (await notionClient.retrieveMe()) return this.inputValue;
+				else this.addInvalidError('Input is not a valid Notion Integration Key.');
+			}
+			else this.addInvalidError(`Input must be a ${this.type}!`);
+		}
+		else this.addInvalidError('Input field cannot be empty!');
+
+		return FieldValidator.INVALID_INPUT;
 	}
 }
 
