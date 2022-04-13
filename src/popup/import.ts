@@ -1,17 +1,17 @@
 import { CreatePageParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
 import { EmojiRequest, NotionClient } from '../api-handlers/notion';
 import { getOptions } from '../options/options';
-import { ParsedAssignment, SavedAssignments } from './parse';
+import { IParsedAssignment, SavedAssignments } from './parse';
 
 import { valueof, ArrayElement } from '../types/utils';
 
-export async function exportToNotion(): Promise<void | ParsedAssignment[]> {
+export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 	const { notion: options } = await getOptions();
 
-	class SavedAssignment implements ParsedAssignment {
-		private assignment: ParsedAssignment;
+	class ParsedAssignment implements IParsedAssignment {
+		private assignment: IParsedAssignment;
 
-		public constructor(assignment: ParsedAssignment) {
+		public constructor(assignment: IParsedAssignment) {
 			this.assignment = assignment;
 		}
 
@@ -47,7 +47,7 @@ export async function exportToNotion(): Promise<void | ParsedAssignment[]> {
 				: null;
 		}
 
-		public notionPageParameters(databaseId: string): CreatePageParameters {
+		public getPageParameters(databaseId: string): CreatePageParameters {
 			const _properties: CreatePageParameters['properties'] = {
 				[options.propertyNames.name ?? '']: {
 					title: [
@@ -59,7 +59,7 @@ export async function exportToNotion(): Promise<void | ParsedAssignment[]> {
 					],
 				},
 				[options.propertyNames.category ?? '']: {
-					select: SavedAssignment.verifySelectValue(options.propertyValues.categoryCanvas),
+					select: ParsedAssignment.verifySelectValue(options.propertyValues.categoryCanvas),
 				},
 				[options.propertyNames.course ?? '']: {
 					select: {
@@ -70,7 +70,7 @@ export async function exportToNotion(): Promise<void | ParsedAssignment[]> {
 					url: this.url,
 				},
 				[options.propertyNames.status ?? '']: {
-					select: SavedAssignment.verifySelectValue(options.propertyValues.statusToDo),
+					select: ParsedAssignment.verifySelectValue(options.propertyValues.statusToDo),
 				},
 				[options.propertyNames.available ?? '']: {
 					date: {
@@ -147,13 +147,13 @@ export async function exportToNotion(): Promise<void | ParsedAssignment[]> {
 		}
 	}
 
-	async function getNewAssignments(databaseId: string): Promise<SavedAssignment[]> {
-		async function getSavedAssignments(): Promise<SavedAssignment[]> {
+	async function getNewAssignments(databaseId: string): Promise<ParsedAssignment[]> {
+		async function getSavedAssignments(): Promise<ParsedAssignment[]> {
 			const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
 
 			return Object.values(savedAssignments)
 				.flat()
-				.map(assignment => new SavedAssignment(assignment))
+				.map(assignment => new ParsedAssignment(assignment))
 				.filter(assignment => Date.parse(assignment.due) > Date.now());
 		}
 
@@ -197,7 +197,7 @@ export async function exportToNotion(): Promise<void | ParsedAssignment[]> {
 
 	const createdAssignments = await Promise.all(
 		assignments.map(async assignment => {
-			const page = await notionClient.createPage(assignment.notionPageParameters(<NonNullable<typeof options.databaseId>>options.databaseId));
+			const page = await notionClient.createPage(assignment.getPageParameters(<NonNullable<typeof options.databaseId>>options.databaseId));
 
 			if (page) {
 				console.log(`Created assignment ${assignment.course} ${assignment.name}`);

@@ -2,7 +2,7 @@ import { parseDate } from 'chrono-node';
 import { EmojiRequest } from '../api-handlers/notion';
 import { getOptions } from '../options/options';
 
-export interface ParsedAssignment {
+export interface IParsedAssignment {
 	name: string;
 	course: string;
 	icon: EmojiRequest | null;
@@ -12,7 +12,7 @@ export interface ParsedAssignment {
 }
 
 export interface SavedAssignments {
-	[course: string]: ParsedAssignment[];
+	[course: string]: IParsedAssignment[];
 }
 
 (async function parseAssignments(): Promise<void> {
@@ -89,7 +89,7 @@ export interface SavedAssignments {
 			return `${(this.icon) ? `${this.icon} ` : ''}${this.course}`;
 		}
 
-		public toAssignment(): ParsedAssignment {
+		public toParsedAssignment(): IParsedAssignment {
 			return {
 				name: this.name,
 				course: this.course,
@@ -171,7 +171,7 @@ export interface SavedAssignments {
 	if (canvasAssignments.length) {
 		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
 
-		savedAssignments[canvasAssignments[0].getCourse()] = canvasAssignments.map(assignment => assignment.toAssignment());
+		savedAssignments[canvasAssignments[0].getCourse()] = canvasAssignments.map(assignment => assignment.toParsedAssignment());
 
 		await chrome.storage.local.set({
 			savedAssignments,
