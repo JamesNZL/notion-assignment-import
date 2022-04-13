@@ -129,6 +129,13 @@ export class NotionClient extends Client {
 		return response;
 	}
 
+	public async retrieveMe() {
+		return await this.makeRequest(
+			this.users.me,
+			{},
+		);
+	}
+
 	public async queryDatabase(databaseId: string, filter?: QueryDatabaseParameters['filter']): Promise<void | QueryDatabaseResponse> {
 		return await this.makePaginatedRequest(
 			this.databases.query,

@@ -75,7 +75,7 @@ async function restoreOptions() {
 	});
 }
 
-function validateElementInput(elementId: string, validator: ValidatorConstructor) {
+async function validateElementInput(elementId: string, validator: ValidatorConstructor) {
 	function getElementValueById(id: string): NullIfEmpty<string> | void {
 		const element = document.getElementById(id);
 		if (element && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) return element.value.trim() || null;
@@ -83,15 +83,17 @@ function validateElementInput(elementId: string, validator: ValidatorConstructor
 
 	const inputValue = getElementValueById(elementId) ?? null;
 
-	return new validator(elementId, inputValue).validate();
+	return await new validator(elementId, inputValue).validate();
 }
 
-function getFieldInputs(): Record<keyof SavedFields, NullIfEmpty<string>> | null {
+async function getFieldInputs(): Promise<Record<keyof SavedFields, NullIfEmpty<string>> | null> {
 	const fieldEntries = Object.fromEntries(
-		Object.entries(CONFIGURATION.FIELDS).map(([field, { elementId, validator }]) => {
-			const validatedInput = validateElementInput(elementId, validator);
-			return [field, validatedInput];
-		}),
+		await Promise.all(
+			Object.entries(CONFIGURATION.FIELDS).map(async ([field, { elementId, validator }]) => {
+				const validatedInput = await validateElementInput(elementId, validator);
+				return [field, validatedInput];
+			}),
+		),
 	);
 
 	if (Object.values(fieldEntries).every(value => value !== FieldValidator.INVALID_INPUT)) return <Record<keyof SavedFields, NullIfEmpty<string>>>fieldEntries;
@@ -100,7 +102,7 @@ function getFieldInputs(): Record<keyof SavedFields, NullIfEmpty<string>> | null
 }
 
 async function saveOptions() {
-	const fieldEntries = getFieldInputs();
+	const fieldEntries = await getFieldInputs();
 
 	if (fieldEntries) {
 		await chrome.storage.local.set(fieldEntries);

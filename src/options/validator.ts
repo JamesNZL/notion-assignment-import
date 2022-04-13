@@ -1,6 +1,7 @@
+import { NotionClient } from '../api-handlers/notion';
 import { NullIfEmpty, NeverEmpty } from './';
 
-type TypeGuard = (value: unknown) => boolean;
+type TypeGuard = (value: unknown) => Promise<boolean>;
 
 export type ValidatorConstructor = new (elementId: string, inputValue: NullIfEmpty<string>) => FieldValidator;
 
@@ -21,16 +22,16 @@ export abstract class FieldValidator {
 		this.type = type;
 	}
 
-	protected validator(): NullIfEmpty<string> | typeof FieldValidator.INVALID_INPUT {
-		if (this.typeGuard(this.inputValue)) return this.inputValue;
+	protected async validator(): Promise<NullIfEmpty<string> | typeof FieldValidator.INVALID_INPUT> {
+		if (await this.typeGuard(this.inputValue)) return this.inputValue;
 		else {
 			this.addInvalidError(`Input must be a ${this.type}!`);
 			return FieldValidator.INVALID_INPUT;
 		}
 	}
 
-	public validate(): NullIfEmpty<string> | typeof FieldValidator.INVALID_INPUT {
-		const validatedInput = this.validator();
+	public async validate(): Promise<NullIfEmpty<string> | typeof FieldValidator.INVALID_INPUT> {
+		const validatedInput = await this.validator();
 
 		if (validatedInput !== FieldValidator.INVALID_INPUT) this.removeInvalidError();
 
@@ -86,9 +87,9 @@ export abstract class FieldValidator {
 }
 
 abstract class RequiredField extends FieldValidator {
-	protected override validator(): NeverEmpty<string> | typeof FieldValidator.INVALID_INPUT {
+	protected override async validator(): Promise<NeverEmpty<string> | typeof FieldValidator.INVALID_INPUT> {
 		if (this.inputValue) {
-			if (this.typeGuard(this.inputValue)) return this.inputValue;
+			if (await this.typeGuard(this.inputValue)) return this.inputValue;
 			else this.addInvalidError(`Input must be a ${this.type}!`);
 		}
 		else this.addInvalidError('Input field cannot be empty!');
@@ -98,7 +99,7 @@ abstract class RequiredField extends FieldValidator {
 }
 
 abstract class JSONObjectField extends FieldValidator {
-	protected override validator(): NeverEmpty<string> | '{}' | typeof FieldValidator.INVALID_INPUT {
+	protected override async validator(): Promise<NeverEmpty<string> | '{}' | typeof FieldValidator.INVALID_INPUT> {
 		try {
 			if (!this.inputValue) return '{}';
 
@@ -106,7 +107,7 @@ abstract class JSONObjectField extends FieldValidator {
 
 			// JSON can't serialise any non-primitives other than 'objects' and arrays, so this will do
 			if (parsed instanceof Object && !Array.isArray(parsed)) {
-				if (Object.values(parsed).every(this.typeGuard)) {
+				if ((await Promise.all(Object.values(parsed).map(this.typeGuard))).every(typeGuard => typeGuard === true)) {
 					document.getElementById(this.elementId)?.classList?.remove('invalid-input');
 					return this.inputValue;
 				}
@@ -124,18 +125,25 @@ abstract class JSONObjectField extends FieldValidator {
 }
 
 const typeGuards: Record<string, TypeGuard> = {
-	isNullableString(value) {
+	async isNullableString(value) {
 		return (typeof value === 'string' || value === null);
 	},
-	isString(value) {
+	async isString(value) {
 		return (typeof value === 'string');
 	},
-	isParsableNumber(value) {
+	async isParsableNumber(value) {
 		return (typeof value === 'string' && !isNaN(Number(value)));
 	},
-	isEmojiRequest(value) {
+	async isEmojiRequest(value) {
 		const emojiRegExp = /^[\p{Emoji_Presentation}\u200D]+$/u;
 		return (typeof value === 'string' && emojiRegExp.test(value));
+	},
+	async isNotionKey(value) {
+		if (typeof value === 'string') {
+			const notionClient = new NotionClient({ auth: value });
+			if (await notionClient.retrieveMe()) return true;
+		}
+		return false;
 	},
 };
 
@@ -154,6 +162,12 @@ export class RequiredStringField extends RequiredField {
 export class RequiredNumberField extends RequiredField {
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
 		super(elementId, inputValue, typeGuards.isParsableNumber, 'number');
+	}
+}
+
+export class RequiredNotionKeyField extends RequiredField {
+	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
+		super(elementId, inputValue, typeGuards.isNotionKey, 'valid Notion Integration Key');
 	}
 }
 

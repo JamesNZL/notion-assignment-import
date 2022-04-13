@@ -4,6 +4,7 @@ import {
 	StringField,
 	RequiredStringField,
 	RequiredNumberField,
+	RequiredNotionKeyField,
 	JSONStringObjectField,
 	JSONEmojiObjectField,
 } from './validator';
@@ -121,7 +122,7 @@ const CONFIGURATION: {
 			notionKey: {
 				elementId: 'notion-key',
 				defaultValue: null,
-				validator: RequiredStringField,
+				validator: RequiredNotionKeyField,
 			},
 			databaseId: {
 				elementId: 'database-id',
