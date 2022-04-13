@@ -1,6 +1,6 @@
 import { APIErrorCode, Client, isNotionClientError } from '@notionhq/client';
 import { ClientOptions } from '@notionhq/client/build/src/Client';
-import { CreatePageParameters, CreatePageResponse, QueryDatabaseParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
+import { CreatePageParameters, CreatePageResponse, GetDatabaseResponse, GetSelfResponse, QueryDatabaseParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
 
 import { valueof } from '../types/utils';
 
@@ -129,7 +129,7 @@ export class NotionClient extends Client {
 		return response;
 	}
 
-	public async retrieveMe() {
+	public async retrieveMe(): Promise<void | GetSelfResponse> {
 		return await this.makeRequest(
 			this.users.me,
 			{},
@@ -142,6 +142,15 @@ export class NotionClient extends Client {
 			{
 				database_id: databaseId,
 				filter,
+			},
+		);
+	}
+
+	public async retrieveDatabase(databaseId: string): Promise<void | GetDatabaseResponse> {
+		return await this.makeRequest(
+			this.databases.retrieve,
+			{
+				database_id: databaseId,
 			},
 		);
 	}

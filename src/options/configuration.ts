@@ -5,6 +5,7 @@ import {
 	RequiredStringField,
 	RequiredNumberField,
 	RequiredNotionKeyField,
+	RequiredNotionDatabaseIdField,
 	JSONStringObjectField,
 	JSONEmojiObjectField,
 } from './validator';
@@ -34,7 +35,7 @@ type IncompleteFieldKey<K extends string> = K extends keyof SavedFields
 	? `${K}.${string}`
 	: never;
 
-const CONFIGURATION: {
+export const CONFIGURATION: {
 	FIELDS: Record<keyof SavedFields, OptionConfiguration<unknown>>;
 	OPTIONS: NestedConfigurationsOf<SavedOptions>;
 } = {
@@ -59,6 +60,7 @@ const CONFIGURATION: {
 		) as Record<keyof SavedFields, OptionConfiguration<unknown>>;
 	},
 	OPTIONS: {
+		// TODO: validate timezone
 		timeZone: {
 			elementId: 'timezone',
 			defaultValue: 'Pacific/Auckland',
@@ -131,7 +133,8 @@ const CONFIGURATION: {
 			databaseId: {
 				elementId: 'database-id',
 				defaultValue: null,
-				validator: RequiredStringField,
+				validator: RequiredNotionDatabaseIdField,
+				validateOn: 'change',
 			},
 			propertyNames: {
 				name: {
@@ -195,5 +198,3 @@ const CONFIGURATION: {
 		},
 	},
 };
-
-export = CONFIGURATION;

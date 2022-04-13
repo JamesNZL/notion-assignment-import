@@ -1,5 +1,6 @@
 import { NotionClient } from '../api-handlers/notion';
 import { NullIfEmpty, NeverEmpty } from './';
+import { CONFIGURATION } from './configuration';
 
 type TypeGuard = (value: unknown) => boolean;
 
@@ -169,6 +170,47 @@ export class RequiredNotionKeyField extends RequiredField {
 				const notionClient = new NotionClient({ auth: this.inputValue });
 				if (await notionClient.retrieveMe()) return this.inputValue;
 				else this.addInvalidError('Input is not a valid Notion Integration Key.');
+			}
+			else this.addInvalidError(`Input must be a ${this.type}!`);
+		}
+		else this.addInvalidError('Input field cannot be empty!');
+
+		return FieldValidator.INVALID_INPUT;
+	}
+}
+
+export class RequiredNotionDatabaseIdField extends RequiredField {
+	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
+		super(elementId, inputValue, typeGuards.isString, 'string');
+	}
+
+	private async getNotionKey(): Promise<NeverEmpty<string> | null> {
+		const keyConfiguration = CONFIGURATION.FIELDS['notion.notionKey'];
+
+		const keyFieldElement = document.getElementById(keyConfiguration.elementId);
+
+		if (keyFieldElement && (keyFieldElement instanceof HTMLInputElement || keyFieldElement instanceof HTMLTextAreaElement)) {
+			const keyInput = keyFieldElement.value.trim() || null;
+
+			if (keyInput) {
+				const validatedKey = await new keyConfiguration.validator(keyConfiguration.elementId, keyInput).validate();
+				if (validatedKey !== FieldValidator.INVALID_INPUT) return validatedKey;
+			}
+		}
+
+		return null;
+	}
+
+	protected override async validator(): Promise<NeverEmpty<string> | typeof FieldValidator.INVALID_INPUT> {
+		if (this.inputValue) {
+			if (this.typeGuard(this.inputValue)) {
+				const notionKey = await this.getNotionKey();
+				if (notionKey) {
+					const notionClient = new NotionClient({ auth: notionKey });
+					if (await notionClient.retrieveDatabase(this.inputValue)) return this.inputValue;
+					else this.addInvalidError('Input is not a valid Notion database identifier, or the integration does not have access to it.');
+				}
+				else this.addInvalidError('Invalid Notion Integration Key.');
 			}
 			else this.addInvalidError(`Input must be a ${this.type}!`);
 		}

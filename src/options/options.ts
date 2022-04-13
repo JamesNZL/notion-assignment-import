@@ -1,6 +1,6 @@
 import { NullIfEmpty, SavedFields, Options } from './';
+import { CONFIGURATION } from './configuration';
 import { ValidatorConstructor, FieldValidator } from './validator';
-import CONFIGURATION from './configuration';
 
 async function getFields(): Promise<SavedFields> {
 	const fieldsWithDefaultValues = Object.fromEntries(
