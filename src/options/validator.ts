@@ -150,6 +150,19 @@ abstract class RequiredField extends FieldValidator {
 	}
 }
 
+abstract class RequiredFieldCache extends RequiredField {
+	protected static cache: Record<string, NeverEmpty<string>> = {};
+
+	public getCachedInput(): NeverEmpty<string> {
+		return RequiredFieldCache.cache[this.elementId];
+	}
+
+	protected cacheInput<T extends NeverEmpty<string>>(inputValue: T): T {
+		if (this.inputValue) RequiredFieldCache.cache[this.elementId] = inputValue;
+		return inputValue;
+	}
+}
+
 abstract class JSONObjectField extends FieldValidator {
 	protected override async validator(): Promise<NeverEmpty<string> | '{}' | typeof FieldValidator.INVALID_INPUT> {
 		try {
@@ -207,19 +220,6 @@ export class RequiredStringField extends RequiredField {
 export class RequiredNumberField extends RequiredField {
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
 		super(elementId, inputValue, typeGuards.isParsableNumber, 'number');
-	}
-}
-
-abstract class RequiredFieldCache extends RequiredField {
-	protected static cache: Record<string, NeverEmpty<string>> = {};
-
-	public getCachedInput(): NeverEmpty<string> {
-		return RequiredFieldCache.cache[this.elementId];
-	}
-
-	protected cacheInput<T extends NeverEmpty<string>>(inputValue: T): T {
-		if (this.inputValue) RequiredFieldCache.cache[this.elementId] = inputValue;
-		return inputValue;
 	}
 }
 
