@@ -153,8 +153,8 @@ abstract class RequiredField extends FieldValidator {
 abstract class RequiredFieldCache extends RequiredField {
 	protected static cache: Record<string, NeverEmpty<string>> = {};
 
-	public getCachedInput(): NeverEmpty<string> {
-		return RequiredFieldCache.cache[this.elementId];
+	public getCachedInput(): NeverEmpty<string> | undefined {
+		return RequiredFieldCache.cache?.[this.elementId];
 	}
 
 	protected cacheInput<T extends NeverEmpty<string>>(inputValue: T): T {
