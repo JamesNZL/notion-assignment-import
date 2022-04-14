@@ -158,8 +158,7 @@ abstract class RequiredFieldCache extends RequiredField {
 	}
 
 	protected cacheInput<T extends NeverEmpty<string>>(inputValue: T): T {
-		if (this.inputValue) RequiredFieldCache.cache[this.elementId] = inputValue;
-		return inputValue;
+		return RequiredFieldCache.cache[this.elementId] = inputValue;
 	}
 }
 
