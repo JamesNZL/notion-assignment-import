@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.1](https://github.com/JamesNZL/notion-assignment-import/compare/v3.0.0...v3.0.1) (2022-04-14)
+
+
+### Bug Fixes
+
+* **validator:** :label: `getCachedInput()` will return `undefined` if not cached ([5167e39](https://github.com/JamesNZL/notion-assignment-import/commit/5167e39c524d5d02d71023a13166932efd32a15d))
+* **validator:** :speech_balloon: fix plural of `1 inputs...` ([87f6920](https://github.com/JamesNZL/notion-assignment-import/commit/87f6920f663e2551f2afc97e6f402d0f6ad1b8ab))
+
 ## [3.0.0](https://github.com/JamesNZL/notion-assignment-import/compare/v2.4.2...v3.0.0) (2022-04-13)
 
 
