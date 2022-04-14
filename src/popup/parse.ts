@@ -33,32 +33,6 @@ export interface SavedAssignments {
 		private available: string;
 		private due: string | '';
 
-		private static querySelector(parent: ParentNode, selector: string, verifySelector = true): NonNullable<ReturnType<Element['querySelector']>> | void {
-			const element = parent.querySelector(selector);
-
-			if (element) {
-				CanvasAssignment.validSelectors.add(selector);
-				return element;
-			}
-
-			else if (verifySelector && !CanvasAssignment.validSelectors.has(selector) && !CanvasAssignment.invalidSelectors.has(selector)) {
-				CanvasAssignment.invalidSelectors.add(selector);
-				alert(`Incorrect selector: ${selector}`);
-			}
-		}
-
-		private static getNextHour(): string {
-			function roundToNextHour(date: Date): Date {
-				if (date.getMinutes() === 0) return date;
-
-				date.setHours(date.getHours() + 1, 0, 0, 0);
-
-				return date;
-			}
-
-			return roundToNextHour(new Date()).toLocaleString('en-US', { timeZone: options.timeZone ?? undefined });
-		}
-
 		public constructor(assignment: NonNullable<ReturnType<Element['querySelector']>>) {
 			this.assignment = assignment;
 
@@ -93,6 +67,20 @@ export interface SavedAssignments {
 			this.valid = false;
 		}
 
+		private static querySelector(parent: ParentNode, selector: string, verifySelector = true): NonNullable<ReturnType<Element['querySelector']>> | void {
+			const element = parent.querySelector(selector);
+
+			if (element) {
+				CanvasAssignment.validSelectors.add(selector);
+				return element;
+			}
+
+			else if (verifySelector && !CanvasAssignment.validSelectors.has(selector) && !CanvasAssignment.invalidSelectors.has(selector)) {
+				CanvasAssignment.invalidSelectors.add(selector);
+				alert(`Incorrect selector: ${selector}`);
+			}
+		}
+
 		private queryRequired(selector: string, verifySelector = true): void | Element {
 			const element = CanvasAssignment.querySelector(this.assignment, selector, verifySelector);
 			if (!element?.textContent) return this.setInvalid();
@@ -120,6 +108,18 @@ export interface SavedAssignments {
 
 		private parseURL(): string | '' {
 			return this.parseTitle()?.href ?? '';
+		}
+
+		private static getNextHour(): string {
+			function roundToNextHour(date: Date): Date {
+				if (date.getMinutes() === 0) return date;
+
+				date.setHours(date.getHours() + 1, 0, 0, 0);
+
+				return date;
+			}
+
+			return roundToNextHour(new Date()).toLocaleString('en-US', { timeZone: options.timeZone ?? undefined });
 		}
 
 		private parseAvailable(): string {
