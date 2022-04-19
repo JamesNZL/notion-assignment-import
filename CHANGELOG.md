@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.2](https://github.com/JamesNZL/notion-assignment-import/compare/v3.0.1...v3.0.2) (2022-04-19)
+
+
+### Bug Fixes
+
+* **interface:** :lipstick: display `JSON` in monospace font ([30aa357](https://github.com/JamesNZL/notion-assignment-import/commit/30aa357f7045eee9786c9ec10401f6a8a0188093))
+
 ### [3.0.1](https://github.com/JamesNZL/notion-assignment-import/compare/v3.0.0...v3.0.1) (2022-04-14)
 
 
