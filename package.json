@@ -9,7 +9,7 @@
     "@types/chrome": "^0.0.186",
     "@types/node": "^17.0.33",
     "browserify": "^17.0.0",
-    "del": "^6.0.0",
+    "del": "^6.1.0",
     "gulp": "^4.0.2",
     "gulp-zip": "^5.1.0",
     "standard-version": "^9.5.0",
