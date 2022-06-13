@@ -67,7 +67,7 @@ function bundle(source) {
 			debug,
 			entries: source.glob,
 		})
-			.plugin(tsify);
+			.plugin(tsify, { project: 'src/tsconfig.json' });
 
 		return (
 			(debug)
