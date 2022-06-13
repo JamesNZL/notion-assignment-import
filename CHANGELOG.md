@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.3](https://github.com/JamesNZL/notion-assignment-import/compare/v3.0.2...v3.0.3) (2022-06-13)
+
+
+### Bug Fixes
+
+* **gulp:** :package: fix double zipping of `_latest.zip` ([d0c0409](https://github.com/JamesNZL/notion-assignment-import/commit/d0c0409dd9c23488c5fa34658546d671bcdd7a33))
+* **types:** :rotating_light: fix `ts(2526)` error ([b15d502](https://github.com/JamesNZL/notion-assignment-import/commit/b15d50299327262bb3ee62c1a4351d8aa6de0738))
+
 ### [3.0.2](https://github.com/JamesNZL/notion-assignment-import/compare/v3.0.1...v3.0.2) (2022-04-19)
 
 
