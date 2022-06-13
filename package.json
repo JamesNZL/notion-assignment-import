@@ -45,7 +45,11 @@
         "type": "json"
       },
       {
-        "filename": "manifest.json",
+        "filename": "src/manifest-chromium.json",
+        "type": "json"
+      },
+      {
+        "filename": "src/manifest-firefox.json",
         "type": "json"
       }
     ]

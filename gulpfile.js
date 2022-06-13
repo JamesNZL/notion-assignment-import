@@ -26,8 +26,15 @@ const CONFIGURATION = {
 };
 
 const sources = {
-	map(key, func) {
-		return this[key].map(func);
+	manifests: {
+		chromium: {
+			glob: `${CONFIGURATION.DIRECTORIES.SOURCE}/manifest-chromium.json`,
+			outFile: 'manifest.json',
+		},
+		firefox: {
+			glob: `${CONFIGURATION.DIRECTORIES.SOURCE}/manifest-firefox.json`,
+			outFile: 'manifest.json',
+		},
 	},
 	markup: [
 		{
@@ -67,14 +74,20 @@ function clean() {
 	return del(`${CONFIGURATION.DIRECTORIES.OUT}/**`, { force: true });
 }
 
-function copy(source) {
+function copy(vendor, source) {
 	return function copyGlob() {
-		return src(source.glob, { base: source?.base ?? '.' })
-			.pipe(dest(CONFIGURATION.DIRECTORIES.OUT));
+		const copied = src(source.glob, { base: source?.base ?? '.' });
+		return (
+			(!source.outFile)
+				? copied
+				: copied
+					.pipe(rename(source.outFile))
+		)
+			.pipe(dest(`${CONFIGURATION.DIRECTORIES.OUT}/${vendor}`));
 	};
 }
 
-function bundle(source) {
+function bundle(vendor, source) {
 	return function bundleGlob() {
 		const tsified = browserify({
 			debug,
@@ -90,29 +103,36 @@ function bundle(source) {
 		)
 			.bundle()
 			.pipe(sourceStream(`${source?.outFile ?? CONFIGURATION.FILES.BUNDLE}`))
-			.pipe(dest(CONFIGURATION.DIRECTORIES.OUT));
+			.pipe(dest(`${CONFIGURATION.DIRECTORIES.OUT}/${vendor}`));
 	};
 }
 
-function release() {
-	const { version } = JSON.parse(fs.readFileSync('manifest.json', { encoding: 'utf-8' }));
+function release(vendor) {
+	return function releaseVendor() {
+		const { version } = JSON.parse(fs.readFileSync(sources.manifests[vendor].glob, { encoding: 'utf-8' }));
 
-	return src([`${CONFIGURATION.DIRECTORIES.OUT}/**/*`, 'manifest.json'], {
-		base: '.',
-	})
-		.pipe(zip(`notion-assignment-import_v${version}.zip`))
-		.pipe(dest(CONFIGURATION.DIRECTORIES.RELEASE))
-		.pipe(rename('notion-assignment-import_latest.zip'))
-		.pipe(dest(CONFIGURATION.DIRECTORIES.RELEASE));
+		return src([`${CONFIGURATION.DIRECTORIES.OUT}/**/*`], {
+			base: '.',
+		})
+			.pipe(zip(`notion-assignment-import-${vendor}_v${version}.zip`))
+			.pipe(dest(`${CONFIGURATION.DIRECTORIES.RELEASE}/${vendor}`))
+			.pipe(rename(`notion-assignment-import-${vendor}_latest.zip`))
+			.pipe(dest(`${CONFIGURATION.DIRECTORIES.RELEASE}/${vendor}`));
+	};
 }
 
 exports.default = series(clean,
 	parallel(
-		...sources.map('markup', copy),
-		...sources.map('style', copy),
-		...sources.map('assets', copy),
-		...sources.map('scripts', bundle),
+		...Object.entries(sources.manifests).map(([vendor, manifest]) => parallel(
+			copy(vendor, manifest),
+			...sources.markup.map(source => copy(vendor, source)),
+			...sources.style.map(source => copy(vendor, source)),
+			...sources.assets.map(source => copy(vendor, source)),
+			...sources.scripts.map(source => bundle(vendor, source)),
+		)),
 	),
 );
 
-exports.release = release;
+exports.release = parallel(
+	...Object.keys(sources.manifests).map(release)
+);
