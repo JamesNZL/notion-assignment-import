@@ -1,5 +1,6 @@
 const { src, dest, series, parallel } = require('gulp');
 const del = require('del');
+const rename = require('gulp-rename');
 const zip = require('gulp-zip');
 
 const fs = require('fs');
@@ -101,7 +102,7 @@ function release() {
 	})
 		.pipe(zip(`notion-assignment-import_v${version}.zip`))
 		.pipe(dest(CONFIGURATION.DIRECTORIES.RELEASE))
-		.pipe(zip('notion-assignment-import_latest.zip'))
+		.pipe(rename('notion-assignment-import_latest.zip'))
 		.pipe(dest(CONFIGURATION.DIRECTORIES.RELEASE));
 }
 
