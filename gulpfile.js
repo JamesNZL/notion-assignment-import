@@ -111,8 +111,8 @@ function release(vendor) {
 	return function releaseVendor() {
 		const { version } = JSON.parse(fs.readFileSync(sources.manifests[vendor].glob, { encoding: 'utf-8' }));
 
-		return src([`${CONFIGURATION.DIRECTORIES.OUT}/**/*`], {
-			base: '.',
+		return src([`${CONFIGURATION.DIRECTORIES.OUT}/${vendor}/**/*`], {
+			base: `${CONFIGURATION.DIRECTORIES.OUT}/${vendor}`,
 		})
 			.pipe(zip(`notion-assignment-import-${vendor}_v${version}.zip`))
 			.pipe(dest(`${CONFIGURATION.DIRECTORIES.RELEASE}/${vendor}`))
