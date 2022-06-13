@@ -61,7 +61,6 @@ export const CONFIGURATION: {
 		) as Record<keyof SavedFields, OptionConfiguration<unknown>>;
 	},
 	OPTIONS: {
-		// TODO: validate timezone
 		timeZone: {
 			elementId: 'timezone',
 			defaultValue: 'Pacific/Auckland',
