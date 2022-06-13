@@ -1,3 +1,5 @@
+import browser from 'webextension-polyfill';
+
 import { CreatePageParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
 import { EmojiRequest, NotionClient } from '../api-handlers/notion';
 import { getOptions } from '../options/options';
@@ -155,7 +157,7 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 
 	async function getNewAssignments(databaseId: string): Promise<ParsedAssignment[]> {
 		async function getSavedAssignments(): Promise<ParsedAssignment[]> {
-			const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
+			const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await browser.storage.local.get({ savedAssignments: {} });
 
 			return Object.values(savedAssignments)
 				.flat()

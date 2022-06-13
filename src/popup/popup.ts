@@ -1,3 +1,5 @@
+import browser from 'webextension-polyfill';
+
 import { SavedAssignments } from './parse';
 import { exportToNotion } from './import';
 
@@ -55,30 +57,30 @@ if (areHTMLElements(buttons)) {
 	};
 
 	buttons.options.addEventListener('click', () => {
-		if (chrome.runtime.openOptionsPage) {
-			chrome.runtime.openOptionsPage();
+		if (browser.runtime.openOptionsPage) {
+			browser.runtime.openOptionsPage();
 		}
 
 		else {
-			window.open(chrome.runtime.getURL('options.html'));
+			window.open(browser.runtime.getURL('options.html'));
 		}
 	});
 
 	buttons.parse.addEventListener('click', async () => {
-		await chrome.storage.local.remove('savedCourse');
+		await browser.storage.local.remove('savedCourse');
 
-		const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+		const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
 
 		if (!tab.id) return;
 
-		await chrome.scripting.executeScript({
+		await browser.scripting.executeScript({
 			target: { tabId: tab.id },
 			files: ['dist/popup/parse.js'],
 		});
 
 		let courseCode = undefined;
 		while (courseCode === undefined) {
-			({ savedCourse: courseCode } = await chrome.storage.local.get('savedCourse'));
+			({ savedCourse: courseCode } = await browser.storage.local.get('savedCourse'));
 		}
 
 		updateSavedCoursesList();
@@ -108,7 +110,7 @@ if (areHTMLElements(buttons)) {
 		const savedCourses = getElementById('saved-courses-list');
 
 		if (savedCourses) {
-			const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
+			const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await browser.storage.local.get({ savedAssignments: {} });
 
 			setButtonDisplay(buttons.viewJSON, 'none');
 			setButtonDisplay(buttons.listCourses, 'inline-block');
@@ -120,7 +122,7 @@ if (areHTMLElements(buttons)) {
 	buttons.listCourses.addEventListener('click', () => updateSavedCoursesList());
 
 	buttons.copyJSON.addEventListener('click', async () => {
-		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
+		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await browser.storage.local.get({ savedAssignments: {} });
 
 		await navigator.clipboard.writeText(JSON.stringify(savedAssignments));
 
@@ -137,7 +139,7 @@ if (areHTMLElements(buttons)) {
 			return BUTTON_TEXT.reset(buttons.clearStorage, 1325);
 		}
 
-		chrome.storage.local.remove('savedAssignments');
+		browser.storage.local.remove('savedAssignments');
 
 		updateSavedCoursesList();
 
@@ -150,7 +152,7 @@ async function updateSavedCoursesList() {
 	const savedCourses = getElementById('saved-courses-list');
 
 	if (savedCourses) {
-		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
+		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await browser.storage.local.get({ savedAssignments: {} });
 
 		const coursesList = Object.entries(savedAssignments).reduce((list: string, [course, assignments]) => list + `<li>${course} (<code>${assignments.length}</code> assignments)</li>\n`, '');
 

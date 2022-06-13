@@ -1,3 +1,5 @@
+import browser from 'webextension-polyfill';
+
 import { parseDate } from 'chrono-node';
 import { EmojiRequest } from '../api-handlers/notion';
 import { getOptions } from '../options/options';
@@ -152,11 +154,11 @@ export interface SavedAssignments {
 		.filter(assignment => assignment.isValid());
 
 	if (canvasAssignments.length) {
-		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await chrome.storage.local.get({ savedAssignments: {} });
+		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await browser.storage.local.get({ savedAssignments: {} });
 
 		savedAssignments[canvasAssignments[0].getCourse()] = canvasAssignments.map(assignment => assignment.toParsedAssignment());
 
-		await chrome.storage.local.set({
+		await browser.storage.local.set({
 			savedAssignments,
 			savedCourse: canvasAssignments[0].getCourse(),
 		});
@@ -165,7 +167,7 @@ export interface SavedAssignments {
 	else {
 		alert('No valid assignments were found on this page.\n\nNOTE: Assignments without due dates are treated as invalid.');
 
-		await chrome.storage.local.set({
+		await browser.storage.local.set({
 			savedCourse: '',
 		});
 	}

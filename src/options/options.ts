@@ -1,3 +1,5 @@
+import browser from 'webextension-polyfill';
+
 import { NullIfEmpty, SavedFields, Options } from './';
 import { CONFIGURATION } from './configuration';
 import { ValidatorConstructor, FieldValidator } from './validator';
@@ -7,7 +9,7 @@ async function getFields(): Promise<SavedFields> {
 		Object.entries(CONFIGURATION.FIELDS).map(([field, { defaultValue }]) => [field, defaultValue]),
 	);
 
-	return await <Promise<SavedFields>>chrome.storage.local.get(fieldsWithDefaultValues);
+	return await <Promise<SavedFields>>browser.storage.local.get(fieldsWithDefaultValues);
 }
 
 export async function getOptions(): Promise<Options> {
@@ -105,7 +107,7 @@ async function saveOptions() {
 	const fieldEntries = await getFieldInputs();
 
 	if (fieldEntries) {
-		await chrome.storage.local.set(fieldEntries);
+		await browser.storage.local.set(fieldEntries);
 
 		if (saveButton) {
 			saveButton.innerHTML = 'Saved!';
