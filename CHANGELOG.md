@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [3.0.4](https://github.com/JamesNZL/notion-assignment-import/compare/v3.0.3...v3.0.4) (2022-06-13)
 
+
+* **release:** :sparkles: support multiple vendors ([b39a96e](https://github.com/JamesNZL/notion-assignment-import/commit/b39a96ea1609e191a8d944f07f216f06e983b871))
+
 ### [3.0.3](https://github.com/JamesNZL/notion-assignment-import/compare/v3.0.2...v3.0.3) (2022-06-13)
 
 
