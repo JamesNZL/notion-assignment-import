@@ -178,7 +178,7 @@ Configure the `Notion Course Emojis` to the following:
    3. Assignments without due dates are ignored.
    > Assignments without 'available date' information (or are already available), are set to be available from the top of the next hour (relative to parsing time).
 
-3. Parsed assignments are saved by course in Chrome local storage in a `JSON`-serialisable format (see `Assignment` and `SavedAssignment` in [`parseAssignments.ts`](src/scripts/parseAssignments.ts)).
+3. Parsed assignments are saved by course in Chrome local storage in a `JSON`-serialisable format (see `IParsedAssignment` and `SavedAssignment` in [`parse.ts`](src/popup/parse.ts)).
 
 ## Notion Import
 
