@@ -22,7 +22,6 @@ export interface SavedAssignments {
 		private static validSelectors = new Set();
 		private static invalidSelectors = new Set();
 
-		private valid = true;
 		private assignment: NonNullable<ReturnType<Element['querySelector']>>;
 
 		// if name, url, or due is '', !isValid()
@@ -45,7 +44,7 @@ export interface SavedAssignments {
 		}
 
 		public isValid(): boolean {
-			return this.valid;
+			return [this.name, this.url, this.due].every(Boolean);
 		}
 
 		public getCourse(): string | 'Unknown Course Code' {
@@ -61,10 +60,6 @@ export interface SavedAssignments {
 				available: this.available,
 				due: this.due,
 			};
-		}
-
-		private setInvalid() {
-			this.valid = false;
 		}
 
 		private static querySelector(parent: ParentNode, selector: string, verifySelector = true): NonNullable<ReturnType<Element['querySelector']>> | void {
@@ -83,7 +78,7 @@ export interface SavedAssignments {
 
 		private queryRequired(selector: string, verifySelector = true): void | Element {
 			const element = CanvasAssignment.querySelector(this.assignment, selector, verifySelector);
-			if (!element?.textContent) return this.setInvalid();
+			if (!element?.textContent) return;
 			return element;
 		}
 
@@ -141,7 +136,6 @@ export interface SavedAssignments {
 				const dueDate = parseDate(dueString, { timezone: options.timeZone ?? undefined });
 
 				if (dueDate.valueOf() > Date.now()) return dueDate.toISOString();
-				else this.setInvalid();
 			}
 
 			// if due date was unable to be parsed, or if the due date is in the past, return ''
