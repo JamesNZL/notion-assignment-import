@@ -175,8 +175,8 @@ This project uses [`gulp`](https://gulpjs.com/) and [`browserify`](https://brows
 2. Run `npm install -D` to install the required dependencies.
 
 3. Run the appropriate build script:
-   1. `npm debug` to build source-mapped, non-minified `dist` files that are easier to debug.
-   2. `npm build` for minified `dist` files.
+   1. `npm run debug` to build source-mapped, non-minified `dist` files that are easier to debug.
+   2. `npm run build` for minified `dist` files.
 
 4. A `dist/` directory will be created containing a separate extension root folder for each supported vendor.
 
