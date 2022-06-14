@@ -23,9 +23,9 @@
       <a href="https://chrome.google.com/webstore/detail/notion-canvas-assignment/elbkjcjgakaoccocmbglokgmalkoacie/">
          <img src="https://img.shields.io/chrome-web-store/v/elbkjcjgakaoccocmbglokgmalkoacie?style=flat-square" alt="Chrome Web Store version">
       </a>
-      <!-- <a href="https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/">
+      <a href="https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/">
          <img src="https://img.shields.io/amo/v/notion-assignment-import?style=flat-square" alt="Mozilla Add-on version">
-      </a> -->
+      </a>
    </div>
 </div>
 
@@ -38,9 +38,9 @@
       <a href="https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/">
          <img src="https://img.shields.io/badge/Download_for-Chrome-4285F4?style=for-the-badge&logo=googlechrome&logoColor=FFFFFF" alt="Download for Chrome">
       </a>
-      <!-- <a href="https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/">
+      <a href="https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/">
          <img src="https://img.shields.io/badge/Download_for-Firefox-FF9500?style=for-the-badge&logo=firefox&logoColor=FFFFFF" alt="Download for Firefox">
-      </a> -->
+      </a>
       <a href="https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/">
          <img src="https://img.shields.io/badge/Download_for-Edge-0078D7?style=for-the-badge&logo=microsoftedge&logoColor=FFFFFF" alt="Download for Edge">
       </a>
@@ -49,7 +49,7 @@
 
 <br>
 
-A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/)<!--  and [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/) --> extension to load [Canvas](https://www.instructure.com/canvas) assignments into a [Notion](https://www.notion.so/) database, at just the click of a button — unlock your full time-management and productivity potential!
+A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/) and [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/) extension to load [Canvas](https://www.instructure.com/canvas) assignments into a [Notion](https://www.notion.so/) database, at just the click of a button — unlock your full time-management and productivity potential!
 
 - [Features](#features)
 - [Screenshots](#screenshots)
@@ -94,7 +94,7 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
 
 # Setup Instructions
 
-1. Install the [Chromium extension](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/)<!--  or the [Firefox add-on](https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/) -->.
+1. Install the [Chromium extension](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/) or the [Firefox add-on](https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/).
 
 2. Duplicate [this Notion database template](https://jamesnzl-sandbox.notion.site/c4d73bebd39c4103b96b2edb8be9e0bd?v=9afaf4b4faee4a5a977c00291be06c9e) (or create/modify your own!).
 
