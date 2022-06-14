@@ -13,10 +13,10 @@
 [![GitHub file size in bytes](https://img.shields.io/github/size/jamesnzl/notion-assignment-import/releases/chromium/notion-assignment-import-chromium_latest.zip?style=flat-square)](https://github.com/JamesNZL/notion-assignment-import/blob/master/releases/notion-assignment-import_latest.zip)
 [![Chrome Web Store version](https://img.shields.io/chrome-web-store/v/elbkjcjgakaoccocmbglokgmalkoacie?style=flat-square)](https://chrome.google.com/webstore/detail/notion-canvas-assignment/elbkjcjgakaoccocmbglokgmalkoacie)
 
-[![Download for Chrome](https://img.shields.io/badge/Download_for-Chrome-4285F4?style=for-the-badge&logo=googlechrome&logoColor=FFFFFF)](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/)
+[![Download for Chrome](https://img.shields.io/badge/Download_for-Chrome-4285F4?style=for-the-badge&logo=googlechrome&logoColor=FFFFFF)](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/)<!-- [![Download for Firefox](https://img.shields.io/badge/Download_for-Firefox-FF9500?style=for-the-badge&logo=firefox&logoColor=FFFFFF)]() -->
 [![Download for Edge](https://img.shields.io/badge/Download_for-Edge-0078D7?style=for-the-badge&logo=microsoftedge&logoColor=FFFFFF)](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/)
 
-A fully-configurable [Chromium extension](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/) to load [Canvas](https://www.instructure.com/canvas) assignments into a [Notion](https://www.notion.so/) database, at just the click of a button — unlock your full time-management and productivity potential!
+A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/)<!--  and [Firefox]() --> extension to load [Canvas](https://www.instructure.com/canvas) assignments into a [Notion](https://www.notion.so/) database, at just the click of a button — unlock your full time-management and productivity potential!
 
 - [Features](#features)
 - [Screenshots](#screenshots)
@@ -25,9 +25,9 @@ A fully-configurable [Chromium extension](https://chrome.google.com/webstore/det
   - [Extension Options](#extension-options)
 - [Setup Instructions](#setup-instructions)
   - [Configurable Options](#configurable-options)
-    - [Why have `Date span`, on top of `Available date` and `Due date`?](#why-have-date-span-on-top-of-available-date-and-due-date)
     - [`Canvas Course Code Overrides`](#canvas-course-code-overrides)
     - [`Notion Course Emojis`](#notion-course-emojis)
+- [Building For Local Development](#building-for-local-development)
 - [How It Works](#how-it-works)
   - [Assignment Parsing](#assignment-parsing)
   - [Notion Import](#notion-import)
@@ -61,7 +61,7 @@ A fully-configurable [Chromium extension](https://chrome.google.com/webstore/det
 
 # Setup Instructions
 
-1. [Install the extension](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/) from the Chrome Web Store.
+1. Install the [Chromium extension](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/)<!--  or the [Firefox add-on]() -->.
 
 2. Duplicate [this Notion database template](https://jamesnzl-sandbox.notion.site/c4d73bebd39c4103b96b2edb8be9e0bd?v=9afaf4b4faee4a5a977c00291be06c9e) (or create/modify your own!).
 
@@ -165,6 +165,20 @@ Configure the `Notion Course Emojis` to the following:
    "OTH 101": "👀"
 }
 ```
+
+# Building For Local Development
+
+This project uses [`gulp`](https://gulpjs.com/) and [`browserify`](https://browserify.org/) under-the-bonnet to bundle the compiled JavaScript files to be browser-ready.
+
+1. Clone this repository.
+
+2. Run `npm install -D` to install the required dependencies.
+
+3. Run the appropriate build script:
+   1. `npm debug` to build source-mapped, non-minified `dist` files that are easier to debug.
+   2. `npm build` for minified `dist` files.
+
+4. A `dist/` directory will be created containing a separate extension root folder for each supported vendor.
 
 # How It Works
 
