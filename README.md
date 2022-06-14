@@ -1,20 +1,53 @@
 <div align="center">
    <img src="assets/header.png" width="50%">
+   <br>
+   <br>
+   <div>
+      <a href="https://github.com/JamesNZL/notion-assignment-import/issues">
+         <img src="https://img.shields.io/github/issues/jamesnzl/notion-assignment-import" alt="GitHub issues">
+      </a>
+      <a href="https://github.com/JamesNZL/notion-assignment-import/pulls">
+         <img src="https://img.shields.io/github/issues-pr/jamesnzl/notion-assignment-import" alt="GitHub pull requests">
+      </a>
+      <a href="https://github.com/JamesNZL/notion-assignment-import/actions/workflows/npm-gulp.yml">
+         <img src="https://img.shields.io/github/workflow/status/jamesnzl/notion-assignment-import/Gulp%20Build" alt="GitHub Workflow Status">
+      </a>
+      <a href="https://github.com/JamesNZL/notion-assignment-import/commits">
+         <img src="https://img.shields.io/github/last-commit/jamesnzl/notion-assignment-import" alt="GitHub last commit">
+      </a>
+   </div>
+   <div>
+      <a href="https://github.com/JamesNZL/notion-assignment-import/releases">
+         <img src="https://img.shields.io/github/v/release/jamesnzl/notion-assignment-import?label=latest&sort=semver&style=flat-square" alt="GitHub release (latest SemVer)">
+      </a>
+      <a href="https://chrome.google.com/webstore/detail/notion-canvas-assignment/elbkjcjgakaoccocmbglokgmalkoacie/">
+         <img src="https://img.shields.io/chrome-web-store/v/elbkjcjgakaoccocmbglokgmalkoacie?style=flat-square" alt="Chrome Web Store version">
+      </a>
+      <!-- <a href="https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/">
+         <img src="https://img.shields.io/amo/v/notion-assignment-import?style=flat-square" alt="Mozilla Add-on version">
+      </a> -->
+   </div>
 </div>
 
 # Notion Assignment Import
 
-[![GitHub issues](https://img.shields.io/github/issues/jamesnzl/notion-assignment-import)](https://github.com/JamesNZL/notion-assignment-import/issues)
-[![GitHub pull requests](https://img.shields.io/github/issues-pr/jamesnzl/notion-assignment-import)](https://github.com/JamesNZL/notion-assignment-import/pulls)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/jamesnzl/notion-assignment-import/Gulp%20Build)](https://github.com/JamesNZL/notion-assignment-import/actions/workflows/npm-gulp.yml)
-[![GitHub last commit](https://img.shields.io/github/last-commit/jamesnzl/notion-assignment-import)](https://github.com/JamesNZL/notion-assignment-import/commits)
+<br>
 
-[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/jamesnzl/notion-assignment-import?label=latest&sort=semver&style=flat-square)](https://github.com/JamesNZL/notion-assignment-import/releases)
-[![GitHub file size in bytes](https://img.shields.io/github/size/jamesnzl/notion-assignment-import/releases/chromium/notion-assignment-import-chromium_latest.zip?style=flat-square)](https://github.com/JamesNZL/notion-assignment-import/blob/master/releases/notion-assignment-import_latest.zip)
-[![Chrome Web Store version](https://img.shields.io/chrome-web-store/v/elbkjcjgakaoccocmbglokgmalkoacie?style=flat-square)](https://chrome.google.com/webstore/detail/notion-canvas-assignment/elbkjcjgakaoccocmbglokgmalkoacie)
+<div align="center">
+   <div>
+      <a href="https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/">
+         <img src="https://img.shields.io/badge/Download_for-Chrome-4285F4?style=for-the-badge&logo=googlechrome&logoColor=FFFFFF" alt="Download for Chrome">
+      </a>
+      <!-- <a href="https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/">
+         <img src="https://img.shields.io/badge/Download_for-Firefox-FF9500?style=for-the-badge&logo=firefox&logoColor=FFFFFF" alt="Download for Firefox">
+      </a> -->
+      <a href="https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/">
+         <img src="https://img.shields.io/badge/Download_for-Edge-0078D7?style=for-the-badge&logo=microsoftedge&logoColor=FFFFFF" alt="Download for Edge">
+      </a>
+   </div>
+</div>
 
-[![Download for Chrome](https://img.shields.io/badge/Download_for-Chrome-4285F4?style=for-the-badge&logo=googlechrome&logoColor=FFFFFF)](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/)<!-- [![Download for Firefox](https://img.shields.io/badge/Download_for-Firefox-FF9500?style=for-the-badge&logo=firefox&logoColor=FFFFFF)](https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/) -->
-[![Download for Edge](https://img.shields.io/badge/Download_for-Edge-0078D7?style=for-the-badge&logo=microsoftedge&logoColor=FFFFFF)](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/)
+<br>
 
 A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/)<!--  and [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/) --> extension to load [Canvas](https://www.instructure.com/canvas) assignments into a [Notion](https://www.notion.so/) database, at just the click of a button — unlock your full time-management and productivity potential!
 
@@ -79,7 +112,7 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
 6. Click `Save Canvas Assignments`.
 
 7. You should see the course code appear in the `Saved Assignments` list.
-   1. Click `View Saved JSON` to view the raw stored JSON.
+   1. Click `View Saved JSON` to view the raw stored `JSON`.
    2. Click `List Saved Courses` to return to the ordered list of course codes.
    3. Click `Clear Saved Assignments` to remove the saved assignments from storage.
 
