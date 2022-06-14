@@ -39,7 +39,6 @@
 }
 
 html {
-	width: 425px;
 	background-color: var(--background);
 	color: var(--text-colour);
 	font-family: ui-sans-serif,
@@ -65,7 +64,7 @@ html {
 }
 
 body {
-	width: inherit;
+	width: 375px;
 	margin: 2rem 1.5rem;
 	font-size: 12px;
 }
