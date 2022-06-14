@@ -65,6 +65,7 @@ html {
 }
 
 body {
+	width: inherit;
 	margin: 2rem 1.5rem;
 }
 
