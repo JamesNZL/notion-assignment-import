@@ -75,7 +75,7 @@ if (areHTMLElements(buttons)) {
 
 		await browser.scripting.executeScript({
 			target: { tabId: tab.id },
-			files: ['dist/popup/parse.js'],
+			files: ['popup/parse.js'],
 		});
 
 		let courseCode = undefined;
