@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.6](https://github.com/JamesNZL/notion-assignment-import/compare/v3.0.5...v3.0.6) (2022-06-14)
+
+
+### Bug Fixes
+
+* **interface:** :lipstick: fix `width` of `body` on options page ([1787086](https://github.com/JamesNZL/notion-assignment-import/commit/17870869446147de696f3080848523b5e38081c2))
+
 ### [3.0.5](https://github.com/JamesNZL/notion-assignment-import/compare/v3.0.4...v3.0.5) (2022-06-14)
 
 
