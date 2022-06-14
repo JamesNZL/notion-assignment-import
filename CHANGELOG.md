@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.5](https://github.com/JamesNZL/notion-assignment-import/compare/v3.0.4...v3.0.5) (2022-06-14)
+
+
+### Bug Fixes
+
+* **firefox:** :alien: add support for `tabs.executeScript()` for `mv2` ([718f425](https://github.com/JamesNZL/notion-assignment-import/commit/718f425e79cab45c1102e0a2a5acff94fda914f8))
+* **firefox:** :lipstick: inherit `body` `width` ([bc5b50f](https://github.com/JamesNZL/notion-assignment-import/commit/bc5b50f6a50ce953868dd7bf68b42f1f78b1ccdb))
+* **firefox:** :lipstick: set `font-size` explicitly ([66632b5](https://github.com/JamesNZL/notion-assignment-import/commit/66632b5e04220d55c9250eeb9fde6daa26996e36))
+* **firefox:** :recycle: use `browser` namespace to fix firefox bugs ([e5517c4](https://github.com/JamesNZL/notion-assignment-import/commit/e5517c428261fcfb12958d297a021fe7374c266a))
+* **interface:** :lipstick: directly set `width` style on `body` ([ef4d10b](https://github.com/JamesNZL/notion-assignment-import/commit/ef4d10bd89634dd1a489b8afdf56c2d126b419c8))
+* **interface:** :lipstick: explicitly define `font-family` ([75f49c4](https://github.com/JamesNZL/notion-assignment-import/commit/75f49c43cdddeaa92ee993a02d8790f7a4b1eede))
+* **manifest:** :wrench: fix invalid manifest `v2` fields ([b6c7339](https://github.com/JamesNZL/notion-assignment-import/commit/b6c7339a689bca8ee5fc2115cf21eba080936641))
+* **popup:** :truck: fix path to `parse.js` ([52b0a78](https://github.com/JamesNZL/notion-assignment-import/commit/52b0a78f7ca00b9a327226b511e23e7370a56cae))
+
 ### [3.0.4](https://github.com/JamesNZL/notion-assignment-import/compare/v3.0.3...v3.0.4) (2022-06-13)
 
 
