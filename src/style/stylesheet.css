@@ -67,6 +67,7 @@ html {
 body {
 	width: inherit;
 	margin: 2rem 1.5rem;
+	font-size: 12px;
 }
 
 .full-width {
