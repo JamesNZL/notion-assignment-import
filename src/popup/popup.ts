@@ -71,12 +71,26 @@ if (areHTMLElements(buttons)) {
 
 		const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
 
-		if (!tab.id) return;
+		if (!tab.id) return alert('No active tab found.');
 
-		await browser.scripting.executeScript({
-			target: { tabId: tab.id },
-			files: ['popup/parse.js'],
-		});
+		const result: unknown = await (
+			(browser.scripting)
+				? browser.scripting.executeScript({
+					target: { tabId: tab.id },
+					files: ['popup/parse.js'],
+				})
+				: browser.tabs.executeScript(tab.id, {
+					file: '/popup/parse.js',
+				})
+					.catch((error: Error) => {
+						// Ignore non-structured-clonable error
+						if (error.message.includes('non-structured-clonable')) return true;
+						throw error;
+					})
+		)
+			.catch(console.error);
+
+		if (!result) return alert('An error was encountered whilst attempting to parse assignments.');
 
 		let courseCode = undefined;
 		while (courseCode === undefined) {
