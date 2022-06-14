@@ -21,18 +21,19 @@ export interface SavedAssignments {
 	const options = await getOptions();
 
 	class CanvasAssignment {
+		public static readonly INVALID_REQUIRED: unique symbol = Symbol('INVALID_REQUIRED');
 		private static validSelectors = new Set();
 		private static invalidSelectors = new Set();
 
 		private assignment: NonNullable<ReturnType<Element['querySelector']>>;
 
-		// if name, url, or due is '', !isValid()
-		private name: string | '';
+		// if name, url, or due is INVALID_REQUIRED, !isValid()
+		private name: string | typeof CanvasAssignment.INVALID_REQUIRED;
 		private course: string;
 		private icon: EmojiRequest | null;
-		private url: string | '';
+		private url: string | typeof CanvasAssignment.INVALID_REQUIRED;
 		private available: string;
-		private due: string | '';
+		private due: string | typeof CanvasAssignment.INVALID_REQUIRED;
 
 		public constructor(assignment: NonNullable<ReturnType<Element['querySelector']>>) {
 			this.assignment = assignment;
@@ -46,21 +47,26 @@ export interface SavedAssignments {
 		}
 
 		public isValid(): boolean {
-			return [this.name, this.url, this.due].every(Boolean);
+			return ![this.name, this.url, this.due].includes(CanvasAssignment.INVALID_REQUIRED);
 		}
 
 		public getCourse(): string | 'Unknown Course Code' {
 			return `${(this.icon) ? `${this.icon} ` : ''}${this.course}`;
 		}
 
-		public toParsedAssignment(): IParsedAssignment {
+		/**
+		 * @returns `null` if `!this.isValid()`
+		 */
+		public toParsedAssignment(): IParsedAssignment | null {
+			if (!this.isValid()) return null;
+
 			return {
-				name: this.name,
+				name: <string>this.name,
 				course: this.course,
 				icon: this.icon,
-				url: this.url,
+				url: <string>this.url,
 				available: this.available,
-				due: this.due,
+				due: <string>this.due,
 			};
 		}
 
@@ -89,8 +95,8 @@ export interface SavedAssignments {
 			return <HTMLAnchorElement>title;
 		}
 
-		private parseName(): string | '' {
-			return this.parseTitle()?.textContent?.trim() ?? '';
+		private parseName(): string | typeof CanvasAssignment.INVALID_REQUIRED {
+			return this.parseTitle()?.textContent?.trim() ?? CanvasAssignment.INVALID_REQUIRED;
 		}
 
 		private parseCourse(): string | 'Unknown Course Code' {
@@ -103,8 +109,8 @@ export interface SavedAssignments {
 			return options.notion.courseEmojis[this.course] ?? null;
 		}
 
-		private parseURL(): string | '' {
-			return this.parseTitle()?.href ?? '';
+		private parseURL(): string | typeof CanvasAssignment.INVALID_REQUIRED {
+			return this.parseTitle()?.href ?? CanvasAssignment.INVALID_REQUIRED;
 		}
 
 		private static getNextHour(): string {
@@ -131,7 +137,7 @@ export interface SavedAssignments {
 			return parseDate(availableString, { timezone: options.timeZone ?? undefined }).toISOString();
 		}
 
-		private parseDue(): string | '' {
+		private parseDue(): string | typeof CanvasAssignment.INVALID_REQUIRED {
 			const dueString = this.queryRequired(options.canvas.selectors.dueDate, false)?.textContent?.trim();
 
 			if (dueString) {
@@ -140,8 +146,8 @@ export interface SavedAssignments {
 				if (dueDate.valueOf() > Date.now()) return dueDate.toISOString();
 			}
 
-			// if due date was unable to be parsed, or if the due date is in the past, return ''
-			return '';
+			// if due date was unable to be parsed, or if the due date is in the past, return INVALID_REQUIRED
+			return CanvasAssignment.INVALID_REQUIRED;
 		}
 	}
 
@@ -156,7 +162,7 @@ export interface SavedAssignments {
 	if (canvasAssignments.length) {
 		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await browser.storage.local.get({ savedAssignments: {} });
 
-		savedAssignments[canvasAssignments[0].getCourse()] = canvasAssignments.map(assignment => assignment.toParsedAssignment());
+		savedAssignments[canvasAssignments[0].getCourse()] = <IParsedAssignment[]>canvasAssignments.map(assignment => assignment.toParsedAssignment()).filter(Boolean);
 
 		await browser.storage.local.set({
 			savedAssignments,
@@ -168,6 +174,7 @@ export interface SavedAssignments {
 		alert('No valid assignments were found on this page.\n\nNOTE: Assignments without due dates are treated as invalid.');
 
 		await browser.storage.local.set({
+			// TODO: this should probably be something else
 			savedCourse: '',
 		});
 	}
