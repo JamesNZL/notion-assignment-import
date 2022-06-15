@@ -51,6 +51,12 @@
          <img src="https://img.shields.io/badge/Download_for-Edge-0078D7?style=for-the-badge&logo=microsoftedge&logoColor=FFFFFF" alt="Download for Edge">
       </a>
    </div>
+   <br>
+   <div>
+      <a href="https://discord.gg/k2jjmmVPeK">
+         <img src="https://discordapp.com/api/guilds/986498578300149780/widget.png?style=banner2" alt="Discord Server"/>
+      </a>
+   </div>
 </div>
 
 <br>
@@ -98,6 +104,12 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
 ![Options page part 1](./assets/screenshots/options1.png)
 ![Options page part 2](./assets/screenshots/options2.png)
 ![Options page part 3](./assets/screenshots/options3.png)
+
+# Discord Server
+
+To be notified with updates and changelogs, to get in touch, or just to lurk, join the [Discord server](https://discord.gg/k2jjmmVPeK)!
+
+![Discord Banner](https://discordapp.com/api/guilds/986498578300149780/widget.png?style=banner3)
 
 # Setup Instructions
 
