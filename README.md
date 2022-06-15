@@ -128,7 +128,7 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
 
 ## macOS Instructions
 
-1. Download the `notion-assignment-import-safari` folder in the repository.
+1. Download the latest `notion-assignment-import-safari.zip` folder in the `releases` -> `safari` folder, and unzip it.
 2. Navigate to the file `Notion Canvas Assignment Import` in `notion-assignment-import-safari` -> `Contents` -> `MacOS`.
 3. Open up the `terminal` app. Paste in this command:
 
