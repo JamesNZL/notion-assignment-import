@@ -26,6 +26,9 @@
       <a href="https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/">
          <img src="https://img.shields.io/amo/v/notion-assignment-import?style=flat-square" alt="Mozilla Add-on version">
       </a>
+      <a href="releases/safari/">
+         <img src="https://img.shields.io/badge/safari-v3.0.6-blue?style=flat-square" alt="Safari version">
+      </a>
    </div>
 </div>
 
@@ -41,6 +44,9 @@
       <a href="https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/">
          <img src="https://img.shields.io/badge/Download_for-Firefox-FF9500?style=for-the-badge&logo=firefox&logoColor=FFFFFF" alt="Download for Firefox">
       </a>
+      <a href="#macos-instructions">
+         <img src="https://img.shields.io/badge/Download_for-Safari-000000?style=for-the-badge&logo=safari&logoColor=FFFFFF" alt="Download for Safari">
+      </a>
       <a href="https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/">
          <img src="https://img.shields.io/badge/Download_for-Edge-0078D7?style=for-the-badge&logo=microsoftedge&logoColor=FFFFFF" alt="Download for Edge">
       </a>
@@ -49,7 +55,7 @@
 
 <br>
 
-A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/) and [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/) extension to load [Canvas](https://www.instructure.com/canvas) assignments into a [Notion](https://www.notion.so/) database, at just the click of a button — unlock your full time-management and productivity potential!
+A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/), [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/), and [Safari](#macos-instructions) extension to load [Canvas](https://www.instructure.com/canvas) assignments into a [Notion](https://www.notion.so/) database, at just the click of a button — unlock your full time-management and productivity potential!
 
 - [Features](#features)
 - [Screenshots](#screenshots)
@@ -57,6 +63,7 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
   - [Notion Database Examples](#notion-database-examples)
   - [Extension Options](#extension-options)
 - [Setup Instructions](#setup-instructions)
+  - [macOS Instructions](#macos-instructions)
   - [Configurable Options](#configurable-options)
     - [`Canvas Course Code Overrides`](#canvas-course-code-overrides)
     - [`Notion Course Emojis`](#notion-course-emojis)
@@ -94,7 +101,7 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
 
 # Setup Instructions
 
-1. Install the [Chromium extension](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/) or the [Firefox add-on](https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/).
+1. Install the [Chromium extension](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/), [Firefox add-on](https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/), or [Safari extension](#macos-instructions).
 
 2. Duplicate [this Notion database template](https://jamesnzl-sandbox.notion.site/c4d73bebd39c4103b96b2edb8be9e0bd?v=9afaf4b4faee4a5a977c00291be06c9e) (or create/modify your own!).
 
@@ -119,6 +126,49 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
 8. Repeat steps 5–7 as desired.
 
 9. Once you have saved the assignments of all your desired courses, click the `Export Saved Assignments` button to export to Notion.
+
+## macOS Instructions
+
+1. Download the latest [`notion-assignment-import-safari_latest.zip`](releases/safari/notion-assignment-import-safari_latest.zip) archive from [`releases/safari`](releases/safari/).
+
+2. Unzip the `.zip` archive.
+
+3. Navigate to the file `Notion Canvas Assignment Import` in `notion-assignment-import-safari/Content/MacOS`.
+
+4. Open up the `terminal` app. Paste in this command:
+
+```bash
+chmod +x
+```
+
+5. Drag and drop the `Notion Canvas Assignment Import` file into your terminal window. Now you should have something looking like this:
+
+```bash
+chmod +x chmod +x /Users/YOUR_USERNAME/Downloads/notion-assignment-import-safari/Contents/MacOS/Notion\ Canvas\ Assignment\ Import
+```
+
+6. Hit `Enter`. You may now close the terminal.
+
+7. Rename the folder `notion-assignment-import-safari` to `notion-assignment-import-safari.app`.
+   > This turns the folder into an app.
+
+8. Now drag and drop the app into the applications folder.
+
+9. Open the app.
+   - If you have successfully opened the app, skip to **Step 11**.
+   - If you have issues opening the app with an error message saying the app is unsafe, continue below.
+
+10. Open `System Preferences` and go to `Security and Privacy` -> `General`. There should be a prompt about applications from unidentified developers. Click `Open Anyway`. Click `allow` for any further prompts.
+
+11. Reopen the app.
+
+12. Go to `Safari Preferences` -> `Advanced` and enable `Show Develop menu in menu bar`.
+
+13. Go to the `Develop menu` in the menu bar, and click `Allow unsigned extensions`.
+
+14. Go back to `Safari Preferences` and now go to the `Extensions` pane. Enable the extension.
+
+15. Done!
 
 ## Configurable Options
 
