@@ -51,74 +51,106 @@
 
 A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/) and [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/) extension to load [Canvas](https://www.instructure.com/canvas) assignments into a [Notion](https://www.notion.so/) database, at just the click of a button — unlock your full time-management and productivity potential!
 
-- [Features](#features)
-- [Screenshots](#screenshots)
-  - [Extension Popup](#extension-popup)
-  - [Notion Database Examples](#notion-database-examples)
-  - [Extension Options](#extension-options)
-- [Setup Instructions](#setup-instructions)
-  - [Configurable Options](#configurable-options)
-    - [`Canvas Course Code Overrides`](#canvas-course-code-overrides)
-    - [`Notion Course Emojis`](#notion-course-emojis)
-- [Building For Local Development](#building-for-local-development)
-- [How It Works](#how-it-works)
-  - [Assignment Parsing](#assignment-parsing)
-  - [Notion Import](#notion-import)
+-   [Features](#features)
+-   [Screenshots](#screenshots)
+    -   [Extension Popup](#extension-popup)
+    -   [Notion Database Examples](#notion-database-examples)
+    -   [Extension Options](#extension-options)
+-   [Setup Instructions](#setup-instructions)
+    -   [Configurable Options](#configurable-options)
+        -   [`Canvas Course Code Overrides`](#canvas-course-code-overrides)
+        -   [`Notion Course Emojis`](#notion-course-emojis)
+-   [Building For Local Development](#building-for-local-development)
+-   [How It Works](#how-it-works)
+    -   [Assignment Parsing](#assignment-parsing)
+    -   [Notion Import](#notion-import)
 
 # Features
 
-- Simple and user-friendly interface
-- Provided [Notion database template](https://jamesnzl-sandbox.notion.site/c4d73bebd39c4103b96b2edb8be9e0bd?v=9afaf4b4faee4a5a977c00291be06c9e)
-- Configurable options with input validation
-- `Category` database property for seamless integration into an existing tasks database
-- Fine-tuning of database property names and values
-- Overriding of the course name displayed in Canvas
-- Custom emojis for each course to be displayed as Notion page icons
-- Open source
-- Private and secure — all data is stored locally, and loaded by your own Notion Integration!
+-   Simple and user-friendly interface
+-   Provided [Notion database template](https://jamesnzl-sandbox.notion.site/c4d73bebd39c4103b96b2edb8be9e0bd?v=9afaf4b4faee4a5a977c00291be06c9e)
+-   Configurable options with input validation
+-   `Category` database property for seamless integration into an existing tasks database
+-   Fine-tuning of database property names and values
+-   Overriding of the course name displayed in Canvas
+-   Custom emojis for each course to be displayed as Notion page icons
+-   Open source
+-   Private and secure — all data is stored locally, and loaded by your own Notion Integration!
 
 # Screenshots
 
 ## Extension Popup
+
 ![Extension popup](./assets/screenshots/popup.png)
 
 ## Notion Database Examples
+
 ![Notion board example](./assets/screenshots/board.png)
 ![Notion timeline example](./assets/screenshots/timeline.png)
 ![Notion calendar example](./assets/screenshots/calendar.png)
 
 ## Extension Options
+
 ![Options page part 1](./assets/screenshots/options1.png)
 ![Options page part 2](./assets/screenshots/options2.png)
 ![Options page part 3](./assets/screenshots/options3.png)
 
 # Setup Instructions
 
-1. Install the [Chromium extension](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/) or the [Firefox add-on](https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/).
+1. Install the [Chromium extension](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/) or the [Firefox add-on](https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/). For Safari, scroll below for isntallation instructions on macOS. Once that is complete, come back here.
 
 2. Duplicate [this Notion database template](https://jamesnzl-sandbox.notion.site/c4d73bebd39c4103b96b2edb8be9e0bd?v=9afaf4b4faee4a5a977c00291be06c9e) (or create/modify your own!).
 
 3. Click `Configure Options` to configure the extension.
-   1. Create a new Notion Internal Integration, and add it to the desired database.
-		> Follow step 1–2 on [this page](https://developers.notion.com/docs/getting-started#step-1-create-an-integration).
-      1. Copy and paste your integration key into the `Notion Integration Key` option field.
-      2. Copy and paste your database identifier into the `Notion Database ID` option field.
+
+    1. Create a new Notion Internal Integration, and add it to the desired database.
+        > Follow step 1–2 on [this page](https://developers.notion.com/docs/getting-started#step-1-create-an-integration).
+        1. Copy and paste your integration key into the `Notion Integration Key` option field.
+        2. Copy and paste your database identifier into the `Notion Database ID` option field.
 
 4. Configure the `Timezone` and `Notion Database Properties` if necessary.
-	> You should only ever change the `Canvas Class Names` options if the extension is not parsing assignments correctly, and you know what you are doing.
+
+    > You should only ever change the `Canvas Class Names` options if the extension is not parsing assignments correctly, and you know what you are doing.
 
 5. Open the Canvas Assignments page for the course you wish to import.
 
 6. Click `Save Canvas Assignments`.
 
 7. You should see the course code appear in the `Saved Assignments` list.
-   1. Click `View Saved JSON` to view the raw stored `JSON`.
-   2. Click `List Saved Courses` to return to the ordered list of course codes.
-   3. Click `Clear Saved Assignments` to remove the saved assignments from storage.
+
+    1. Click `View Saved JSON` to view the raw stored `JSON`.
+    2. Click `List Saved Courses` to return to the ordered list of course codes.
+    3. Click `Clear Saved Assignments` to remove the saved assignments from storage.
 
 8. Repeat steps 5–7 as desired.
 
 9. Once you have saved the assignments of all your desired courses, click the `Export Saved Assignments` button to export to Notion.
+
+## macOS Instructions
+
+1. Download the `notion-assignment-import-safari` folder in the repository.
+2. Navigate to the file `Notion Canvas Assignment Import` in `notion-assignment-import-safari` -> `Contents` -> `MacOS`.
+3. Open up the `terminal` app. Paste in this command:
+
+```bash
+chmod +x
+```
+
+4. Drag and drop the `Notion Canvas Assignment Import` file into your terminal window. Now you should have something looking like this:
+
+```bash
+chmod +x chmod +x /Users/YOUR_USERNAME/Downloads/notion-assignment-import-safari/Contents/MacOS/Notion\ Canvas\ Assignment\ Import
+```
+
+5. Press enter. You may now close the terminal.
+6. Rename the folder `notion-assignment-import-safari` to `notion-assignment-import-safari.app`. This turns the folder into an app.
+7. Now drag and drop the app into the applications folder.
+8. Open the app. If you have successfully opened the app, skip to step 11. Otherwise, if you have issues opening the app with an error message saying the app is unsafe, continue below.
+9. Open `System Preferences` and go to `Security and Privacy` -> `General`. There should be a prompt about applications from unidentified developers. Click `Open Anyway`. Click `allow` for any further prompts.
+10. Reopen the app.
+11. Go to `Safari Preferences` -> `Advanced` and enable `Show Develop menu in menu bar`.
+12. Go to the `Develop menu` in the menu bar, and click `Allow unsigned extensions`.
+13. Go back to `Safari Preferences` and now go to the `Extensions` pane. Enable the extension. Done!
 
 ## Configurable Options
 
@@ -154,14 +186,15 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
 Good question — this was ultimately a design decision I made for maximum flexibility.
 
 This enables many possible use-cases, such as:
-   1. Timelines to be created by `Date span`;
-   2. Calendars to be set to:
-      1. `Date span`, or
-      2. `Due date` only.
-   3. Reminders to be set independent to the available date;
-   4. Manipulation of the start/end dates on a timeline independent to the available/due date; and
-   5. Sorting assignments by *due date*, rather than only being able to sort by available date.
-      > There is no ability to sort Notion `Date` (span) properties by their end date — only their start date.
+
+1. Timelines to be created by `Date span`;
+2. Calendars to be set to:
+    1. `Date span`, or
+    2. `Due date` only.
+3. Reminders to be set independent to the available date;
+4. Manipulation of the start/end dates on a timeline independent to the available/due date; and
+5. Sorting assignments by _due date_, rather than only being able to sort by available date.
+    > There is no ability to sort Notion `Date` (span) properties by their end date — only their start date.
 
 Of course, you are welcome to configure any of these property names to be empty — empty properties are ignored on import.
 
@@ -208,8 +241,9 @@ This project uses [`gulp`](https://gulpjs.com/) and [`browserify`](https://brows
 2. Run `npm install -D` to install the required dependencies.
 
 3. Run the appropriate build script:
-   1. `npm run debug` to build source-mapped, non-minified `dist` files that are easier to debug.
-   2. `npm run build` for minified `dist` files.
+
+    1. `npm run debug` to build source-mapped, non-minified `dist` files that are easier to debug.
+    2. `npm run build` for minified `dist` files.
 
 4. A `dist/` directory will be created containing a separate extension root folder for each supported vendor.
 
@@ -220,10 +254,11 @@ This project uses [`gulp`](https://gulpjs.com/) and [`browserify`](https://brows
 1. Assignments are parsed from the `DOM` using the configured `Assignment class`.
 
 2. Assignments are individually parsed for their name, course, URL, available (from) date, and due date:
-   1. `Canvas Course Code Overrides` are applied as configured,
-   2. `Notion Course Emojis` are applied as configured, and
-   3. Assignments without due dates are ignored.
-   > Assignments without 'available date' information (or are already available), are set to be available from the top of the next hour (relative to parsing time).
+
+    1. `Canvas Course Code Overrides` are applied as configured,
+    2. `Notion Course Emojis` are applied as configured, and
+    3. Assignments without due dates are ignored.
+        > Assignments without 'available date' information (or are already available), are set to be available from the top of the next hour (relative to parsing time).
 
 3. Parsed assignments are saved by course in Chrome local storage in a `JSON`-serialisable format (see `IParsedAssignment` and `SavedAssignment` in [`parse.ts`](src/popup/parse.ts)).
 
