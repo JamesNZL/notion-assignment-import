@@ -133,7 +133,7 @@ if (areHTMLElements(buttons)) {
 		}
 	});
 
-	buttons.listCourses.addEventListener('click', () => updateSavedCoursesList());
+	buttons.listCourses.addEventListener('click', updateSavedCoursesList);
 
 	buttons.copyJSON.addEventListener('click', async () => {
 		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await browser.storage.local.get({ savedAssignments: {} });
