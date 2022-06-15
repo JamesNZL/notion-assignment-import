@@ -92,7 +92,7 @@ body {
 	margin-bottom: calc(1.5 * var(--margin));
 	padding: var(--margin) 0;
 	border-radius: var(--border-radius);
-	max-height: 185px;
+	max-height: 30vh;
 	overflow-y: scroll;
 }
 
