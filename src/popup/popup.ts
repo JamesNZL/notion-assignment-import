@@ -12,7 +12,7 @@ interface Elements {
 		options: 'options-button';
 		parse: 'parse-button';
 		export: 'export-button';
-		viewJSON: 'view-json-button';
+		listAssignments: 'list-assignments-button';
 		listCourses: 'list-courses-button';
 		copyJSON: 'copy-json-button';
 		clearStorage: 'clear-storage-button';
@@ -34,7 +34,7 @@ const buttons: Record<ButtonName, ReturnType<typeof getElementById>> = {
 	options: getElementById('options-button'),
 	parse: getElementById('parse-button'),
 	export: getElementById('export-button'),
-	viewJSON: getElementById('view-json-button'),
+	listAssignments: getElementById('list-assignments-button'),
 	listCourses: getElementById('list-courses-button'),
 	copyJSON: getElementById('copy-json-button'),
 	clearStorage: getElementById('clear-storage-button'),
@@ -120,16 +120,28 @@ if (areHTMLElements(buttons)) {
 		}
 	});
 
-	buttons.viewJSON.addEventListener('click', async () => {
+	buttons.listAssignments.addEventListener('click', async () => {
 		const savedCourses = getElementById('saved-courses-list');
 
 		if (savedCourses) {
 			const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await browser.storage.local.get({ savedAssignments: {} });
 
-			setButtonDisplay(buttons.viewJSON, 'none');
+			const assignmentsList = Object.entries(savedAssignments)
+				.reduce((list: string, [course, assignments]) => {
+					return list + `<li>${course}</li>\n
+					<ul>
+					${assignments.reduce((courseList: string, { icon, name, url }) => {
+						return courseList + `<li>${(icon) ? `${icon} ` : ''}<a href='${url}' target='_blank'>${name}</a></li>\n`;
+					}, '')}
+					</ul>\n`;
+				}, '');
+
+			setButtonDisplay(buttons.listAssignments, 'none');
 			setButtonDisplay(buttons.listCourses, 'inline-block');
 
-			savedCourses.innerHTML = `<p><code>${JSON.stringify(savedAssignments).replace(/,/g, ',<wbr>')}</code></p>`;
+			savedCourses.innerHTML = (assignmentsList)
+				? `<ol>${assignmentsList}</ol>`
+				: '<p>No saved assignments.</p>';
 		}
 	});
 
@@ -171,7 +183,7 @@ async function updateSavedCoursesList() {
 		const coursesList = Object.entries(savedAssignments).reduce((list: string, [course, assignments]) => list + `<li>${course} (<code>${assignments.length}</code> assignments)</li>\n`, '');
 
 		setButtonDisplay(buttons.listCourses, 'none');
-		setButtonDisplay(buttons.viewJSON, 'inline-block');
+		setButtonDisplay(buttons.listAssignments, 'inline-block');
 
 		savedCourses.innerHTML = (coursesList)
 			? `<ol>${coursesList}</ol>`

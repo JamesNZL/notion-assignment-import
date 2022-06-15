@@ -106,6 +106,10 @@ body {
 	color: #bbb;
 }
 
+#saved-courses-list ol ul {
+	padding-inline-start: 20px;
+}
+
 button,
 .button {
 	cursor: pointer;
@@ -169,12 +173,14 @@ button:disabled {
 	cursor: not-allowed;
 }
 
-#options a {
+#options a,
+#saved-courses-list a {
 	color: rgba(255, 255, 255, .5);
 	text-decoration: none;
 }
 
-#options a:hover {
+#options a:hover,
+#saved-courses-list a:hover {
 	color: rgba(255, 255, 255, .75);
 }
 
