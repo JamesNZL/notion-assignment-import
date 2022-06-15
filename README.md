@@ -129,6 +129,12 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
 
 ## macOS Instructions
 
+> **DISCLAIMER:** This is an unsigned extension that is not installed through the Apple App Store.  
+> This means that you **will not** receive automatic updates, and you must repeat the below installation steps if you wish to update your extension.
+> This may change in a future update.  
+> Note that I am planning to make some major enhancements to the extension after Semester One exams (ie after 22 Jun 22), so you may wish to wait until v4 is released before installing.
+> For updates, join [this Discord server](https://discord.gg/k2jjmmVPeK).
+
 1. Download the latest [`notion-assignment-import-safari_latest.zip`](releases/safari/notion-assignment-import-safari_latest.zip) archive from [`releases/safari`](releases/safari/).
 
 2. Unzip the `.zip` archive.
