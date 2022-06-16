@@ -55,6 +55,7 @@ html {
 		"Helvetica Neue",
 		"Noto Sans",
 		sans-serif;
+	overflow: overlay;
 }
 
 #options {
