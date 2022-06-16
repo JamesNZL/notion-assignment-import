@@ -8,29 +8,40 @@
 <body>
 	<h1>Notion Assignment Import</h1>
 
-	<div>
-		<button class='half-width' id='options-button'>Configure Options</button>
-		<a class='button half-width right' href='https://github.com/JamesNZL/notion-assignment-import' target='_blank'>
-			View on GitHub
-		</a>
+	<div class='row'>
+		<button class='green' id='parse-button'>Save Assignments</button>
+		<button class='green' id='export-button'>Export Assignments</button>
 	</div>
 
 	<div>
-		<h2>Save and Export</h2>
-		<button class='half-width green' id='parse-button'>Save Canvas Assignments</button>
-		<button class='half-width green right' id='export-button'>Export Saved Assignments</button>
-	</div>
-
-	<div id='current-saved-courses'>
 		<h2>Saved Assignments</h2>
 
-		<button class='half-width' id='list-assignments-button'>List Saved Assignments</button>
-		<button class='half-width' id='list-courses-button'>List Saved Courses</button>
-		<button class='half-width right' id='copy-json-button'>Copy Raw <code>JSON</code></button>
+		<div class='row'>
+			<button id='list-assignments-button'>List Saved Assignments</button>
+			<button id='list-courses-button'>List Saved Courses</button>
+
+			<button id='copy-json-button'>Copy Raw <code>JSON</code></button>
+		</div>
 
 		<div id='saved-courses-list'></div>
 
-		<button class='full-width red' id='clear-storage-button'>Clear Saved Assignments</button>
+		<div class='row'>
+			<button class='red' id='clear-storage-button'>Clear Saved Assignments</button>
+		</div>
+	</div>
+
+	<div>
+		<h2>Support Links</h2>
+
+		<div class='row'>
+			<button id='options-button'>Configure Options</button>
+			<a class='button' href='https://github.com/JamesNZL/notion-assignment-import' target='_blank'>
+				GitHub Repository
+			</a>
+			<a class='button' href='https://discord.gg/k2jjmmVPeK' target='_blank'>
+				Discord Server
+			</a>
+		</div>
 	</div>
 
 	<script type='module' src='popup.js'></script>

@@ -78,16 +78,16 @@ h2 {
 	margin-block-end: 0.43rem;
 }
 
-.full-width {
+.row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	gap: calc(2 * var(--margin));
 	width: 100%;
 }
 
-.half-width {
-	width: calc(50% - var(--margin));
-}
-
-.half-width.right {
-	margin-left: var(--margin);
+.row>* {
+	width: 100%;
 }
 
 #saved-courses-list {
