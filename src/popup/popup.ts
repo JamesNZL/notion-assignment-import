@@ -138,7 +138,7 @@ buttons.export.addEventListener('click', async () => {
 			? createdAssignments.reduce((list, { course, name }, index) => list + `${index + 1}. ${course} ${name}\n`, '\n\n')
 			: '';
 
-		buttons.export.setHtml(`Imported ${createdAssignments.length} assignments!`);
+		buttons.export.setHtml(`Imported <code>${createdAssignments.length}</code> assignment${(createdAssignments.length !== 1) ? 's' : ''}!`);
 		buttons.export.resetHtml(3500);
 		alert(`Created ${createdAssignments.length} new assignments.${createdNames}`);
 	}
