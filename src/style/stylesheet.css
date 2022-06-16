@@ -113,6 +113,9 @@ h2 {
 
 #saved-courses-list ol>li {
 	font-size: 14px;
+}
+
+#saved-courses-list strong {
 	font-weight: 600;
 }
 
