@@ -151,14 +151,14 @@ buttons.listAssignments.addEventListener('click', async () => {
 		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await browser.storage.local.get({ savedAssignments: {} });
 
 		const assignmentsList = Object.entries(savedAssignments)
-			.reduce((list: string, [course, assignments]) => {
-				return list + `<li>${course}</li>\n
-					<ul>
-					${assignments.reduce((courseList: string, { icon, name, url }) => {
-					return courseList + `<li>${(icon) ? `${icon} ` : ''}<a href='${url}' target='_blank'>${name}</a></li>\n`;
-				}, '')}
-					</ul>\n`;
-			}, '');
+			.reduce((list: string, [course, assignments]) => list +
+				`
+				<li>${course}</li>\n
+				<ul>
+					${assignments.reduce((courseList: string, { icon, name, url }) => courseList +
+					`<li>${(icon) ? `${icon} ` : ''}<a href='${url}' target='_blank'>${name}</a></li>\n`, '')}
+				</ul>\n
+				`, '');
 
 		buttons.listAssignments.hide();
 		buttons.listCourses.unhide();
