@@ -111,8 +111,15 @@ h2 {
 	color: #bbb;
 }
 
+#saved-courses-list ol>li {
+	font-size: 14px;
+	font-weight: 600;
+}
+
 #saved-courses-list ol ul {
-	padding-inline-start: 20px;
+	padding-inline-start: 21px;
+	margin-block: calc(2.5 * var(--margin));
+	list-style: '-   ';
 }
 
 button,
