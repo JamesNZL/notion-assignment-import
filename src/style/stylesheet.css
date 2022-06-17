@@ -94,7 +94,7 @@ h2 {
 	background-color: var(--darker-grey);
 	color: #d6d6d6;
 	margin-top: var(--margin);
-	margin-bottom: calc(1.5 * var(--margin));
+	margin-bottom: calc(1.25 * var(--margin));
 	padding: var(--margin) 0;
 	border-radius: var(--border-radius);
 	max-height: 30vh;
