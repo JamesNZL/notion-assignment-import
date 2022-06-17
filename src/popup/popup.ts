@@ -43,17 +43,17 @@ class Button {
 		this.defaultHtml = element.innerHTML;
 	}
 
-	public getHtml() {
+	public getHTML() {
 		return this.button.innerHTML;
 	}
 
-	public setHtml(html: string) {
+	public setHTML(html: string) {
 		this.button.innerHTML = html;
 	}
 
-	public resetHtml(delay: number) {
+	public resetHTML(delay: number) {
 		setTimeout(() => {
-			this.setHtml(this.defaultHtml);
+			this.setHTML(this.defaultHtml);
 		}, delay);
 	}
 
@@ -125,13 +125,13 @@ buttons.parse.addEventListener('click', async () => {
 
 	updateSavedCoursesList();
 	if (courseCode) {
-		buttons.parse.setHtml(`Saved ${courseCode}!`);
-		buttons.parse.resetHtml(1325);
+		buttons.parse.setHTML(`Saved ${courseCode}!`);
+		buttons.parse.resetHTML(1325);
 	}
 });
 
 buttons.export.addEventListener('click', async () => {
-	buttons.export.setHtml('Exporting to Notion...');
+	buttons.export.setHTML('Exporting to Notion...');
 
 	const createdAssignments = await exportToNotion();
 
@@ -140,8 +140,8 @@ buttons.export.addEventListener('click', async () => {
 			? createdAssignments.reduce((list, { course, name }, index) => list + `${index + 1}. ${course} ${name}\n`, '\n\n')
 			: '';
 
-		buttons.export.setHtml(`Imported <code>${createdAssignments.length}</code> assignment${(createdAssignments.length !== 1) ? 's' : ''}!`);
-		buttons.export.resetHtml(3500);
+		buttons.export.setHTML(`Imported <code>${createdAssignments.length}</code> assignment${(createdAssignments.length !== 1) ? 's' : ''}!`);
+		buttons.export.resetHTML(3500);
 		alert(`Created ${createdAssignments.length} new assignments.${createdNames}`);
 	}
 });
@@ -178,25 +178,25 @@ buttons.copyJSON.addEventListener('click', async () => {
 
 	await navigator.clipboard.writeText(JSON.stringify(savedAssignments));
 
-	buttons.copyJSON.setHtml('Copied to clipboard!');
-	buttons.copyJSON.resetHtml(1325);
+	buttons.copyJSON.setHTML('Copied to clipboard!');
+	buttons.copyJSON.resetHTML(1325);
 });
 
 buttons.clearStorage.addEventListener('click', () => {
 	const verifyPrompt = 'I\'m sure!';
 
-	if (buttons.clearStorage.getHtml() !== verifyPrompt) {
-		buttons.clearStorage.setHtml(verifyPrompt);
+	if (buttons.clearStorage.getHTML() !== verifyPrompt) {
+		buttons.clearStorage.setHTML(verifyPrompt);
 
-		return buttons.clearStorage.resetHtml(1325);
+		return buttons.clearStorage.resetHTML(1325);
 	}
 
 	browser.storage.local.remove('savedAssignments');
 
 	updateSavedCoursesList();
 
-	buttons.clearStorage.setHtml('Cleared saved assignments!');
-	buttons.clearStorage.resetHtml(3500);
+	buttons.clearStorage.setHTML('Cleared saved assignments!');
+	buttons.clearStorage.resetHTML(3500);
 });
 
 async function updateSavedCoursesList() {
