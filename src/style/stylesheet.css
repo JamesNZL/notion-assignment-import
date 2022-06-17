@@ -74,6 +74,10 @@ body {
 	width: unset;
 }
 
+h1 {
+	margin-block-start: 0;
+}
+
 h2 {
 	margin-block-end: 0.43rem;
 }
@@ -88,6 +92,17 @@ h2 {
 
 .row>* {
 	width: 100%;
+}
+
+#options-button {
+	width: fit-content;
+	margin-top: 0.35rem;
+}
+
+#options-button svg {
+	fill: var(--text-colour);
+	width: 2em;
+	height: 2em;
 }
 
 #saved-courses-list {
