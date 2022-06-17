@@ -80,6 +80,8 @@ const buttons: Record<ButtonName, Button> = {
 	clearStorage: new Button('clear-storage-button'),
 };
 
+buttons.copyJSON.hide();
+
 buttons.options.addEventListener('click', () => {
 	if (browser.runtime.openOptionsPage) {
 		browser.runtime.openOptionsPage();
