@@ -236,8 +236,6 @@ buttons.copyJSON.addEventListener('click', async () => {
 	buttons.copyJSON.resetHTML(1325);
 });
 
-let verifyTimeout: NodeJS.Timeout;
-
 buttons.clearStorage.addEventListener('click', () => {
 	const verifyPrompt = 'I\'m sure!';
 	const verifyPeriod = 3000;
@@ -251,7 +249,7 @@ buttons.clearStorage.addEventListener('click', () => {
 		SavedCoursesList.listCourses({});
 		SavedCoursesList.disableUpdates();
 
-		verifyTimeout = setTimeout(() => {
+		buttons.clearStorage.setTimeout('verify', () => {
 			// reset list display after verify period is over
 			SavedCoursesList.enableUpdates();
 			SavedCoursesList.listCourses();
