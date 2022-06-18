@@ -173,3 +173,8 @@ document.addEventListener('keydown', keyEvent => {
 		saveOptions();
 	}
 });
+
+// hide all canvas class options
+// TODO: sort out this interface / do i still need this as a configurable option?
+const canvasClassNames = document.getElementById('canvas-class-names');
+if (canvasClassNames) canvasClassNames.style.display = 'none';
