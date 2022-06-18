@@ -190,7 +190,7 @@ buttons.parse.addEventListener('click', async () => {
 
 	if (!result) return alert('An error was encountered whilst attempting to parse assignments.');
 
-	let courseCode = undefined;
+	let courseCode: string | null | undefined = undefined;
 	while (courseCode === undefined) {
 		({ savedCourse: courseCode } = await browser.storage.local.get('savedCourse'));
 	}

@@ -173,9 +173,6 @@ export interface SavedAssignments {
 	else {
 		alert('No valid assignments were found on this page.\n\nNOTE: Assignments without due dates are treated as invalid.');
 
-		await browser.storage.local.set({
-			// TODO: this should probably be something else
-			savedCourse: '',
-		});
+		await browser.storage.local.set({ savedCourse: null });
 	}
 })();
