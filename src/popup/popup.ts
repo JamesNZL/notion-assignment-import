@@ -62,6 +62,14 @@ class Button {
 		}, delay);
 	}
 
+	public addClass(className: string) {
+		this.button.classList.add(className);
+	}
+
+	public removeClass(className: string) {
+		this.button.classList.remove(className);
+	}
+
 	public hide() {
 		this.button.style.display = 'none';
 	}
@@ -218,19 +226,30 @@ buttons.copyJSON.addEventListener('click', async () => {
 	buttons.copyJSON.resetHTML(1325);
 });
 
+let verifyTimeout: NodeJS.Timeout;
+
 buttons.clearStorage.addEventListener('click', () => {
 	const verifyPrompt = 'I\'m sure!';
 	const verifyPeriod = 3000;
 
+	clearTimeout(verifyTimeout);
+
 	if (buttons.clearStorage.getHTML() !== verifyPrompt) {
+		buttons.clearStorage.addClass('red');
+		buttons.clearStorage.removeClass('red-hover');
+
 		buttons.clearStorage.setHTML(verifyPrompt);
 
 		SavedCoursesList.listCourses({});
 		SavedCoursesList.disableUpdates();
 
-		setTimeout(() => {
+		verifyTimeout = setTimeout(() => {
+			// reset list display after verify period is over
 			SavedCoursesList.enableUpdates();
 			SavedCoursesList.listCourses();
+
+			buttons.clearStorage.addClass('red-hover');
+			buttons.clearStorage.removeClass('red');
 		}, verifyPeriod);
 
 		return buttons.clearStorage.resetHTML(verifyPeriod);
@@ -242,6 +261,11 @@ buttons.clearStorage.addEventListener('click', () => {
 
 	buttons.clearStorage.setHTML('Cleared saved assignments!');
 	buttons.clearStorage.resetHTML(3500);
+
+	setTimeout(() => {
+		buttons.clearStorage.addClass('red-hover');
+		buttons.clearStorage.removeClass('red');
+	}, 3500);
 });
 
 SavedCoursesList.listCourses();

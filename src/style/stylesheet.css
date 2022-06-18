@@ -1,4 +1,5 @@
 :root {
+	--lighter-grey: #444444;
 	--background: #282828;
 	--dark-grey: #161616;
 	--darker-grey: #080808;
@@ -165,6 +166,16 @@ button,
 button:hover,
 .button:hover {
 	background-color: var(--darker-grey);
+}
+
+button.red-hover {
+	background-color: var(--lighter-grey);
+	color: white;
+}
+
+button.red-hover:hover {
+	background-color: firebrick;
+	color: white;
 }
 
 button.red {
