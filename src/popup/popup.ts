@@ -171,7 +171,7 @@ buttons.listAssignments.addEventListener('click', async () => {
 	}
 });
 
-buttons.listCourses.addEventListener('click', updateSavedCoursesList);
+buttons.listCourses.addEventListener('click', () => updateSavedCoursesList());
 
 getOptions().then(({ popup: { displayJSONButton } }) => {
 	if (!displayJSONButton) buttons.copyJSON.hide();
@@ -203,21 +203,21 @@ buttons.clearStorage.addEventListener('click', () => {
 	buttons.clearStorage.resetHTML(3500);
 });
 
-async function updateSavedCoursesList() {
+async function updateSavedCoursesList(savedAssignments?: SavedAssignments) {
 	const savedCourses = getElementById('saved-courses-list');
 
-	if (savedCourses) {
-		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await browser.storage.local.get({ savedAssignments: {} });
+	if (!savedCourses) return;
 
-		const coursesList = Object.entries(savedAssignments).reduce((list: string, [course, assignments]) => list + `<li><strong>${course}</strong> (<code>${assignments.length}</code> assignment${(assignments.length !== 1) ? 's' : ''})</li>\n`, '');
+	savedAssignments = savedAssignments ?? <SavedAssignments>(await browser.storage.local.get({ savedAssignments: {} })).savedAssignments;
 
-		buttons.listCourses.hide();
-		buttons.listAssignments.unhide();
+	const coursesList = Object.entries(savedAssignments).reduce((list: string, [course, assignments]) => list + `<li><strong>${course}</strong> (<code>${assignments.length}</code> assignment${(assignments.length !== 1) ? 's' : ''})</li>\n`, '');
 
-		savedCourses.innerHTML = (coursesList)
-			? `<ol>${coursesList}</ol>`
-			: '<p>No saved courses.</p>';
-	}
+	buttons.listCourses.hide();
+	buttons.listAssignments.unhide();
+
+	savedCourses.innerHTML = (coursesList)
+		? `<ol>${coursesList}</ol>`
+		: '<p>No saved courses.</p>';
 }
 
 updateSavedCoursesList();
