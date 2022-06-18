@@ -49,13 +49,13 @@ export abstract class InputFieldValidator {
 	protected elementId: string;
 	protected inputValue: NullIfEmpty<string>;
 	protected typeGuard: TypeGuard;
-	protected type: string;
+	protected typeLabel: string;
 
-	public constructor(elementId: string, inputValue: NullIfEmpty<string>, typeGuard: TypeGuard, type: string) {
+	public constructor(elementId: string, inputValue: NullIfEmpty<string>, typeGuard: TypeGuard, typeLabel: string) {
 		this.elementId = elementId;
 		this.inputValue = inputValue;
 		this.typeGuard = typeGuard;
-		this.type = type;
+		this.typeLabel = typeLabel;
 	}
 
 	public static countValidatingFields(): number {
@@ -69,7 +69,7 @@ export abstract class InputFieldValidator {
 	protected async validator(): Promise<NullIfEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
 		if (this.typeGuard(this.inputValue)) return this.inputValue;
 		else {
-			this.addInvalidError(`Input must be a ${this.type}!`);
+			this.addInvalidError(`Input must be a ${this.typeLabel}!`);
 			return InputFieldValidator.INVALID_INPUT;
 		}
 	}
@@ -142,7 +142,7 @@ abstract class RequiredField extends InputFieldValidator {
 	protected override async validator(): Promise<NeverEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
 		if (this.inputValue) {
 			if (this.typeGuard(this.inputValue)) return this.inputValue;
-			else this.addInvalidError(`Input must be a ${this.type}!`);
+			else this.addInvalidError(`Input must be a ${this.typeLabel}!`);
 		}
 		else this.addInvalidError('Required field cannot be empty!');
 
@@ -175,7 +175,7 @@ abstract class JSONObjectField extends InputFieldValidator {
 					document.getElementById(this.elementId)?.classList?.remove('invalid-input');
 					return this.inputValue;
 				}
-				else this.addInvalidError(`All object values must be ${this.type}s!`);
+				else this.addInvalidError(`All object values must be ${this.typeLabel}s!`);
 			}
 			else this.addInvalidError('Input must be an object <code>{}</code>.');
 
