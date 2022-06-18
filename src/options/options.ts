@@ -18,7 +18,8 @@ class Element {
 			return;
 		}
 
-		if (this.element instanceof HTMLInputElement && this.element.type === 'checkbox') {
+		// TODO: these are spectacularly ugly
+		if (this.element instanceof HTMLInputElement && (this.element.type === 'checkbox' || this.element.type === 'radio')) {
 			return this.element.checked;
 		}
 
@@ -30,7 +31,8 @@ class Element {
 			return;
 		}
 
-		if (this.element instanceof HTMLInputElement && this.element.type === 'checkbox' && typeof value === 'boolean') {
+		// TODO: these are spectacularly ugly
+		if (this.element instanceof HTMLInputElement && (this.element.type === 'checkbox' || this.element.type === 'radio') && typeof value === 'boolean') {
 			return this.element.checked = value;
 		}
 

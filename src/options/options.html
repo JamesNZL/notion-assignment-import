@@ -12,15 +12,13 @@
 		<h1>Popup Options</h1>
 
 		<label class='required' for='display-json-button'>Display <code>JSON</code> button:</label><br>
-		<div class='display-json-button'>
-			<input type='radio' name='flight-type' value='hide-json-button' id='hide-json-button' />
+		<div class='segmented-controls' id='display-json-button'>
+			<input checked type='radio' name='display-json-button' value='hide-json-button' id='hide-json-button'>
 			<label for='hide-json-button'>Hide</label>
 
-			<input type='radio' name='flight-type' value='show-json-button' id='show-json-button' checked />
+			<input type='radio' name='display-json-button' value='show-json-button' id='show-json-button'>
 			<label for='show-json-button'>Show</label>
-		</div>
-
-		<input required type='checkbox' id='display-json-button' name='display-json-button'><br>
+		</div><br>
 	</div>
 
 	<div id='canvas-class-names'>

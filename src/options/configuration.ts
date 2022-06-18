@@ -70,7 +70,7 @@ export const CONFIGURATION: {
 		},
 		popup: {
 			displayJSONButton: {
-				elementId: 'display-json-button',
+				elementId: 'show-json-button',
 				defaultValue: false,
 			},
 		},
