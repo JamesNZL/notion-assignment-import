@@ -4,6 +4,44 @@ import { NullIfEmpty, SavedFields, Options } from './';
 import { SupportedTypes, CONFIGURATION } from './configuration';
 import { ValidatorConstructor, InputFieldValidator } from './validator';
 
+class Element {
+	id: string;
+	element: HTMLElement | null;
+
+	constructor(id: string) {
+		this.id = id;
+		this.element = document.getElementById(id);
+	}
+
+	public getValue(): SupportedTypes | void {
+		if (!this.element || !(this.element instanceof HTMLInputElement || this.element instanceof HTMLTextAreaElement)) {
+			return;
+		}
+
+		if (this.element instanceof HTMLInputElement && this.element.type === 'checkbox') {
+			return this.element.checked;
+		}
+
+		return this.element.value.trim() || null;
+	}
+
+	public setValue(value: SupportedTypes) {
+		if (!this.element || !(this.element instanceof HTMLInputElement || this.element instanceof HTMLTextAreaElement)) {
+			return;
+		}
+
+		if (this.element instanceof HTMLInputElement && this.element.type === 'checkbox' && typeof value === 'boolean') {
+			return this.element.checked = value;
+		}
+
+		if (typeof value === 'string') {
+			return this.element.value = value;
+		}
+
+		throw new Error(`Failed to set unexpected value ${value} of type ${typeof value}`);
+	}
+}
+
 async function getFields(): Promise<SavedFields> {
 	const fieldsWithDefaultValues = Object.fromEntries(
 		Object.entries(CONFIGURATION.FIELDS).map(([field, { defaultValue }]) => [field, defaultValue]),
@@ -69,46 +107,14 @@ export async function getOptions(): Promise<Options> {
 async function restoreOptions() {
 	const savedFields = await getFields();
 
-	function setElementValueById(id: string, value: SupportedTypes) {
-		const element = document.getElementById(id);
-
-		if (!element || !(element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) {
-			return;
-		}
-
-		if (element instanceof HTMLInputElement && element.type === 'checkbox' && typeof value === 'boolean') {
-			return element.checked = value;
-		}
-
-		if (typeof value === 'string') {
-			return element.value = value;
-		}
-
-		throw new Error(`Failed to set unexpected value ${value} of type ${typeof value}`);
-	}
-
 	Object.entries(savedFields).forEach(([field, value]) => {
 		const fieldElementId = CONFIGURATION.FIELDS[<keyof typeof savedFields>field].elementId;
-		setElementValueById(fieldElementId, value);
+		new Element(fieldElementId).setValue(value);
 	});
 }
 
-function getElementValueById(id: string): SupportedTypes | void {
-	const element = document.getElementById(id);
-
-	if (!element || !(element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) {
-		return;
-	}
-
-	if (element instanceof HTMLInputElement && element.type === 'checkbox') {
-		return element.checked;
-	}
-
-	return element.value.trim() || null;
-}
-
 async function validateElementInput(elementId: string, Validator: ValidatorConstructor) {
-	const inputValue = getElementValueById(elementId) ?? null;
+	const inputValue = new Element(elementId).getValue() ?? null;
 
 	// boolean values are always valid
 	if (typeof inputValue === 'boolean') return inputValue;
@@ -122,7 +128,7 @@ async function getFieldInputs(): Promise<Record<keyof SavedFields, NullIfEmpty<s
 			Object.entries(CONFIGURATION.FIELDS).map(async ([field, { elementId, Validator }]) => {
 				const validatedInput = (Validator)
 					? await validateElementInput(elementId, Validator)
-					: getElementValueById(elementId);
+					: new Element(elementId).getValue();
 				return [field, validatedInput];
 			}),
 		),
