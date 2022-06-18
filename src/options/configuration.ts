@@ -1,4 +1,4 @@
-import { SavedFields, SavedOptions } from './';
+import { NullIfEmpty, SavedFields, SavedOptions } from './';
 import {
 	ValidatorConstructor,
 	StringField,
@@ -13,6 +13,8 @@ import {
 
 import { valueof } from '../types/utils';
 
+export type SupportedTypes = NullIfEmpty<string> | boolean;
+
 interface OptionConfiguration<T> {
 	elementId: string;
 	defaultValue: T;
@@ -21,13 +23,13 @@ interface OptionConfiguration<T> {
 	validateOn?: 'input' | 'change';
 }
 
-function isOptionConfiguration(object: NestedConfigurationsOf<unknown> | OptionConfiguration<unknown>): object is OptionConfiguration<unknown> {
-	const configurationProperties: (keyof OptionConfiguration<unknown>)[] = ['elementId', 'defaultValue'];
+function isOptionConfiguration(object: valueof<NestedConfigurationsOf<SavedOptions>> | OptionConfiguration<SupportedTypes>): object is OptionConfiguration<SupportedTypes> {
+	const configurationProperties: (keyof OptionConfiguration<SupportedTypes>)[] = ['elementId', 'defaultValue'];
 	return (<string[]>configurationProperties).every(key => Object.keys(object).includes(key));
 }
 
 type NestedConfigurationsOf<I> = {
-	[K in keyof I]: I[K] extends object ? NestedConfigurationsOf<I[K]> : OptionConfiguration<I[K]>;
+	[K in keyof I]: I[K] extends SupportedTypes ? OptionConfiguration<I[K]> : NestedConfigurationsOf<I[K]>;
 };
 
 type IncompleteFieldKey<K extends string> = K extends keyof SavedFields
@@ -37,11 +39,11 @@ type IncompleteFieldKey<K extends string> = K extends keyof SavedFields
 	: never;
 
 export const CONFIGURATION: {
-	FIELDS: Record<keyof SavedFields, OptionConfiguration<unknown>>;
+	FIELDS: Record<keyof SavedFields, OptionConfiguration<SupportedTypes>>;
 	OPTIONS: NestedConfigurationsOf<SavedOptions>;
 } = {
 	get FIELDS() {
-		function flattenOptions<K extends string>([keyPath, valueObject]: [keyof SavedFields | IncompleteFieldKey<K>, valueof<typeof CONFIGURATION['OPTIONS']>]): [keyof SavedFields, OptionConfiguration<unknown>][] {
+		function flattenOptions<K extends string>([keyPath, valueObject]: [keyof SavedFields | IncompleteFieldKey<K>, valueof<typeof CONFIGURATION['OPTIONS']>]): [keyof SavedFields, OptionConfiguration<SupportedTypes>][] {
 			if (!isOptionConfiguration(valueObject)) {
 				// the current valueObject is a NestedConfigurationsOf<>,
 				// where Object.values(valueObject) is of type { [key: string]: NestedConfigurationOf<> | OptionConfiguration<> }[]
@@ -58,7 +60,7 @@ export const CONFIGURATION: {
 		delete (<Partial<typeof CONFIGURATION>>this).FIELDS;
 		return this.FIELDS = Object.fromEntries(
 			(Object.entries(CONFIGURATION.OPTIONS) as Parameters<typeof flattenOptions>).flatMap(flattenOptions),
-		) as Record<keyof SavedFields, OptionConfiguration<unknown>>;
+		) as Record<keyof SavedFields, OptionConfiguration<SupportedTypes>>;
 	},
 	OPTIONS: {
 		timeZone: {

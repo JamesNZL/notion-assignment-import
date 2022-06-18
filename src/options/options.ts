@@ -1,7 +1,7 @@
 import browser from 'webextension-polyfill';
 
 import { NullIfEmpty, SavedFields, Options } from './';
-import { CONFIGURATION } from './configuration';
+import { SupportedTypes, CONFIGURATION } from './configuration';
 import { ValidatorConstructor, FieldValidator } from './validator';
 
 async function getFields(): Promise<SavedFields> {
@@ -69,7 +69,7 @@ export async function getOptions(): Promise<Options> {
 async function restoreOptions() {
 	const savedFields = await getFields();
 
-	function setElementValueById(id: string, value: NullIfEmpty<string> | boolean) {
+	function setElementValueById(id: string, value: SupportedTypes) {
 		const element = document.getElementById(id);
 
 		if (!element || !(element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) {
@@ -93,7 +93,7 @@ async function restoreOptions() {
 	});
 }
 
-function getElementValueById(id: string): NullIfEmpty<string> | boolean | void {
+function getElementValueById(id: string): SupportedTypes | void {
 	const element = document.getElementById(id);
 
 	if (!element || !(element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) {
