@@ -1,4 +1,4 @@
-import { NotionClient } from '../api-handlers/notion';
+import { NotionClient, VALID_EMOJIS } from '../api-handlers/notion';
 import { NullIfEmpty, NeverEmpty } from './';
 import { CONFIGURATION } from './configuration';
 
@@ -199,8 +199,7 @@ const typeGuards: Record<string, TypeGuard> = {
 		return (typeof value === 'string' && !isNaN(Number(value)));
 	},
 	isEmojiRequest(value) {
-		const emojiRegExp = /^[\p{Emoji_Presentation}\u200D]+$/u;
-		return (typeof value === 'string' && emojiRegExp.test(value));
+		return (typeof value === 'string' && (<string[]>VALID_EMOJIS).includes(value));
 	},
 };
 
