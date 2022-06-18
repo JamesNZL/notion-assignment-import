@@ -256,7 +256,7 @@ export class RequiredNotionDatabaseIdField extends RequiredFieldCache {
 		if (keyFieldElement && (keyFieldElement instanceof HTMLInputElement || keyFieldElement instanceof HTMLTextAreaElement)) {
 			const keyInput = keyFieldElement.value.trim() || null;
 
-			if (keyInput) {
+			if (keyInput && keyConfiguration.Validator) {
 				const keyValidator = new keyConfiguration.Validator(keyConfiguration.elementId, keyInput);
 
 				// if the keyInput has been cached by RequiredNotionKeyField, just return it without validating again

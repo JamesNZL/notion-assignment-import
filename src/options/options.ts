@@ -17,6 +17,9 @@ export async function getOptions(): Promise<Options> {
 
 	return {
 		timeZone: savedFields['timeZone'],
+		popup: {
+			displayJSONButton: savedFields['popup.displayJSONButton'],
+		},
 		canvas: {
 			timeZone: savedFields['timeZone'],
 			classNames: {
@@ -66,9 +69,22 @@ export async function getOptions(): Promise<Options> {
 async function restoreOptions() {
 	const savedFields = await getFields();
 
-	function setElementValueById(id: string, value: string) {
+	function setElementValueById(id: string, value: NullIfEmpty<string> | boolean) {
 		const element = document.getElementById(id);
-		if (element && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) element.value = value;
+
+		if (!element || !(element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) {
+			return;
+		}
+
+		if (element instanceof HTMLInputElement && element.type === 'checkbox' && typeof value === 'boolean') {
+			return element.checked = value;
+		}
+
+		if (typeof value === 'string') {
+			return element.value = value;
+		}
+
+		throw new Error(`Failed to set unexpected value ${value} of type ${typeof value}`);
 	}
 
 	Object.entries(savedFields).forEach(([field, value]) => {
@@ -77,13 +93,25 @@ async function restoreOptions() {
 	});
 }
 
-async function validateElementInput(elementId: string, Validator: ValidatorConstructor) {
-	function getElementValueById(id: string): NullIfEmpty<string> | void {
-		const element = document.getElementById(id);
-		if (element && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) return element.value.trim() || null;
+function getElementValueById(id: string): NullIfEmpty<string> | boolean | void {
+	const element = document.getElementById(id);
+
+	if (!element || !(element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) {
+		return;
 	}
 
+	if (element instanceof HTMLInputElement && element.type === 'checkbox') {
+		return element.checked;
+	}
+
+	return element.value.trim() || null;
+}
+
+async function validateElementInput(elementId: string, Validator: ValidatorConstructor) {
 	const inputValue = getElementValueById(elementId) ?? null;
+
+	// boolean values are always valid
+	if (typeof inputValue === 'boolean') return inputValue;
 
 	return await new Validator(elementId, inputValue).validate();
 }
@@ -92,7 +120,9 @@ async function getFieldInputs(): Promise<Record<keyof SavedFields, NullIfEmpty<s
 	const fieldEntries = Object.fromEntries(
 		await Promise.all(
 			Object.entries(CONFIGURATION.FIELDS).map(async ([field, { elementId, Validator }]) => {
-				const validatedInput = await validateElementInput(elementId, Validator);
+				const validatedInput = (Validator)
+					? await validateElementInput(elementId, Validator)
+					: getElementValueById(elementId);
 				return [field, validatedInput];
 			}),
 		),
@@ -125,7 +155,7 @@ document.addEventListener('DOMContentLoaded', restoreOptions);
 
 // validate fields on input
 Object.values(CONFIGURATION.FIELDS).forEach(({ elementId, Validator, validateOn = 'input' }) => {
-	document.getElementById(elementId)?.addEventListener(validateOn, () => validateElementInput(elementId, Validator));
+	if (Validator) document.getElementById(elementId)?.addEventListener(validateOn, () => validateElementInput(elementId, Validator));
 });
 
 const saveButton = document.getElementById('save-button');

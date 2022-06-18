@@ -3,6 +3,8 @@ import browser from 'webextension-polyfill';
 import { SavedAssignments } from './parse';
 import { exportToNotion } from './import';
 
+import { getOptions } from '../options/options';
+
 import { valueof } from '../types/utils';
 
 // if an id ever changes in HTML, it must be updated here
@@ -79,8 +81,6 @@ const buttons: Record<ButtonName, Button> = {
 	copyJSON: new Button('copy-json-button'),
 	clearStorage: new Button('clear-storage-button'),
 };
-
-buttons.copyJSON.hide();
 
 buttons.options.addEventListener('click', () => {
 	if (browser.runtime.openOptionsPage) {
@@ -172,6 +172,10 @@ buttons.listAssignments.addEventListener('click', async () => {
 });
 
 buttons.listCourses.addEventListener('click', updateSavedCoursesList);
+
+getOptions().then(({ popup: { displayJSONButton } }) => {
+	if (!displayJSONButton) buttons.copyJSON.hide();
+});
 
 buttons.copyJSON.addEventListener('click', async () => {
 	const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await browser.storage.local.get({ savedAssignments: {} });

@@ -16,13 +16,13 @@ import { valueof } from '../types/utils';
 interface OptionConfiguration<T> {
 	elementId: string;
 	defaultValue: T;
-	Validator: ValidatorConstructor;
+	Validator?: ValidatorConstructor;
 	// default to 'input' if undefined
 	validateOn?: 'input' | 'change';
 }
 
 function isOptionConfiguration(object: NestedConfigurationsOf<unknown> | OptionConfiguration<unknown>): object is OptionConfiguration<unknown> {
-	const configurationProperties: (keyof OptionConfiguration<unknown>)[] = ['elementId', 'defaultValue', 'Validator'];
+	const configurationProperties: (keyof OptionConfiguration<unknown>)[] = ['elementId', 'defaultValue'];
 	return (<string[]>configurationProperties).every(key => Object.keys(object).includes(key));
 }
 
@@ -65,6 +65,12 @@ export const CONFIGURATION: {
 			elementId: 'timezone',
 			defaultValue: 'Pacific/Auckland',
 			Validator: TimeZoneField,
+		},
+		popup: {
+			displayJSONButton: {
+				elementId: 'display-json-button',
+				defaultValue: false,
+			},
 		},
 		canvas: {
 			classNames: {
