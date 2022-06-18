@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill';
 
 import { NullIfEmpty, SavedFields, Options } from './';
 import { SupportedTypes, CONFIGURATION } from './configuration';
-import { ValidatorConstructor, FieldValidator } from './validator';
+import { ValidatorConstructor, InputFieldValidator } from './validator';
 
 async function getFields(): Promise<SavedFields> {
 	const fieldsWithDefaultValues = Object.fromEntries(
@@ -128,7 +128,7 @@ async function getFieldInputs(): Promise<Record<keyof SavedFields, NullIfEmpty<s
 		),
 	);
 
-	if (Object.values(fieldEntries).every(value => value !== FieldValidator.INVALID_INPUT)) return <Record<keyof SavedFields, NullIfEmpty<string>>>fieldEntries;
+	if (Object.values(fieldEntries).every(value => value !== InputFieldValidator.INVALID_INPUT)) return <Record<keyof SavedFields, NullIfEmpty<string>>>fieldEntries;
 
 	return null;
 }

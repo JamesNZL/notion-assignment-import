@@ -4,7 +4,7 @@ import { CONFIGURATION } from './configuration';
 
 type TypeGuard = (value: unknown) => boolean;
 
-export type ValidatorConstructor = new (elementId: string, inputValue: NullIfEmpty<string>) => FieldValidator;
+export type ValidatorConstructor = new (elementId: string, inputValue: NullIfEmpty<string>) => InputFieldValidator;
 
 const enum SaveButtonUpdates {
 	Pending,
@@ -18,18 +18,18 @@ const SaveButton = {
 		if (this.button && this.button instanceof HTMLButtonElement) {
 			switch (update) {
 				case SaveButtonUpdates.Pending:
-					this.button.innerHTML = `Validating ${FieldValidator.countValidatingFields()} input${(FieldValidator.countValidatingFields() > 1) ? 's' : ''}...`;
+					this.button.innerHTML = `Validating ${InputFieldValidator.countValidatingFields()} input${(InputFieldValidator.countValidatingFields() > 1) ? 's' : ''}...`;
 					this.button.disabled = true;
 					break;
 				case SaveButtonUpdates.Disable:
-					this.button.innerHTML = `${FieldValidator.countInvalidFields()} invalid input${(FieldValidator.countInvalidFields() > 1) ? 's' : ''}!`;
+					this.button.innerHTML = `${InputFieldValidator.countInvalidFields()} invalid input${(InputFieldValidator.countInvalidFields() > 1) ? 's' : ''}!`;
 					this.button.disabled = true;
 					this.button.classList.add('red');
 					this.button.classList.remove('green');
 					break;
 				case SaveButtonUpdates.Restore:
-					if (FieldValidator.countInvalidFields() > 0) return this.updateState(SaveButtonUpdates.Disable);
-					else if (FieldValidator.countValidatingFields() > 0) return this.updateState(SaveButtonUpdates.Pending);
+					if (InputFieldValidator.countInvalidFields() > 0) return this.updateState(SaveButtonUpdates.Disable);
+					else if (InputFieldValidator.countValidatingFields() > 0) return this.updateState(SaveButtonUpdates.Pending);
 
 					this.button.innerHTML = 'Save';
 					this.button.disabled = false;
@@ -41,7 +41,7 @@ const SaveButton = {
 	},
 };
 
-export abstract class FieldValidator {
+export abstract class InputFieldValidator {
 	public static readonly INVALID_INPUT: unique symbol = Symbol('INVALID_INPUT');
 	private static validatingFields = new Set<string>();
 	private static invalidFields = new Set<string>();
@@ -59,27 +59,27 @@ export abstract class FieldValidator {
 	}
 
 	public static countValidatingFields(): number {
-		return FieldValidator.validatingFields.size;
+		return InputFieldValidator.validatingFields.size;
 	}
 
 	public static countInvalidFields(): number {
-		return FieldValidator.invalidFields.size;
+		return InputFieldValidator.invalidFields.size;
 	}
 
-	protected async validator(): Promise<NullIfEmpty<string> | typeof FieldValidator.INVALID_INPUT> {
+	protected async validator(): Promise<NullIfEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
 		if (this.typeGuard(this.inputValue)) return this.inputValue;
 		else {
 			this.addInvalidError(`Input must be a ${this.type}!`);
-			return FieldValidator.INVALID_INPUT;
+			return InputFieldValidator.INVALID_INPUT;
 		}
 	}
 
-	public async validate(): Promise<NullIfEmpty<string> | typeof FieldValidator.INVALID_INPUT> {
+	public async validate(): Promise<NullIfEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
 		this.addValidatingStatus();
 		const validatedInput = await this.validator();
 		this.removeValidatingStatus();
 
-		if (validatedInput !== FieldValidator.INVALID_INPUT) this.removeInvalidError();
+		if (validatedInput !== InputFieldValidator.INVALID_INPUT) this.removeInvalidError();
 
 		return validatedInput;
 	}
@@ -87,7 +87,7 @@ export abstract class FieldValidator {
 	protected addValidatingStatus() {
 		this.removeInvalidError();
 
-		FieldValidator.validatingFields.add(this.elementId);
+		InputFieldValidator.validatingFields.add(this.elementId);
 
 		const fieldElement = document.getElementById(this.elementId);
 
@@ -103,7 +103,7 @@ export abstract class FieldValidator {
 	}
 
 	private removeValidatingStatus() {
-		FieldValidator.validatingFields.delete(this.elementId);
+		InputFieldValidator.validatingFields.delete(this.elementId);
 
 		document.getElementById(`validating-input-${this.elementId}`)?.remove();
 
@@ -111,7 +111,7 @@ export abstract class FieldValidator {
 	}
 
 	protected addInvalidError(error: string) {
-		FieldValidator.invalidFields.add(this.elementId);
+		InputFieldValidator.invalidFields.add(this.elementId);
 
 		const fieldElement = document.getElementById(this.elementId);
 
@@ -129,7 +129,7 @@ export abstract class FieldValidator {
 	}
 
 	private removeInvalidError() {
-		FieldValidator.invalidFields.delete(this.elementId);
+		InputFieldValidator.invalidFields.delete(this.elementId);
 
 		document.getElementById(this.elementId)?.classList.remove('invalid-input');
 		document.getElementById(`invalid-input-${this.elementId}`)?.remove();
@@ -138,15 +138,15 @@ export abstract class FieldValidator {
 	}
 }
 
-abstract class RequiredField extends FieldValidator {
-	protected override async validator(): Promise<NeverEmpty<string> | typeof FieldValidator.INVALID_INPUT> {
+abstract class RequiredField extends InputFieldValidator {
+	protected override async validator(): Promise<NeverEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
 		if (this.inputValue) {
 			if (this.typeGuard(this.inputValue)) return this.inputValue;
 			else this.addInvalidError(`Input must be a ${this.type}!`);
 		}
 		else this.addInvalidError('Required field cannot be empty!');
 
-		return FieldValidator.INVALID_INPUT;
+		return InputFieldValidator.INVALID_INPUT;
 	}
 }
 
@@ -162,8 +162,8 @@ abstract class RequiredFieldCache extends RequiredField {
 	}
 }
 
-abstract class JSONObjectField extends FieldValidator {
-	protected override async validator(): Promise<NeverEmpty<string> | '{}' | typeof FieldValidator.INVALID_INPUT> {
+abstract class JSONObjectField extends InputFieldValidator {
+	protected override async validator(): Promise<NeverEmpty<string> | '{}' | typeof InputFieldValidator.INVALID_INPUT> {
 		try {
 			if (!this.inputValue) return '{}';
 
@@ -179,11 +179,11 @@ abstract class JSONObjectField extends FieldValidator {
 			}
 			else this.addInvalidError('Input must be an object <code>{}</code>.');
 
-			return FieldValidator.INVALID_INPUT;
+			return InputFieldValidator.INVALID_INPUT;
 		}
 		catch {
 			this.addInvalidError('Input is not valid <code>JSON</code>.');
-			return FieldValidator.INVALID_INPUT;
+			return InputFieldValidator.INVALID_INPUT;
 		}
 	}
 }
@@ -204,7 +204,7 @@ const typeGuards: Record<string, TypeGuard> = {
 	},
 };
 
-export class StringField extends FieldValidator {
+export class StringField extends InputFieldValidator {
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
 		super(elementId, inputValue, typeGuards.isNullableString, 'string');
 	}
@@ -227,7 +227,7 @@ export class RequiredNotionKeyField extends RequiredFieldCache {
 		super(elementId, inputValue, typeGuards.isString, 'string');
 	}
 
-	protected override async validator(): Promise<NeverEmpty<string> | typeof FieldValidator.INVALID_INPUT> {
+	protected override async validator(): Promise<NeverEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
 		// check the cache first
 		if (this.getCachedInput() === this.inputValue) return this.inputValue;
 
@@ -239,7 +239,7 @@ export class RequiredNotionKeyField extends RequiredFieldCache {
 			}
 			else this.addInvalidError('Please connect to the Internet to validate this input.');
 		}
-		return FieldValidator.INVALID_INPUT;
+		return InputFieldValidator.INVALID_INPUT;
 	}
 }
 
@@ -263,14 +263,14 @@ export class RequiredNotionDatabaseIdField extends RequiredFieldCache {
 				if (keyValidator instanceof RequiredFieldCache && keyValidator.getCachedInput() === keyInput) return keyInput;
 
 				const validatedKey = await new keyConfiguration.Validator(keyConfiguration.elementId, keyInput).validate();
-				if (validatedKey !== FieldValidator.INVALID_INPUT) return validatedKey;
+				if (validatedKey !== InputFieldValidator.INVALID_INPUT) return validatedKey;
 			}
 		}
 
 		return null;
 	}
 
-	protected override async validator(): Promise<NeverEmpty<string> | typeof FieldValidator.INVALID_INPUT> {
+	protected override async validator(): Promise<NeverEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
 		// check the cache first
 		if (this.getCachedInput() === this.inputValue) return this.inputValue;
 
@@ -286,7 +286,7 @@ export class RequiredNotionDatabaseIdField extends RequiredFieldCache {
 			}
 			else this.addInvalidError('Invalid Notion Integration Key.');
 		}
-		return FieldValidator.INVALID_INPUT;
+		return InputFieldValidator.INVALID_INPUT;
 	}
 }
 
@@ -302,12 +302,12 @@ export class JSONEmojiObjectField extends JSONObjectField {
 	}
 }
 
-export class TimeZoneField extends FieldValidator {
+export class TimeZoneField extends InputFieldValidator {
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
 		super(elementId, inputValue, typeGuards.isNullableString, 'string');
 	}
 
-	protected override async validator(): Promise<NullIfEmpty<string> | typeof FieldValidator.INVALID_INPUT> {
+	protected override async validator(): Promise<NullIfEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
 		if (!this.inputValue) return null;
 
 		if (await super.validator() === this.inputValue) {
@@ -319,6 +319,6 @@ export class TimeZoneField extends FieldValidator {
 				this.addInvalidError('Invalid time zone.');
 			}
 		}
-		return FieldValidator.INVALID_INPUT;
+		return InputFieldValidator.INVALID_INPUT;
 	}
 }
