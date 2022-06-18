@@ -3,7 +3,13 @@
 	--background: #282828;
 	--dark-grey: #161616;
 	--darker-grey: #080808;
+	--green: #00cc00;
+	--green-hover: #4dff4d;
+	--red: firebrick;
+	--red-hover: darkred;
 	--text-colour: #ffffff;
+	--grey-text-colour: #d6d6d6;
+	--light-grey-text-colour: #cccccc;
 	--margin: .25em;
 	--border-radius: .325rem;
 }
@@ -108,7 +114,7 @@ h2 {
 
 #saved-courses-list {
 	background-color: var(--darker-grey);
-	color: #d6d6d6;
+	color: var(--grey-text-colour);
 	margin-top: var(--margin);
 	margin-bottom: calc(1.25 * var(--margin));
 	padding: var(--margin) 0;
@@ -174,40 +180,40 @@ button.red-hover {
 }
 
 button.red-hover:hover {
-	background-color: firebrick;
+	background-color: var(--red);
 	color: white;
 }
 
 button.red {
-	background-color: firebrick;
+	background-color: var(--red);
 	color: white;
 }
 
 button.red:hover {
-	background-color: darkred;
+	background-color: var(--red-hover);
 	color: white;
 }
 
 button.green {
-	background-color: #00cc00;
+	background-color: var(--green);
 	color: black;
 	font-weight: 600;
 }
 
 button.green:hover {
-	background-color: #4dff4d;
+	background-color: var(--green-hover);
 	color: black;
 }
 
 button.outline.green {
-	color: #00cc00;
-	border-color: #00cc00;
+	color: var(--green);
+	border-color: var(--green);
 	background-color: var(--background);
 }
 
 button.outline.green:hover {
 	border-color: transparent;
-	background-color: #4dff4d;
+	background-color: var(--green-hover);
 	color: black;
 }
 
@@ -246,7 +252,7 @@ textarea {
 	font-family: monospace;
 	font-size: .75rem;
 	background-color: var(--dark-grey);
-	color: #ccc;
+	color: var(--light-grey-text-colour);
 	border-radius: var(--border-radius);
 	border: 1px solid rgba(0, 0, 0, .125);
 	box-sizing: border-box;
