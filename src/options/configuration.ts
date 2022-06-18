@@ -3,7 +3,7 @@ import {
 	ValidatorConstructor,
 	StringField,
 	RequiredStringField,
-	RequiredNumberField,
+	RequiredNumberAsStringField,
 	RequiredNotionKeyField,
 	RequiredNotionDatabaseIdField,
 	JSONStringObjectField,
@@ -116,7 +116,7 @@ export const CONFIGURATION: {
 				courseCodeN: {
 					elementId: 'course-code-n',
 					defaultValue: '2',
-					Validator: RequiredNumberField,
+					Validator: RequiredNumberAsStringField,
 				},
 				notAvailable: {
 					elementId: 'status-not-available',

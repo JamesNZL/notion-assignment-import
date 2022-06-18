@@ -216,7 +216,7 @@ export class RequiredStringField extends RequiredField {
 	}
 }
 
-export class RequiredNumberField extends RequiredField {
+export class RequiredNumberAsStringField extends RequiredField {
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
 		super(elementId, inputValue, typeGuards.isParsableNumber, 'number');
 	}
