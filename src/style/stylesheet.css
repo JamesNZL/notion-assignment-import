@@ -180,6 +180,7 @@ button.red:hover {
 button.green {
 	background-color: #00cc00;
 	color: black;
+	font-weight: 600;
 }
 
 button.green:hover {
