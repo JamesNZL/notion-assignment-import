@@ -35,6 +35,7 @@ function getElementById(id: ElementId): HTMLElement | null {
 class Button {
 	private button: HTMLElement;
 	private defaultHtml: string;
+	private defaultClassList: string;
 	private resetHTMLTimeout?: NodeJS.Timeout;
 
 	public constructor(id: ElementId) {
@@ -44,6 +45,7 @@ class Button {
 
 		this.button = element;
 		this.defaultHtml = element.innerHTML;
+		this.defaultClassList = element.classList.value;
 	}
 
 	public getHTML() {
@@ -59,6 +61,7 @@ class Button {
 
 		this.resetHTMLTimeout = setTimeout(() => {
 			this.setHTML(this.defaultHtml);
+			this.button.classList.value = this.defaultClassList;
 		}, delay);
 	}
 
@@ -247,9 +250,6 @@ buttons.clearStorage.addEventListener('click', () => {
 			// reset list display after verify period is over
 			SavedCoursesList.enableUpdates();
 			SavedCoursesList.listCourses();
-
-			buttons.clearStorage.addClass('red-hover');
-			buttons.clearStorage.removeClass('red');
 		}, verifyPeriod);
 
 		return buttons.clearStorage.resetHTML(verifyPeriod);
@@ -261,11 +261,6 @@ buttons.clearStorage.addEventListener('click', () => {
 
 	buttons.clearStorage.setHTML('Cleared saved assignments!');
 	buttons.clearStorage.resetHTML(3500);
-
-	setTimeout(() => {
-		buttons.clearStorage.addClass('red-hover');
-		buttons.clearStorage.removeClass('red');
-	}, 3500);
 });
 
 SavedCoursesList.listCourses();
