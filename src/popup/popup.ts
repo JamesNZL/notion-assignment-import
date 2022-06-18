@@ -149,6 +149,9 @@ buttons.export.addEventListener('click', async () => {
 	}
 });
 
+// TODO: refactor this
+let ignoreExpandCollapse = false;
+
 buttons.listAssignments.addEventListener('click', async () => {
 	const savedCourses = getElementById('saved-courses-list');
 
@@ -168,7 +171,7 @@ buttons.listAssignments.addEventListener('click', async () => {
 		buttons.listAssignments.hide();
 		buttons.listCourses.unhide();
 
-		savedCourses.innerHTML = (assignmentsList)
+		savedCourses.innerHTML = (assignmentsList && !ignoreExpandCollapse)
 			? `<ol>${assignmentsList}</ol>`
 			: '<p>No saved assignments.</p>';
 	}
@@ -191,11 +194,21 @@ buttons.copyJSON.addEventListener('click', async () => {
 
 buttons.clearStorage.addEventListener('click', () => {
 	const verifyPrompt = 'I\'m sure!';
+	const verifyPeriod = 3000;
 
 	if (buttons.clearStorage.getHTML() !== verifyPrompt) {
 		buttons.clearStorage.setHTML(verifyPrompt);
 
-		return buttons.clearStorage.resetHTML(1325);
+		updateSavedCoursesList({});
+
+		ignoreExpandCollapse = true;
+
+		setTimeout(() => {
+			ignoreExpandCollapse = false;
+			updateSavedCoursesList();
+		}, verifyPeriod);
+
+		return buttons.clearStorage.resetHTML(verifyPeriod);
 	}
 
 	browser.storage.local.remove('savedAssignments');
@@ -218,7 +231,7 @@ async function updateSavedCoursesList(savedAssignments?: SavedAssignments) {
 	buttons.listCourses.hide();
 	buttons.listAssignments.unhide();
 
-	savedCourses.innerHTML = (coursesList)
+	savedCourses.innerHTML = (coursesList && !ignoreExpandCollapse)
 		? `<ol>${coursesList}</ol>`
 		: '<p>No saved courses.</p>';
 }
