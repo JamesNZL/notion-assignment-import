@@ -35,6 +35,7 @@ function getElementById(id: ElementId): HTMLElement | null {
 class Button {
 	private button: HTMLElement;
 	private defaultHtml: string;
+	private resetHTMLTimeout?: NodeJS.Timeout;
 
 	public constructor(id: ElementId) {
 		const element = getElementById(id);
@@ -54,7 +55,9 @@ class Button {
 	}
 
 	public resetHTML(delay: number) {
-		setTimeout(() => {
+		clearTimeout(this.resetHTMLTimeout);
+
+		this.resetHTMLTimeout = setTimeout(() => {
 			this.setHTML(this.defaultHtml);
 		}, delay);
 	}
