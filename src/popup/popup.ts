@@ -36,7 +36,7 @@ class Button {
 	private button: HTMLElement;
 	private defaultHtml: string;
 	private defaultClassList: string;
-	private resetHTMLTimeout?: NodeJS.Timeout;
+	private timeouts: Record<string, NodeJS.Timeout> = {};
 
 	public constructor(id: ElementId) {
 		const element = getElementById(id);
@@ -57,9 +57,7 @@ class Button {
 	}
 
 	public resetHTML(delay: number) {
-		clearTimeout(this.resetHTMLTimeout);
-
-		this.resetHTMLTimeout = setTimeout(() => {
+		this.setTimeout('resetHTML', () => {
 			this.setHTML(this.defaultHtml);
 			this.button.classList.value = this.defaultClassList;
 		}, delay);
@@ -83,6 +81,15 @@ class Button {
 
 	public addEventListener(...args: Parameters<typeof HTMLElement.prototype.addEventListener>) {
 		this.button.addEventListener(...args);
+	}
+
+	public setTimeout(name: string, timeout: () => void, delay: number) {
+		clearTimeout(this.timeouts[name]);
+		this.timeouts[name] = setTimeout(timeout, delay);
+	}
+
+	public clearTimeout(name: string) {
+		clearTimeout(this.timeouts[name]);
 	}
 }
 
