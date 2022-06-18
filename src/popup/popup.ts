@@ -242,8 +242,6 @@ buttons.clearStorage.addEventListener('click', () => {
 	const verifyPrompt = 'I\'m sure!';
 	const verifyPeriod = 3000;
 
-	clearTimeout(verifyTimeout);
-
 	if (buttons.clearStorage.getHTML() !== verifyPrompt) {
 		buttons.clearStorage.addClass('red');
 		buttons.clearStorage.removeClass('red-hover');
