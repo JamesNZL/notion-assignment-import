@@ -75,6 +75,57 @@ class Button {
 	}
 }
 
+const SavedCoursesList = {
+	element: document.getElementById('saved-courses-list'),
+	renderChanges: true,
+
+	disableUpdates() {
+		this.renderChanges = false;
+	},
+
+	enableUpdates() {
+		this.renderChanges = true;
+	},
+
+	async listCourses(savedAssignments?: SavedAssignments) {
+		if (this.element) {
+			savedAssignments = savedAssignments ?? <SavedAssignments>(await browser.storage.local.get({ savedAssignments: {} })).savedAssignments;
+
+			const coursesList = Object.entries(savedAssignments).reduce((list: string, [course, assignments]) => list + `<li><strong>${course}</strong> (<code>${assignments.length}</code> assignment${(assignments.length !== 1) ? 's' : ''})</li>\n`, '');
+
+			buttons.listCourses.hide();
+			buttons.listAssignments.unhide();
+
+			this.element.innerHTML = (coursesList && this.renderChanges)
+				? `<ol>${coursesList}</ol>`
+				: '<p>No saved courses.</p>';
+		}
+	},
+
+	async listAssignments() {
+		if (this.element) {
+			const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await browser.storage.local.get({ savedAssignments: {} });
+
+			const assignmentsList = Object.entries(savedAssignments)
+				.reduce((list: string, [course, assignments]) => list +
+					`
+				<li><strong>${course}</strong></li>\n
+				<ul>
+					${assignments.reduce((courseList: string, { icon, name, url }) => courseList +
+						`<li>${(icon) ? `${icon} ` : ''}<a href='${url}' target='_blank'>${name}</a></li>\n`, '')}
+				</ul>\n
+				`, '');
+
+			buttons.listAssignments.hide();
+			buttons.listCourses.unhide();
+
+			this.element.innerHTML = (assignmentsList && this.renderChanges)
+				? `<ol>${assignmentsList}</ol>`
+				: '<p>No saved assignments.</p>';
+		}
+	},
+};
+
 const buttons: Record<ButtonName, Button> = {
 	options: new Button('options-button'),
 	parse: new Button('parse-button'),
@@ -126,7 +177,8 @@ buttons.parse.addEventListener('click', async () => {
 		({ savedCourse: courseCode } = await browser.storage.local.get('savedCourse'));
 	}
 
-	updateSavedCoursesList();
+	SavedCoursesList.listCourses();
+
 	if (courseCode) {
 		buttons.parse.setHTML(`Saved ${courseCode}!`);
 		buttons.parse.resetHTML(1325);
@@ -149,35 +201,9 @@ buttons.export.addEventListener('click', async () => {
 	}
 });
 
-// TODO: refactor this
-let ignoreExpandCollapse = false;
+buttons.listAssignments.addEventListener('click', () => SavedCoursesList.listAssignments());
 
-buttons.listAssignments.addEventListener('click', async () => {
-	const savedCourses = getElementById('saved-courses-list');
-
-	if (savedCourses) {
-		const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await browser.storage.local.get({ savedAssignments: {} });
-
-		const assignmentsList = Object.entries(savedAssignments)
-			.reduce((list: string, [course, assignments]) => list +
-				`
-				<li><strong>${course}</strong></li>\n
-				<ul>
-					${assignments.reduce((courseList: string, { icon, name, url }) => courseList +
-					`<li>${(icon) ? `${icon} ` : ''}<a href='${url}' target='_blank'>${name}</a></li>\n`, '')}
-				</ul>\n
-				`, '');
-
-		buttons.listAssignments.hide();
-		buttons.listCourses.unhide();
-
-		savedCourses.innerHTML = (assignmentsList && !ignoreExpandCollapse)
-			? `<ol>${assignmentsList}</ol>`
-			: '<p>No saved assignments.</p>';
-	}
-});
-
-buttons.listCourses.addEventListener('click', () => updateSavedCoursesList());
+buttons.listCourses.addEventListener('click', () => SavedCoursesList.listCourses());
 
 getOptions().then(({ popup: { displayJSONButton } }) => {
 	if (!displayJSONButton) buttons.copyJSON.hide();
@@ -199,13 +225,12 @@ buttons.clearStorage.addEventListener('click', () => {
 	if (buttons.clearStorage.getHTML() !== verifyPrompt) {
 		buttons.clearStorage.setHTML(verifyPrompt);
 
-		updateSavedCoursesList({});
-
-		ignoreExpandCollapse = true;
+		SavedCoursesList.listCourses({});
+		SavedCoursesList.disableUpdates();
 
 		setTimeout(() => {
-			ignoreExpandCollapse = false;
-			updateSavedCoursesList();
+			SavedCoursesList.enableUpdates();
+			SavedCoursesList.listCourses();
 		}, verifyPeriod);
 
 		return buttons.clearStorage.resetHTML(verifyPeriod);
@@ -213,27 +238,10 @@ buttons.clearStorage.addEventListener('click', () => {
 
 	browser.storage.local.remove('savedAssignments');
 
-	updateSavedCoursesList();
+	SavedCoursesList.listCourses();
 
 	buttons.clearStorage.setHTML('Cleared saved assignments!');
 	buttons.clearStorage.resetHTML(3500);
 });
 
-async function updateSavedCoursesList(savedAssignments?: SavedAssignments) {
-	const savedCourses = getElementById('saved-courses-list');
-
-	if (!savedCourses) return;
-
-	savedAssignments = savedAssignments ?? <SavedAssignments>(await browser.storage.local.get({ savedAssignments: {} })).savedAssignments;
-
-	const coursesList = Object.entries(savedAssignments).reduce((list: string, [course, assignments]) => list + `<li><strong>${course}</strong> (<code>${assignments.length}</code> assignment${(assignments.length !== 1) ? 's' : ''})</li>\n`, '');
-
-	buttons.listCourses.hide();
-	buttons.listAssignments.unhide();
-
-	savedCourses.innerHTML = (coursesList && !ignoreExpandCollapse)
-		? `<ol>${coursesList}</ol>`
-		: '<p>No saved courses.</p>';
-}
-
-updateSavedCoursesList();
+SavedCoursesList.listCourses();
