@@ -1,7 +1,7 @@
 import browser from 'webextension-polyfill';
 
-import { NullIfEmpty, SavedFields, Options } from './';
-import { CONFIGURATION } from './configuration';
+import { SavedFields, Options } from './';
+import { SupportedTypes, CONFIGURATION } from './configuration';
 import { ValidatorConstructor, FieldValidator } from './validator';
 
 async function getFields(): Promise<SavedFields> {
@@ -17,6 +17,9 @@ export async function getOptions(): Promise<Options> {
 
 	return {
 		timeZone: savedFields['timeZone'],
+		popup: {
+			displayJsonButton: savedFields['popup.displayJsonButton'],
+		},
 		canvas: {
 			timeZone: savedFields['timeZone'],
 			classNames: {
@@ -68,6 +71,7 @@ async function restoreOptions() {
 
 	function setElementValueById(id: string, value: string) {
 		const element = document.getElementById(id);
+		// TODO: support checkbox
 		if (element && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) element.value = value;
 	}
 
@@ -77,10 +81,15 @@ async function restoreOptions() {
 	});
 }
 
-async function validateElementInput(elementId: string, Validator: ValidatorConstructor) {
-	function getElementValueById(id: string): NullIfEmpty<string> | void {
+async function validateElementInput(elementId: string, Validator: ValidatorConstructor<SupportedTypes>) {
+	function getElementValueById(id: string): SupportedTypes | void {
 		const element = document.getElementById(id);
-		if (element && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) return element.value.trim() || null;
+
+		if (!element || !(element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement)) return;
+
+		if (element instanceof HTMLInputElement && element.type === 'checkbox') return element.checked;
+
+		return element.value.trim() || null;
 	}
 
 	const inputValue = getElementValueById(elementId) ?? null;
@@ -88,7 +97,7 @@ async function validateElementInput(elementId: string, Validator: ValidatorConst
 	return await new Validator(elementId, inputValue).validate();
 }
 
-async function getFieldInputs(): Promise<Record<keyof SavedFields, NullIfEmpty<string>> | null> {
+async function getFieldInputs(): Promise<Record<keyof SavedFields, SupportedTypes> | null> {
 	const fieldEntries = Object.fromEntries(
 		await Promise.all(
 			Object.entries(CONFIGURATION.FIELDS).map(async ([field, { elementId, Validator }]) => {
@@ -98,7 +107,7 @@ async function getFieldInputs(): Promise<Record<keyof SavedFields, NullIfEmpty<s
 		),
 	);
 
-	if (Object.values(fieldEntries).every(value => value !== FieldValidator.INVALID_INPUT)) return <Record<keyof SavedFields, NullIfEmpty<string>>>fieldEntries;
+	if (Object.values(fieldEntries).every(value => value !== FieldValidator.INVALID_INPUT)) return <Record<keyof SavedFields, SupportedTypes>>fieldEntries;
 
 	return null;
 }

@@ -1,10 +1,10 @@
 import { NotionClient } from '../api-handlers/notion';
 import { NullIfEmpty, NeverEmpty } from './';
-import { CONFIGURATION } from './configuration';
+import { SupportedTypes, CONFIGURATION } from './configuration';
 
 type TypeGuard = (value: unknown) => boolean;
 
-export type ValidatorConstructor = new (elementId: string, inputValue: NullIfEmpty<string>) => FieldValidator;
+export type ValidatorConstructor<T extends SupportedTypes> = new (elementId: string, inputValue: T) => FieldValidator<T>;
 
 const enum SaveButtonUpdates {
 	Pending,
@@ -41,21 +41,41 @@ const SaveButton = {
 	},
 };
 
-export abstract class FieldValidator {
+
+const typeGuards: Record<string, TypeGuard> = {
+	isNullableString(value) {
+		return (typeof value === 'string' || value === null);
+	},
+	isString(value) {
+		return (typeof value === 'string');
+	},
+	isParsableNumber(value) {
+		return (typeof value === 'string' && !isNaN(Number(value)));
+	},
+	isBoolean(value) {
+		return (typeof value === 'boolean');
+	},
+	isEmojiRequest(value) {
+		const emojiRegExp = /^[\p{Emoji_Presentation}\u200D]+$/u;
+		return (typeof value === 'string' && emojiRegExp.test(value));
+	},
+};
+
+export abstract class FieldValidator<T extends SupportedTypes> {
 	public static readonly INVALID_INPUT: unique symbol = Symbol('INVALID_INPUT');
 	private static validatingFields = new Set<string>();
 	private static invalidFields = new Set<string>();
 
 	protected elementId: string;
-	protected inputValue: NullIfEmpty<string>;
+	protected inputValue: T;
 	protected typeGuard: TypeGuard;
-	protected type: string;
+	protected typeLabel: string;
 
-	public constructor(elementId: string, inputValue: NullIfEmpty<string>, typeGuard: TypeGuard, type: string) {
+	public constructor(elementId: string, inputValue: T, typeGuard: TypeGuard, typeLabel: string) {
 		this.elementId = elementId;
 		this.inputValue = inputValue;
 		this.typeGuard = typeGuard;
-		this.type = type;
+		this.typeLabel = typeLabel;
 	}
 
 	public static countValidatingFields(): number {
@@ -66,15 +86,14 @@ export abstract class FieldValidator {
 		return FieldValidator.invalidFields.size;
 	}
 
-	protected async validator(): Promise<NullIfEmpty<string> | typeof FieldValidator.INVALID_INPUT> {
+	protected async validator(): Promise<T | typeof FieldValidator.INVALID_INPUT> {
 		if (this.typeGuard(this.inputValue)) return this.inputValue;
-		else {
-			this.addInvalidError(`Input must be a ${this.type}!`);
-			return FieldValidator.INVALID_INPUT;
-		}
+
+		this.addInvalidError(`Input must be a ${this.typeLabel}!`);
+		return FieldValidator.INVALID_INPUT;
 	}
 
-	public async validate(): Promise<NullIfEmpty<string> | typeof FieldValidator.INVALID_INPUT> {
+	public async validate(): Promise<T | typeof FieldValidator.INVALID_INPUT> {
 		this.addValidatingStatus();
 		const validatedInput = await this.validator();
 		this.removeValidatingStatus();
@@ -138,11 +157,11 @@ export abstract class FieldValidator {
 	}
 }
 
-abstract class RequiredField extends FieldValidator {
-	protected override async validator(): Promise<NeverEmpty<string> | typeof FieldValidator.INVALID_INPUT> {
-		if (this.inputValue) {
-			if (this.typeGuard(this.inputValue)) return this.inputValue;
-			else this.addInvalidError(`Input must be a ${this.type}!`);
+abstract class RequiredField<RequiredT extends ExpectedT, ExpectedT extends SupportedTypes> extends FieldValidator<ExpectedT> {
+	protected override async validator(): Promise<RequiredT | typeof FieldValidator.INVALID_INPUT> {
+		if (this.inputValue != null) {
+			if (this.typeGuard(this.inputValue)) return <RequiredT>this.inputValue;
+			else this.addInvalidError(`Input must be a ${this.typeLabel}!`);
 		}
 		else this.addInvalidError('Required field cannot be empty!');
 
@@ -150,19 +169,19 @@ abstract class RequiredField extends FieldValidator {
 	}
 }
 
-abstract class RequiredFieldCache extends RequiredField {
-	protected static cache: Record<string, NeverEmpty<string>> = {};
+abstract class RequiredFieldCache<RequiredT extends ExpectedT, ExpectedT extends SupportedTypes> extends RequiredField<RequiredT, ExpectedT> {
+	private cache: Record<string, RequiredT> = {};
 
-	public getCachedInput(): NeverEmpty<string> | undefined {
-		return RequiredFieldCache.cache?.[this.elementId];
+	public getCachedInput(): RequiredT | undefined {
+		return this.cache?.[this.elementId];
 	}
 
-	protected cacheInput<T extends NeverEmpty<string>>(inputValue: T): T {
-		return RequiredFieldCache.cache[this.elementId] = inputValue;
+	protected cacheInput<T extends RequiredT>(inputValue: T): T {
+		return this.cache[this.elementId] = inputValue;
 	}
 }
 
-abstract class JSONObjectField extends FieldValidator {
+abstract class JSONObjectField extends FieldValidator<NullIfEmpty<string>> {
 	protected override async validator(): Promise<NeverEmpty<string> | '{}' | typeof FieldValidator.INVALID_INPUT> {
 		try {
 			if (!this.inputValue) return '{}';
@@ -175,7 +194,7 @@ abstract class JSONObjectField extends FieldValidator {
 					document.getElementById(this.elementId)?.classList?.remove('invalid-input');
 					return this.inputValue;
 				}
-				else this.addInvalidError(`All object values must be ${this.type}s!`);
+				else this.addInvalidError(`All object values must be ${this.typeLabel}s!`);
 			}
 			else this.addInvalidError('Input must be an object <code>{}</code>.');
 
@@ -188,41 +207,31 @@ abstract class JSONObjectField extends FieldValidator {
 	}
 }
 
-const typeGuards: Record<string, TypeGuard> = {
-	isNullableString(value) {
-		return (typeof value === 'string' || value === null);
-	},
-	isString(value) {
-		return (typeof value === 'string');
-	},
-	isParsableNumber(value) {
-		return (typeof value === 'string' && !isNaN(Number(value)));
-	},
-	isEmojiRequest(value) {
-		const emojiRegExp = /^[\p{Emoji_Presentation}\u200D]+$/u;
-		return (typeof value === 'string' && emojiRegExp.test(value));
-	},
-};
-
-export class StringField extends FieldValidator {
+export class StringField extends FieldValidator<NullIfEmpty<string>> {
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
 		super(elementId, inputValue, typeGuards.isNullableString, 'string');
 	}
 }
 
-export class RequiredStringField extends RequiredField {
+export class RequiredStringField extends RequiredField<NeverEmpty<string>, NullIfEmpty<string>> {
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
 		super(elementId, inputValue, typeGuards.isString, 'string');
 	}
 }
 
-export class RequiredNumberField extends RequiredField {
+export class RequiredNumberAsStringField extends RequiredField<NeverEmpty<string>, NullIfEmpty<string>> {
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
 		super(elementId, inputValue, typeGuards.isParsableNumber, 'number');
 	}
 }
 
-export class RequiredNotionKeyField extends RequiredFieldCache {
+export class RequiredBooleanField extends RequiredField<boolean, boolean> {
+	public constructor(elementId: string, inputValue: boolean) {
+		super(elementId, inputValue, typeGuards.isBoolean, 'boolean');
+	}
+}
+
+export class RequiredNotionKeyField extends RequiredFieldCache<NeverEmpty<string>, NullIfEmpty<string>> {
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
 		super(elementId, inputValue, typeGuards.isString, 'string');
 	}
@@ -243,7 +252,7 @@ export class RequiredNotionKeyField extends RequiredFieldCache {
 	}
 }
 
-export class RequiredNotionDatabaseIdField extends RequiredFieldCache {
+export class RequiredNotionDatabaseIdField extends RequiredFieldCache<NeverEmpty<string>, NullIfEmpty<string>> {
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
 		super(elementId, inputValue, typeGuards.isString, 'string');
 	}
@@ -263,7 +272,7 @@ export class RequiredNotionDatabaseIdField extends RequiredFieldCache {
 				if (keyValidator instanceof RequiredFieldCache && keyValidator.getCachedInput() === keyInput) return keyInput;
 
 				const validatedKey = await new keyConfiguration.Validator(keyConfiguration.elementId, keyInput).validate();
-				if (validatedKey !== FieldValidator.INVALID_INPUT) return validatedKey;
+				if (validatedKey !== FieldValidator.INVALID_INPUT) return <NeverEmpty<string>>validatedKey;
 			}
 		}
 
@@ -302,7 +311,7 @@ export class JSONEmojiObjectField extends JSONObjectField {
 	}
 }
 
-export class TimeZoneField extends FieldValidator {
+export class TimeZoneField extends FieldValidator<NullIfEmpty<string>> {
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
 		super(elementId, inputValue, typeGuards.isNullableString, 'string');
 	}

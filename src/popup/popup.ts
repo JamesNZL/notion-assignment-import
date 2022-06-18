@@ -80,8 +80,6 @@ const buttons: Record<ButtonName, Button> = {
 	clearStorage: new Button('clear-storage-button'),
 };
 
-buttons.copyJSON.hide();
-
 buttons.options.addEventListener('click', () => {
 	if (browser.runtime.openOptionsPage) {
 		browser.runtime.openOptionsPage();
@@ -173,6 +171,8 @@ buttons.listAssignments.addEventListener('click', async () => {
 
 buttons.listCourses.addEventListener('click', updateSavedCoursesList);
 
+buttons.copyJSON.hide();
+// TODO: if !displaySavedJSON (default to false)
 buttons.copyJSON.addEventListener('click', async () => {
 	const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await browser.storage.local.get({ savedAssignments: {} });
 
