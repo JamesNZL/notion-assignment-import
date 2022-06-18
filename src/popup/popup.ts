@@ -249,7 +249,7 @@ buttons.clearStorage.addEventListener('click', () => {
 		SavedCoursesList.listCourses({});
 		SavedCoursesList.disableUpdates();
 
-		buttons.clearStorage.setTimeout('verify', () => {
+		buttons.clearStorage.setTimeout('restore', () => {
 			// reset list display after verify period is over
 			SavedCoursesList.enableUpdates();
 			SavedCoursesList.listCourses();
