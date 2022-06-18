@@ -4,7 +4,7 @@ import { NullIfEmpty, SavedFields, Options } from './';
 import { SupportedTypes, CONFIGURATION } from './configuration';
 import { ValidatorConstructor, InputFieldValidator } from './validator';
 
-class Element {
+class InputElement {
 	id: string;
 	element: HTMLElement | null;
 
@@ -13,13 +13,18 @@ class Element {
 		this.element = document.getElementById(id);
 	}
 
-	public getValue(): SupportedTypes | void {
-		if (!this.element || !(this.element instanceof HTMLInputElement || this.element instanceof HTMLTextAreaElement)) {
-			return;
-		}
+	private static isValid(element: HTMLElement | null): element is HTMLInputElement | HTMLTextAreaElement {
+		return (Boolean(element) && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement));
+	}
 
-		// TODO: these are spectacularly ugly
-		if (this.element instanceof HTMLInputElement && (this.element.type === 'checkbox' || this.element.type === 'radio')) {
+	private static useChecked(element: HTMLInputElement | HTMLTextAreaElement) {
+		return (element.type === 'checkbox' || element.type === 'radio');
+	}
+
+	public getValue(): SupportedTypes | void {
+		if (!InputElement.isValid(this.element)) return;
+
+		if (this.element instanceof HTMLInputElement && InputElement.useChecked(this.element)) {
 			return this.element.checked;
 		}
 
@@ -27,12 +32,9 @@ class Element {
 	}
 
 	public setValue(value: SupportedTypes) {
-		if (!this.element || !(this.element instanceof HTMLInputElement || this.element instanceof HTMLTextAreaElement)) {
-			return;
-		}
+		if (!InputElement.isValid(this.element)) return;
 
-		// TODO: these are spectacularly ugly
-		if (this.element instanceof HTMLInputElement && (this.element.type === 'checkbox' || this.element.type === 'radio') && typeof value === 'boolean') {
+		if (this.element instanceof HTMLInputElement && InputElement.useChecked(this.element) && typeof value === 'boolean') {
 			return this.element.checked = value;
 		}
 
@@ -111,12 +113,12 @@ async function restoreOptions() {
 
 	Object.entries(savedFields).forEach(([field, value]) => {
 		const fieldElementId = CONFIGURATION.FIELDS[<keyof typeof savedFields>field].elementId;
-		new Element(fieldElementId).setValue(value);
+		new InputElement(fieldElementId).setValue(value);
 	});
 }
 
 async function validateElementInput(elementId: string, Validator: ValidatorConstructor) {
-	const inputValue = new Element(elementId).getValue() ?? null;
+	const inputValue = new InputElement(elementId).getValue() ?? null;
 
 	// boolean values are always valid
 	if (typeof inputValue === 'boolean') return inputValue;
@@ -130,7 +132,7 @@ async function getFieldInputs(): Promise<Record<keyof SavedFields, NullIfEmpty<s
 			Object.entries(CONFIGURATION.FIELDS).map(async ([field, { elementId, Validator }]) => {
 				const validatedInput = (Validator)
 					? await validateElementInput(elementId, Validator)
-					: new Element(elementId).getValue();
+					: new InputElement(elementId).getValue();
 				return [field, validatedInput];
 			}),
 		),
