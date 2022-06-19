@@ -138,7 +138,7 @@ h3 {
 	margin: var(--margin) 0;
 	padding: var(--margin) 0;
 	border-radius: calc(0.5 * var(--border-radius));
-	max-height: 37.5vh;
+	max-height: 30vh;
 	overflow-y: scroll;
 }
 
