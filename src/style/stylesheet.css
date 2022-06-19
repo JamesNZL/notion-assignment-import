@@ -351,13 +351,17 @@ textarea:focus-visible {
 	outline: none;
 }
 
+.segmented-control-wrapper {
+	padding-top: calc(2 * var(--margin));
+	padding-bottom: calc(4 * var(--margin));
+}
+
 .segmented-control {
 	display: flex;
 	width: 100%;
 	position: relative;
 	user-select: none;
 	z-index: 1;
-	margin: calc(2 * var(--margin)) 0;
 	border: 0;
 	border-radius: var(--border-radius);
 	background-color: var(--dark-grey);
