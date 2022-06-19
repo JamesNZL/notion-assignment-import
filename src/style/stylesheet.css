@@ -3,11 +3,12 @@
 	--accent-complement: #e53c2e;
 	--lighter-grey: #444444;
 	--background: #282828;
-	--dark-grey: #161616;
+	--darkish-grey: #181818;
+	--dark-grey: #141414;
 	--darker-grey: #080808;
 	--green: #00cc00;
 	--green-hover: #4dff4d;
-	--red: #a01010;
+	--red: #a80e0e;
 	--red-hover: #8b0000;
 	--text-colour: #ffffff;
 	--grey-text-colour: #d6d6d6;
@@ -132,14 +133,35 @@ h3 {
 	height: 18px;
 }
 
-#saved-courses-list {
+#saved-assignments {
 	background-color: var(--darker-grey);
-	color: var(--light-grey-text-colour);
-	margin: var(--margin) 0;
-	padding: var(--margin) 0;
 	border-radius: calc(0.5 * var(--border-radius));
-	max-height: 29vh;
+	margin: var(--margin) 0;
+	padding: 1em 0;
+}
+
+#saved-assignments .button {
+	padding: 6px;
+	background-color: var(--darkish-grey);
+}
+
+#saved-assignments .button:hover {
+	background-color: var(--background);
+}
+
+#saved-assignments .row {
+	width: 90%;
+	margin-top: calc(-1 * var(--margin));
+	margin-bottom: calc(1 * var(--margin));
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#saved-courses-list {
+	color: var(--light-grey-text-colour);
+	max-height: 36vh;
 	overflow-y: scroll;
+	margin: var(--margin) 0;
 }
 
 #saved-courses-list::-webkit-scrollbar-thumb:hover {
@@ -150,6 +172,11 @@ h3 {
 	margin: 1em calc(1em + var(--margin));
 	word-break: break-word;
 	color: #bbb;
+}
+
+#saved-courses-list ol {
+	margin-block-start: 0;
+	margin-block-end: 0;
 }
 
 #saved-courses-list ol>li {
@@ -216,46 +243,45 @@ h3 {
 
 .button.accent:hover {
 	border-color: transparent;
-	background-color: var(--accent);
+	background-color: var(--accent) !important;
 	color: white;
 }
 
 .button.red-hover:hover {
-	background-color: var(--red);
+	background-color: var(--red) !important;
 	color: white;
 }
 
 .button.red {
-	margin: calc(1.25 * var(--margin)) 0;
-	background-color: var(--red);
+	background-color: var(--red) !important;
 	color: white;
 }
 
 .button.red:hover {
-	background-color: var(--red-hover);
+	background-color: var(--red-hover) !important;
 	color: white;
 }
 
 .button.green {
-	background-color: var(--green);
+	background-color: var(--green) !important;
 	color: black;
 	font-weight: 600;
 }
 
 .button.green:hover {
-	background-color: var(--green-hover);
+	background-color: var(--green-hover) !important;
 	color: black;
 }
 
 .button.outline.green {
 	color: var(--green);
 	border-color: var(--green);
-	background-color: var(--background);
+	background-color: var(--background) !important;
 }
 
 .button.outline.green:hover {
 	border-color: transparent;
-	background-color: var(--green-hover);
+	background-color: var(--green-hover) !important;
 	color: black;
 }
 

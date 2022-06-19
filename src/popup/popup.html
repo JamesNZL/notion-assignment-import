@@ -43,17 +43,17 @@
 	<div>
 		<h2>Saved Assignments</h2>
 
-		<div class='row'>
-			<button class='button' id='list-assignments-button'>Expand Assignments</button>
-			<button class='button' id='list-courses-button'>Collapse Assignments</button>
+		<div id='saved-assignments'>
+			<div class='row'>
+				<button class='button' id='list-assignments-button'>Expand</button>
+				<button class='button' id='list-courses-button'>Collapse</button>
 
-			<button class='button' id='copy-json-button'>Copy Raw <code>JSON</code></button>
-		</div>
+				<button class='button' id='copy-json-button'>Copy <code>JSON</code></button>
 
-		<div id='saved-courses-list'></div>
+				<button class='button red-hover' id='clear-storage-button'>Clear</button>
+			</div>
 
-		<div class='row'>
-			<button class='button red-hover' id='clear-storage-button'>Clear Saved Assignments</button>
+			<div id="saved-courses-list"></div>
 		</div>
 	</div>
 

@@ -218,7 +218,7 @@ buttons.export.addEventListener('click', async () => {
 			? createdAssignments.reduce((list, { course, name }, index) => list + `${index + 1}. ${course} ${name}\n`, '\n\n')
 			: '';
 
-		buttons.export.setLabel(`Imported <code>${createdAssignments.length}</code> assignment${(createdAssignments.length !== 1) ? 's' : ''}!`);
+		buttons.export.setLabel(`Created <code>${createdAssignments.length}</code> new assignment${(createdAssignments.length !== 1) ? 's' : ''}!`);
 		buttons.export.resetHTML(3500);
 		alert(`Created ${createdAssignments.length} new assignments.${createdNames}`);
 	}
@@ -237,12 +237,12 @@ buttons.copyJSON.addEventListener('click', async () => {
 
 	await navigator.clipboard.writeText(JSON.stringify(savedAssignments));
 
-	buttons.copyJSON.setLabel('Copied to clipboard!');
+	buttons.copyJSON.setLabel('Copied!');
 	buttons.copyJSON.resetHTML(1325);
 });
 
 buttons.clearStorage.addEventListener('click', () => {
-	const verifyPrompt = 'I\'m sure!';
+	const verifyPrompt = 'Confirm';
 	const verifyPeriod = 3000;
 
 	if (buttons.clearStorage.getLabel() !== verifyPrompt) {
@@ -267,7 +267,7 @@ buttons.clearStorage.addEventListener('click', () => {
 
 	SavedCoursesList.listCourses();
 
-	buttons.clearStorage.setLabel('Cleared saved assignments!');
+	buttons.clearStorage.setLabel('Cleared!');
 	buttons.clearStorage.resetHTML(3500);
 });
 
