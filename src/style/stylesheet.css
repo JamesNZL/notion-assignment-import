@@ -240,11 +240,6 @@ h3 {
 		box-shadow 0.15s ease-in-out;
 }
 
-.button.emphasis {
-	font-weight: 700;
-	padding: 10px;
-}
-
 .button:hover {
 	background-color: var(--darkest-grey);
 }
@@ -296,6 +291,11 @@ h3 {
 	border-color: transparent;
 	background-color: var(--green-hover) !important;
 	color: black;
+}
+
+.button.emphasis {
+	font-weight: 700 !important;
+	padding: 10px !important;
 }
 
 .button:disabled {
