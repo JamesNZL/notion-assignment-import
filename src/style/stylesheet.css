@@ -167,7 +167,7 @@ h3 {
 
 #saved-courses-list {
 	color: var(--light-grey-text-colour);
-	max-height: 30vh;
+	max-height: 34vh;
 	overflow-y: scroll;
 	margin: 0;
 	margin-bottom: calc(3 * var(--margin));
