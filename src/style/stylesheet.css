@@ -289,7 +289,7 @@ h3 {
 	padding: calc(var(--button-padding) + var(--border-width));
 	color: var(--green);
 	border-color: var(--green);
-	background-color: var(--background) !important;
+	background-color: unset !important;
 }
 
 .button.outline.green:hover {
