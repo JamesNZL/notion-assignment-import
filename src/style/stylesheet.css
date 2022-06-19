@@ -90,6 +90,8 @@ body {
 
 h2 {
 	font-size: 1.45em;
+	letter-spacing: 0.025em;
+	padding-inline-start: calc(0.125 * var(--border-radius));
 }
 
 h3 {
@@ -99,10 +101,6 @@ h3 {
 	margin-block-end: 0.23rem;
 	letter-spacing: 0.05em;
 	padding-inline-start: calc(0.125 * var(--border-radius));
-}
-
-h3 {
-	font-size: 1.15em;
 }
 
 h2,
@@ -168,10 +166,10 @@ h3 {
 
 #saved-courses-list {
 	color: var(--light-grey-text-colour);
-	max-height: 34vh;
+	max-height: 33vh;
 	overflow-y: scroll;
 	margin: 0;
-	margin-bottom: calc(3 * var(--margin));
+	margin-bottom: min(calc(1.75 * var(--margin)), 0.5rem);
 }
 
 #saved-courses-list::-webkit-scrollbar-thumb {
@@ -225,13 +223,14 @@ h3 {
 	user-select: none;
 	margin: var(--margin) 0;
 	padding: 6px;
-	display: inline-block;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	background-color: var(--darker-grey);
 	color: var(--text-colour);
 	font-family: inherit;
 	font-size: 0.825rem;
 	text-decoration: none;
-	text-align: center;
 	border-radius: var(--border-radius);
 	border: var(--border-width) solid transparent;
 	box-sizing: border-box;
@@ -326,8 +325,18 @@ label,
 	font-size: 0.75rem;
 }
 
+#options strong,
+#options p {
+	margin-inline-start: 20px;
+}
+
+#options code {
+	text-transform: none;
+}
+
 #options .code {
 	text-align: center;
+	margin-inline-start: 0;
 }
 
 label.required {
@@ -341,11 +350,27 @@ label.required:before {
 	right: 100%;
 }
 
+#options .tile {
+	padding-bottom: calc(4 * var(--margin) + 0.25rem);
+}
+
+#options .tile div>:first-child:not(h3) {
+	margin-top: 0;
+}
+
+#options .tile div>:last-child {
+	margin-bottom: 0;
+}
+
+#options .tile div>.segmented-control-wrapper:last-child {
+	padding-bottom: 0;
+}
+
 input,
 textarea {
 	width: 100%;
 	margin-top: calc(2 * var(--margin));
-	margin-bottom: calc(4 * var(--margin));
+	margin-bottom: calc(5 * var(--margin));
 	padding: 8px 20px;
 	align-items: center;
 	font-family: monospace;
@@ -451,11 +476,14 @@ textarea:focus-visible {
 	flex: 1;
 	text-align: center;
 	text-overflow: ellipsis;
+	text-transform: unset;
 	white-space: nowrap;
 	overflow: hidden;
 	cursor: pointer;
 	font-weight: unset;
 	margin: 0;
+	padding: calc(6px + var(--border-width));
+	transition: color 250ms cubic-bezier(0, 0.95, 0.38, 0.98);
 }
 
 .segmented-control label:last-of-type:before {
@@ -470,11 +498,6 @@ textarea:focus-visible {
 	left: 0;
 	z-index: -1;
 	transform: translateX(0);
-}
-
-.segmented-control label {
-	padding: 10px;
-	transition: color 250ms cubic-bezier(0, 0.95, 0.38, 0.98);
 }
 
 .segmented-control label:before {

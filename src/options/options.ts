@@ -182,5 +182,5 @@ document.addEventListener('keydown', keyEvent => {
 
 // hide all canvas class options
 // TODO: sort out this interface / do i still need this as a configurable option?
-const canvasClassNames = document.getElementById('canvas-class-names');
+const canvasClassNames = document.getElementById('advanced-options');
 if (canvasClassNames) canvasClassNames.style.display = 'none';

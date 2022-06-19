@@ -9,127 +9,161 @@
 
 <body>
 	<div>
-		<h1>Popup Options</h1>
+		<h1>Extension Options</h1>
 
-		<label class='required' for='display-json-button'>Display <code>JSON</code> button</label><br>
-		<div class='segmented-control-wrapper'>
-			<div class=' segmented-control' id='display-json-button'>
-				<input checked type='radio' name='display-json-button' value='hide-json-button' id='hide-json-button'>
-				<label for='hide-json-button'>Hide</label>
+		<h3>Popup</h3>
+		<div class='tile'>
+			<div>
+				<label class='required' for='display-json-button'>Display 'Copy <code>JSON</code>' button</label>
+				<div class='segmented-control-wrapper'>
+					<div class=' segmented-control' id='display-json-button'>
+						<input checked type='radio' name='display-json-button' value='hide-json-button' id='hide-json-button'>
+						<label for='hide-json-button'>Hide</label>
 
-				<input type='radio' name='display-json-button' value='show-json-button' id='show-json-button'>
-				<label for='show-json-button'>Show</label><br>
+						<input type='radio' name='display-json-button' value='show-json-button' id='show-json-button'>
+						<label for='show-json-button'>Show</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<h3>Options Page</h3>
+		<div class='tile'>
+			<div>
+				<label class='required' for='display-advanced-options'>Show advanced options</label>
+				<div class='segmented-control-wrapper'>
+					<div class=' segmented-control' id='display-advanced-options'>
+						<input checked type='radio' name='display-advanced-options' value='hide-advanced-options' id='hide-advanced-options'>
+						<label for='hide-advanced-options'>Hide</label>
+
+						<input type='radio' name='display-advanced-options' value='show-advanced-options' id='show-advanced-options'>
+						<label for='show-advanced-options'>Show</label>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 
-	<div id='canvas-class-names'>
-		<h1>Canvas Class Names</h1>
+	<div id='advanced-options'>
+		<h1>Advanced Options</h1>
 
-		<label class='required' for='breadcrumbs'>Breadcrumbs class</label><br>
-		<input required type='text' id='breadcrumbs' name='breadcrumbs'><br>
+		<h2>Canvas Configuration</h2>
+		<h3>Class Names</h3>
+		<div class='tile'>
+			<div>
+				<label class='required' for='breadcrumbs'>Breadcrumbs class</label>
+				<input required type='text' id='breadcrumbs' name='breadcrumbs'>
 
-		<label class='required' for='course-code-n'>Course code <code>nth li</code></label><br>
-		<input required type='text' id='course-code-n' name='course-code-n'><br>
+				<label class='required' for='course-code-n'>Course code <code>nth li</code></label>
+				<input required type='text' id='course-code-n' name='course-code-n'>
 
-		<label class='required' for='assignment-class'>Assignment class</label><br>
-		<input required type='text' id='assignment-class' name='assignment-class'><br>
+				<label class='required' for='assignment-class'>Assignment class</label>
+				<input required type='text' id='assignment-class' name='assignment-class'>
 
-		<label class='required' for='assignment-title'>Assignment title</label><br>
-		<input required type='text' id='assignment-title' name='assignment-title'><br>
+				<label class='required' for='assignment-title'>Assignment title class</label>
+				<input required type='text' id='assignment-title' name='assignment-title'>
 
-		<label class='required' for='available-date'>Available date</label><br>
-		<input required type='text' id='available-date' name='available-date'><br>
+				<label class='required' for='available-date'>Available date class</label>
+				<input required type='text' id='available-date' name='available-date'>
 
-		<label class='required' for='available-status'>Available status</label><br>
-		<input required type='text' id='available-status' name='available-status'><br>
+				<label class='required' for='available-status'>Available status class</label>
+				<input required type='text' id='available-status' name='available-status'>
 
-		<label class='required' for='due-date'>Due date</label><br>
-		<input required type='text' id='due-date' name='due-date'><br>
+				<label class='required' for='due-date'>Due date class</label>
+				<input required type='text' id='due-date' name='due-date'>
 
-		<label class='required' for='date-element'>Date element</label><br>
-		<input required type='text' id='date-element' name='date-element'><br>
-
-		<label class='required' for='status-not-available'>Not available status</label><br>
-		<input required type='text' id='status-not-available' name='status-not-available'><br>
-	</div>
-
-	<div>
-		<h1>Notion Environment Variables</h1>
-
-		<label class='required' for='notion-key'>Notion Integration Key</label><br>
-		<input required type='password' id='notion-key' name='notion-key'><br>
-
-		<label class='required' for='database-id'>Notion Database ID</label><br>
-		<input required type='text' id='database-id' name='database-id'><br>
-
-		<label for='timezone'>Timezone (must be a valid <a target='_blank' href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>TZ database name</a>)</label><br>
-		<input type='text' id='timezone' name='timezone'><br>
-	</div>
-
-	<div>
-		<h1>Notion Database Properties</h1>
-
-		<div>
-			<h2>Property Names</h2>
-
-			<label class='required' for='notion-property-name'>Page 'name' property</label><br>
-			<input required type='text' id='notion-property-name' name='notion-property-name'><br>
-
-			<label for='notion-property-category'>Category property</label><br>
-			<input type='text' id='notion-property-category' name='notion-property-category'><br>
-
-			<label for='notion-property-course'>Course property</label><br>
-			<input type='text' id='notion-property-course' name='notion-property-course'><br>
-
-			<label for='notion-property-url'>URL property</label><br>
-			<input type='text' id='notion-property-url' name='notion-property-url'><br>
-
-			<label for='notion-property-status'>Status property</label><br>
-			<input type='text' id='notion-property-status' name='notion-property-status'><br>
-
-			<label for='notion-property-available'>Available date property</label><br>
-			<input type='text' id='notion-property-available' name='notion-property-available'><br>
-
-			<label for='notion-property-due'>Due date property</label><br>
-			<input type='text' id='notion-property-due' name='notion-property-due'><br>
-
-			<label for='notion-property-span'>Date span property</label><br>
-			<input type='text' id='notion-property-span' name='notion-property-span'><br>
+				<label class='required' for='date-element'>Date element class</label>
+				<input required type='text' id='date-element' name='date-element'>
+			</div>
 		</div>
 
-		<div>
-			<h2>Property Values</h2>
-
-			<label for='notion-category-canvas'>Canvas Category</label><br>
-			<input type='text' id='notion-category-canvas' name='notion-category-canvas'><br>
-
-			<label for='notion-status-todo'>To Do Status</label><br>
-			<input type='text' id='notion-status-todo' name='notion-status-todo'><br>
-		</div>
-
-		<div>
-			<h3>Course Code Overrides</h3>
-			<p>This must be a valid <code>JSON</code> object string.</p>
-			<strong>Example</strong>
-			<p class='code'>
-				<code>{ "Canvas Course Code": "Database Course Code" }</code>
-			</p>
-			<label for='course-code-overrides'>Course code overrides</label><br>
-			<textarea id='course-code-overrides' name='course-code-overrides'></textarea><br>
+		<h3>Class Values</h3>
+		<div class='tile'>
+			<div>
+				<label class='required' for='status-not-available'>Not available status</label>
+				<input required type='text' id='status-not-available' name='status-not-available'>
+			</div>
 		</div>
 	</div>
 
 	<div>
-		<h1>Notion Course Emojis</h1>
+		<h1>Notion Configuration</h1>
 
-		<p>This must be a valid <code>JSON</code> object string.</p>
-		<strong>Example</strong>
-		<p class='code'>
-			<code>{ "Database Course Code": "&#x1F468;&#x200D;&#x1F4BB;" }</code>
-		</p>
-		<label for='course-emojis'>Course emojis</label><br>
-		<textarea id='course-emojis' name='course-emojis'></textarea><br>
+		<h2>Integration</h2>
+		<div class='tile'>
+			<div>
+				<label class='required' for='notion-key'>Notion Integration Key</label>
+				<input required type='password' id='notion-key' name='notion-key'>
+
+				<label class='required' for='database-id'>Notion Database ID</label>
+				<input required type='text' id='database-id' name='database-id'>
+
+				<label for='timezone'>Timezone (must be a valid <a target='_blank' href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>TZ database name</a>)</label>
+				<input type='text' id='timezone' name='timezone'>
+			</div>
+		</div>
+
+		<h2>Database Properties</h2>
+		<h3>Property Names</h3>
+		<div class='tile'>
+			<div>
+				<label class='required' for='notion-property-name'>Page 'name' property</label>
+				<input required type='text' id='notion-property-name' name='notion-property-name'>
+
+				<label for='notion-property-category'>Category property</label>
+				<input type='text' id='notion-property-category' name='notion-property-category'>
+
+				<label for='notion-property-course'>Course property</label>
+				<input type='text' id='notion-property-course' name='notion-property-course'>
+
+				<label for='notion-property-url'>URL property</label>
+				<input type='text' id='notion-property-url' name='notion-property-url'>
+
+				<label for='notion-property-status'>Status property</label>
+				<input type='text' id='notion-property-status' name='notion-property-status'>
+
+				<label for='notion-property-available'>Available date property</label>
+				<input type='text' id='notion-property-available' name='notion-property-available'>
+
+				<label for='notion-property-due'>Due date property</label>
+				<input type='text' id='notion-property-due' name='notion-property-due'>
+
+				<label for='notion-property-span'>Date span property</label>
+				<input type='text' id='notion-property-span' name='notion-property-span'>
+			</div>
+		</div>
+
+		<h3>Property Values</h3>
+		<div class='tile'>
+			<div>
+				<label for='notion-category-canvas'>Canvas Category</label>
+				<input type='text' id='notion-category-canvas' name='notion-category-canvas'>
+
+				<label for='notion-status-todo'>To Do Status</label>
+				<input type='text' id='notion-status-todo' name='notion-status-todo'>
+
+				<label for='course-code-overrides'>Course code overrides</label>
+				<p>This must be a valid <code>JSON</code> object string.</p>
+				<strong>Example</strong>
+				<p class='code'>
+					<code>{ "Canvas Course Code": "Database Course Code" }</code>
+				</p>
+				<textarea id='course-code-overrides' name='course-code-overrides'></textarea>
+			</div>
+		</div>
+
+		<h2>Page Emojis</h2>
+		<div class='tile'>
+			<div>
+				<label for='course-emojis'>Course emojis</label>
+				<p>This must be a valid <code>JSON</code> object string.</p>
+				<strong>Example</strong>
+				<p class='code'>
+					<code>{ "Database Course Code": "&#x1F468;&#x200D;&#x1F4BB;" }</code>
+				</p>
+				<textarea id='course-emojis' name='course-emojis'></textarea>
+			</div>
+		</div>
 	</div>
 
 	<br>
