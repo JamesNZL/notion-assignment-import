@@ -178,7 +178,6 @@ h3 {
 	height: 16px;
 }
 
-button,
 .button {
 	position: relative;
 	cursor: pointer;
@@ -201,68 +200,64 @@ button,
 		box-shadow 0.15s ease-in-out;
 }
 
-button.emphasis,
 .button.emphasis {
 	font-weight: 700;
 	border-color: var(--accent);
 }
 
-button:hover,
 .button:hover {
 	background-color: var(--darker-grey);
 }
 
-button.accent,
 .button.accent {
 	color: var(--accent-complement);
 }
 
-button.accent:hover,
 .button.accent:hover {
 	border-color: transparent;
 	background-color: var(--accent);
 	color: white;
 }
 
-button.red-hover:hover {
+.button.red-hover:hover {
 	background-color: var(--red);
 	color: white;
 }
 
-button.red {
+.button.red {
 	background-color: var(--red);
 	color: white;
 }
 
-button.red:hover {
+.button.red:hover {
 	background-color: var(--red-hover);
 	color: white;
 }
 
-button.green {
+.button.green {
 	background-color: var(--green);
 	color: black;
 	font-weight: 600;
 }
 
-button.green:hover {
+.button.green:hover {
 	background-color: var(--green-hover);
 	color: black;
 }
 
-button.outline.green {
+.button.outline.green {
 	color: var(--green);
 	border-color: var(--green);
 	background-color: var(--background);
 }
 
-button.outline.green:hover {
+.button.outline.green:hover {
 	border-color: transparent;
 	background-color: var(--green-hover);
 	color: black;
 }
 
-button:disabled {
+.button:disabled {
 	cursor: not-allowed;
 }
 
