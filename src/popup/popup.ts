@@ -34,8 +34,11 @@ function getElementById(id: ElementId): HTMLElement | null {
 
 class Button {
 	private button: HTMLElement;
+	private label: HTMLElement;
+
 	private defaultHtml: string;
 	private defaultClassList: string;
+
 	private timeouts: Record<string, NodeJS.Timeout> = {};
 
 	public constructor(id: ElementId) {
@@ -44,22 +47,23 @@ class Button {
 		if (!element) throw new Error(`Invalid button identifier ${id}!`);
 
 		this.button = element;
+		this.label = element.querySelector('.button-label') ?? element;
+
 		this.defaultHtml = element.innerHTML;
 		this.defaultClassList = element.classList.value;
 	}
 
-	public getHTML() {
-		return this.button.innerHTML;
+	public getLabel() {
+		return this.label.innerHTML;
 	}
 
-	// TODO: button icon is replaced too
-	public setHTML(html: string) {
-		this.button.innerHTML = html;
+	public setLabel(html: string) {
+		this.label.innerHTML = html;
 	}
 
 	public resetHTML(delay: number) {
 		this.setTimeout('resetHTML', () => {
-			this.setHTML(this.defaultHtml);
+			this.setLabel(this.defaultHtml);
 			this.button.classList.value = this.defaultClassList;
 		}, delay);
 	}
@@ -199,13 +203,13 @@ buttons.parse.addEventListener('click', async () => {
 	SavedCoursesList.listCourses();
 
 	if (courseCode) {
-		buttons.parse.setHTML(`Saved ${courseCode}!`);
+		buttons.parse.setLabel(`Saved ${courseCode}!`);
 		buttons.parse.resetHTML(1325);
 	}
 });
 
 buttons.export.addEventListener('click', async () => {
-	buttons.export.setHTML('Exporting to Notion...');
+	buttons.export.setLabel('Exporting to Notion...');
 
 	const createdAssignments = await exportToNotion();
 
@@ -214,7 +218,7 @@ buttons.export.addEventListener('click', async () => {
 			? createdAssignments.reduce((list, { course, name }, index) => list + `${index + 1}. ${course} ${name}\n`, '\n\n')
 			: '';
 
-		buttons.export.setHTML(`Imported <code>${createdAssignments.length}</code> assignment${(createdAssignments.length !== 1) ? 's' : ''}!`);
+		buttons.export.setLabel(`Imported <code>${createdAssignments.length}</code> assignment${(createdAssignments.length !== 1) ? 's' : ''}!`);
 		buttons.export.resetHTML(3500);
 		alert(`Created ${createdAssignments.length} new assignments.${createdNames}`);
 	}
@@ -233,7 +237,7 @@ buttons.copyJSON.addEventListener('click', async () => {
 
 	await navigator.clipboard.writeText(JSON.stringify(savedAssignments));
 
-	buttons.copyJSON.setHTML('Copied to clipboard!');
+	buttons.copyJSON.setLabel('Copied to clipboard!');
 	buttons.copyJSON.resetHTML(1325);
 });
 
@@ -241,11 +245,11 @@ buttons.clearStorage.addEventListener('click', () => {
 	const verifyPrompt = 'I\'m sure!';
 	const verifyPeriod = 3000;
 
-	if (buttons.clearStorage.getHTML() !== verifyPrompt) {
+	if (buttons.clearStorage.getLabel() !== verifyPrompt) {
 		buttons.clearStorage.addClass('red');
 		buttons.clearStorage.removeClass('red-hover');
 
-		buttons.clearStorage.setHTML(verifyPrompt);
+		buttons.clearStorage.setLabel(verifyPrompt);
 
 		SavedCoursesList.listCourses({});
 		SavedCoursesList.disableUpdates();
@@ -263,7 +267,7 @@ buttons.clearStorage.addEventListener('click', () => {
 
 	SavedCoursesList.listCourses();
 
-	buttons.clearStorage.setHTML('Cleared saved assignments!');
+	buttons.clearStorage.setLabel('Cleared saved assignments!');
 	buttons.clearStorage.resetHTML(3500);
 });
 
