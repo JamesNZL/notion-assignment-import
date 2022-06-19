@@ -286,6 +286,7 @@ h3 {
 }
 
 .button.outline.green {
+	padding: calc(6px + var(--border-width));
 	color: var(--green);
 	border-color: var(--green);
 	background-color: var(--background) !important;
