@@ -120,13 +120,13 @@ h3 {
 	width: 100%;
 }
 
-#options-button {
+#options-icon {
 	width: fit-content;
 	margin-inline-end: calc(0.125 * var(--border-radius));
 	margin-top: 0.36rem;
 }
 
-#options-button svg {
+#options-icon svg {
 	fill: var(--accent);
 	width: 18px;
 	height: 18px;

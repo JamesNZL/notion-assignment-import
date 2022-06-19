@@ -11,7 +11,7 @@ import { valueof } from '../types/utils';
 // static type checking will then be available through ElementId
 interface Elements {
 	buttons: {
-		options: 'options-button';
+		options: 'options-icon';
 		parse: 'parse-button';
 		export: 'export-button';
 		listAssignments: 'list-assignments-button';
@@ -146,7 +146,7 @@ const SavedCoursesList = {
 };
 
 const buttons: Record<ButtonName, Button> = {
-	options: new Button('options-button'),
+	options: new Button('options-icon'),
 	parse: new Button('parse-button'),
 	export: new Button('export-button'),
 	listAssignments: new Button('list-assignments-button'),
