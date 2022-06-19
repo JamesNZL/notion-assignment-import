@@ -9,7 +9,7 @@ import { valueof } from '../types/utils';
 
 // if an id ever changes in HTML, it must be updated here
 // static type checking will then be available through ElementId
-interface Elements {
+interface PopupElements {
 	buttons: {
 		options: 'options-icon';
 		parse: 'parse-button';
@@ -24,11 +24,11 @@ interface Elements {
 	};
 }
 
-type ButtonName = keyof Elements['buttons'];
-type ButtonId = valueof<Elements['buttons']>;
-type ElementId = ButtonId | valueof<Elements['elements']>;
+type PopupButtonName = keyof PopupElements['buttons'];
+type PopupButtonId = valueof<PopupElements['buttons']>;
+type PopupElementId = PopupButtonId | valueof<PopupElements['elements']>;
 
-function getElementById(id: ElementId): HTMLElement | null {
+function getElementById(id: PopupElementId): HTMLElement | null {
 	return document.getElementById(id);
 }
 
@@ -41,7 +41,7 @@ class Button {
 
 	private timeouts: Record<string, NodeJS.Timeout> = {};
 
-	public constructor(id: ElementId) {
+	public constructor(id: PopupElementId) {
 		const element = getElementById(id);
 
 		if (!element) throw new Error(`Invalid button identifier ${id}!`);
@@ -149,7 +149,7 @@ const SavedCoursesList = {
 	},
 };
 
-const buttons: Record<ButtonName, Button> = {
+const buttons: Record<PopupButtonName, Button> = {
 	options: new Button('options-icon'),
 	parse: new Button('parse-button'),
 	export: new Button('export-button'),
