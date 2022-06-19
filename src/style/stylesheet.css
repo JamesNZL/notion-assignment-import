@@ -224,9 +224,8 @@ h3 {
 	user-select: none;
 	margin: var(--margin) 0;
 	padding: var(--button-padding);
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
+	display: inline-block;
+	text-align: center;
 	background-color: var(--darker-grey);
 	color: var(--text-colour);
 	font-family: inherit;
