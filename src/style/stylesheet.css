@@ -14,7 +14,7 @@
 	--grey-text-colour: #d6d6d6;
 	--light-grey-text-colour: #cccccc;
 	--margin: 0.25em;
-	--border-radius: 2rem;
+	--border-radius: 1rem;
 	--border-width: 1px;
 	--button-padding: 6px;
 }
@@ -139,7 +139,7 @@ h3 {
 	justify-content: space-around;
 	gap: calc(3 * var(--margin));
 	background-color: var(--dark-grey);
-	border-radius: calc(0.5 * var(--border-radius));
+	border-radius: var(--border-radius);
 	margin: var(--margin) 0;
 	padding: calc(4 * var(--margin));
 }
@@ -428,7 +428,7 @@ textarea {
 	min-height: 75px;
 	min-width: 100%;
 	max-width: 100%;
-	border-radius: calc(0.5 * var(--border-radius));
+	border-radius: var(--border-radius);
 	text-align: center;
 }
 
