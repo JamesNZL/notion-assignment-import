@@ -51,11 +51,18 @@ export abstract class InputFieldValidator {
 	protected typeGuard: TypeGuard;
 	protected typeLabel: string;
 
+	private fieldElement: HTMLElement;
+
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>, typeGuard: TypeGuard, typeLabel: string) {
 		this.elementId = elementId;
 		this.inputValue = inputValue;
 		this.typeGuard = typeGuard;
 		this.typeLabel = typeLabel;
+
+		const fieldElement = document.getElementById(elementId);
+		if (!fieldElement) throw new Error(`Failed to get element ${elementId}.`);
+
+		this.fieldElement = fieldElement;
 	}
 
 	public static countValidatingFields(): number {
@@ -89,15 +96,13 @@ export abstract class InputFieldValidator {
 
 		InputFieldValidator.validatingFields.add(this.elementId);
 
-		const fieldElement = document.getElementById(this.elementId);
+		const status = 'Validating input...';
 
-		if (fieldElement) {
-			const statusElement = document.getElementById(`validating-input-${this.elementId}`);
-			const statusHTML = `<span id='validating-input-${this.elementId}' class='validating-input-status'>Validating input...</span>`;
+		const statusElement = document.getElementById(`validating-input-${this.elementId}`);
+		const statusHTML = `<span id='validating-input-${this.elementId}' class='validating-input-status'>${status}</span>`;
 
-			if (!statusElement) fieldElement.insertAdjacentHTML('beforebegin', statusHTML);
-			else statusElement.innerHTML = statusHTML;
-		}
+		if (!statusElement) this.fieldElement.insertAdjacentHTML('beforebegin', statusHTML);
+		else statusElement.innerHTML = status;
 
 		SaveButton.updateState(SaveButtonUpdates.Pending);
 	}
@@ -113,17 +118,13 @@ export abstract class InputFieldValidator {
 	protected addInvalidError(error: string) {
 		InputFieldValidator.invalidFields.add(this.elementId);
 
-		const fieldElement = document.getElementById(this.elementId);
+		this.fieldElement.classList.add('invalid-input');
 
-		if (fieldElement) {
-			fieldElement.classList.add('invalid-input');
+		const errorElement = document.getElementById(`invalid-input-${this.elementId}`);
+		const errorHTML = `<span id='invalid-input-${this.elementId}' class='invalid-input-error'>${error}</span>`;
 
-			const errorElement = document.getElementById(`invalid-input-${this.elementId}`);
-			const errorHTML = `<span id='invalid-input-${this.elementId}' class='invalid-input-error'>${error}</span>`;
-
-			if (!errorElement) fieldElement.insertAdjacentHTML('beforebegin', errorHTML);
-			else errorElement.innerHTML = errorHTML;
-		}
+		if (!errorElement) this.fieldElement.insertAdjacentHTML('beforebegin', errorHTML);
+		else errorElement.innerHTML = error;
 
 		SaveButton.updateState(SaveButtonUpdates.Disable);
 	}
