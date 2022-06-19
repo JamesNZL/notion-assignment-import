@@ -168,8 +168,19 @@ h3 {
 	list-style: '-   ';
 }
 
+.button-icon {
+	width: fit-content;
+	position: absolute;
+	left: 24px;
+	vertical-align: middle;
+	fill: var(--light-grey-text-colour);
+	width: 16px;
+	height: 16px;
+}
+
 button,
 .button {
+	position: relative;
 	cursor: pointer;
 	user-select: none;
 	margin: var(--margin) 0;

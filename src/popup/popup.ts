@@ -52,6 +52,7 @@ class Button {
 		return this.button.innerHTML;
 	}
 
+	// TODO: button icon is replaced too
 	public setHTML(html: string) {
 		this.button.innerHTML = html;
 	}
