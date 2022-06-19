@@ -177,16 +177,16 @@ button,
 	background-color: var(--dark-grey);
 	color: var(--text-colour);
 	font-family: inherit;
-	font-size: .825rem;
+	font-size: 0.825rem;
 	text-decoration: none;
 	text-align: center;
 	border-radius: var(--border-radius);
 	border: var(--border-width) solid transparent;
 	box-sizing: border-box;
-	transition: color .15s ease-in-out,
-		background-color .15s ease-in-out,
-		border-color .15s ease-in-out,
-		box-shadow .15s ease-in-out;
+	transition: color0.15s ease-in-out,
+		background-color0.15s ease-in-out,
+		border-color0.15s ease-in-out,
+		box-shadow0.15s ease-in-out;
 }
 
 button.emphasis,
@@ -256,13 +256,13 @@ button:disabled {
 
 #options a,
 #saved-courses-list a {
-	color: rgba(255, 255, 255, .5);
+	color: rgba(255, 255, 255, 0.5);
 	text-decoration: none;
 }
 
 #options a:hover,
 #saved-courses-list a:hover {
-	color: rgba(255, 255, 255, .75);
+	color: rgba(255, 255, 255, 0.75);
 }
 
 label {
@@ -275,10 +275,10 @@ label {
 
 label,
 #options code {
-	font-size: .75rem;
+	font-size: 0.75rem;
 }
 
-#options .code {
+#options0.code {
 	text-align: center;
 }
 
@@ -295,13 +295,13 @@ textarea {
 	padding: 8px 16px;
 	align-items: center;
 	font-family: monospace;
-	font-size: .75rem;
+	font-size: 0.75rem;
 	background-color: var(--dark-grey);
 	color: var(--light-grey-text-colour);
 	border-radius: var(--border-radius);
-	border: var(--border-width) solid rgba(0, 0, 0, .125);
+	border: var(--border-width) solid rgba(0, 0, 0, 0.125);
 	box-sizing: border-box;
-	transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	transition: background-color0.15s ease-in-out, border-color0.15s ease-in-out, box-shadow0.15s ease-in-out;
 }
 
 input::-webkit-scrollbar-thumb:hover,
@@ -322,14 +322,14 @@ textarea.invalid-input:focus {
 .invalid-input-error {
 	display: block;
 	margin-block-start: 1em;
-	margin-block-end: .125em;
+	margin-block-end: 0.125em;
 	color: rgb(255, 25, 25);
 }
 
 .validating-input-status {
 	display: block;
 	margin-block-start: 1em;
-	margin-block-end: .125em;
+	margin-block-end: 0.125em;
 	color: rgb(25, 255, 25);
 }
 
