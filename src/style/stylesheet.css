@@ -153,6 +153,7 @@ h3 {
 
 #saved-courses-list ol>li {
 	font-size: 14px;
+	margin-block: calc(0.5 * var(--margin));
 }
 
 #saved-courses-list strong {
