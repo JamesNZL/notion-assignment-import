@@ -1,13 +1,14 @@
 :root {
 	--accent: #e72429;
+	--accent-complement: #e53c2e;
 	--lighter-grey: #444444;
 	--background: #282828;
 	--dark-grey: #161616;
 	--darker-grey: #080808;
 	--green: #00cc00;
 	--green-hover: #4dff4d;
-	--red: firebrick;
-	--red-hover: darkred;
+	--red: #af1414;
+	--red-hover: #8b0000;
 	--text-colour: #ffffff;
 	--grey-text-colour: #d6d6d6;
 	--light-grey-text-colour: #cccccc;
@@ -125,16 +126,15 @@ h3 {
 }
 
 #options-button svg {
-	fill: var(--text-colour);
+	fill: var(--accent);
 	width: 2em;
 	height: 2em;
 }
 
 #saved-courses-list {
 	background-color: var(--darker-grey);
-	color: var(--grey-text-colour);
-	margin-top: var(--margin);
-	margin-bottom: calc(1.25 * var(--margin));
+	color: var(--light-grey-text-colour);
+	margin: var(--margin) 0;
 	padding: var(--margin) 0;
 	border-radius: calc(0.5 * var(--border-radius));
 	max-height: 37.5vh;
@@ -157,6 +157,7 @@ h3 {
 }
 
 #saved-courses-list strong {
+	color: var(--grey-text-colour);
 	font-weight: 600;
 }
 
@@ -188,13 +189,26 @@ button,
 		box-shadow .15s ease-in-out;
 }
 
+button.emphasis,
+.button.emphasis {
+	font-weight: 700;
+	border-color: var(--accent);
+}
+
 button:hover,
 .button:hover {
 	background-color: var(--darker-grey);
 }
 
-button.red-hover {
-	background-color: var(--lighter-grey);
+button.accent,
+.button.accent {
+	color: var(--accent-complement);
+}
+
+button.accent:hover,
+.button.accent:hover {
+	border-color: transparent;
+	background-color: var(--accent);
 	color: white;
 }
 
