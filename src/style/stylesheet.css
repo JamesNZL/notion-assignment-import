@@ -408,19 +408,19 @@ textarea.invalid-input:focus {
 	box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 15%);
 }
 
-.invalid-input-error {
+.invalid-input-error,
+.validating-input-status {
 	display: block;
-	margin-block-start: 1em;
+	margin-block-start: calc(1.5 * var(--margin));
 	margin-block-end: 0.125em;
 	margin-inline-start: 20px;
+}
+
+.invalid-input-error {
 	color: rgb(255, 25, 25);
 }
 
 .validating-input-status {
-	display: block;
-	margin-block-start: 1em;
-	margin-block-end: 0.125em;
-	margin-inline-start: 20px;
 	color: rgb(25, 255, 25);
 }
 
