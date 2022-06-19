@@ -267,7 +267,7 @@ button:disabled {
 
 label {
 	text-transform: uppercase;
-	letter-spacing: 0.04em;
+	letter-spacing: 0.06em;
 	color: var(--light-grey-text-colour);
 	font-weight: 500;
 	margin-inline-start: 16px;
