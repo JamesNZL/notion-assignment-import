@@ -123,13 +123,13 @@ h3 {
 #options-button {
 	width: fit-content;
 	margin-inline-end: calc(0.125 * var(--border-radius));
-	margin-top: 0.24rem;
+	margin-top: 0.36rem;
 }
 
 #options-button svg {
 	fill: var(--accent);
-	width: 2em;
-	height: 2em;
+	width: 18px;
+	height: 18px;
 }
 
 #saved-courses-list {
