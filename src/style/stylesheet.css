@@ -271,7 +271,7 @@ label {
 	letter-spacing: 0.06em;
 	color: var(--light-grey-text-colour);
 	font-weight: 500;
-	margin-inline-start: 16px;
+	margin-inline-start: 20px;
 }
 
 label,
@@ -293,7 +293,7 @@ textarea {
 	width: 100%;
 	margin-top: calc(2 * var(--margin));
 	margin-bottom: calc(4 * var(--margin));
-	padding: 8px 16px;
+	padding: 8px 20px;
 	align-items: center;
 	font-family: monospace;
 	font-size: 0.75rem;
@@ -324,7 +324,7 @@ textarea.invalid-input:focus {
 	display: block;
 	margin-block-start: 1em;
 	margin-block-end: 0.125em;
-	margin-inline-start: 16px;
+	margin-inline-start: 20px;
 	color: rgb(255, 25, 25);
 }
 
@@ -332,7 +332,7 @@ textarea.invalid-input:focus {
 	display: block;
 	margin-block-start: 1em;
 	margin-block-end: 0.125em;
-	margin-inline-start: 16px;
+	margin-inline-start: 20px;
 	color: rgb(25, 255, 25);
 }
 
