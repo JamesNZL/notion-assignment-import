@@ -122,7 +122,7 @@ h3 {
 
 #options-button {
 	width: fit-content;
-	padding-inline-end: calc(0.125 * var(--border-radius));
+	margin-inline-end: calc(0.125 * var(--border-radius));
 	margin-top: 0.24rem;
 }
 
@@ -184,10 +184,10 @@ button,
 	border-radius: var(--border-radius);
 	border: var(--border-width) solid transparent;
 	box-sizing: border-box;
-	transition: color0.15s ease-in-out,
-		background-color0.15s ease-in-out,
-		border-color0.15s ease-in-out,
-		box-shadow0.15s ease-in-out;
+	transition: color 0.15s ease-in-out,
+		background-color 0.15s ease-in-out,
+		border-color 0.15s ease-in-out,
+		box-shadow 0.15s ease-in-out;
 }
 
 button.emphasis,
@@ -302,7 +302,7 @@ textarea {
 	border-radius: var(--border-radius);
 	border: var(--border-width) solid rgba(0, 0, 0, 0.125);
 	box-sizing: border-box;
-	transition: background-color0.15s ease-in-out, border-color0.15s ease-in-out, box-shadow0.15s ease-in-out;
+	transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 input::-webkit-scrollbar-thumb:hover,
