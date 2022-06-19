@@ -83,8 +83,8 @@ body {
 	width: unset;
 }
 
-h1 {
-	margin-block-start: 0;
+#popup h1 {
+	margin-block-start: -0.14rem;
 }
 
 h2 {
@@ -121,7 +121,7 @@ h3 {
 
 #options-button {
 	width: fit-content;
-	margin-top: 0.35rem;
+	margin-top: 0.24rem;
 }
 
 #options-button svg {
