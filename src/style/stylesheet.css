@@ -12,7 +12,7 @@
 	--grey-text-colour: #d6d6d6;
 	--light-grey-text-colour: #cccccc;
 	--margin: .25em;
-	--border-radius: .325rem;
+	--border-width: 1px;
 }
 
 ::-webkit-scrollbar {
@@ -162,7 +162,7 @@ button,
 	text-decoration: none;
 	text-align: center;
 	border-radius: var(--border-radius);
-	border: 1px solid transparent;
+	border: var(--border-width) solid transparent;
 	box-sizing: border-box;
 	transition: color .15s ease-in-out,
 		background-color .15s ease-in-out,
@@ -255,7 +255,7 @@ textarea {
 	background-color: var(--dark-grey);
 	color: var(--light-grey-text-colour);
 	border-radius: var(--border-radius);
-	border: 1px solid rgba(0, 0, 0, .125);
+	border: var(--border-width) solid rgba(0, 0, 0, .125);
 	box-sizing: border-box;
 	transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
