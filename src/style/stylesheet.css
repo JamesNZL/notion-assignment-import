@@ -16,6 +16,7 @@
 	--margin: 0.25em;
 	--border-radius: 2rem;
 	--border-width: 1px;
+	--button-padding: 6px;
 }
 
 ::-webkit-scrollbar {
@@ -222,7 +223,7 @@ h3 {
 	cursor: pointer;
 	user-select: none;
 	margin: var(--margin) 0;
-	padding: 6px;
+	padding: var(--button-padding);
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -286,7 +287,7 @@ h3 {
 }
 
 .button.outline.green {
-	padding: calc(6px + var(--border-width));
+	padding: calc(var(--button-padding) + var(--border-width));
 	color: var(--green);
 	border-color: var(--green);
 	background-color: var(--background) !important;
@@ -483,7 +484,7 @@ textarea:focus-visible {
 	cursor: pointer;
 	font-weight: unset;
 	margin: 0;
-	padding: calc(6px + var(--border-width));
+	padding: calc(var(--button-padding) + var(--border-width));
 	transition: color 250ms cubic-bezier(0, 0.95, 0.38, 0.98);
 }
 
