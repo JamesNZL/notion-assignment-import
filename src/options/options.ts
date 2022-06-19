@@ -34,6 +34,8 @@ class InputElement {
 	public setValue(value: SupportedTypes) {
 		if (!InputElement.isValid(this.element)) return;
 
+		if (value == null) return;
+
 		if (this.element instanceof HTMLInputElement && InputElement.useChecked(this.element) && typeof value === 'boolean') {
 			return this.element.checked = value;
 		}
@@ -42,7 +44,7 @@ class InputElement {
 			return this.element.value = value;
 		}
 
-		throw new Error(`Failed to set unexpected value ${value} of type ${typeof value}`);
+		throw new Error(`Failed to set unexpected value ${value} of type ${typeof value} on element ${this.id}`);
 	}
 }
 
