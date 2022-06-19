@@ -88,7 +88,23 @@ h1 {
 }
 
 h2 {
-	margin-block-end: 0.43rem;
+	font-size: 1.45em;
+}
+
+#popup h2 {
+	color: var(--grey-text-colour);
+	font-size: 1.15em;
+	margin-block-end: 0.23rem;
+	letter-spacing: 0.025em;
+}
+
+h3 {
+	font-size: 1.15em;
+}
+
+h2,
+h3 {
+	text-transform: uppercase;
 }
 
 .row {
