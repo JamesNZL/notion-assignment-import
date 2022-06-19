@@ -69,7 +69,6 @@ html {
 }
 
 #options {
-	text-align: center;
 	margin: auto;
 	width: 550px;
 }
@@ -270,11 +269,16 @@ label {
 	letter-spacing: 0.04em;
 	color: var(--light-grey-text-colour);
 	font-weight: 500;
+	margin-inline-start: 16px;
 }
 
 label,
 #options code {
 	font-size: .75rem;
+}
+
+#options .code {
+	text-align: center;
 }
 
 label.required:before {
@@ -285,9 +289,9 @@ label.required:before {
 input,
 textarea {
 	width: 100%;
-	margin: calc(2 * var(--margin)) 0;
-	padding: 8px 10px;
-	text-align: center;
+	margin-top: calc(2 * var(--margin));
+	margin-bottom: calc(4 * var(--margin));
+	padding: 8px 16px;
 	align-items: center;
 	font-family: monospace;
 	font-size: .75rem;
@@ -333,6 +337,7 @@ textarea {
 	min-width: 100%;
 	max-width: 100%;
 	border-radius: calc(0.5 * var(--border-radius));
+	text-align: center;
 }
 
 input:focus,
@@ -384,6 +389,7 @@ textarea:focus-visible {
 	overflow: hidden;
 	cursor: pointer;
 	font-weight: unset;
+	margin: 0;
 }
 
 .segmented-control label:last-of-type:before {
