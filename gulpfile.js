@@ -134,5 +134,5 @@ exports.default = series(clean,
 );
 
 exports.release = parallel(
-	...Object.keys(sources.manifests).map(release)
+	...Object.keys(sources.manifests).map(release),
 );
