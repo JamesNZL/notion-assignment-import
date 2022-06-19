@@ -245,13 +245,22 @@ h3 {
 }
 
 .button.accent {
-	color: var(--accent-complement);
+	color: var(--accent);
 }
 
 .button.accent:hover {
 	border-color: transparent;
-	background-color: var(--accent) !important;
+	background-color: var(--accent-complement) !important;
 	color: white;
+}
+
+.button.accent.emphasis {
+	border-color: var(--accent);
+	margin: calc(0.0625em + var(--margin)) 0;
+}
+
+.button.accent.emphasis:hover {
+	border-color: var(--accent-complement);
 }
 
 .button.red-hover:hover {
