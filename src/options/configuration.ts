@@ -74,6 +74,12 @@ export const CONFIGURATION: {
 				defaultValue: false,
 			},
 		},
+		options: {
+			displayAdvanced: {
+				elementId: 'show-advanced-options',
+				defaultValue: false,
+			},
+		},
 		canvas: {
 			classNames: {
 				breadcrumbs: {

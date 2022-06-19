@@ -7,6 +7,7 @@ type NullIfEmpty<T extends string | null> = (T extends '' ? null : T) | null;
 
 interface RequiredFields {
 	'popup.displayJSONButton': boolean;
+	'options.displayAdvanced': boolean;
 	'canvas.classNames.breadcrumbs': NeverEmpty<string>;
 	'canvas.classNames.assignment': NeverEmpty<string>;
 	'canvas.classNames.title': NeverEmpty<string>;
@@ -50,6 +51,9 @@ export type SavedOptions = {
 	timeZone: OptionalFields['timeZone'];
 	popup: {
 		displayJSONButton: RequiredFields['popup.displayJSONButton'];
+	};
+	options: {
+		displayAdvanced: RequiredFields['options.displayAdvanced'];
 	};
 	canvas: {
 		classNames: {

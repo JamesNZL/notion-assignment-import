@@ -303,6 +303,10 @@ h3 {
 	cursor: not-allowed;
 }
 
+#advanced-options.hidden {
+	display: none;
+}
+
 #options a,
 #saved-courses-list a {
 	color: rgba(255, 255, 255, 0.5);

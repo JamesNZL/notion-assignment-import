@@ -64,6 +64,9 @@ export async function getOptions(): Promise<Options> {
 		popup: {
 			displayJSONButton: savedFields['popup.displayJSONButton'],
 		},
+		options: {
+			displayAdvanced: savedFields['options.displayAdvanced'],
+		},
 		canvas: {
 			timeZone: savedFields['timeZone'],
 			classNames: {
@@ -165,13 +168,29 @@ async function saveOptions() {
 
 document.addEventListener('DOMContentLoaded', restoreOptions);
 
+// show advanced options if appropriate
+const advancedOptions = document.getElementById('advanced-options');
+const advancedOptionsControl = document.getElementById(CONFIGURATION.FIELDS['options.displayAdvanced'].elementId);
+
+function toggleAdvancedOptions(displayAdvanced: boolean) {
+	if (!advancedOptions) return;
+	(displayAdvanced)
+		? advancedOptions.classList.remove('hidden')
+		: advancedOptions.classList.add('hidden');
+}
+
+getOptions().then(({ options: { displayAdvanced } }) => toggleAdvancedOptions(displayAdvanced));
+
+// add event listener to advanced options toggle
+advancedOptionsControl?.parentElement?.addEventListener('input', () => toggleAdvancedOptions((<HTMLInputElement>advancedOptionsControl)?.checked ?? false));
+
 // validate fields on input
 Object.values(CONFIGURATION.FIELDS).forEach(({ elementId, Validator, validateOn = 'input' }) => {
 	if (Validator) document.getElementById(elementId)?.addEventListener(validateOn, () => validateElementInput(elementId, Validator));
 });
 
 const saveButton = document.getElementById('save-button');
-if (saveButton) saveButton.addEventListener('click', saveOptions);
+saveButton?.addEventListener('click', saveOptions);
 
 document.addEventListener('keydown', keyEvent => {
 	if (keyEvent.ctrlKey && keyEvent.key === 's') {
@@ -179,8 +198,3 @@ document.addEventListener('keydown', keyEvent => {
 		saveOptions();
 	}
 });
-
-// hide all canvas class options
-// TODO: sort out this interface / do i still need this as a configurable option?
-const canvasClassNames = document.getElementById('advanced-options');
-if (canvasClassNames) canvasClassNames.style.display = 'none';
