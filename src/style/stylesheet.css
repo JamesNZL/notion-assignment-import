@@ -291,9 +291,15 @@ label,
 	text-align: center;
 }
 
+label.required {
+	position: relative;
+}
+
 label.required:before {
 	content: '*';
 	color: red;
+	position: absolute;
+	right: 100%;
 }
 
 input,
