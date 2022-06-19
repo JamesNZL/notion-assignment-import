@@ -229,8 +229,6 @@ h3 {
 
 .button.emphasis {
 	font-weight: 700;
-	border-color: var(--accent);
-	margin: calc(1.25 * var(--margin)) 0;
 }
 
 .button:hover {
