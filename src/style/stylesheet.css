@@ -1,11 +1,11 @@
 :root {
 	--accent: #e72429;
 	--accent-complement: #e53c2e;
-	--lighter-grey: #444444;
+	--light-grey: #444444;
 	--background: #282828;
-	--darkish-grey: #181818;
-	--dark-grey: #141414;
-	--darker-grey: #080808;
+	--dark-grey: #202020;
+	--darker-grey: #161616;
+	--darkest-grey: #080808;
 	--green: #00cc00;
 	--green-hover: #4dff4d;
 	--red: #a80e0e;
@@ -28,7 +28,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: var(--dark-grey);
+	background-color: var(--darker-grey);
 	border-radius: 10px;
 	cursor: pointer;
 	border: 3px solid transparent;
@@ -38,7 +38,7 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-	background-color: var(--darker-grey);
+	background-color: var(--darkest-grey);
 }
 
 ::-webkit-scrollbar-track {
@@ -133,43 +133,52 @@ h3 {
 	height: 18px;
 }
 
-#saved-assignments {
-	background-color: var(--darker-grey);
+.tile {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	gap: calc(3 * var(--margin));
+	background-color: var(--dark-grey);
 	border-radius: calc(0.5 * var(--border-radius));
 	margin: var(--margin) 0;
-	padding: 1em 0;
+	padding: calc(4 * var(--margin));
 }
 
-#saved-assignments .button {
-	padding: 6px;
-	background-color: var(--darkish-grey);
+.tile>* {
+	height: 100%;
 }
 
-#saved-assignments .button:hover {
-	background-color: var(--background);
+.tile .row>* {
+	margin: 0;
+}
+
+.tile .button {
+	background-color: var(--darker-grey);
+}
+
+.tile .button:hover {
+	background-color: var(--darkest-grey);
 }
 
 #saved-assignments .row {
 	width: 90%;
-	margin-top: calc(-1 * var(--margin));
-	margin-bottom: calc(1 * var(--margin));
-	margin-left: auto;
-	margin-right: auto;
+	margin: auto;
 }
 
 #saved-courses-list {
 	color: var(--light-grey-text-colour);
-	max-height: 36vh;
+	max-height: 30vh;
 	overflow-y: scroll;
-	margin: var(--margin) 0;
+	margin: 0;
+	margin-bottom: calc(3 * var(--margin));
 }
 
 #saved-courses-list::-webkit-scrollbar-thumb {
-	background-color: var(--darkish-grey);
+	background-color: var(--darker-grey);
 }
 
 #saved-courses-list::-webkit-scrollbar-thumb:hover {
-	background-color: var(--background);
+	background-color: var(--darkest-grey);
 }
 
 #saved-courses-list p {
@@ -214,9 +223,9 @@ h3 {
 	cursor: pointer;
 	user-select: none;
 	margin: var(--margin) 0;
-	padding: 10px;
+	padding: 6px;
 	display: inline-block;
-	background-color: var(--dark-grey);
+	background-color: var(--darker-grey);
 	color: var(--text-colour);
 	font-family: inherit;
 	font-size: 0.825rem;
@@ -233,10 +242,11 @@ h3 {
 
 .button.emphasis {
 	font-weight: 700;
+	padding: 10px;
 }
 
 .button:hover {
-	background-color: var(--darker-grey);
+	background-color: var(--darkest-grey);
 }
 
 .button.accent {
@@ -339,7 +349,7 @@ textarea {
 	align-items: center;
 	font-family: monospace;
 	font-size: 0.75rem;
-	background-color: var(--dark-grey);
+	background-color: var(--darker-grey);
 	color: var(--light-grey-text-colour);
 	border-radius: var(--border-radius);
 	border: var(--border-width) solid rgba(0, 0, 0, 0.125);
@@ -347,9 +357,14 @@ textarea {
 	transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
+input::-webkit-scrollbar-thumb,
+textarea::-webkit-scrollbar-thumb {
+	background-color: var(--dark-grey);
+}
+
 input::-webkit-scrollbar-thumb:hover,
 textarea::-webkit-scrollbar-thumb:hover {
-	background-color: var(--background);
+	background-color: var(--light-grey);
 }
 
 input.invalid-input,
@@ -389,7 +404,7 @@ textarea {
 input:focus,
 textarea:focus {
 	box-shadow: 0 0 0 0.2rem rgb(20 20 20 / 50%);
-	background-color: var(--darker-grey);
+	background-color: var(--darkest-grey);
 }
 
 input:focus-visible,
@@ -410,7 +425,7 @@ textarea:focus-visible {
 	z-index: 1;
 	border: 0;
 	border-radius: var(--border-radius);
-	background-color: var(--dark-grey);
+	background-color: var(--darker-grey);
 	color: var(--text-colour);
 }
 
