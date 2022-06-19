@@ -164,6 +164,10 @@ h3 {
 	margin: var(--margin) 0;
 }
 
+#saved-courses-list::-webkit-scrollbar-thumb {
+	background-color: var(--darkish-grey);
+}
+
 #saved-courses-list::-webkit-scrollbar-thumb:hover {
 	background-color: var(--background);
 }
