@@ -12,6 +12,7 @@
 	--grey-text-colour: #d6d6d6;
 	--light-grey-text-colour: #cccccc;
 	--margin: .25em;
+	--border-radius: 2rem;
 	--border-width: 1px;
 }
 
@@ -119,7 +120,7 @@ h2 {
 	margin-top: var(--margin);
 	margin-bottom: calc(1.25 * var(--margin));
 	padding: var(--margin) 0;
-	border-radius: var(--border-radius);
+	border-radius: calc(0.5 * var(--border-radius));
 	max-height: 30vh;
 	overflow-y: scroll;
 }
@@ -293,6 +294,7 @@ textarea {
 	min-height: 75px;
 	min-width: 100%;
 	max-width: 100%;
+	border-radius: calc(0.5 * var(--border-radius));
 }
 
 input:focus,
@@ -367,8 +369,5 @@ textarea:focus-visible {
 .segmented-controls label:before {
 	background: var(--darker-grey);
 	transition: all 250ms cubic-bezier(0, 0.95, 0.38, 0.98);
-}
-
-.segmented-controls label:not(:last-child) {
-	border-right: 1px solid var(--darker-grey);
+	border-radius: var(--border-radius);
 }
