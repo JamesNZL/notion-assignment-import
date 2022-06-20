@@ -38,44 +38,44 @@ type OptionsElementId = OptionsRestoreButtonId | OptionsButtonId | valueof<Optio
 
 class RestoreButton extends Button<OptionsRestoreButtonId> {
 	private restoreKeys: (keyof SavedFields)[];
-	private previousValues: Partial<Record<keyof SavedFields, SupportedTypes>>;
+	private inputs: Partial<Record<keyof SavedFields, Input>>;
+	private capturedValues: Partial<Record<keyof SavedFields, SupportedTypes>>;
 
 	public constructor(id: OptionsRestoreButtonId, restoreKeys: (keyof SavedFields)[]) {
 		super(id);
 
 		this.restoreKeys = restoreKeys;
-		this.previousValues = this.getPrevious();
+		this.inputs = Object.fromEntries(
+			this.restoreKeys.map(key => [key, new Input(CONFIGURATION.FIELDS[key].elementId)]),
+		);
+		this.capturedValues = this.captureValues();
 	}
 
-	private getPrevious(): Partial<Record<keyof SavedFields, SupportedTypes>> {
+	private captureValues(): Partial<Record<keyof SavedFields, SupportedTypes>> {
 		return Object.fromEntries(
-			this.restoreKeys.map(key => [key, new Input(CONFIGURATION.FIELDS[key].elementId).getValue()]),
+			Object.entries(this.inputs).map(([key, input]) => [key, input.getValue()]),
 		);
 	}
 
-	private restorePrevious() {
-		this.restoreKeys.forEach(key => {
-			const { elementId } = CONFIGURATION.FIELDS[key];
-
-			const configuredValue = this.previousValues[key];
-			if (configuredValue) new Input(elementId).setValue(configuredValue);
+	private restoreCaptured() {
+		Object.entries(this.inputs).forEach(([key, input]) => {
+			const configuredValue = this.capturedValues[<keyof SavedFields>key];
+			if (configuredValue) input.setValue(configuredValue);
 		});
 	}
 
 	private restoreDefaults() {
-		this.previousValues = this.getPrevious();
+		this.capturedValues = this.captureValues();
 
-		this.restoreKeys.forEach(key => {
-			const { elementId, defaultValue } = CONFIGURATION.FIELDS[key];
-			new Input(elementId).setValue(defaultValue);
+		Object.entries(this.inputs).forEach(([key, input]) => {
+			const { defaultValue } = CONFIGURATION.FIELDS[<keyof SavedFields>key];
+			input.setValue(defaultValue);
 		});
 	}
 
 	private dispatchInputEvents() {
-		this.restoreKeys.forEach(key => {
-			const { elementId } = CONFIGURATION.FIELDS[key];
-			// TODO: create Inputs once and save
-			new Input(elementId).dispatchInputEvent();
+		Object.entries(this.inputs).forEach(([, input]) => {
+			input.dispatchInputEvent();
 		});
 	}
 
@@ -92,7 +92,7 @@ class RestoreButton extends Button<OptionsRestoreButtonId> {
 			this.restoreDefaults();
 
 			this.setTimeout('restore', () => {
-				this.restorePrevious();
+				this.restoreCaptured();
 				this.resetHTML(0);
 			}, verifyPeriod);
 
