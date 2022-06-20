@@ -5,6 +5,7 @@ import { exportToNotion } from './import';
 
 import { Options } from '../options/options';
 
+import { Button, getElementById } from '../elements';
 import { valueof } from '../types/utils';
 
 // if an id ever changes in HTML, it must be updated here
@@ -28,78 +29,8 @@ type PopupButtonName = keyof PopupElements['buttons'];
 type PopupButtonId = valueof<PopupElements['buttons']>;
 type PopupElementId = PopupButtonId | valueof<PopupElements['elements']>;
 
-function getElementById(id: PopupElementId): HTMLElement | null {
-	return document.getElementById(id);
-}
-
-class Button {
-	private button: HTMLElement;
-	private label: HTMLElement;
-
-	private defaultHtml: string;
-	private defaultClassList: string;
-
-	private timeouts: Record<string, NodeJS.Timeout> = {};
-
-	public constructor(id: PopupElementId) {
-		const element = getElementById(id);
-
-		if (!element) throw new Error(`Invalid button identifier ${id}!`);
-
-		this.button = element;
-		this.label = element.querySelector('.button-label') ?? element;
-
-		this.defaultHtml = element.innerHTML;
-		this.defaultClassList = element.classList.value;
-	}
-
-	public getLabel() {
-		return this.label.innerHTML;
-	}
-
-	public setLabel(html: string) {
-		this.label.innerHTML = html;
-	}
-
-	public resetHTML(delay: number) {
-		this.setTimeout('resetHTML', () => {
-			this.setLabel(this.defaultHtml);
-			this.button.classList.value = this.defaultClassList;
-		}, delay);
-	}
-
-	public addClass(className: string) {
-		this.button.classList.add(className);
-	}
-
-	public removeClass(className: string) {
-		this.button.classList.remove(className);
-	}
-
-	public show() {
-		this.removeClass('hidden');
-	}
-
-	public hide() {
-		this.addClass('hidden');
-	}
-
-	public addEventListener(...args: Parameters<typeof HTMLElement.prototype.addEventListener>) {
-		this.button.addEventListener(...args);
-	}
-
-	public setTimeout(name: string, timeout: () => void, delay: number) {
-		clearTimeout(this.timeouts[name]);
-		this.timeouts[name] = setTimeout(timeout, delay);
-	}
-
-	public clearTimeout(name: string) {
-		clearTimeout(this.timeouts[name]);
-	}
-}
-
 const SavedCoursesList = {
-	element: document.getElementById('saved-courses-list'),
+	element: getElementById<PopupElementId>('saved-courses-list'),
 	renderChanges: true,
 
 	disableUpdates() {
@@ -149,14 +80,14 @@ const SavedCoursesList = {
 	},
 };
 
-const buttons: Record<PopupButtonName, Button> = {
-	options: new Button('options-icon'),
-	parse: new Button('parse-button'),
-	export: new Button('export-button'),
-	listAssignments: new Button('list-assignments-button'),
-	listCourses: new Button('list-courses-button'),
-	copyJSON: new Button('copy-json-button'),
-	clearStorage: new Button('clear-storage-button'),
+const buttons: Record<PopupButtonName, Button<PopupButtonId>> = {
+	options: new Button<PopupElementId>('options-icon'),
+	parse: new Button<PopupElementId>('parse-button'),
+	export: new Button<PopupElementId>('export-button'),
+	listAssignments: new Button<PopupElementId>('list-assignments-button'),
+	listCourses: new Button<PopupElementId>('list-courses-button'),
+	copyJSON: new Button<PopupElementId>('copy-json-button'),
+	clearStorage: new Button<PopupElementId>('clear-storage-button'),
 };
 
 buttons.options.addEventListener('click', () => {

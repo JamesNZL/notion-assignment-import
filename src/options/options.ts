@@ -1,52 +1,10 @@
 import browser from 'webextension-polyfill';
 
 import { NullIfEmpty, SavedFields, IOptions } from './';
-import { SupportedTypes, CONFIGURATION } from './configuration';
+import { CONFIGURATION } from './configuration';
 import { ValidatorConstructor, InputFieldValidator } from './validator';
 
-class InputElement {
-	id: string;
-	element: HTMLElement | null;
-
-	constructor(id: string) {
-		this.id = id;
-		this.element = document.getElementById(id);
-	}
-
-	private static isValid(element: HTMLElement | null): element is HTMLInputElement | HTMLTextAreaElement {
-		return (Boolean(element) && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement));
-	}
-
-	private static useChecked(element: HTMLInputElement | HTMLTextAreaElement) {
-		return (element.type === 'checkbox' || element.type === 'radio');
-	}
-
-	public getValue(): SupportedTypes | void {
-		if (!InputElement.isValid(this.element)) return;
-
-		if (this.element instanceof HTMLInputElement && InputElement.useChecked(this.element)) {
-			return this.element.checked;
-		}
-
-		return this.element.value.trim() || null;
-	}
-
-	public setValue(value: SupportedTypes) {
-		if (!InputElement.isValid(this.element)) return;
-
-		if (value == null) return;
-
-		if (this.element instanceof HTMLInputElement && InputElement.useChecked(this.element) && typeof value === 'boolean') {
-			return this.element.checked = value;
-		}
-
-		if (typeof value === 'string') {
-			return this.element.value = value;
-		}
-
-		throw new Error(`Failed to set unexpected value ${value} of type ${typeof value} on element ${this.id}`);
-	}
-}
+import { Input, getElementById } from '../elements';
 
 export const Fields = {
 	async getSavedFields(): Promise<SavedFields> {
@@ -58,7 +16,7 @@ export const Fields = {
 	},
 
 	async validateInput(elementId: string, Validator: ValidatorConstructor) {
-		const inputValue = new InputElement(elementId).getValue() ?? null;
+		const inputValue = new Input(elementId).getValue() ?? null;
 
 		// boolean values are always valid
 		if (typeof inputValue === 'boolean') return inputValue;
@@ -72,7 +30,7 @@ export const Fields = {
 				Object.entries(CONFIGURATION.FIELDS).map(async ([field, { elementId, Validator }]) => {
 					const validatedInput = (Validator)
 						? await this.validateInput(elementId, Validator)
-						: new InputElement(elementId).getValue();
+						: new Input(elementId).getValue();
 					return [field, validatedInput];
 				}),
 			),
@@ -148,7 +106,7 @@ export const Options = {
 
 		Object.entries(savedFields).forEach(([field, value]) => {
 			const fieldElementId = CONFIGURATION.FIELDS[<keyof typeof savedFields>field].elementId;
-			new InputElement(fieldElementId).setValue(value);
+			new Input(fieldElementId).setValue(value);
 		});
 	},
 
