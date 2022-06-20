@@ -1,9 +1,9 @@
 import browser from 'webextension-polyfill';
 
+import { Options } from '../api-handlers/options';
+
 import { SavedAssignments } from './parse';
 import { exportToNotion } from './import';
-
-import { Options } from '../options/options';
 
 import { Button, getElementById } from '../elements';
 import { valueof } from '../types/utils';

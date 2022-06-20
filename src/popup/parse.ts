@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill';
 
 import { parseDate } from 'chrono-node';
 import { EmojiRequest } from '../api-handlers/notion';
-import { Options } from '../options/options';
+import { Options } from '../api-handlers/options';
 
 export interface IParsedAssignment {
 	name: string;
