@@ -1,8 +1,8 @@
 import { SupportedTypes } from '../options/configuration';
 
 export class Input {
-	id: string;
-	element: HTMLElement | null;
+	private id: string;
+	private element: HTMLElement | null;
 
 	constructor(id: string) {
 		this.id = id;
