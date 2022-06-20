@@ -155,7 +155,7 @@ buttons.export.addEventListener('click', async () => {
 	}
 });
 
-buttons.listAssignments.addEventListener('click', () => SavedCoursesList.listAssignments());
+buttons.listAssignments.addEventListener('click', SavedCoursesList.listAssignments.bind(SavedCoursesList));
 
 buttons.listCourses.addEventListener('click', () => SavedCoursesList.listCourses());
 

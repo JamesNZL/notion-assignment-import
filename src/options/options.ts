@@ -263,7 +263,7 @@ Object.values(CONFIGURATION.FIELDS).forEach(({ elementId, Validator, validateOn 
 	if (Validator) document.getElementById(elementId)?.addEventListener(validateOn, () => OptionsPage.validateInput(elementId, Validator));
 });
 
-Object.values(buttons.restore).forEach(button => button.addEventListener('click', () => button.clickHandler()));
+Object.values(buttons.restore).forEach(button => button.addEventListener('click', button.clickHandler.bind(button)));
 
 buttons.save.addEventListener('click', OptionsPage.saveOptions);
 
