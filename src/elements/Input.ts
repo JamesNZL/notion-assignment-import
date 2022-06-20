@@ -1,12 +1,18 @@
 import { SupportedTypes } from '../options/configuration';
 
 export class Input {
+	private static instances: Record<string, Input> = {};
+
 	private id: string;
 	private element: HTMLElement | null;
 
-	constructor(id: string) {
+	private constructor(id: string) {
 		this.id = id;
 		this.element = document.getElementById(id);
+	}
+
+	public static getInstance(id: string): Input {
+		return Input.instances[id] = Input.instances[id] ?? new Input(id);
 	}
 
 	private static isValid(element: HTMLElement | null): element is HTMLInputElement | HTMLTextAreaElement {

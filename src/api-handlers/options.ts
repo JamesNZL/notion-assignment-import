@@ -16,7 +16,7 @@ export const Fields = {
 	},
 
 	async validateInput(elementId: string, Validator: ValidatorConstructor) {
-		const inputValue = new Input(elementId).getValue() ?? null;
+		const inputValue = Input.getInstance(elementId).getValue() ?? null;
 
 		// boolean values are always valid
 		if (typeof inputValue === 'boolean') return inputValue;
@@ -30,7 +30,7 @@ export const Fields = {
 				Object.entries(CONFIGURATION.FIELDS).map(async ([field, { elementId, Validator }]) => {
 					const validatedInput = (Validator)
 						? await this.validateInput(elementId, Validator)
-						: new Input(elementId).getValue();
+						: Input.getInstance(elementId).getValue();
 					return [field, validatedInput];
 				}),
 			),

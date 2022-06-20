@@ -46,7 +46,7 @@ class RestoreButton extends Button<OptionsRestoreButtonId> {
 
 		this.restoreKeys = restoreKeys;
 		this.inputs = Object.fromEntries(
-			this.restoreKeys.map(key => [key, new Input(CONFIGURATION.FIELDS[key].elementId)]),
+			this.restoreKeys.map(key => [key, Input.getInstance(CONFIGURATION.FIELDS[key].elementId)]),
 		);
 		this.capturedValues = this.captureValues();
 	}
@@ -116,7 +116,7 @@ const OptionsPage = {
 
 		Object.entries(savedFields).forEach(([field, value]) => {
 			const fieldElementId = CONFIGURATION.FIELDS[<keyof typeof savedFields>field].elementId;
-			new Input(fieldElementId).setValue(value);
+			Input.getInstance(fieldElementId).setValue(value);
 		});
 	},
 
