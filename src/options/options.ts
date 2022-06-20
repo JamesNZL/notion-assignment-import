@@ -176,6 +176,7 @@ const OptionsPage = {
 
 const AdvancedOptions = {
 	element: getElementById<OptionsElementId>('advanced-options'),
+	control: getElementById(CONFIGURATION.FIELDS['options.displayAdvanced'].elementId),
 
 	show() {
 		this.element?.classList.remove('hidden');
@@ -265,8 +266,7 @@ document.addEventListener('DOMContentLoaded', OptionsPage.restoreOptions);
 Options.getOptions().then(({ options: { displayAdvanced } }) => AdvancedOptions.toggle(displayAdvanced));
 
 // add event listener to advanced options toggle
-const advancedOptionsControl = document.getElementById(CONFIGURATION.FIELDS['options.displayAdvanced'].elementId);
-advancedOptionsControl?.parentElement?.addEventListener('input', () => AdvancedOptions.toggle((<HTMLInputElement>advancedOptionsControl)?.checked ?? false));
+AdvancedOptions.control?.parentElement?.addEventListener('input', () => AdvancedOptions.toggle((<HTMLInputElement>AdvancedOptions.control)?.checked ?? false));
 
 // validate fields on input
 Object.values(CONFIGURATION.FIELDS).forEach(({ elementId, Validator, validateOn = 'input' }) => {
@@ -283,3 +283,24 @@ document.addEventListener('keydown', keyEvent => {
 		OptionsPage.saveOptions();
 	}
 });
+
+const Konami = {
+	pattern: ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'],
+	currentIndex: 0,
+
+	handler(event: KeyboardEvent) {
+		if (this.pattern.indexOf(event.key) < 0 || event.key !== this.pattern[this.currentIndex]) {
+			return this.currentIndex = 0;
+		}
+
+		this.currentIndex++;
+
+		if (this.currentIndex === this.pattern.length && AdvancedOptions.control) {
+			this.currentIndex = 0;
+			(<HTMLInputElement>AdvancedOptions.control).checked = true;
+			AdvancedOptions.control?.parentElement?.dispatchEvent(new Event('input', { bubbles: true }));
+		}
+	},
+};
+
+document.addEventListener('keydown', event => Konami.handler(event), false);
