@@ -13,9 +13,19 @@ const enum SaveButtonUpdates {
 	Restore,
 }
 
-const SaveButton = {
-	button: Button.getInstance('save-button'),
+const SaveButton: {
+	button?: Button;
+	updateState(update: SaveButtonUpdates): void;
+} = {
+	get button() {
+		try {
+			delete this.button;
+			return this.button = Button.getInstance('save-button');
+		}
+		catch { null; }
+	},
 	updateState(update: SaveButtonUpdates): void {
+		if (!this.button) return;
 		switch (update) {
 			case SaveButtonUpdates.Pending:
 				this.button.setLabel(`Validating ${InputFieldValidator.countValidatingFields()} input${(InputFieldValidator.countValidatingFields() > 1) ? 's' : ''}...`);

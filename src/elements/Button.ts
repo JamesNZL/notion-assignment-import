@@ -3,7 +3,7 @@ import { getElementById } from '.';
 export class Button {
 	protected static instances: Record<string, Button> = {};
 
-	private button: HTMLButtonElement;
+	private button: HTMLElement;
 	private label: HTMLElement;
 
 	private defaultHtml: string;
@@ -14,7 +14,7 @@ export class Button {
 	protected constructor(id: string) {
 		const element = getElementById(id);
 
-		if (!element || !(element instanceof HTMLButtonElement)) throw new Error(`Invalid button identifier ${id}!`);
+		if (!element) throw new Error(`Invalid button identifier ${id}!`);
 
 		this.button = element;
 		this.label = element.querySelector('.button-label') ?? element;
@@ -62,11 +62,11 @@ export class Button {
 	}
 
 	public disable() {
-		this.button.disabled = true;
+		if (this.button instanceof HTMLButtonElement) this.button.disabled = true;
 	}
 
 	public enable() {
-		this.button.disabled = false;
+		if (this.button instanceof HTMLButtonElement) this.button.disabled = false;
 	}
 
 	public addEventListener(...args: Parameters<typeof HTMLElement.prototype.addEventListener>) {
