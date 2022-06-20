@@ -123,8 +123,10 @@ h3 {
 
 #options-icon {
 	width: fit-content;
+	height: fit-content;
 	margin-inline-end: calc(0.125 * var(--border-radius));
 	margin-top: 0.36rem;
+	cursor: pointer;
 }
 
 #options-icon svg {
