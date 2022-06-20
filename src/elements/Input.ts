@@ -40,4 +40,8 @@ export class Input {
 
 		throw new Error(`Failed to set unexpected value ${value} of type ${typeof value} on element ${this.id}`);
 	}
+
+	public dispatchInputEvent() {
+		this.element?.dispatchEvent(new Event('input', { bubbles: true }));
+	}
 }

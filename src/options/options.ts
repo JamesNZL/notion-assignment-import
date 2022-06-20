@@ -71,6 +71,14 @@ class RestoreButton extends Button<OptionsRestoreButtonId> {
 		});
 	}
 
+	private dispatchInputEvents() {
+		this.restoreKeys.forEach(key => {
+			const { elementId } = CONFIGURATION.FIELDS[key];
+			// TODO: create Inputs once and save
+			new Input(elementId).dispatchInputEvent();
+		});
+	}
+
 	public clickHandler() {
 		const verifyPrompt = 'Confirm';
 		const verifyPeriod = 3000;
@@ -92,6 +100,8 @@ class RestoreButton extends Button<OptionsRestoreButtonId> {
 		}
 
 		this.clearTimeout('restore');
+
+		this.dispatchInputEvents();
 
 		this.addClass('green');
 		this.removeClass('red');
