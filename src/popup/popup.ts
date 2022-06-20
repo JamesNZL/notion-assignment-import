@@ -3,7 +3,7 @@ import browser from 'webextension-polyfill';
 import { SavedAssignments } from './parse';
 import { exportToNotion } from './import';
 
-import { getOptions } from '../options/options';
+import { Options } from '../options/options';
 
 import { valueof } from '../types/utils';
 
@@ -228,7 +228,7 @@ buttons.listAssignments.addEventListener('click', () => SavedCoursesList.listAss
 
 buttons.listCourses.addEventListener('click', () => SavedCoursesList.listCourses());
 
-getOptions().then(({ popup: { displayJSONButton } }) => {
+Options.getOptions().then(({ popup: { displayJSONButton } }) => {
 	if (!displayJSONButton) buttons.copyJSON.hide();
 });
 

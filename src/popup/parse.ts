@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill';
 
 import { parseDate } from 'chrono-node';
 import { EmojiRequest } from '../api-handlers/notion';
-import { getOptions } from '../options/options';
+import { Options } from '../options/options';
 
 export interface IParsedAssignment {
 	name: string;
@@ -18,7 +18,7 @@ export interface SavedAssignments {
 }
 
 (async function parseAssignments(): Promise<void> {
-	const options = await getOptions();
+	const options = await Options.getOptions();
 
 	class CanvasAssignment {
 		public static readonly INVALID_REQUIRED: unique symbol = Symbol('INVALID_REQUIRED');

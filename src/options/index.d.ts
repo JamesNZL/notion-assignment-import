@@ -95,7 +95,7 @@ export type SavedOptions = {
 /**
  * A type alias for the configurable extension options, after any type conversions from local storage.
  */
-export type Options = ModifyDeep<SavedOptions, {
+export type IOptions = ModifyDeep<SavedOptions, {
 	canvas: {
 		timeZone: OptionalFields['timeZone'];
 		classValues: {
