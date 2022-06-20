@@ -243,65 +243,65 @@ h3 {
 }
 
 .button:hover {
-	background-color: var(--darkest-grey);
+	background-color: var(--darkest-grey) !important;
 }
 
 .button.accent {
-	color: var(--accent);
+	color: var(--accent) !important;
 }
 
 .button.accent:hover {
-	border-color: transparent;
+	border-color: transparent !important;
 	background-color: var(--accent-complement) !important;
-	color: white;
+	color: white !important;
 }
 
 .button.accent.emphasis {
-	border-color: var(--accent);
+	border-color: var(--accent) !important;
 	margin: calc(0.0625em + var(--margin)) 0;
 }
 
 .button.accent.emphasis:hover {
-	border-color: var(--accent-complement);
+	border-color: var(--accent-complement) !important;
 }
 
 .button.red-hover:hover {
 	background-color: var(--red) !important;
-	color: white;
+	color: white !important;
 }
 
 .button.red {
 	background-color: var(--red) !important;
-	color: white;
+	color: white !important;
 }
 
 .button.red:hover {
 	background-color: var(--red-hover) !important;
-	color: white;
+	color: white !important;
 }
 
 .button.green {
 	background-color: var(--green) !important;
-	color: black;
-	font-weight: 600;
+	color: black !important;
+	font-weight: 600 !important;
 }
 
 .button.green:hover {
 	background-color: var(--green-hover) !important;
-	color: black;
+	color: black !important;
 }
 
 .button.outline.green {
 	padding: calc(var(--button-padding) + var(--border-width));
-	color: var(--green);
-	border-color: var(--green);
+	color: var(--green) !important;
+	border-color: var(--green) !important;
 	background-color: unset !important;
 }
 
 .button.outline.green:hover {
-	border-color: transparent;
+	border-color: transparent !important;
 	background-color: var(--green-hover) !important;
-	color: black;
+	color: black !important;
 }
 
 .button.emphasis {
@@ -310,11 +310,11 @@ h3 {
 }
 
 .button:disabled {
-	cursor: not-allowed;
+	cursor: not-allowed !important;
 }
 
 .hidden {
-	display: none;
+	display: none !important;
 }
 
 #options a,

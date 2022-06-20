@@ -4,8 +4,6 @@ import {
 	StringField,
 	RequiredStringField,
 	RequiredNumberAsStringField,
-	RequiredNotionKeyField,
-	RequiredNotionDatabaseIdField,
 	JSONStringObjectField,
 	JSONEmojiObjectField,
 	TimeZoneField,
@@ -170,25 +168,6 @@ export const CONFIGURATION: {
 			},
 		},
 		notion: {
-			notionKey: {
-				elementId: 'notion-key',
-				defaultValue: null,
-				get Validator() {
-					delete this.Validator;
-					return this.Validator = new RequiredNotionKeyField('notion-key');
-				},
-				// only validate on change to avoid spamming the api
-				validateOn: 'change',
-			},
-			databaseId: {
-				elementId: 'database-id',
-				defaultValue: null,
-				get Validator() {
-					delete this.Validator;
-					return this.Validator = new RequiredNotionDatabaseIdField('database-id');
-				},
-				validateOn: 'change',
-			},
 			propertyNames: {
 				name: {
 					elementId: 'notion-property-name',

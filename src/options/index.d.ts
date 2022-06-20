@@ -72,8 +72,6 @@ export type SavedOptions = {
 		courseCodeOverrides: OptionalFields['canvas.courseCodeOverrides'];
 	},
 	notion: {
-		notionKey: RequiredFields['notion.notionKey'];
-		databaseId: RequiredFields['notion.databaseId'];
 		propertyNames: {
 			name: RequiredFields['notion.propertyNames.name'];
 			category: OptionalFields['notion.propertyNames.category'];

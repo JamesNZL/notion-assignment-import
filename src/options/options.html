@@ -42,6 +42,16 @@
 				</div>
 			</div>
 		</div>
+
+		<h3>Timezone</h3>
+		<div class='tile'>
+			<div>
+				<label for='timezone'>Timezone (must be a valid <a target='_blank' href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>TZ database name</a>)</label>
+				<input type='text' id='timezone' name='timezone'>
+
+				<button id='options-restore-timezone' class='button red-hover row'>Restore Default</button>
+			</div>
+		</div>
 	</div>
 
 	<div id='advanced-options' class='hidden'>
@@ -111,16 +121,8 @@
 		<h2>Integration</h2>
 		<div class='tile'>
 			<div>
-				<label class='required' for='notion-key'>Notion Integration Key</label>
-				<input required type='password' id='notion-key' name='notion-key'>
-
-				<label class='required' for='database-id'>Notion Database ID</label>
-				<input required type='text' id='database-id' name='database-id'>
-
-				<label for='timezone'>Timezone (must be a valid <a target='_blank' href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>TZ database name</a>)</label>
-				<input type='text' id='timezone' name='timezone'>
-
-				<button id='options-restore-notion-integration' class='button red-hover row'>Restore Defaults</button>
+				<label class='required' for='notion-oauth'>Authorisation</label>
+				<a id='notion-oauth' class='button accent emphasis row' href='https://api.notion.com/v1/oauth/authorize?client_id=7a4406f4-cdd0-42b1-918c-a2eab09c0d14&response_type=code&owner=user' target='_blank'>Authorise with Notion</a>
 			</div>
 		</div>
 

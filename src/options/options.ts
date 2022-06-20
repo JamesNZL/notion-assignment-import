@@ -14,10 +14,10 @@ import { valueof } from '../types/utils';
 // static type checking will then be available through ElementId
 interface OptionsElements {
 	restore: {
+		timeZone: 'options-restore-timezone';
 		canvasClassNames: 'options-restore-canvas-class-names';
 		canvasClassValues: 'options-restore-canvas-class-values';
 		canvasCourseCodes: 'options-restore-canvas-course-codes';
-		notionIntegration: 'options-restore-notion-integration';
 		notionPropertyNames: 'options-restore-notion-property-names';
 		notionPropertyValues: 'options-restore-notion-property-values';
 		notionEmojis: 'options-restore-notion-emojis';
@@ -194,6 +194,11 @@ const buttons: {
 } = {
 	save: Button.getInstance<OptionsButtonId>('save-button'),
 	restore: {
+		timeZone: RestoreButton.getInstance<OptionsRestoreButtonId>('options-restore-timezone',
+			[
+				'timeZone',
+			],
+		),
 		canvasClassNames: RestoreButton.getInstance<OptionsRestoreButtonId>('options-restore-canvas-class-names',
 			[
 				'canvas.classNames.breadcrumbs',
@@ -214,13 +219,6 @@ const buttons: {
 		canvasCourseCodes: RestoreButton.getInstance<OptionsRestoreButtonId>('options-restore-canvas-course-codes',
 			[
 				'canvas.courseCodeOverrides',
-			],
-		),
-		notionIntegration: RestoreButton.getInstance<OptionsRestoreButtonId>('options-restore-notion-integration',
-			[
-				'notion.notionKey',
-				'notion.databaseId',
-				'timeZone',
 			],
 		),
 		notionPropertyNames: RestoreButton.getInstance<OptionsRestoreButtonId>('options-restore-notion-property-names',
