@@ -71,8 +71,6 @@ class RestoreButton extends Button<OptionsRestoreButtonId> {
 			const { defaultValue } = CONFIGURATION.FIELDS[<keyof SavedFields>key];
 			input.setValue(defaultValue);
 		});
-
-		this.validateInputs();
 	}
 
 	private validateInputs() {
@@ -93,9 +91,12 @@ class RestoreButton extends Button<OptionsRestoreButtonId> {
 			this.setLabel(verifyPrompt);
 
 			this.restoreDefaults();
+			this.validateInputs();
 
 			this.setTimeout('restore', () => {
 				this.restoreCaptured();
+				this.validateInputs();
+
 				this.resetHTML();
 			}, verifyPeriod);
 
