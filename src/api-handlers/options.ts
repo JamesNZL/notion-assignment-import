@@ -1,12 +1,9 @@
 import browser from 'webextension-polyfill';
 
-import { NullIfEmpty, SavedFields, IOptions } from '../options';
+import { SavedFields, IOptions } from '../options';
 import { CONFIGURATION } from '../options/configuration';
-import { InputFieldValidator } from '../options/validator';
 
-import { Input } from '../elements';
-
-export const Fields = {
+export const Options = {
 	async getSavedFields(): Promise<SavedFields> {
 		const fieldsWithDefaultValues = Object.fromEntries(
 			Object.entries(CONFIGURATION.FIELDS).map(([field, { defaultValue }]) => [field, defaultValue]),
@@ -15,36 +12,8 @@ export const Fields = {
 		return await <Promise<SavedFields>>browser.storage.local.get(fieldsWithDefaultValues);
 	},
 
-	async validateInput(elementId: string, Validator: InputFieldValidator) {
-		const inputValue = Input.getInstance(elementId).getValue() ?? null;
-
-		// boolean values are always valid
-		if (typeof inputValue === 'boolean') return inputValue;
-
-		return await Validator.validate(inputValue);
-	},
-
-	async getInputs(): Promise<Record<keyof SavedFields, NullIfEmpty<string>> | null> {
-		const fieldEntries = Object.fromEntries(
-			await Promise.all(
-				Object.entries(CONFIGURATION.FIELDS).map(async ([field, { elementId, Validator }]) => {
-					const validatedInput = (Validator)
-						? await this.validateInput(elementId, Validator)
-						: Input.getInstance(elementId).getValue();
-					return [field, validatedInput];
-				}),
-			),
-		);
-
-		if (Object.values(fieldEntries).every(value => value !== InputFieldValidator.INVALID_INPUT)) return <Record<keyof SavedFields, NullIfEmpty<string>>>fieldEntries;
-
-		return null;
-	},
-};
-
-export const Options = {
 	async getOptions(): Promise<IOptions> {
-		const savedFields = await Fields.getSavedFields();
+		const savedFields = await this.getSavedFields();
 
 		return {
 			timeZone: savedFields['timeZone'],

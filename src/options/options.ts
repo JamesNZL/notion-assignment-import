@@ -1,8 +1,9 @@
 import browser from 'webextension-polyfill';
 
-import { Fields, Options } from '../api-handlers/options';
+import { Options } from '../api-handlers/options';
 
-import { SavedFields } from './';
+import { NullIfEmpty, SavedFields } from './';
+import { InputFieldValidator } from './validator';
 import { CONFIGURATION, SupportedTypes } from './configuration';
 
 import { Button, Input, getElementById } from '../elements';
@@ -83,7 +84,7 @@ class RestoreButton extends Button {
 	private validateInputs() {
 		Object.entries(this.inputs).forEach(([key]) => {
 			const { elementId, Validator } = CONFIGURATION.FIELDS[<keyof SavedFields>key];
-			if (Validator) Fields.validateInput(elementId, Validator);
+			if (Validator) OptionsPage.validateInput(elementId, Validator);
 		});
 	}
 
@@ -124,8 +125,17 @@ class RestoreButton extends Button {
 }
 
 const OptionsPage = {
+	async validateInput(elementId: string, Validator: InputFieldValidator) {
+		const inputValue = Input.getInstance(elementId).getValue() ?? null;
+
+		// boolean values are always valid
+		if (typeof inputValue === 'boolean') return inputValue;
+
+		return await Validator.validate(inputValue);
+	},
+
 	async restoreOptions() {
-		const savedFields = await Fields.getSavedFields();
+		const savedFields = await Options.getSavedFields();
 
 		Object.entries(savedFields).forEach(([field, value]) => {
 			const fieldElementId = CONFIGURATION.FIELDS[<keyof typeof savedFields>field].elementId;
@@ -134,7 +144,7 @@ const OptionsPage = {
 	},
 
 	async saveOptions() {
-		const fieldEntries = await Fields.getInputs();
+		const fieldEntries = await OptionsPage.getInputs();
 
 		if (fieldEntries) {
 			await browser.storage.local.set(fieldEntries);
@@ -144,6 +154,23 @@ const OptionsPage = {
 
 			this.restoreOptions();
 		}
+	},
+
+	async getInputs(): Promise<Record<keyof SavedFields, NullIfEmpty<string>> | null> {
+		const fieldEntries = Object.fromEntries(
+			await Promise.all(
+				Object.entries(CONFIGURATION.FIELDS).map(async ([field, { elementId, Validator }]) => {
+					const validatedInput = (Validator)
+						? await this.validateInput(elementId, Validator)
+						: Input.getInstance(elementId).getValue();
+					return [field, validatedInput];
+				}),
+			),
+		);
+
+		if (Object.values(fieldEntries).every(value => value !== InputFieldValidator.INVALID_INPUT)) return <Record<keyof SavedFields, NullIfEmpty<string>>>fieldEntries;
+
+		return null;
 	},
 };
 
@@ -243,7 +270,7 @@ advancedOptionsControl?.parentElement?.addEventListener('input', () => AdvancedO
 
 // validate fields on input
 Object.values(CONFIGURATION.FIELDS).forEach(({ elementId, Validator, validateOn = 'input' }) => {
-	if (Validator) document.getElementById(elementId)?.addEventListener(validateOn, () => Fields.validateInput(elementId, Validator));
+	if (Validator) document.getElementById(elementId)?.addEventListener(validateOn, () => OptionsPage.validateInput(elementId, Validator));
 });
 
 Object.values(buttons.restore).forEach(button => button.addEventListener('click', () => button.clickHandler()));
