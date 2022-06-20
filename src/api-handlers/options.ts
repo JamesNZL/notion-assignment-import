@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill';
 
 import { NullIfEmpty, SavedFields, IOptions } from '../options';
 import { CONFIGURATION } from '../options/configuration';
-import { ValidatorConstructor, InputFieldValidator } from '../options/validator';
+import { InputFieldValidator } from '../options/validator';
 
 import { Input } from '../elements';
 
@@ -15,13 +15,13 @@ export const Fields = {
 		return await <Promise<SavedFields>>browser.storage.local.get(fieldsWithDefaultValues);
 	},
 
-	async validateInput(elementId: string, Validator: ValidatorConstructor) {
+	async validateInput(elementId: string, Validator: InputFieldValidator) {
 		const inputValue = Input.getInstance(elementId).getValue() ?? null;
 
 		// boolean values are always valid
 		if (typeof inputValue === 'boolean') return inputValue;
 
-		return await new Validator(elementId, inputValue).validate();
+		return await Validator.validate(inputValue);
 	},
 
 	async getInputs(): Promise<Record<keyof SavedFields, NullIfEmpty<string>> | null> {

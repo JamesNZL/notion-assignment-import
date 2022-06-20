@@ -7,8 +7,6 @@ import { Button } from '../elements';
 
 type TypeGuard = (value: unknown) => boolean;
 
-export type ValidatorConstructor = new (elementId: string, inputValue: NullIfEmpty<string>) => InputFieldValidator;
-
 const enum SaveButtonUpdates {
 	Pending,
 	Disable,
@@ -47,16 +45,13 @@ export abstract class InputFieldValidator {
 	private static invalidFields = new Set<string>();
 
 	protected elementId: string;
-	protected inputValue: NullIfEmpty<string>;
 	protected typeGuard: TypeGuard;
 	protected typeLabel: string;
 
 	private fieldElement: HTMLElement;
 
-	// TODO: inputValue really shouldn't be a field
-	public constructor(elementId: string, inputValue: NullIfEmpty<string>, typeGuard: TypeGuard, typeLabel: string) {
+	public constructor(elementId: string, typeGuard: TypeGuard, typeLabel: string) {
 		this.elementId = elementId;
-		this.inputValue = inputValue;
 		this.typeGuard = typeGuard;
 		this.typeLabel = typeLabel;
 
@@ -74,17 +69,17 @@ export abstract class InputFieldValidator {
 		return InputFieldValidator.invalidFields.size;
 	}
 
-	protected async validator(): Promise<NullIfEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
-		if (this.typeGuard(this.inputValue)) return this.inputValue;
+	protected async validator(inputValue: NullIfEmpty<string>): Promise<NullIfEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
+		if (this.typeGuard(inputValue)) return inputValue;
 		else {
 			this.addInvalidError(`Input must be a ${this.typeLabel}!`);
 			return InputFieldValidator.INVALID_INPUT;
 		}
 	}
 
-	public async validate(): Promise<NullIfEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
+	public async validate(inputValue: NullIfEmpty<string>): Promise<NullIfEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
 		this.addValidatingStatus();
-		const validatedInput = await this.validator();
+		const validatedInput = await this.validator(inputValue);
 		this.removeValidatingStatus();
 
 		if (validatedInput !== InputFieldValidator.INVALID_INPUT) this.removeInvalidError();
@@ -141,9 +136,9 @@ export abstract class InputFieldValidator {
 }
 
 abstract class RequiredField extends InputFieldValidator {
-	protected override async validator(): Promise<NeverEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
-		if (this.inputValue) {
-			if (this.typeGuard(this.inputValue)) return this.inputValue;
+	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NeverEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
+		if (inputValue) {
+			if (this.typeGuard(inputValue)) return inputValue;
 			else this.addInvalidError(`Input must be a ${this.typeLabel}!`);
 		}
 		else this.addInvalidError('Required field cannot be empty!');
@@ -165,17 +160,17 @@ abstract class RequiredFieldCache extends RequiredField {
 }
 
 abstract class JSONObjectField extends InputFieldValidator {
-	protected override async validator(): Promise<NeverEmpty<string> | '{}' | typeof InputFieldValidator.INVALID_INPUT> {
+	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NeverEmpty<string> | '{}' | typeof InputFieldValidator.INVALID_INPUT> {
 		try {
-			if (!this.inputValue) return '{}';
+			if (!inputValue) return '{}';
 
-			const parsed = JSON.parse(this.inputValue);
+			const parsed = JSON.parse(inputValue);
 
 			// JSON can't serialise any non-primitives other than 'objects' and arrays, so this will do
 			if (parsed instanceof Object && !Array.isArray(parsed)) {
 				if (Object.values(parsed).every(this.typeGuard)) {
 					document.getElementById(this.elementId)?.classList?.remove('invalid-input');
-					return this.inputValue;
+					return inputValue;
 				}
 				else this.addInvalidError(`All object values must be ${this.typeLabel}s!`);
 			}
@@ -206,36 +201,36 @@ const typeGuards: Record<string, TypeGuard> = {
 };
 
 export class StringField extends InputFieldValidator {
-	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
-		super(elementId, inputValue, typeGuards.isNullableString, 'string');
+	public constructor(elementId: string) {
+		super(elementId, typeGuards.isNullableString, 'string');
 	}
 }
 
 export class RequiredStringField extends RequiredField {
-	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
-		super(elementId, inputValue, typeGuards.isString, 'string');
+	public constructor(elementId: string) {
+		super(elementId, typeGuards.isString, 'string');
 	}
 }
 
 export class RequiredNumberAsStringField extends RequiredField {
-	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
-		super(elementId, inputValue, typeGuards.isParsableNumber, 'number');
+	public constructor(elementId: string) {
+		super(elementId, typeGuards.isParsableNumber, 'number');
 	}
 }
 
 export class RequiredNotionKeyField extends RequiredFieldCache {
-	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
-		super(elementId, inputValue, typeGuards.isString, 'string');
+	public constructor(elementId: string) {
+		super(elementId, typeGuards.isString, 'string');
 	}
 
-	protected override async validator(): Promise<NeverEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
+	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NeverEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
 		// check the cache first
-		if (this.getCachedInput() === this.inputValue) return this.inputValue;
+		if (this.getCachedInput() === inputValue) return inputValue;
 
-		if (await super.validator() === this.inputValue) {
+		if (await super.validator(inputValue) === inputValue) {
 			if (navigator.onLine) {
-				const notionClient = new NotionClient({ auth: this.inputValue });
-				if (await notionClient.retrieveMe()) return this.cacheInput(this.inputValue);
+				const notionClient = new NotionClient({ auth: inputValue });
+				if (await notionClient.retrieveMe()) return this.cacheInput(inputValue);
 				else this.addInvalidError('Input is not a valid Notion Integration Key.');
 			}
 			else this.addInvalidError('Please connect to the Internet to validate this input.');
@@ -245,8 +240,8 @@ export class RequiredNotionKeyField extends RequiredFieldCache {
 }
 
 export class RequiredNotionDatabaseIdField extends RequiredFieldCache {
-	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
-		super(elementId, inputValue, typeGuards.isString, 'string');
+	public constructor(elementId: string) {
+		super(elementId, typeGuards.isString, 'string');
 	}
 
 	private async getNotionKey(): Promise<NeverEmpty<string> | null> {
@@ -258,12 +253,10 @@ export class RequiredNotionDatabaseIdField extends RequiredFieldCache {
 			const keyInput = keyFieldElement.value.trim() || null;
 
 			if (keyInput && keyConfiguration.Validator) {
-				const keyValidator = new keyConfiguration.Validator(keyConfiguration.elementId, keyInput);
-
 				// if the keyInput has been cached by RequiredNotionKeyField, just return it without validating again
-				if (keyValidator instanceof RequiredFieldCache && keyValidator.getCachedInput() === keyInput) return keyInput;
+				if (keyConfiguration.Validator instanceof RequiredFieldCache && keyConfiguration.Validator.getCachedInput() === keyInput) return keyInput;
 
-				const validatedKey = await new keyConfiguration.Validator(keyConfiguration.elementId, keyInput).validate();
+				const validatedKey = await keyConfiguration.Validator.validate(keyInput);
 				if (validatedKey !== InputFieldValidator.INVALID_INPUT) return validatedKey;
 			}
 		}
@@ -271,16 +264,16 @@ export class RequiredNotionDatabaseIdField extends RequiredFieldCache {
 		return null;
 	}
 
-	protected override async validator(): Promise<NeverEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
+	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NeverEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
 		// check the cache first
-		if (this.getCachedInput() === this.inputValue) return this.inputValue;
+		if (this.getCachedInput() === inputValue) return inputValue;
 
-		if (await super.validator() === this.inputValue) {
+		if (await super.validator(inputValue) === inputValue) {
 			const notionKey = await this.getNotionKey();
 			if (notionKey) {
 				if (navigator.onLine) {
 					const notionClient = new NotionClient({ auth: notionKey });
-					if (await notionClient.retrieveDatabase(this.inputValue)) return this.cacheInput(this.inputValue);
+					if (await notionClient.retrieveDatabase(inputValue)) return this.cacheInput(inputValue);
 					else this.addInvalidError('Could not find the database.<br>Verify the ID and make sure the database is shared with your integration.');
 				}
 				else this.addInvalidError('Please connect to the Internet to validate this input.');
@@ -292,29 +285,29 @@ export class RequiredNotionDatabaseIdField extends RequiredFieldCache {
 }
 
 export class JSONStringObjectField extends JSONObjectField {
-	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
-		super(elementId, inputValue, typeGuards.isString, 'string');
+	public constructor(elementId: string) {
+		super(elementId, typeGuards.isString, 'string');
 	}
 }
 
 export class JSONEmojiObjectField extends JSONObjectField {
-	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
-		super(elementId, inputValue, typeGuards.isEmojiRequest, 'emoji');
+	public constructor(elementId: string) {
+		super(elementId, typeGuards.isEmojiRequest, 'emoji');
 	}
 }
 
 export class TimeZoneField extends InputFieldValidator {
-	public constructor(elementId: string, inputValue: NullIfEmpty<string>) {
-		super(elementId, inputValue, typeGuards.isNullableString, 'string');
+	public constructor(elementId: string) {
+		super(elementId, typeGuards.isNullableString, 'string');
 	}
 
-	protected override async validator(): Promise<NullIfEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
-		if (!this.inputValue) return null;
+	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NullIfEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
+		if (!inputValue) return null;
 
-		if (await super.validator() === this.inputValue) {
+		if (await super.validator(inputValue) === inputValue) {
 			try {
-				Intl.DateTimeFormat(undefined, { timeZone: this.inputValue });
-				return this.inputValue;
+				Intl.DateTimeFormat(undefined, { timeZone: inputValue });
+				return inputValue;
 			}
 			catch {
 				this.addInvalidError('Invalid time zone.');
