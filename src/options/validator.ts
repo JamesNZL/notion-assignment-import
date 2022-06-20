@@ -14,7 +14,7 @@ const enum SaveButtonUpdates {
 }
 
 const SaveButton = {
-	button: new Button('save-button'),
+	button: Button.getInstance('save-button'),
 	updateState(update: SaveButtonUpdates): void {
 		switch (update) {
 			case SaveButtonUpdates.Pending:

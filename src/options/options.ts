@@ -36,12 +36,14 @@ type OptionsButtonName = keyof OptionsElements['buttons'];
 type OptionsButtonId = valueof<OptionsElements['buttons']>;
 type OptionsElementId = OptionsRestoreButtonId | OptionsButtonId | valueof<OptionsElements['elements']>;
 
-class RestoreButton extends Button<OptionsRestoreButtonId> {
+class RestoreButton extends Button {
+	protected static override instances: Record<string, RestoreButton> = {};
+
 	private restoreKeys: (keyof SavedFields)[];
 	private inputs: Partial<Record<keyof SavedFields, Input>>;
 	private capturedValues: Partial<Record<keyof SavedFields, SupportedTypes>>;
 
-	public constructor(id: OptionsRestoreButtonId, restoreKeys: (keyof SavedFields)[]) {
+	protected constructor(id: string, restoreKeys: (keyof SavedFields)[]) {
 		super(id);
 
 		this.restoreKeys = restoreKeys;
@@ -49,6 +51,11 @@ class RestoreButton extends Button<OptionsRestoreButtonId> {
 			this.restoreKeys.map(key => [key, Input.getInstance(CONFIGURATION.FIELDS[key].elementId)]),
 		);
 		this.capturedValues = this.captureValues();
+	}
+
+	public static override getInstance<T extends string>(id: T, restoreKeys?: (keyof SavedFields)[]): RestoreButton {
+		if (!restoreKeys) throw new Error('Argument restoreKeys must be defined for class RestoreButton!');
+		return RestoreButton.instances[id] = RestoreButton.instances[id] ?? new RestoreButton(id, restoreKeys);
 	}
 
 	private captureValues(): Partial<Record<keyof SavedFields, SupportedTypes>> {
@@ -159,15 +166,15 @@ const AdvancedOptions = {
 };
 
 const buttons: {
-	[K in OptionsButtonName]: Button<OptionsButtonId>;
+	[K in OptionsButtonName]: Button;
 } & {
 	restore: {
 		[K in OptionsRestoreButtonName]: RestoreButton;
 	};
 } = {
-	save: new Button<OptionsButtonId>('save-button'),
+	save: Button.getInstance<OptionsButtonId>('save-button'),
 	restore: {
-		canvasClassNames: new RestoreButton('options-restore-canvas-class-names',
+		canvasClassNames: RestoreButton.getInstance<OptionsRestoreButtonId>('options-restore-canvas-class-names',
 			[
 				'canvas.classNames.breadcrumbs',
 				'canvas.classNames.assignment',
@@ -178,25 +185,25 @@ const buttons: {
 				'canvas.classNames.dateElement',
 			],
 		),
-		canvasClassValues: new RestoreButton('options-restore-canvas-class-values',
+		canvasClassValues: RestoreButton.getInstance<OptionsRestoreButtonId>('options-restore-canvas-class-values',
 			[
 				'canvas.classValues.courseCodeN',
 				'canvas.classValues.notAvailable',
 			],
 		),
-		canvasCourseCodes: new RestoreButton('options-restore-canvas-course-codes',
+		canvasCourseCodes: RestoreButton.getInstance<OptionsRestoreButtonId>('options-restore-canvas-course-codes',
 			[
 				'canvas.courseCodeOverrides',
 			],
 		),
-		notionIntegration: new RestoreButton('options-restore-notion-integration',
+		notionIntegration: RestoreButton.getInstance<OptionsRestoreButtonId>('options-restore-notion-integration',
 			[
 				'notion.notionKey',
 				'notion.databaseId',
 				'timeZone',
 			],
 		),
-		notionPropertyNames: new RestoreButton('options-restore-notion-property-names',
+		notionPropertyNames: RestoreButton.getInstance<OptionsRestoreButtonId>('options-restore-notion-property-names',
 			[
 				'notion.propertyNames.name',
 				'notion.propertyNames.category',
@@ -208,18 +215,18 @@ const buttons: {
 				'notion.propertyNames.span',
 			],
 		),
-		notionPropertyValues: new RestoreButton('options-restore-notion-property-values',
+		notionPropertyValues: RestoreButton.getInstance<OptionsRestoreButtonId>('options-restore-notion-property-values',
 			[
 				'notion.propertyValues.categoryCanvas',
 				'notion.propertyValues.statusToDo',
 			],
 		),
-		notionEmojis: new RestoreButton('options-restore-notion-emojis',
+		notionEmojis: RestoreButton.getInstance<OptionsRestoreButtonId>('options-restore-notion-emojis',
 			[
 				'notion.courseEmojis',
 			],
 		),
-		all: new RestoreButton('options-restore-all',
+		all: RestoreButton.getInstance<OptionsRestoreButtonId>('options-restore-all',
 			<(keyof SavedFields)[]>Object.keys(CONFIGURATION.FIELDS),
 		),
 	},

@@ -80,14 +80,14 @@ const SavedCoursesList = {
 	},
 };
 
-const buttons: Record<PopupButtonName, Button<PopupButtonId>> = {
-	options: new Button<PopupElementId>('options-icon'),
-	parse: new Button<PopupElementId>('parse-button'),
-	export: new Button<PopupElementId>('export-button'),
-	listAssignments: new Button<PopupElementId>('list-assignments-button'),
-	listCourses: new Button<PopupElementId>('list-courses-button'),
-	copyJSON: new Button<PopupElementId>('copy-json-button'),
-	clearStorage: new Button<PopupElementId>('clear-storage-button'),
+const buttons: Record<PopupButtonName, Button> = {
+	options: Button.getInstance<PopupElementId>('options-icon'),
+	parse: Button.getInstance<PopupElementId>('parse-button'),
+	export: Button.getInstance<PopupElementId>('export-button'),
+	listAssignments: Button.getInstance<PopupElementId>('list-assignments-button'),
+	listCourses: Button.getInstance<PopupElementId>('list-courses-button'),
+	copyJSON: Button.getInstance<PopupElementId>('copy-json-button'),
+	clearStorage: Button.getInstance<PopupElementId>('clear-storage-button'),
 };
 
 buttons.options.addEventListener('click', () => {

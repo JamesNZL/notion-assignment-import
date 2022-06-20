@@ -1,6 +1,8 @@
 import { getElementById } from '.';
 
-export class Button<T extends string> {
+export class Button {
+	protected static instances: Record<string, Button> = {};
+
 	private button: HTMLButtonElement;
 	private label: HTMLElement;
 
@@ -9,8 +11,8 @@ export class Button<T extends string> {
 
 	private timeouts: Record<string, NodeJS.Timeout> = {};
 
-	public constructor(id: T) {
-		const element = getElementById<T>(id);
+	protected constructor(id: string) {
+		const element = getElementById(id);
 
 		if (!element || !(element instanceof HTMLButtonElement)) throw new Error(`Invalid button identifier ${id}!`);
 
@@ -19,6 +21,10 @@ export class Button<T extends string> {
 
 		this.defaultHtml = element.innerHTML;
 		this.defaultClassList = element.classList.value;
+	}
+
+	public static getInstance<T extends string>(id: T) {
+		return Button.instances[id] = Button.instances[id] ?? new Button(id);
 	}
 
 	public getLabel() {
