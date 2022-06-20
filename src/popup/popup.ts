@@ -76,12 +76,12 @@ class Button {
 		this.button.classList.remove(className);
 	}
 
-	public hide() {
-		this.button.style.display = 'none';
+	public show() {
+		this.removeClass('hidden');
 	}
 
-	public unhide() {
-		this.button.style.display = '';
+	public hide() {
+		this.addClass('hidden');
 	}
 
 	public addEventListener(...args: Parameters<typeof HTMLElement.prototype.addEventListener>) {
@@ -117,7 +117,7 @@ const SavedCoursesList = {
 			const coursesList = Object.entries(savedAssignments).reduce((list: string, [course, assignments]) => list + `<li><strong>${course}</strong> (<code>${assignments.length}</code> assignment${(assignments.length !== 1) ? 's' : ''})</li>\n`, '');
 
 			buttons.listCourses.hide();
-			buttons.listAssignments.unhide();
+			buttons.listAssignments.show();
 
 			this.element.innerHTML = (coursesList && this.renderChanges)
 				? `<ol>${coursesList}</ol>`
@@ -140,7 +140,7 @@ const SavedCoursesList = {
 				`, '');
 
 			buttons.listAssignments.hide();
-			buttons.listCourses.unhide();
+			buttons.listCourses.show();
 
 			this.element.innerHTML = (assignmentsList && this.renderChanges)
 				? `<ol>${assignmentsList}</ol>`
@@ -229,7 +229,7 @@ buttons.listAssignments.addEventListener('click', () => SavedCoursesList.listAss
 buttons.listCourses.addEventListener('click', () => SavedCoursesList.listCourses());
 
 Options.getOptions().then(({ popup: { displayJSONButton } }) => {
-	if (!displayJSONButton) buttons.copyJSON.hide();
+	if (displayJSONButton) buttons.copyJSON.show();
 });
 
 buttons.copyJSON.addEventListener('click', async () => {

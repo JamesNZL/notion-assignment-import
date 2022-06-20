@@ -311,7 +311,7 @@ h3 {
 	cursor: not-allowed;
 }
 
-#advanced-options.hidden {
+.hidden {
 	display: none;
 }
 
