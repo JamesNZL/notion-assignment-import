@@ -30,14 +30,12 @@ export class Input {
 	public setValue(value: SupportedTypes) {
 		if (!Input.isValid(this.element)) return;
 
-		if (value == null) return;
-
 		if (this.element instanceof HTMLInputElement && Input.useChecked(this.element) && typeof value === 'boolean') {
 			return this.element.checked = value;
 		}
 
-		if (typeof value === 'string') {
-			return this.element.value = value;
+		if (typeof value === 'string' || value == null) {
+			return this.element.value = value ?? '';
 		}
 
 		throw new Error(`Failed to set unexpected value ${value} of type ${typeof value} on element ${this.id}`);

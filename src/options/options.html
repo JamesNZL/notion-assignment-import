@@ -54,9 +54,6 @@
 				<label class='required' for='breadcrumbs'>Breadcrumbs class</label>
 				<input required type='text' id='breadcrumbs' name='breadcrumbs'>
 
-				<label class='required' for='course-code-n'>Course code <code>nth li</code></label>
-				<input required type='text' id='course-code-n' name='course-code-n'>
-
 				<label class='required' for='assignment-class'>Assignment class</label>
 				<input required type='text' id='assignment-class' name='assignment-class'>
 
@@ -74,14 +71,36 @@
 
 				<label class='required' for='date-element'>Date element class</label>
 				<input required type='text' id='date-element' name='date-element'>
+
+				<button id='options-restore-canvas-class-names' class='button red-hover row'>Restore Defaults</button>
 			</div>
 		</div>
 
 		<h3>Class Values</h3>
 		<div class='tile'>
 			<div>
+				<label class='required' for='course-code-n'>Course code <code>nth li</code></label>
+				<input required type='text' id='course-code-n' name='course-code-n'>
+
 				<label class='required' for='status-not-available'>Not available status</label>
 				<input required type='text' id='status-not-available' name='status-not-available'>
+
+				<button id='options-restore-canvas-class-values' class='button red-hover row'>Restore Defaults</button>
+			</div>
+		</div>
+
+		<h2>Course Codes</h2>
+		<div class='tile'>
+			<div>
+				<label for='course-code-overrides'>Course code overrides</label>
+				<p>This must be a valid <code>JSON</code> object string.</p>
+				<strong>Example</strong>
+				<p class='code'>
+					<code>{ "Canvas Course Code": "Database Course Code" }</code>
+				</p>
+				<textarea id='course-code-overrides' name='course-code-overrides'></textarea>
+
+				<button id='options-restore-canvas-course-codes' class='button red-hover row'>Restore Default</button>
 			</div>
 		</div>
 	</div>
@@ -100,6 +119,8 @@
 
 				<label for='timezone'>Timezone (must be a valid <a target='_blank' href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>TZ database name</a>)</label>
 				<input type='text' id='timezone' name='timezone'>
+
+				<button id='options-restore-notion-integration' class='button red-hover row'>Restore Defaults</button>
 			</div>
 		</div>
 
@@ -130,6 +151,8 @@
 
 				<label for='notion-property-span'>Date span property</label>
 				<input type='text' id='notion-property-span' name='notion-property-span'>
+
+				<button id='options-restore-notion-property-names' class='button red-hover row'>Restore Defaults</button>
 			</div>
 		</div>
 
@@ -142,13 +165,7 @@
 				<label for='notion-status-todo'>To Do Status</label>
 				<input type='text' id='notion-status-todo' name='notion-status-todo'>
 
-				<label for='course-code-overrides'>Course code overrides</label>
-				<p>This must be a valid <code>JSON</code> object string.</p>
-				<strong>Example</strong>
-				<p class='code'>
-					<code>{ "Canvas Course Code": "Database Course Code" }</code>
-				</p>
-				<textarea id='course-code-overrides' name='course-code-overrides'></textarea>
+				<button id='options-restore-notion-property-values' class='button red-hover row'>Restore Defaults</button>
 			</div>
 		</div>
 
@@ -162,13 +179,26 @@
 					<code>{ "Database Course Code": "&#x1F468;&#x200D;&#x1F4BB;" }</code>
 				</p>
 				<textarea id='course-emojis' name='course-emojis'></textarea>
+
+				<button id='options-restore-notion-emojis' class='button red-hover row'>Restore Default</button>
 			</div>
 		</div>
 	</div>
 
-	<br>
+	<div>
+		<h1>Save and Restore</h1>
 
-	<button class='button row outline green' id='save-button'>Save</button>
+		<div class='tile'>
+			<div>
+				<label>Restore All Defaults</label>
+				<button id='options-restore-all' class='button red-hover row'>Restore All Defaults</button>
+			</div>
+		</div>
+
+		<br>
+
+		<button class='button outline green emphasis row' id='save-button'>Validate and Save</button>
+	</div>
 
 	<script type='module' src='options.js'></script>
 </body>

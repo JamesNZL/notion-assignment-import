@@ -380,6 +380,14 @@ label.required:before {
 	padding-bottom: 0;
 }
 
+#options .button {
+	margin-bottom: calc(5 * var(--margin));
+}
+
+#options label+.button {
+	margin-top: calc(2 * var(--margin));
+}
+
 input,
 textarea {
 	width: 100%;
