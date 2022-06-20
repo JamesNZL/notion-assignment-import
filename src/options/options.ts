@@ -60,7 +60,7 @@ class RestoreButton extends Button<OptionsRestoreButtonId> {
 	private restoreCaptured() {
 		Object.entries(this.inputs).forEach(([key, input]) => {
 			const configuredValue = this.capturedValues[<keyof SavedFields>key];
-			if (configuredValue) input.setValue(configuredValue);
+			if (configuredValue !== undefined) input.setValue(configuredValue);
 		});
 	}
 
