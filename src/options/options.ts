@@ -89,38 +89,30 @@ class RestoreButton extends Button {
 	}
 
 	public clickHandler() {
-		const verifyPrompt = 'Confirm';
-		const verifyPeriod = 3000;
+		const cancelPrompt = 'Undo';
+		const cancelPeriod = 2500;
 
-		if (this.getLabel() !== verifyPrompt) {
-			this.addClass('red');
-			this.removeClass('red-hover');
-
-			this.setLabel(verifyPrompt);
-
-			this.restoreDefaults();
+		if (this.getLabel() === cancelPrompt) {
+			this.restoreCaptured();
 			this.validateInputs();
 
-			this.setTimeout('restore', () => {
-				this.restoreCaptured();
-				this.validateInputs();
+			this.resetHTML();
 
-				this.resetHTML();
-			}, verifyPeriod);
-
-			return;
+			return this.clearTimeout('confirm');
 		}
 
-		this.clearTimeout('restore');
+		this.addClass('green');
+		this.removeClass('red-hover');
+
+		this.setLabel(cancelPrompt);
+		this.resetHTML(cancelPeriod);
+
+		this.restoreDefaults();
+		this.validateInputs();
 
 		if (this.restoreKeys.includes('options.displayAdvanced')) {
 			this.inputs['options.displayAdvanced']?.dispatchInputEvent();
 		}
-
-		this.addClass('green');
-		this.removeClass('red');
-		this.setLabel('Restored!');
-		this.resetHTML(3500);
 	}
 }
 
