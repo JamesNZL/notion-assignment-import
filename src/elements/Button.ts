@@ -1,4 +1,4 @@
-import { getElementById } from './';
+import { getElementById } from '.';
 
 export class Button<T extends string> {
 	private button: HTMLElement;
