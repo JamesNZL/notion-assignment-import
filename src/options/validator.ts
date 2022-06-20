@@ -22,7 +22,6 @@ const SaveButton = {
 				this.button.disable();
 				break;
 			case SaveButtonUpdates.Disable:
-				console.log(this.button);
 				this.button.setLabel(`${InputFieldValidator.countInvalidFields()} invalid input${(InputFieldValidator.countInvalidFields() > 1) ? 's' : ''}!`);
 				this.button.disable();
 				this.button.addClass('red');
