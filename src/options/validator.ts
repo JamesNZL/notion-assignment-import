@@ -1,6 +1,9 @@
 import { NotionClient, VALID_EMOJIS } from '../api-handlers/notion';
+
 import { NullIfEmpty, NeverEmpty } from './';
 import { CONFIGURATION } from './configuration';
+
+import { Button } from '../elements';
 
 type TypeGuard = (value: unknown) => boolean;
 
@@ -13,31 +16,27 @@ const enum SaveButtonUpdates {
 }
 
 const SaveButton = {
-	// TODO: use button class
-	button: document.getElementById('save-button'),
+	button: new Button('save-button'),
 	updateState(update: SaveButtonUpdates): void {
-		if (this.button && this.button instanceof HTMLButtonElement) {
-			switch (update) {
-				case SaveButtonUpdates.Pending:
-					this.button.innerHTML = `Validating ${InputFieldValidator.countValidatingFields()} input${(InputFieldValidator.countValidatingFields() > 1) ? 's' : ''}...`;
-					this.button.disabled = true;
-					break;
-				case SaveButtonUpdates.Disable:
-					this.button.innerHTML = `${InputFieldValidator.countInvalidFields()} invalid input${(InputFieldValidator.countInvalidFields() > 1) ? 's' : ''}!`;
-					this.button.disabled = true;
-					this.button.classList.add('red');
-					this.button.classList.remove('green');
-					break;
-				case SaveButtonUpdates.Restore:
-					if (InputFieldValidator.countInvalidFields() > 0) return this.updateState(SaveButtonUpdates.Disable);
-					else if (InputFieldValidator.countValidatingFields() > 0) return this.updateState(SaveButtonUpdates.Pending);
+		switch (update) {
+			case SaveButtonUpdates.Pending:
+				this.button.setLabel(`Validating ${InputFieldValidator.countValidatingFields()} input${(InputFieldValidator.countValidatingFields() > 1) ? 's' : ''}...`);
+				this.button.disable();
+				break;
+			case SaveButtonUpdates.Disable:
+				console.log(this.button);
+				this.button.setLabel(`${InputFieldValidator.countInvalidFields()} invalid input${(InputFieldValidator.countInvalidFields() > 1) ? 's' : ''}!`);
+				this.button.disable();
+				this.button.addClass('red');
+				this.button.removeClass('green');
+				break;
+			case SaveButtonUpdates.Restore:
+				if (InputFieldValidator.countInvalidFields() > 0) return this.updateState(SaveButtonUpdates.Disable);
+				else if (InputFieldValidator.countValidatingFields() > 0) return this.updateState(SaveButtonUpdates.Pending);
 
-					this.button.innerHTML = 'Save';
-					this.button.disabled = false;
-					this.button.classList.add('green');
-					this.button.classList.remove('red');
-					break;
-			}
+				this.button.resetHTML();
+				this.button.enable();
+				break;
 		}
 	},
 };

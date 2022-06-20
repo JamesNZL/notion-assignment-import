@@ -1,7 +1,7 @@
 import { getElementById } from '.';
 
 export class Button<T extends string> {
-	private button: HTMLElement;
+	private button: HTMLButtonElement;
 	private label: HTMLElement;
 
 	private defaultHtml: string;
@@ -12,7 +12,7 @@ export class Button<T extends string> {
 	public constructor(id: T) {
 		const element = getElementById<T>(id);
 
-		if (!element) throw new Error(`Invalid button identifier ${id}!`);
+		if (!element || !(element instanceof HTMLButtonElement)) throw new Error(`Invalid button identifier ${id}!`);
 
 		this.button = element;
 		this.label = element.querySelector('.button-label') ?? element;
@@ -29,11 +29,14 @@ export class Button<T extends string> {
 		this.label.innerHTML = html;
 	}
 
-	public resetHTML(delay: number) {
-		this.setTimeout('resetHTML', () => {
+	public resetHTML(delay?: number) {
+		const reset = () => {
 			this.setLabel(this.defaultHtml);
 			this.button.classList.value = this.defaultClassList;
-		}, delay);
+		};
+
+		if (!delay) return reset();
+		this.setTimeout('resetHTML', reset, delay);
 	}
 
 	public addClass(className: string) {
@@ -50,6 +53,14 @@ export class Button<T extends string> {
 
 	public hide() {
 		this.addClass('hidden');
+	}
+
+	public disable() {
+		this.button.disabled = true;
+	}
+
+	public enable() {
+		this.button.disabled = false;
 	}
 
 	public addEventListener(...args: Parameters<typeof HTMLElement.prototype.addEventListener>) {

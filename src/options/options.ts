@@ -96,7 +96,7 @@ class RestoreButton extends Button<OptionsRestoreButtonId> {
 
 			this.setTimeout('restore', () => {
 				this.restoreCaptured();
-				this.resetHTML(0);
+				this.resetHTML();
 			}, verifyPeriod);
 
 			return;
