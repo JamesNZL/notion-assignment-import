@@ -71,11 +71,14 @@ class RestoreButton extends Button<OptionsRestoreButtonId> {
 			const { defaultValue } = CONFIGURATION.FIELDS[<keyof SavedFields>key];
 			input.setValue(defaultValue);
 		});
+
+		this.validateInputs();
 	}
 
-	private dispatchInputEvents() {
-		Object.entries(this.inputs).forEach(([, input]) => {
-			input.dispatchInputEvent();
+	private validateInputs() {
+		Object.entries(this.inputs).forEach(([key]) => {
+			const { elementId, Validator } = CONFIGURATION.FIELDS[<keyof SavedFields>key];
+			if (Validator) Fields.validateInput(elementId, Validator);
 		});
 	}
 
@@ -101,7 +104,9 @@ class RestoreButton extends Button<OptionsRestoreButtonId> {
 
 		this.clearTimeout('restore');
 
-		this.dispatchInputEvents();
+		if (this.restoreKeys.includes('options.displayAdvanced')) {
+			this.inputs['options.displayAdvanced']?.dispatchInputEvent();
+		}
 
 		this.addClass('green');
 		this.removeClass('red');

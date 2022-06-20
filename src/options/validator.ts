@@ -13,6 +13,7 @@ const enum SaveButtonUpdates {
 }
 
 const SaveButton = {
+	// TODO: use button class
 	button: document.getElementById('save-button'),
 	updateState(update: SaveButtonUpdates): void {
 		if (this.button && this.button instanceof HTMLButtonElement) {
@@ -53,6 +54,7 @@ export abstract class InputFieldValidator {
 
 	private fieldElement: HTMLElement;
 
+	// TODO: inputValue really shouldn't be a field
 	public constructor(elementId: string, inputValue: NullIfEmpty<string>, typeGuard: TypeGuard, typeLabel: string) {
 		this.elementId = elementId;
 		this.inputValue = inputValue;
