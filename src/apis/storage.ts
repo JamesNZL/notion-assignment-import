@@ -5,33 +5,34 @@ import { CONFIGURATION, SupportedTypes } from '../options/configuration';
 
 import { SavedAssignments } from '../popup/parse';
 
+const KEYS = {
+	course: 'savedCourse',
+	assignments: 'savedAssignments',
+};
+
 export const Storage = {
 	async getSavedCourse() {
-		return (await browser.storage.local.get('savedCourse')).savedCourse;
+		return (await browser.storage.local.get(KEYS.course))[KEYS.course];
 	},
 
-	async setSavedCourse(savedCourse: string | null) {
-		return await browser.storage.local.set({ savedCourse });
+	async setSavedCourse(course: string | null) {
+		return await browser.storage.local.set({ [KEYS.course]: course });
 	},
 
 	async clearSavedCourse() {
-		return await browser.storage.local.remove('savedCourse');
-	},
-
-	async getAll() {
-		return (await browser.storage.local.get());
+		return await browser.storage.local.remove(KEYS.course);
 	},
 
 	async getSavedAssignments(): Promise<SavedAssignments> {
-		return (await browser.storage.local.get({ savedAssignments: {} })).savedAssignments;
+		return (await browser.storage.local.get({ [KEYS.assignments]: {} }))[KEYS.assignments];
 	},
 
-	async setSavedAssignments(savedAssignments: SavedAssignments) {
-		return await browser.storage.local.set({ savedAssignments });
+	async setSavedAssignments(assignments: SavedAssignments) {
+		return await browser.storage.local.set({ [KEYS.assignments]: assignments });
 	},
 
 	async clearSavedAssignments() {
-		return await browser.storage.local.remove('savedAssignments');
+		return await browser.storage.local.remove(KEYS.assignments);
 	},
 
 	async getSavedFields(): Promise<SavedFields> {
