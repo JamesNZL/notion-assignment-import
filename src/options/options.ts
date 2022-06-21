@@ -135,7 +135,7 @@ const OptionsPage = {
 		}
 	},
 
-	async getInputs(): Promise<Record<keyof SavedFields, NullIfEmpty<string>> | null> {
+	async getInputs(): Promise<Record<keyof SavedFields, SupportedTypes> | null> {
 		const fieldEntries = Object.fromEntries(
 			await Promise.all(
 				Object.entries(CONFIGURATION.FIELDS).map(async ([field, { elementId, Validator }]) => {
@@ -147,7 +147,7 @@ const OptionsPage = {
 			),
 		);
 
-		if (Object.values(fieldEntries).every(value => value !== InputFieldValidator.INVALID_INPUT)) return <Record<keyof SavedFields, NullIfEmpty<string>>>fieldEntries;
+		if (Object.values(fieldEntries).every(value => value !== InputFieldValidator.INVALID_INPUT)) return <Record<keyof SavedFields, SupportedTypes>>fieldEntries;
 
 		return null;
 	},
