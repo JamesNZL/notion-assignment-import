@@ -98,7 +98,7 @@ class RestoreButton extends Button {
 		this.validateInputs();
 
 		if (this.restoreKeys.includes('options.displayAdvanced')) {
-			this.inputs['options.displayAdvanced']?.dispatchInputEvent();
+			AdvancedOptions.dispatchInputEvents();
 		}
 	}
 }
@@ -169,6 +169,11 @@ const AdvancedOptions = {
 		(display)
 			? this.show()
 			: this.hide();
+	},
+
+	dispatchInputEvents() {
+		if (!this.control) return;
+		this.control.parentElement?.childNodes.forEach(input => input.dispatchEvent(new Event('input', { bubbles: true })));
 	},
 };
 
@@ -255,6 +260,7 @@ Object.values(buttons.restore).forEach(button => button.addEventListener('click'
 
 buttons.undo.addEventListener('click', () => {
 	OptionsPage.restoreOptions();
+	AdvancedOptions.dispatchInputEvents();
 
 	buttons.undo.setLabel('Restored!');
 	buttons.undo.resetHTML(1325);
