@@ -24,6 +24,7 @@ interface OptionsElements {
 		all: 'options-restore-all';
 	};
 	buttons: {
+		undo: 'options-undo-all';
 		save: 'save-button';
 	};
 	elements: {
@@ -178,6 +179,7 @@ const buttons: {
 		[K in OptionsRestoreButtonName]: RestoreButton;
 	};
 } = {
+	undo: Button.getInstance<OptionsButtonId>('options-undo-all'),
 	save: Button.getInstance<OptionsButtonId>('save-button'),
 	restore: {
 		timeZone: RestoreButton.getInstance<OptionsRestoreButtonId>('options-restore-timezone',
@@ -250,6 +252,13 @@ Object.values(CONFIGURATION.FIELDS).forEach(({ elementId, Validator, validateOn 
 });
 
 Object.values(buttons.restore).forEach(button => button.addEventListener('click', button.clickHandler.bind(button)));
+
+buttons.undo.addEventListener('click', () => {
+	OptionsPage.restoreOptions();
+
+	buttons.undo.setLabel('Restored!');
+	buttons.undo.resetHTML(1325);
+});
 
 buttons.save.addEventListener('click', OptionsPage.saveOptions);
 
