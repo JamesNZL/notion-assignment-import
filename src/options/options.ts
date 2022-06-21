@@ -27,6 +27,8 @@ interface OptionsElements {
 	};
 	elements: {
 		advancedOptions: 'advanced-options';
+		advancedOptionsSegmentedControl: 'display-advanced-options';
+		advancedOptionsHide: 'hide-advanced-options';
 	};
 }
 
@@ -96,7 +98,7 @@ class RestoreButton extends Button {
 		this.validateInputs();
 
 		if (this.restoreKeys.includes('options.displayAdvanced')) {
-			AdvancedOptions.dispatchInputEvents();
+			AdvancedOptions.dispatchInputEvent();
 		}
 	}
 }
@@ -153,7 +155,9 @@ const OptionsPage = {
 
 const AdvancedOptions = {
 	element: getElementById<OptionsElementId>('advanced-options'),
-	control: getElementById(CONFIGURATION.FIELDS['options.displayAdvanced'].elementId),
+	control: getElementById<OptionsElementId>('display-advanced-options'),
+	showInput: getElementById(CONFIGURATION.FIELDS['options.displayAdvanced'].elementId),
+	hideInput: getElementById<OptionsElementId>('hide-advanced-options'),
 
 	show() {
 		this.element?.classList.remove('hidden');
@@ -161,6 +165,7 @@ const AdvancedOptions = {
 
 	hide() {
 		this.element?.classList.add('hidden');
+		if (this.hideInput && this.hideInput instanceof HTMLInputElement) this.hideInput.checked = true;
 	},
 
 	toggle(display: boolean) {
@@ -169,9 +174,8 @@ const AdvancedOptions = {
 			: this.hide();
 	},
 
-	dispatchInputEvents() {
-		if (!this.control) return;
-		this.control.parentElement?.childNodes.forEach(input => input.dispatchEvent(new Event('input', { bubbles: true })));
+	dispatchInputEvent() {
+		this.control?.dispatchEvent(new Event('input', { bubbles: true }));
 	},
 };
 
@@ -247,7 +251,7 @@ document.addEventListener('DOMContentLoaded', OptionsPage.restoreOptions);
 Storage.getOptions().then(({ options: { displayAdvanced } }) => AdvancedOptions.toggle(displayAdvanced));
 
 // add event listener to advanced options toggle
-AdvancedOptions.control?.parentElement?.addEventListener('input', () => AdvancedOptions.toggle((<HTMLInputElement>AdvancedOptions.control)?.checked ?? false));
+AdvancedOptions.control?.addEventListener('input', () => AdvancedOptions.toggle((<HTMLInputElement>AdvancedOptions.showInput)?.checked ?? false));
 
 // validate fields on input
 Object.values(CONFIGURATION.FIELDS)
@@ -271,9 +275,9 @@ Object.values(CONFIGURATION.FIELDS)
 
 Object.values(buttons.restore).forEach(button => button.addEventListener('click', button.clickHandler.bind(button)));
 
-buttons.undo.addEventListener('click', () => {
-	OptionsPage.restoreOptions();
-	AdvancedOptions.dispatchInputEvents();
+buttons.undo.addEventListener('click', async () => {
+	await OptionsPage.restoreOptions();
+	AdvancedOptions.dispatchInputEvent();
 
 	buttons.undo.removeClass('red-hover');
 	buttons.undo.setLabel('Restored!');
