@@ -262,6 +262,7 @@ buttons.undo.addEventListener('click', () => {
 	OptionsPage.restoreOptions();
 	AdvancedOptions.dispatchInputEvents();
 
+	buttons.undo.removeClass('red-hover');
 	buttons.undo.setLabel('Restored!');
 	buttons.undo.resetHTML(1325);
 });
