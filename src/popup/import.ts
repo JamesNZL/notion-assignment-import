@@ -2,14 +2,14 @@ import browser from 'webextension-polyfill';
 
 import { CreatePageParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
 import { EmojiRequest, NotionClient } from '../apis/notion';
-import { Options } from '../apis/options';
+import { Storage } from '../apis/storage';
 
 import { IParsedAssignment, SavedAssignments } from './parse';
 
 import { valueof, ArrayElement } from '../types/utils';
 
 export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
-	const { notion: options } = await Options.getOptions();
+	const { notion: options } = await Storage.getOptions();
 
 	class ParsedAssignment implements IParsedAssignment {
 		private assignment: IParsedAssignment;

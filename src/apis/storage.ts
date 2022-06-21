@@ -3,7 +3,7 @@ import browser from 'webextension-polyfill';
 import { SavedFields, IOptions } from '../options';
 import { CONFIGURATION } from '../options/configuration';
 
-export const Options = {
+export const Storage = {
 	async getSavedFields(): Promise<SavedFields> {
 		const fieldsWithDefaultValues = Object.fromEntries(
 			Object.entries(CONFIGURATION.FIELDS).map(([field, { defaultValue }]) => [field, defaultValue]),

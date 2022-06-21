@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill';
 
-import { Options } from '../apis/options';
+import { Storage } from '../apis/storage';
 
 import { NullIfEmpty, SavedFields } from './';
 import { InputFieldValidator } from './validator';
@@ -114,7 +114,7 @@ const OptionsPage = {
 	},
 
 	async restoreOptions() {
-		const savedFields = await Options.getSavedFields();
+		const savedFields = await Storage.getSavedFields();
 
 		Object.entries(savedFields).forEach(([field, value]) => {
 			const fieldElementId = CONFIGURATION.FIELDS[<keyof typeof savedFields>field].elementId;
@@ -246,7 +246,7 @@ const buttons: {
 document.addEventListener('DOMContentLoaded', OptionsPage.restoreOptions);
 
 // show advanced options if appropriate
-Options.getOptions().then(({ options: { displayAdvanced } }) => AdvancedOptions.toggle(displayAdvanced));
+Storage.getOptions().then(({ options: { displayAdvanced } }) => AdvancedOptions.toggle(displayAdvanced));
 
 // add event listener to advanced options toggle
 AdvancedOptions.control?.parentElement?.addEventListener('input', () => AdvancedOptions.toggle((<HTMLInputElement>AdvancedOptions.control)?.checked ?? false));

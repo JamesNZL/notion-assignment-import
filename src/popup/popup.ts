@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill';
 
-import { Options } from '../apis/options';
+import { Storage } from '../apis/storage';
 
 import { SavedAssignments } from './parse';
 import { exportToNotion } from './import';
@@ -159,7 +159,7 @@ buttons.listAssignments.addEventListener('click', SavedCoursesList.listAssignmen
 
 buttons.listCourses.addEventListener('click', () => SavedCoursesList.listCourses());
 
-Options.getOptions().then(({ popup: { displayJSONButton } }) => {
+Storage.getOptions().then(({ popup: { displayJSONButton } }) => {
 	if (displayJSONButton) buttons.copyJSON.show();
 });
 
