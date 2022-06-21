@@ -98,14 +98,19 @@ class RestoreButton extends Button {
 
 			this.resetHTML();
 
-			return this.clearTimeout('confirm');
+			return this.clearTimeout('restored');
 		}
 
 		this.addClass('green');
 		this.removeClass('red-hover');
 
 		this.setLabel(cancelPrompt);
-		this.resetHTML(cancelPeriod);
+
+		this.setTimeout('restored', () => {
+			this.resetHTML();
+			this.setLabel('Restored!');
+			this.resetHTML(1325);
+		}, cancelPeriod);
 
 		this.restoreDefaults();
 		this.validateInputs();
