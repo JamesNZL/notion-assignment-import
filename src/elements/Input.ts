@@ -50,4 +50,10 @@ export class Input {
 	public dispatchInputEvent() {
 		this.element?.dispatchEvent(new Event('input', { bubbles: true }));
 	}
+
+	public getLabels() {
+		if (!Input.isValid(this.element)) return;
+
+		return this.element.labels;
+	}
 }
