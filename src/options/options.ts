@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill';
 
-import { Options } from '../api-handlers/options';
+import { Options } from '../apis/options';
 
 import { NullIfEmpty, SavedFields } from './';
 import { InputFieldValidator } from './validator';

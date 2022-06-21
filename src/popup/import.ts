@@ -1,8 +1,8 @@
 import browser from 'webextension-polyfill';
 
 import { CreatePageParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
-import { EmojiRequest, NotionClient } from '../api-handlers/notion';
-import { Options } from '../api-handlers/options';
+import { EmojiRequest, NotionClient } from '../apis/notion';
+import { Options } from '../apis/options';
 
 import { IParsedAssignment, SavedAssignments } from './parse';
 

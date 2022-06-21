@@ -1,4 +1,4 @@
-import { EmojiRequest, TimeZoneRequest } from '../api-handlers/notion';
+import { EmojiRequest, TimeZoneRequest } from '../apis/notion';
 
 import { ModifyDeep } from '../types/utils';
 

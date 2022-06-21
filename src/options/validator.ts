@@ -1,4 +1,4 @@
-import { NotionClient, VALID_EMOJIS } from '../api-handlers/notion';
+import { NotionClient, VALID_EMOJIS } from '../apis/notion';
 
 import { NullIfEmpty, NeverEmpty } from './';
 import { CONFIGURATION } from './configuration';
