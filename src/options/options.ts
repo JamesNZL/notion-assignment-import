@@ -89,28 +89,9 @@ class RestoreButton extends Button {
 	}
 
 	public clickHandler() {
-		const cancelPrompt = 'Undo';
-		const cancelPeriod = 3000;
-
-		if (this.getLabel() === cancelPrompt) {
-			this.restoreCaptured();
-			this.validateInputs();
-
-			this.resetHTML();
-
-			return this.clearTimeout('restored');
-		}
-
-		this.addClass('green');
 		this.removeClass('red-hover');
-
-		this.setLabel(cancelPrompt);
-
-		this.setTimeout('restored', () => {
-			this.resetHTML();
-			this.setLabel('Restored!');
-			this.resetHTML(1325);
-		}, cancelPeriod);
+		this.setLabel('Restored!');
+		this.resetHTML(1725);
 
 		this.restoreDefaults();
 		this.validateInputs();
