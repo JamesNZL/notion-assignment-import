@@ -91,7 +91,7 @@ class RestoreButton extends Button {
 	public clickHandler() {
 		this.removeClass('red-hover');
 		this.setLabel('Restored!');
-		this.resetHTML(1725);
+		this.resetHTML(1325);
 
 		this.restoreDefaults();
 		this.validateInputs();
