@@ -173,33 +173,39 @@ buttons.copyJSON.addEventListener('click', async () => {
 });
 
 buttons.clearStorage.addEventListener('click', () => {
-	const verifyPrompt = 'Confirm';
-	const verifyPeriod = 3000;
+	const undoPrompt = 'Undo';
+	const undoPeriod = 3000;
 
-	if (buttons.clearStorage.getLabel() !== verifyPrompt) {
-		buttons.clearStorage.addClass('red');
+	if (buttons.clearStorage.getLabel() !== undoPrompt) {
+		buttons.clearStorage.addClass('green');
 		buttons.clearStorage.removeClass('red-hover');
 
-		buttons.clearStorage.setLabel(verifyPrompt);
+		buttons.clearStorage.setLabel(undoPrompt);
 
 		SavedCoursesList.listCourses({});
 		SavedCoursesList.disableUpdates();
 
-		buttons.clearStorage.setTimeout('restore', () => {
-			// reset list display after verify period is over
-			SavedCoursesList.enableUpdates();
-			SavedCoursesList.listCourses();
-		}, verifyPeriod);
+		buttons.clearStorage.setTimeout('clear', () => {
+			browser.storage.local.remove('savedAssignments');
 
-		return buttons.clearStorage.resetHTML(verifyPeriod);
+			SavedCoursesList.listCourses();
+
+			buttons.clearStorage.addClass('red');
+			buttons.clearStorage.removeClass('green');
+			buttons.clearStorage.setLabel('Cleared!');
+			buttons.clearStorage.resetHTML(1325);
+		}, undoPeriod);
+
+		return buttons.clearStorage.resetHTML(undoPeriod);
 	}
 
-	browser.storage.local.remove('savedAssignments');
+	buttons.clearStorage.clearTimeout('clear');
 
+	// reset list display after verify period is over
+	SavedCoursesList.enableUpdates();
 	SavedCoursesList.listCourses();
 
-	buttons.clearStorage.setLabel('Cleared!');
-	buttons.clearStorage.resetHTML(3500);
+	buttons.clearStorage.resetHTML();
 });
 
 SavedCoursesList.listCourses();
