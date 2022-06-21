@@ -1,15 +1,49 @@
 import browser from 'webextension-polyfill';
 
 import { SavedFields, IOptions } from '../options';
-import { CONFIGURATION } from '../options/configuration';
+import { CONFIGURATION, SupportedTypes } from '../options/configuration';
+
+import { SavedAssignments } from '../popup/parse';
 
 export const Storage = {
+	async getSavedCourse() {
+		return (await browser.storage.local.get('savedCourse')).savedCourse;
+	},
+
+	async setSavedCourse(savedCourse: string | null) {
+		return await browser.storage.local.set({ savedCourse });
+	},
+
+	async clearSavedCourse() {
+		return await browser.storage.local.remove('savedCourse');
+	},
+
+	async getAll() {
+		return (await browser.storage.local.get());
+	},
+
+	async getSavedAssignments(): Promise<SavedAssignments> {
+		return (await browser.storage.local.get({ savedAssignments: {} })).savedAssignments;
+	},
+
+	async setSavedAssignments(savedAssignments: SavedAssignments) {
+		return await browser.storage.local.set({ savedAssignments });
+	},
+
+	async clearSavedAssignments() {
+		return await browser.storage.local.remove('savedAssignments');
+	},
+
 	async getSavedFields(): Promise<SavedFields> {
 		const fieldsWithDefaultValues = Object.fromEntries(
 			Object.entries(CONFIGURATION.FIELDS).map(([field, { defaultValue }]) => [field, defaultValue]),
 		);
 
 		return await <Promise<SavedFields>>browser.storage.local.get(fieldsWithDefaultValues);
+	},
+
+	async setSavedFields(fields: Record<keyof SavedFields, SupportedTypes>) {
+		return await browser.storage.local.set(fields);
 	},
 
 	async getOptions(): Promise<IOptions> {

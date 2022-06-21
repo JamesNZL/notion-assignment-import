@@ -1,8 +1,6 @@
-import browser from 'webextension-polyfill';
-
 import { Storage } from '../apis/storage';
 
-import { NullIfEmpty, SavedFields } from './';
+import { SavedFields } from './';
 import { InputFieldValidator } from './validator';
 import { CONFIGURATION, SupportedTypes } from './configuration';
 
@@ -126,7 +124,7 @@ const OptionsPage = {
 		const fieldEntries = await OptionsPage.getInputs();
 
 		if (fieldEntries) {
-			await browser.storage.local.set(fieldEntries);
+			Storage.setSavedFields(fieldEntries);
 
 			buttons.save.setLabel('Saved!');
 			buttons.save.resetHTML(1325);

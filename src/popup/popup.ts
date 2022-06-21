@@ -43,7 +43,7 @@ const SavedCoursesList = {
 
 	async listCourses(savedAssignments?: SavedAssignments) {
 		if (this.element) {
-			savedAssignments = savedAssignments ?? <SavedAssignments>(await browser.storage.local.get({ savedAssignments: {} })).savedAssignments;
+			savedAssignments = savedAssignments ?? await Storage.getSavedAssignments();
 
 			const coursesList = Object.entries(savedAssignments).reduce((list: string, [course, assignments]) => list + `<li><strong>${course}</strong> (<code>${assignments.length}</code> assignment${(assignments.length !== 1) ? 's' : ''})</li>\n`, '');
 
@@ -58,7 +58,7 @@ const SavedCoursesList = {
 
 	async listAssignments() {
 		if (this.element) {
-			const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await browser.storage.local.get({ savedAssignments: {} });
+			const savedAssignments = await Storage.getSavedAssignments();
 
 			const assignmentsList = Object.entries(savedAssignments)
 				.reduce((list: string, [course, assignments]) => list +
@@ -101,7 +101,7 @@ buttons.options.addEventListener('click', () => {
 });
 
 buttons.parse.addEventListener('click', async () => {
-	await browser.storage.local.remove('savedCourse');
+	await Storage.clearSavedCourse();
 
 	const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
 
@@ -128,7 +128,7 @@ buttons.parse.addEventListener('click', async () => {
 
 	let courseCode: string | null | undefined = undefined;
 	while (courseCode === undefined) {
-		({ savedCourse: courseCode } = await browser.storage.local.get('savedCourse'));
+		courseCode = await Storage.getSavedCourse();
 	}
 
 	SavedCoursesList.listCourses();
@@ -164,7 +164,7 @@ Storage.getOptions().then(({ popup: { displayJSONButton } }) => {
 });
 
 buttons.copyJSON.addEventListener('click', async () => {
-	const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await browser.storage.local.get({ savedAssignments: {} });
+	const savedAssignments = await Storage.getSavedAssignments();
 
 	await navigator.clipboard.writeText(JSON.stringify(savedAssignments));
 
@@ -186,7 +186,7 @@ buttons.clearStorage.addEventListener('click', () => {
 		SavedCoursesList.disableUpdates();
 
 		buttons.clearStorage.setTimeout('clear', () => {
-			browser.storage.local.remove('savedAssignments');
+			Storage.clearSavedAssignments();
 
 			SavedCoursesList.listCourses();
 

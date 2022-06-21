@@ -1,10 +1,8 @@
-import browser from 'webextension-polyfill';
-
 import { CreatePageParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
 import { EmojiRequest, NotionClient } from '../apis/notion';
 import { Storage } from '../apis/storage';
 
-import { IParsedAssignment, SavedAssignments } from './parse';
+import { IParsedAssignment } from './parse';
 
 import { valueof, ArrayElement } from '../types/utils';
 
@@ -157,8 +155,8 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 	}
 
 	async function getNewAssignments(databaseId: string): Promise<ParsedAssignment[]> {
-		async function getSavedAssignments(): Promise<ParsedAssignment[]> {
-			const { savedAssignments } = <{ savedAssignments: SavedAssignments; }>await browser.storage.local.get({ savedAssignments: {} });
+		async function getParsedAssignments(): Promise<ParsedAssignment[]> {
+			const savedAssignments = await Storage.getSavedAssignments();
 
 			return Object.values(savedAssignments)
 				.flat()
@@ -185,12 +183,12 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 			return notionAssignments?.results?.map(assignment => new NotionAssignment(assignment));
 		}
 
-		const savedAssignments = await getSavedAssignments();
+		const parsedAssignments = await getParsedAssignments();
 		const notionAssignments = await queryNotionAssignments();
 
-		if (!notionAssignments?.length) return savedAssignments;
+		if (!notionAssignments?.length) return parsedAssignments;
 
-		return savedAssignments.filter(assignment => !notionAssignments.some(page => page.url === assignment.url));
+		return parsedAssignments.filter(assignment => !notionAssignments.some(page => page.url === assignment.url));
 	}
 
 	alert('Work in progress.');
