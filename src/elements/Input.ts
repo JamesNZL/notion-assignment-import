@@ -47,6 +47,10 @@ export class Input {
 		throw new Error(`Failed to set unexpected value ${value} of type ${typeof value} on element ${this.id}`);
 	}
 
+	public addEventListener(...args: Parameters<typeof HTMLElement.prototype.addEventListener>) {
+		if (this.element) this.element.addEventListener(...args);
+	}
+
 	public dispatchInputEvent() {
 		this.element?.dispatchEvent(new Event('input', { bubbles: true }));
 	}
@@ -58,12 +62,12 @@ export class Input {
 	}
 
 	public show() {
-		this.element?.classList.add('hidden');
-		this.getLabels()?.forEach(label => label.classList.add('hidden'));
+		this.element?.classList.remove('hidden');
+		this.getLabels()?.forEach(label => label.classList.remove('hidden'));
 	}
 
 	public hide() {
-		this.element?.classList.remove('hidden');
-		this.getLabels()?.forEach(label => label.classList.remove('hidden'));
+		this.element?.classList.add('hidden');
+		this.getLabels()?.forEach(label => label.classList.add('hidden'));
 	}
 }

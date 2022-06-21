@@ -19,6 +19,7 @@ interface OptionConfiguration<T> {
 	Validator?: InputFieldValidator;
 	// default to 'input' if undefined
 	validateOn?: 'input' | 'change';
+	dependents?: string[];
 }
 
 function isOptionConfiguration(object: valueof<NestedConfigurationsOf<SavedOptions>> | OptionConfiguration<SupportedTypes>): object is OptionConfiguration<SupportedTypes> {
@@ -184,6 +185,7 @@ export const CONFIGURATION: {
 						delete this.Validator;
 						return this.Validator = new StringField('notion-property-category');
 					},
+					dependents: ['notion-category-canvas'],
 				},
 				course: {
 					elementId: 'notion-property-course',
@@ -208,6 +210,7 @@ export const CONFIGURATION: {
 						delete this.Validator;
 						return this.Validator = new StringField('notion-property-status');
 					},
+					dependents: ['notion-status-todo'],
 				},
 				available: {
 					elementId: 'notion-property-available',

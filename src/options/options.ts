@@ -252,9 +252,24 @@ Options.getOptions().then(({ options: { displayAdvanced } }) => AdvancedOptions.
 AdvancedOptions.control?.parentElement?.addEventListener('input', () => AdvancedOptions.toggle((<HTMLInputElement>AdvancedOptions.control)?.checked ?? false));
 
 // validate fields on input
-Object.values(CONFIGURATION.FIELDS).forEach(({ elementId, Validator, validateOn = 'input' }) => {
-	if (Validator) document.getElementById(elementId)?.addEventListener(validateOn, () => OptionsPage.validateInput(elementId, Validator));
-});
+Object.values(CONFIGURATION.FIELDS)
+	.forEach(({ elementId, Validator, validateOn = 'input', dependents = [] }) => {
+		const input = Input.getInstance(elementId);
+
+		if (Validator) {
+			input.addEventListener(validateOn, async () => {
+				const inputValue = await OptionsPage.validateInput(elementId, Validator);
+
+				if (!dependents.length) return;
+
+				if (inputValue === null) {
+					return dependents.forEach(dependentId => Input.getInstance(dependentId).hide());
+				}
+
+				dependents.forEach(dependentId => Input.getInstance(dependentId).show());
+			});
+		}
+	});
 
 Object.values(buttons.restore).forEach(button => button.addEventListener('click', button.clickHandler.bind(button)));
 
