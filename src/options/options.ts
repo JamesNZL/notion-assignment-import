@@ -90,7 +90,7 @@ class RestoreButton extends Button {
 
 	public clickHandler() {
 		const cancelPrompt = 'Undo';
-		const cancelPeriod = 2500;
+		const cancelPeriod = 3000;
 
 		if (this.getLabel() === cancelPrompt) {
 			this.restoreCaptured();
