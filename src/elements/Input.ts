@@ -56,4 +56,14 @@ export class Input {
 
 		return this.element.labels;
 	}
+
+	public show() {
+		this.element?.classList.add('hidden');
+		this.getLabels()?.forEach(label => label.classList.add('hidden'));
+	}
+
+	public hide() {
+		this.element?.classList.remove('hidden');
+		this.getLabels()?.forEach(label => label.classList.remove('hidden'));
+	}
 }
