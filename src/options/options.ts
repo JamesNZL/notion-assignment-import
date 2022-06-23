@@ -115,8 +115,10 @@ const OptionsPage = <const>{
 
 		Object.entries(savedFields).forEach(([field, value]) => {
 			const fieldElementId = CONFIGURATION.FIELDS[<keyof typeof savedFields>field].elementId;
-			Input.getInstance(fieldElementId).setValue(value);
+			Input.getInstance(fieldElementId).setValue(value, false);
 		});
+
+		Object.values(buttons.restore).forEach(button => button.toggle());
 	},
 
 	async saveOptions() {
