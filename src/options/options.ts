@@ -74,8 +74,7 @@ class RestoreButton extends Button {
 		});
 	}
 
-	// TODO: rename to RestoreButton#restoreInputs
-	public clickHandler() {
+	public restoreInputs() {
 		this.restoreDefaults();
 
 		this.toggle();
@@ -265,7 +264,7 @@ Object.values(CONFIGURATION.FIELDS)
 		}
 	});
 
-Object.values(buttons.restore).forEach(button => button.addEventListener('click', button.clickHandler.bind(button)));
+Object.values(buttons.restore).forEach(button => button.addEventListener('click', button.restoreInputs.bind(button)));
 
 buttons.undo.addEventListener('click', async () => {
 	await OptionsPage.restoreOptions();
