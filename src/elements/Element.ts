@@ -44,7 +44,7 @@ export abstract class Element {
 	public getLabels() {
 		return (this.element instanceof HTMLInputElement)
 			? this.element.labels
-			: document.querySelectorAll(`input[for='${this.element.id}']`);
+			: document.querySelectorAll(`label[for='${this.element.id}']`);
 	}
 
 	public addEventListener(...args: Parameters<typeof HTMLElement.prototype.addEventListener>) {
