@@ -20,9 +20,9 @@ interface OptionsElements {
 		notionPropertyValues: 'options-restore-notion-property-values';
 		notionEmojis: 'options-restore-notion-emojis';
 		all: 'options-restore-all';
+		undo: 'options-undo-all';
 	};
 	buttons: {
-		undo: 'options-undo-all';
 		save: 'save-button';
 	};
 	elements: {
@@ -38,11 +38,11 @@ type OptionsButtonName = keyof OptionsElements['buttons'];
 type OptionsButtonId = valueof<OptionsElements['buttons']>;
 type OptionsElementId = OptionsRestoreButtonId | OptionsButtonId | valueof<OptionsElements['elements']>;
 
-class RestoreButton extends Button {
-	protected static override instances: Record<string, RestoreButton> = {};
+class RestoreDefaultsButton extends Button {
+	protected static override instances: Record<string, RestoreDefaultsButton> = {};
 
-	private restoreKeys: (keyof SavedFields)[];
-	private inputs: Partial<Record<keyof SavedFields, Input>>;
+	protected restoreKeys: (keyof SavedFields)[];
+	protected inputs: Partial<Record<keyof SavedFields, Input>>;
 
 	protected constructor(id: string, restoreKeys: (keyof SavedFields)[]) {
 		super(id);
@@ -55,9 +55,9 @@ class RestoreButton extends Button {
 		Object.values(this.inputs).forEach(input => input.addEventListener('input', this.toggle.bind(this)));
 	}
 
-	public static override getInstance<T extends string>(id: T, restoreKeys?: (keyof SavedFields)[]): RestoreButton {
+	public static override getInstance<T extends string>(id: T, restoreKeys?: (keyof SavedFields)[]): RestoreDefaultsButton {
 		if (!restoreKeys) throw new Error('Argument restoreKeys must be defined for class RestoreButton!');
-		return RestoreButton.instances[id] = RestoreButton.instances[id] ?? new RestoreButton(id, restoreKeys);
+		return RestoreDefaultsButton.instances[id] = RestoreDefaultsButton.instances[id] ?? new this(id, restoreKeys);
 	}
 
 	public toggle() {
@@ -66,7 +66,7 @@ class RestoreButton extends Button {
 			: this.hide();
 	}
 
-	private restoreDefaults() {
+	protected async restoreInputs() {
 		Object.entries(this.inputs).forEach(([key, input]) => {
 			const { defaultValue } = CONFIGURATION.FIELDS[<keyof SavedFields>key];
 			input.setValue(defaultValue);
@@ -74,14 +74,30 @@ class RestoreButton extends Button {
 		});
 	}
 
-	public restoreInputs() {
-		this.restoreDefaults();
+	public async restore() {
+		await this.restoreInputs();
 
 		this.toggle();
 
 		if (this.restoreKeys.includes('options.displayAdvanced')) {
 			AdvancedOptions.dispatchInputEvent();
 		}
+	}
+}
+
+class RestoreSavedButton extends RestoreDefaultsButton {
+	public override async toggle() {
+		const savedFields = await Storage.getSavedFields();
+
+		(Object.entries(this.inputs).some(([key, input]) => input.getValue() !== savedFields[<keyof SavedFields>key]))
+			? this.show()
+			: this.hide();
+	}
+
+	protected override async restoreInputs() {
+		await OptionsPage.restoreOptions();
+
+		Object.values(this.inputs).forEach(input => input.dispatchInputEvent());
 	}
 }
 
@@ -165,18 +181,17 @@ const buttons: {
 	[K in OptionsButtonName]: Button;
 } & {
 	restore: {
-		[K in OptionsRestoreButtonName]: RestoreButton;
+		[K in OptionsRestoreButtonName]: RestoreDefaultsButton;
 	};
 } = <const>{
-	undo: Button.getInstance<OptionsButtonId>('options-undo-all'),
 	save: Button.getInstance<OptionsButtonId>('save-button'),
 	restore: {
-		timeZone: RestoreButton.getInstance<OptionsRestoreButtonId>('options-restore-timezone',
+		timeZone: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>('options-restore-timezone',
 			[
 				'timeZone',
 			],
 		),
-		canvasClassNames: RestoreButton.getInstance<OptionsRestoreButtonId>('options-restore-canvas-class-names',
+		canvasClassNames: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>('options-restore-canvas-class-names',
 			[
 				'canvas.classNames.breadcrumbs',
 				'canvas.classNames.assignment',
@@ -187,18 +202,18 @@ const buttons: {
 				'canvas.classNames.dateElement',
 			],
 		),
-		canvasClassValues: RestoreButton.getInstance<OptionsRestoreButtonId>('options-restore-canvas-class-values',
+		canvasClassValues: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>('options-restore-canvas-class-values',
 			[
 				'canvas.classValues.courseCodeN',
 				'canvas.classValues.notAvailable',
 			],
 		),
-		canvasCourseCodes: RestoreButton.getInstance<OptionsRestoreButtonId>('options-restore-canvas-course-codes',
+		canvasCourseCodes: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>('options-restore-canvas-course-codes',
 			[
 				'canvas.courseCodeOverrides',
 			],
 		),
-		notionPropertyNames: RestoreButton.getInstance<OptionsRestoreButtonId>('options-restore-notion-property-names',
+		notionPropertyNames: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>('options-restore-notion-property-names',
 			[
 				'notion.propertyNames.name',
 				'notion.propertyNames.category',
@@ -210,18 +225,21 @@ const buttons: {
 				'notion.propertyNames.span',
 			],
 		),
-		notionPropertyValues: RestoreButton.getInstance<OptionsRestoreButtonId>('options-restore-notion-property-values',
+		notionPropertyValues: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>('options-restore-notion-property-values',
 			[
 				'notion.propertyValues.categoryCanvas',
 				'notion.propertyValues.statusToDo',
 			],
 		),
-		notionEmojis: RestoreButton.getInstance<OptionsRestoreButtonId>('options-restore-notion-emojis',
+		notionEmojis: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>('options-restore-notion-emojis',
 			[
 				'notion.courseEmojis',
 			],
 		),
-		all: RestoreButton.getInstance<OptionsRestoreButtonId>('options-restore-all',
+		all: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>('options-restore-all',
+			<(keyof SavedFields)[]>Object.keys(CONFIGURATION.FIELDS),
+		),
+		undo: RestoreSavedButton.getInstance<OptionsRestoreButtonId>('options-undo-all',
 			<(keyof SavedFields)[]>Object.keys(CONFIGURATION.FIELDS),
 		),
 	},
@@ -229,6 +247,7 @@ const buttons: {
 
 document.addEventListener('DOMContentLoaded', async () => {
 	await OptionsPage.restoreOptions();
+
 	Object.values(buttons.restore).forEach(button => button.toggle());
 });
 
@@ -263,15 +282,7 @@ Object.values(CONFIGURATION.FIELDS)
 		}
 	});
 
-Object.values(buttons.restore).forEach(button => button.addEventListener('click', button.restoreInputs.bind(button)));
-
-buttons.undo.addEventListener('click', async () => {
-	await OptionsPage.restoreOptions();
-	AdvancedOptions.dispatchInputEvent();
-
-	// TODO: make this work
-	// this.toggle();
-});
+Object.values(buttons.restore).forEach(button => button.addEventListener('click', button.restore.bind(button)));
 
 buttons.save.addEventListener('click', OptionsPage.saveOptions);
 
