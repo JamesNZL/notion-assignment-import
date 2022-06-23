@@ -43,7 +43,6 @@ class RestoreButton extends Button {
 
 	private restoreKeys: (keyof SavedFields)[];
 	private inputs: Partial<Record<keyof SavedFields, Input>>;
-	private capturedValues: Partial<Record<keyof SavedFields, SupportedTypes>>;
 
 	protected constructor(id: string, restoreKeys: (keyof SavedFields)[]) {
 		super(id);
@@ -52,8 +51,6 @@ class RestoreButton extends Button {
 		this.inputs = Object.fromEntries(
 			this.restoreKeys.map(key => [key, Input.getInstance(CONFIGURATION.FIELDS[key].elementId)]),
 		);
-		// TODO: fix, this will always be null (in current programme) as input values aren't restored before the instances are constructed
-		this.capturedValues = this.captureValues();
 
 		Object.values(this.inputs).forEach(input => input.addEventListener('input', this.toggle.bind(this)));
 	}
@@ -63,29 +60,13 @@ class RestoreButton extends Button {
 		return RestoreButton.instances[id] = RestoreButton.instances[id] ?? new RestoreButton(id, restoreKeys);
 	}
 
-	private captureValues(): Partial<Record<keyof SavedFields, SupportedTypes>> {
-		return Object.fromEntries(
-			Object.entries(this.inputs).map(([key, input]) => [key, input.getValue()]),
-		);
-	}
-
 	public toggle() {
 		(Object.entries(this.inputs).some(([key, input]) => input.getValue() !== CONFIGURATION.FIELDS[<keyof SavedFields>key].defaultValue))
 			? this.show()
 			: this.hide();
 	}
 
-	// TODO: remove
-	private restoreCaptured() {
-		Object.entries(this.inputs).forEach(([key, input]) => {
-			const configuredValue = this.capturedValues[<keyof SavedFields>key];
-			if (configuredValue !== undefined) input.setValue(configuredValue);
-		});
-	}
-
 	private restoreDefaults() {
-		this.capturedValues = this.captureValues();
-
 		Object.entries(this.inputs).forEach(([key, input]) => {
 			const { defaultValue } = CONFIGURATION.FIELDS[<keyof SavedFields>key];
 			input.setValue(defaultValue);
