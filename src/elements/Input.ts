@@ -86,4 +86,12 @@ export class Input {
 			this.element.parentElement.classList.add('hidden');
 		}
 	}
+
+	public toggleDependents(dependents: readonly string[]) {
+		if (this.getValue() === null) {
+			return dependents.forEach(dependentId => Input.getInstance(dependentId).hide());
+		}
+
+		dependents.forEach(dependentId => Input.getInstance(dependentId).show());
+	}
 }

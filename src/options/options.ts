@@ -249,10 +249,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 	await OptionsPage.restoreOptions();
 
 	Object.values(buttons.restore).forEach(button => button.toggle());
-});
 
-// show advanced options if appropriate
-Storage.getOptions().then(({ options: { displayAdvanced } }) => AdvancedOptions.toggle(displayAdvanced));
+	// show advanced options if appropriate
+	const { options: { displayAdvanced } } = await Storage.getOptions();
+	AdvancedOptions.toggle(displayAdvanced);
+
+	// toggle dependents if appropriate
+	Object.values(CONFIGURATION.FIELDS).forEach(({ elementId, dependents }) => {
+		if (!dependents) return;
+		Input.getInstance(elementId).toggleDependents(dependents);
+	});
+});
 
 // add event listener to advanced options toggle
 AdvancedOptions.control?.addEventListener('input', () => {
@@ -268,17 +275,11 @@ Object.values(CONFIGURATION.FIELDS)
 		const input = Input.getInstance(elementId);
 
 		if (Validator) {
-			input.addEventListener(validateOn, async () => {
-				const inputValue = await OptionsPage.validateInput(elementId, Validator);
+			input.addEventListener(validateOn, () => OptionsPage.validateInput(elementId, Validator));
+		}
 
-				if (!dependents.length) return;
-
-				if (inputValue === null) {
-					return dependents.forEach(dependentId => Input.getInstance(dependentId).hide());
-				}
-
-				dependents.forEach(dependentId => Input.getInstance(dependentId).show());
-			});
+		if (dependents.length) {
+			input.addEventListener('input', () => input.toggleDependents(dependents));
 		}
 	});
 
