@@ -220,6 +220,10 @@ h3 {
 	height: 16px;
 }
 
+.button label {
+	cursor: pointer;
+}
+
 .button {
 	position: relative;
 	cursor: pointer;
@@ -328,15 +332,12 @@ h3 {
 	color: rgba(255, 255, 255, 0.75);
 }
 
-label {
+label:not(.button label, .segmented-control label) {
 	text-transform: uppercase;
 	letter-spacing: 0.06em;
 	color: var(--light-grey-text-colour);
 	font-weight: 500;
 	margin-inline-start: 20px;
-}
-
-label {
 	font-size: 0.75rem;
 }
 
@@ -366,28 +367,23 @@ label.required:before {
 	right: 100%;
 }
 
+#options .tile,
 #options .tile {
+	gap: calc(5 * var(--margin));
 	padding-bottom: calc(4 * var(--margin) + 0.25rem);
-}
-
-#options .tile div>:first-child:not(h3) {
-	margin-top: 0;
-}
-
-#options .tile div>:last-child {
-	margin-bottom: 0;
-}
-
-#options .tile div>.segmented-control-wrapper:last-child {
-	padding-bottom: 0;
-}
-
-#options .button {
-	margin-bottom: calc(5 * var(--margin));
 }
 
 #options label+.button {
 	margin-top: calc(2 * var(--margin));
+}
+
+.tile input,
+.tile textarea {
+	margin-bottom: 0;
+}
+
+.tile .segmented-control-wrapper {
+	padding-bottom: 0;
 }
 
 input,
@@ -500,12 +496,10 @@ textarea:focus-visible {
 	flex: 1;
 	text-align: center;
 	text-overflow: ellipsis;
-	text-transform: unset;
+	color: var(--light-grey-text-colour);
 	white-space: nowrap;
 	overflow: hidden;
 	cursor: pointer;
-	font-weight: unset;
-	margin: 0;
 	padding: calc(var(--button-padding) + var(--border-width));
 	transition: color 250ms cubic-bezier(0, 0.95, 0.38, 0.98);
 }

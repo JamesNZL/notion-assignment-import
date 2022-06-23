@@ -17,7 +17,9 @@ export class Button {
 		if (!element) throw new Error(`Invalid button identifier ${id}!`);
 
 		this.button = element;
-		this.label = element.querySelector('.button-label') ?? element;
+		this.label = (element instanceof HTMLButtonElement)
+			? element.labels[0] ?? element
+			: element;
 
 		this.defaultHtml = element.innerHTML;
 		this.defaultClassList = element.classList.value;
@@ -53,12 +55,27 @@ export class Button {
 		this.button.classList.remove(className);
 	}
 
+	// TODO: extend a base class with these methods
 	public show() {
 		this.removeClass('hidden');
+		if (this.label !== this.button) this.label.classList.remove('hidden');
+
+		if (!this.button.parentElement) return;
+
+		if (Array.from(this.button.parentElement.children).some(child => !child.classList.contains('hidden'))) {
+			this.button.parentElement.classList.remove('hidden');
+		}
 	}
 
 	public hide() {
 		this.addClass('hidden');
+		if (this.label !== this.button) this.label.classList.add('hidden');
+
+		if (!this.button.parentElement) return;
+
+		if (Array.from(this.button.parentElement.children).every(child => child.classList.contains('hidden'))) {
+			this.button.parentElement.classList.add('hidden');
+		}
 	}
 
 	public disable() {

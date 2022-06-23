@@ -40,7 +40,6 @@ type OptionsElementId = OptionsRestoreButtonId | OptionsButtonId | valueof<Optio
 
 class RestoreButton extends Button {
 	protected static override instances: Record<string, RestoreButton> = {};
-	public static labelResetDelay = 750;
 
 	private restoreKeys: (keyof SavedFields)[];
 	private inputs: Partial<Record<keyof SavedFields, Input>>;
@@ -53,7 +52,10 @@ class RestoreButton extends Button {
 		this.inputs = Object.fromEntries(
 			this.restoreKeys.map(key => [key, Input.getInstance(CONFIGURATION.FIELDS[key].elementId)]),
 		);
+		// TODO: fix, this will always be null (in current programme) as input values aren't restored before the instances are constructed
 		this.capturedValues = this.captureValues();
+
+		Object.values(this.inputs).forEach(input => input.addEventListener('input', this.toggle.bind(this)));
 	}
 
 	public static override getInstance<T extends string>(id: T, restoreKeys?: (keyof SavedFields)[]): RestoreButton {
@@ -67,6 +69,13 @@ class RestoreButton extends Button {
 		);
 	}
 
+	public toggle() {
+		(Object.entries(this.inputs).some(([key, input]) => input.getValue() !== CONFIGURATION.FIELDS[<keyof SavedFields>key].defaultValue))
+			? this.show()
+			: this.hide();
+	}
+
+	// TODO: remove
 	private restoreCaptured() {
 		Object.entries(this.inputs).forEach(([key, input]) => {
 			const configuredValue = this.capturedValues[<keyof SavedFields>key];
@@ -80,23 +89,15 @@ class RestoreButton extends Button {
 		Object.entries(this.inputs).forEach(([key, input]) => {
 			const { defaultValue } = CONFIGURATION.FIELDS[<keyof SavedFields>key];
 			input.setValue(defaultValue);
+			input.dispatchInputEvent();
 		});
 	}
 
-	private validateInputs() {
-		Object.entries(this.inputs).forEach(([key]) => {
-			const { elementId, Validator } = CONFIGURATION.FIELDS[<keyof SavedFields>key];
-			if (Validator) OptionsPage.validateInput(elementId, Validator);
-		});
-	}
-
+	// TODO: rename to RestoreButton#restoreInputs
 	public clickHandler() {
-		this.removeClass('red-hover');
-		this.setLabel('Restored!');
-		this.resetHTML(RestoreButton.labelResetDelay);
-
 		this.restoreDefaults();
-		this.validateInputs();
+
+		this.toggle();
 
 		if (this.restoreKeys.includes('options.displayAdvanced')) {
 			AdvancedOptions.dispatchInputEvent();
@@ -105,6 +106,7 @@ class RestoreButton extends Button {
 }
 
 const OptionsPage = <const>{
+	// TODO: rename to OptionsPage.validateInput
 	async validateInput(elementId: string, Validator: InputFieldValidator) {
 		const inputValue = Input.getInstance(elementId).getValue() ?? null;
 
@@ -157,8 +159,8 @@ const OptionsPage = <const>{
 const AdvancedOptions = <const>{
 	element: getElementById<OptionsElementId>('advanced-options'),
 	control: getElementById<OptionsElementId>('display-advanced-options'),
-	showInput: getElementById(CONFIGURATION.FIELDS['options.displayAdvanced'].elementId),
-	hideInput: getElementById<OptionsElementId>('hide-advanced-options'),
+	showInput: Input.getInstance(CONFIGURATION.FIELDS['options.displayAdvanced'].elementId),
+	hideInput: Input.getInstance('hide-advanced-options'),
 
 	show() {
 		this.element?.classList.remove('hidden');
@@ -166,7 +168,7 @@ const AdvancedOptions = <const>{
 
 	hide() {
 		this.element?.classList.add('hidden');
-		if (this.hideInput && this.hideInput instanceof HTMLInputElement) this.hideInput.checked = true;
+		this.hideInput.setValue(true);
 	},
 
 	toggle(display: boolean) {
@@ -246,13 +248,21 @@ const buttons: {
 	},
 };
 
-document.addEventListener('DOMContentLoaded', OptionsPage.restoreOptions);
+document.addEventListener('DOMContentLoaded', async () => {
+	await OptionsPage.restoreOptions();
+	Object.values(buttons.restore).forEach(button => button.toggle());
+});
 
 // show advanced options if appropriate
 Storage.getOptions().then(({ options: { displayAdvanced } }) => AdvancedOptions.toggle(displayAdvanced));
 
 // add event listener to advanced options toggle
-AdvancedOptions.control?.addEventListener('input', () => AdvancedOptions.toggle((<HTMLInputElement>AdvancedOptions.showInput)?.checked ?? false));
+AdvancedOptions.control?.addEventListener('input', () => {
+	AdvancedOptions.toggle(Boolean(AdvancedOptions.showInput.getValue()));
+
+	AdvancedOptions.showInput.dispatchInputEvent(false);
+	AdvancedOptions.hideInput.dispatchInputEvent(false);
+});
 
 // validate fields on input
 Object.values(CONFIGURATION.FIELDS)
@@ -280,9 +290,8 @@ buttons.undo.addEventListener('click', async () => {
 	await OptionsPage.restoreOptions();
 	AdvancedOptions.dispatchInputEvent();
 
-	buttons.undo.removeClass('red-hover');
-	buttons.undo.setLabel('Restored!');
-	buttons.undo.resetHTML(RestoreButton.labelResetDelay);
+	// TODO: make this work
+	// this.toggle();
 });
 
 buttons.save.addEventListener('click', OptionsPage.saveOptions);
