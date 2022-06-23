@@ -28,11 +28,11 @@ const SaveButton: {
 		if (!this.button) return;
 		switch (update) {
 			case SaveButtonUpdates.Pending:
-				this.button.setLabel(`Validating ${InputFieldValidator.countValidatingFields()} input${(InputFieldValidator.countValidatingFields() > 1) ? 's' : ''}...`);
+				this.button.setButtonLabel(`Validating ${InputFieldValidator.countValidatingFields()} input${(InputFieldValidator.countValidatingFields() > 1) ? 's' : ''}...`);
 				this.button.disable();
 				break;
 			case SaveButtonUpdates.Disable:
-				this.button.setLabel(`${InputFieldValidator.countInvalidFields()} invalid input${(InputFieldValidator.countInvalidFields() > 1) ? 's' : ''}!`);
+				this.button.setButtonLabel(`${InputFieldValidator.countInvalidFields()} invalid input${(InputFieldValidator.countInvalidFields() > 1) ? 's' : ''}!`);
 				this.button.disable();
 				this.button.addClass('red');
 				this.button.removeClass('green');

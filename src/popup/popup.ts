@@ -134,13 +134,13 @@ buttons.parse.addEventListener('click', async () => {
 	SavedCoursesList.listCourses();
 
 	if (courseCode) {
-		buttons.parse.setLabel(`Saved ${courseCode}!`);
+		buttons.parse.setButtonLabel(`Saved ${courseCode}!`);
 		buttons.parse.resetHTML(1325);
 	}
 });
 
 buttons.export.addEventListener('click', async () => {
-	buttons.export.setLabel('Exporting to Notion...');
+	buttons.export.setButtonLabel('Exporting to Notion...');
 
 	const createdAssignments = await exportToNotion();
 
@@ -149,7 +149,7 @@ buttons.export.addEventListener('click', async () => {
 			? createdAssignments.reduce((list, { course, name }, index) => list + `${index + 1}. ${course} ${name}\n`, '\n\n')
 			: '';
 
-		buttons.export.setLabel(`Created <code>${createdAssignments.length}</code> new assignment${(createdAssignments.length !== 1) ? 's' : ''}!`);
+		buttons.export.setButtonLabel(`Created <code>${createdAssignments.length}</code> new assignment${(createdAssignments.length !== 1) ? 's' : ''}!`);
 		buttons.export.resetHTML(3500);
 		alert(`Created ${createdAssignments.length} new assignments.${createdNames}`);
 	}
@@ -168,7 +168,7 @@ buttons.copyJSON.addEventListener('click', async () => {
 
 	await navigator.clipboard.writeText(JSON.stringify(savedAssignments));
 
-	buttons.copyJSON.setLabel('Copied!');
+	buttons.copyJSON.setButtonLabel('Copied!');
 	buttons.copyJSON.resetHTML(1325);
 });
 
@@ -176,11 +176,11 @@ buttons.clearStorage.addEventListener('click', () => {
 	const undoPrompt = 'Undo';
 	const undoPeriod = 3000;
 
-	if (buttons.clearStorage.getLabel() !== undoPrompt) {
+	if (buttons.clearStorage.getButtonLabel() !== undoPrompt) {
 		buttons.clearStorage.addClass('green');
 		buttons.clearStorage.removeClass('red-hover');
 
-		buttons.clearStorage.setLabel(undoPrompt);
+		buttons.clearStorage.setButtonLabel(undoPrompt);
 
 		SavedCoursesList.listCourses({});
 		SavedCoursesList.disableUpdates();
@@ -192,7 +192,7 @@ buttons.clearStorage.addEventListener('click', () => {
 
 			buttons.clearStorage.addClass('red');
 			buttons.clearStorage.removeClass('green');
-			buttons.clearStorage.setLabel('Cleared!');
+			buttons.clearStorage.setButtonLabel('Cleared!');
 			buttons.clearStorage.resetHTML(1325);
 		}, undoPeriod);
 

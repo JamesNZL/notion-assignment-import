@@ -126,7 +126,7 @@ const OptionsPage = <const>{
 		if (fieldEntries) {
 			Storage.setSavedFields(fieldEntries);
 
-			buttons.save.setLabel('Saved!');
+			buttons.save.setButtonLabel('Saved!');
 			buttons.save.resetHTML(1325);
 
 			this.restoreOptions();
