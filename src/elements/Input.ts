@@ -29,17 +29,21 @@ export class Input extends Element {
 		return this.element.value.trim() || null;
 	}
 
-	public setValue(value: SupportedTypes) {
+	public setValue(value: SupportedTypes, dispatchEvent = true) {
 		if (!Input.isValid(this.element)) return;
 
 		if (this.element instanceof HTMLInputElement && Input.useChecked(this.element) && typeof value === 'boolean') {
 			this.element.checked = value;
-			return this.dispatchInputEvent();
+
+			if (dispatchEvent) this.dispatchInputEvent();
+			return;
 		}
 
 		if (typeof value === 'string' || value == null) {
 			this.element.value = value ?? '';
-			return this.dispatchInputEvent();
+
+			if (dispatchEvent) this.dispatchInputEvent();
+			return;
 		}
 
 		throw new Error(`Failed to set unexpected value ${value} of type ${typeof value} on element ${this.element.id}`);

@@ -162,7 +162,7 @@ const AdvancedOptions = <const>{
 
 	hide() {
 		this.element?.classList.add('hidden');
-		this.hideInput.setValue(true);
+		this.hideInput.setValue(true, false);
 	},
 
 	toggle(display: boolean) {
