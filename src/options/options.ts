@@ -123,7 +123,7 @@ const OptionsPage = <const>{
 		const fieldEntries = await OptionsPage.getInputs();
 
 		if (fieldEntries) {
-			Storage.setSavedFields(fieldEntries);
+			await Storage.setSavedFields(fieldEntries);
 
 			buttons.save.setButtonLabel('Saved!');
 			buttons.save.resetHTML(1325);
@@ -284,7 +284,7 @@ Object.values(CONFIGURATION.FIELDS)
 
 Object.values(buttons.restore).forEach(button => button.addEventListener('click', button.restore.bind(button)));
 
-buttons.save.addEventListener('click', OptionsPage.saveOptions);
+buttons.save.addEventListener('click', OptionsPage.saveOptions.bind(OptionsPage));
 
 document.addEventListener('keydown', keyEvent => {
 	if (keyEvent.ctrlKey && keyEvent.key === 's') {
