@@ -86,8 +86,7 @@ class RestoreButton extends Button {
 }
 
 const OptionsPage = <const>{
-	// TODO: rename to OptionsPage.validateInput
-	async validateInput(elementId: string, Validator: InputFieldValidator) {
+	async validateInputs(elementId: string, Validator: InputFieldValidator) {
 		const inputValue = Input.getInstance(elementId).getValue() ?? null;
 
 		// boolean values are always valid
@@ -123,7 +122,7 @@ const OptionsPage = <const>{
 			await Promise.all(
 				Object.entries(CONFIGURATION.FIELDS).map(async ([field, { elementId, Validator }]) => {
 					const validatedInput = (Validator)
-						? await this.validateInput(elementId, Validator)
+						? await this.validateInputs(elementId, Validator)
 						: Input.getInstance(elementId).getValue();
 					return [field, validatedInput];
 				}),
@@ -251,7 +250,7 @@ Object.values(CONFIGURATION.FIELDS)
 
 		if (Validator) {
 			input.addEventListener(validateOn, async () => {
-				const inputValue = await OptionsPage.validateInput(elementId, Validator);
+				const inputValue = await OptionsPage.validateInputs(elementId, Validator);
 
 				if (!dependents.length) return;
 
