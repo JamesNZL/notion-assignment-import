@@ -19,15 +19,34 @@ export abstract class Element {
 		this.element.classList.remove(className);
 	}
 
+	private static isSomeChildShown(parentElement: HTMLElement) {
+		return Array.from(parentElement.children).some(child => !child.classList.contains('hidden'));
+	}
+
+	private static isEveryChildHidden(parentElement: HTMLElement) {
+		return Array.from(parentElement.children).every(child => child.classList.contains('hidden'));
+	}
+
 	public show() {
 		this.removeClass('hidden');
 		this.getLabels()?.forEach(label => label.classList.remove('hidden'));
 
 		if (!this.element.parentElement) return;
 
-		if (Array.from(this.element.parentElement.children).some(child => !child.classList.contains('hidden'))) {
+		if (Element.isSomeChildShown(this.element.parentElement)) {
 			this.element.parentElement.classList.remove('hidden');
 		}
+
+		if (!this.element.parentElement.parentElement) return;
+		if (!this.element.parentElement.parentElement.classList.contains('tile')) return;
+
+		const parentTile = this.element.parentElement.parentElement;
+
+		if (Element.isSomeChildShown(parentTile)) {
+			parentTile.classList.remove('hidden');
+		}
+
+		// TODO: show/hide empty headings
 	}
 
 	public hide() {
@@ -36,9 +55,20 @@ export abstract class Element {
 
 		if (!this.element.parentElement) return;
 
-		if (Array.from(this.element.parentElement.children).every(child => child.classList.contains('hidden'))) {
+		if (Element.isEveryChildHidden(this.element.parentElement)) {
 			this.element.parentElement.classList.add('hidden');
 		}
+
+		if (!this.element.parentElement.parentElement) return;
+		if (!this.element.parentElement.parentElement.classList.contains('tile')) return;
+
+		const parentTile = this.element.parentElement.parentElement;
+
+		if (Element.isEveryChildHidden(parentTile)) {
+			parentTile.classList.add('hidden');
+		}
+
+		// TODO: show/hide empty headings
 	}
 
 	public getLabels() {
