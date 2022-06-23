@@ -70,7 +70,6 @@ class RestoreDefaultsButton extends Button {
 		Object.entries(this.inputs).forEach(([key, input]) => {
 			const { defaultValue } = CONFIGURATION.FIELDS[<keyof SavedFields>key];
 			input.setValue(defaultValue);
-			input.dispatchInputEvent();
 		});
 	}
 

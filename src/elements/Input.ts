@@ -33,11 +33,13 @@ export class Input extends Element {
 		if (!Input.isValid(this.element)) return;
 
 		if (this.element instanceof HTMLInputElement && Input.useChecked(this.element) && typeof value === 'boolean') {
-			return this.element.checked = value;
+			this.element.checked = value;
+			return this.dispatchInputEvent();
 		}
 
 		if (typeof value === 'string' || value == null) {
-			return this.element.value = value ?? '';
+			this.element.value = value ?? '';
+			return this.dispatchInputEvent();
 		}
 
 		throw new Error(`Failed to set unexpected value ${value} of type ${typeof value} on element ${this.element.id}`);
