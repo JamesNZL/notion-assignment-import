@@ -42,11 +42,13 @@ export abstract class Element {
 
 		const parentTile = this.element.parentElement.parentElement;
 
-		if (Element.isSomeChildShown(parentTile)) {
-			parentTile.classList.remove('hidden');
-		}
+		if (!Element.isSomeChildShown(parentTile)) return;
 
-		// TODO: show/hide empty headings
+		parentTile.classList.remove('hidden');
+
+		if (parentTile.previousElementSibling instanceof HTMLHeadingElement) {
+			parentTile.previousElementSibling.classList.remove('hidden');
+		}
 	}
 
 	public hide() {
@@ -64,11 +66,13 @@ export abstract class Element {
 
 		const parentTile = this.element.parentElement.parentElement;
 
-		if (Element.isEveryChildHidden(parentTile)) {
-			parentTile.classList.add('hidden');
-		}
+		if (!Element.isEveryChildHidden(parentTile)) return;
 
-		// TODO: show/hide empty headings
+		parentTile.classList.add('hidden');
+
+		if (parentTile.previousElementSibling instanceof HTMLHeadingElement) {
+			parentTile.previousElementSibling.classList.add('hidden');
+		}
 	}
 
 	public getLabels() {
