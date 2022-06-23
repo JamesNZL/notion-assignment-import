@@ -40,6 +40,7 @@ type OptionsElementId = OptionsRestoreButtonId | OptionsButtonId | valueof<Optio
 
 class RestoreButton extends Button {
 	protected static override instances: Record<string, RestoreButton> = {};
+	public static labelResetDelay = 750;
 
 	private restoreKeys: (keyof SavedFields)[];
 	private inputs: Partial<Record<keyof SavedFields, Input>>;
@@ -92,8 +93,7 @@ class RestoreButton extends Button {
 	public clickHandler() {
 		this.removeClass('red-hover');
 		this.setLabel('Restored!');
-		// TODO: 750ms
-		this.resetHTML(1325);
+		this.resetHTML(RestoreButton.labelResetDelay);
 
 		this.restoreDefaults();
 		this.validateInputs();
@@ -282,8 +282,7 @@ buttons.undo.addEventListener('click', async () => {
 
 	buttons.undo.removeClass('red-hover');
 	buttons.undo.setLabel('Restored!');
-	// TODO: 750ms
-	buttons.undo.resetHTML(1325);
+	buttons.undo.resetHTML(RestoreButton.labelResetDelay);
 });
 
 buttons.save.addEventListener('click', OptionsPage.saveOptions);
