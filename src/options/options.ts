@@ -308,8 +308,7 @@ const Konami = {
 
 		if (this.currentIndex === this.pattern.length && AdvancedOptions.control) {
 			this.currentIndex = 0;
-			(<HTMLInputElement>AdvancedOptions.control).checked = true;
-			AdvancedOptions.control?.parentElement?.dispatchEvent(new Event('input', { bubbles: true }));
+			AdvancedOptions.showInput.setValue(true);
 		}
 	},
 };
