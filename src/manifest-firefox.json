@@ -3,6 +3,11 @@
 	"description": "Automatically import Canvas assignments into a Notion database.",
 	"version": "3.0.6",
 	"manifest_version": 2,
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "{4ca0219d-9e69-4a35-a51b-b20338e32eb8}"
+		}
+	},
 	"options_ui": {
 		"page": "options/options.html",
 		"open_in_tab": true
@@ -20,6 +25,7 @@
 		"storage",
 		"activeTab",
 		"tabs",
+		"identity",
 		"https://api.notion.com/*"
 	],
 	"icons": {

@@ -17,9 +17,6 @@ interface RequiredFields {
 	'canvas.classNames.dateElement': NeverEmpty<string>;
 	'canvas.classValues.courseCodeN': NeverEmpty<string>,
 	'canvas.classValues.notAvailable': NeverEmpty<string>;
-	// initialised to null, but can never be cleared once set
-	'notion.notionKey': NullIfEmpty<string>;
-	'notion.databaseId': NullIfEmpty<string>;
 	'notion.propertyNames.name': NeverEmpty<string>;
 }
 

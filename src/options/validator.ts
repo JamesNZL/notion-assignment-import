@@ -1,7 +1,6 @@
-import { NotionClient, VALID_EMOJIS } from '../apis/notion';
+import { VALID_EMOJIS } from '../apis/notion';
 
 import { NullIfEmpty, NeverEmpty } from './';
-import { CONFIGURATION } from './configuration';
 
 import { Button } from '../elements';
 
@@ -224,72 +223,6 @@ export class RequiredStringField extends RequiredField {
 export class RequiredNumberAsStringField extends RequiredField {
 	public constructor(elementId: string) {
 		super(elementId, typeGuards.isParsableNumber, 'number');
-	}
-}
-
-export class RequiredNotionKeyField extends RequiredFieldCache {
-	public constructor(elementId: string) {
-		super(elementId, typeGuards.isString, 'string');
-	}
-
-	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NeverEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
-		// check the cache first
-		if (this.getCachedInput() === inputValue) return inputValue;
-
-		if (await super.validator(inputValue) === inputValue) {
-			if (navigator.onLine) {
-				const notionClient = new NotionClient({ auth: inputValue });
-				if (await notionClient.retrieveMe()) return this.cacheInput(inputValue);
-				else this.addInvalidError('Input is not a valid Notion Integration Key.');
-			}
-			else this.addInvalidError('Please connect to the Internet to validate this input.');
-		}
-		return InputFieldValidator.INVALID_INPUT;
-	}
-}
-
-export class RequiredNotionDatabaseIdField extends RequiredFieldCache {
-	public constructor(elementId: string) {
-		super(elementId, typeGuards.isString, 'string');
-	}
-
-	private async getNotionKey(): Promise<NeverEmpty<string> | null> {
-		const keyConfiguration = CONFIGURATION.FIELDS['notion.notionKey'];
-
-		const keyFieldElement = document.getElementById(keyConfiguration.elementId);
-
-		if (keyFieldElement && (keyFieldElement instanceof HTMLInputElement || keyFieldElement instanceof HTMLTextAreaElement)) {
-			const keyInput = keyFieldElement.value.trim() || null;
-
-			if (keyInput && keyConfiguration.Validator) {
-				// if the keyInput has been cached by RequiredNotionKeyField, just return it without validating again
-				if (keyConfiguration.Validator instanceof RequiredFieldCache && keyConfiguration.Validator.getCachedInput() === keyInput) return keyInput;
-
-				const validatedKey = await keyConfiguration.Validator.validate(keyInput);
-				if (validatedKey !== InputFieldValidator.INVALID_INPUT) return validatedKey;
-			}
-		}
-
-		return null;
-	}
-
-	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NeverEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
-		// check the cache first
-		if (this.getCachedInput() === inputValue) return inputValue;
-
-		if (await super.validator(inputValue) === inputValue) {
-			const notionKey = await this.getNotionKey();
-			if (notionKey) {
-				if (navigator.onLine) {
-					const notionClient = new NotionClient({ auth: notionKey });
-					if (await notionClient.retrieveDatabase(inputValue)) return this.cacheInput(inputValue);
-					else this.addInvalidError('Could not find the database.<br>Verify the ID and make sure the database is shared with your integration.');
-				}
-				else this.addInvalidError('Please connect to the Internet to validate this input.');
-			}
-			else this.addInvalidError('Invalid Notion Integration Key.');
-		}
-		return InputFieldValidator.INVALID_INPUT;
 	}
 }
 

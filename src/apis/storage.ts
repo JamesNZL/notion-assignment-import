@@ -5,13 +5,107 @@ import { CONFIGURATION, SupportedTypes } from '../options/configuration';
 
 import { SavedAssignments } from '../popup/parse';
 
+// undefined if not set yet
+interface NotionFields {
+	'notion.accessToken'?: string;
+	'notion.botId'?: string;
+	'notion.workspace.id'?: string;
+	'notion.workspace.name'?: string | null;
+	'notion.workspace.icon'?: string | null;
+	'notion.owner.workspace'?: true | null;
+	'notion.owner.type'?: 'user' | null;
+	'notion.owner.user.object'?: 'user' | null;
+	'notion.owner.user.id'?: string | null;
+	'notion.owner.user.type'?: string | null;
+	'notion.owner.user.name'?: string | null;
+	'notion.owner.user.avatarURL'?: string | null;
+}
+
+interface NotionAuthorisation {
+	accessToken?: string;
+	botId?: string;
+	workspace: {
+		id?: string;
+		name?: string | null;
+		icon?: string | null;
+	};
+	owner: {
+		workspace?: true | null;
+		type?: 'user' | null;
+		user: {
+			object?: 'user' | null;
+			id?: string | null;
+			type?: string | null;
+			name?: string | null;
+			avatarURL?: string | null;
+		};
+	};
+}
+
 const KEYS = <const>{
 	course: 'savedCourse',
 	assignments: 'savedAssignments',
+	oauthState: 'oauthState',
 };
 
 export const Storage = <const>{
-	async getSavedCourse() {
+	async getOAuthState(): Promise<string> {
+		return (await browser.storage.local.get(KEYS.oauthState))[KEYS.oauthState];
+	},
+
+	async setOAuthState(state: string) {
+		return await browser.storage.local.set({ [KEYS.oauthState]: state });
+	},
+
+	async getNotionFields(): Promise<NotionFields> {
+		const fieldsWithDefaultValues: NotionFields = {
+			'notion.accessToken': undefined,
+			'notion.botId': undefined,
+			'notion.workspace.id': undefined,
+			'notion.workspace.name': undefined,
+			'notion.workspace.icon': undefined,
+			'notion.owner.workspace': undefined,
+			'notion.owner.type': undefined,
+			'notion.owner.user.object': undefined,
+			'notion.owner.user.id': undefined,
+			'notion.owner.user.type': undefined,
+			'notion.owner.user.name': undefined,
+			'notion.owner.user.avatarURL': undefined,
+		};
+
+		return await <Promise<NotionFields>>browser.storage.local.get(fieldsWithDefaultValues);
+	},
+
+	async setNotionFields(fields: NotionFields) {
+		return await browser.storage.local.set(fields);
+	},
+
+	async getNotionAuthorisation(): Promise<NotionAuthorisation> {
+		const savedFields = await this.getNotionFields();
+
+		return {
+			accessToken: savedFields['notion.accessToken'],
+			botId: savedFields['notion.botId'],
+			workspace: {
+				id: savedFields['notion.workspace.id'],
+				name: savedFields['notion.workspace.name'],
+				icon: savedFields['notion.workspace.icon'],
+			},
+			owner: {
+				workspace: savedFields['notion.owner.workspace'],
+				type: savedFields['notion.owner.type'],
+				user: {
+					object: savedFields['notion.owner.user.object'],
+					id: savedFields['notion.owner.user.id'],
+					type: savedFields['notion.owner.user.type'],
+					name: savedFields['notion.owner.user.name'],
+					avatarURL: savedFields['notion.owner.user.avatarURL'],
+				},
+			},
+		};
+	},
+
+	async getSavedCourse(): Promise<string> {
 		return (await browser.storage.local.get(KEYS.course))[KEYS.course];
 	},
 

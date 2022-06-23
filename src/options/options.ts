@@ -1,4 +1,5 @@
 import { Storage } from '../apis/storage';
+import { OAuth2 } from '../apis/oauth';
 
 import { SavedFields } from './';
 import { InputFieldValidator } from './validator';
@@ -23,6 +24,7 @@ interface OptionsElements {
 		undo: 'options-undo-all';
 	};
 	buttons: {
+		oauth: 'notion-oauth';
 		save: 'save-button';
 	};
 	elements: {
@@ -185,6 +187,7 @@ const buttons: {
 		[K in OptionsRestoreButtonName]: RestoreDefaultsButton;
 	};
 } = <const>{
+	oauth: Button.getInstance<OptionsButtonId>('notion-oauth'),
 	save: Button.getInstance<OptionsButtonId>('save-button'),
 	restore: {
 		timeZone: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>('options-restore-timezone',
@@ -285,6 +288,17 @@ Object.values(CONFIGURATION.FIELDS)
 	});
 
 Object.values(buttons.restore).forEach(button => button.addEventListener('click', button.restore.bind(button)));
+
+buttons.oauth.addEventListener('click', async () => {
+	buttons.oauth.setButtonLabel('Authorising with Notion...');
+
+	const success = await OAuth2.authorise();
+
+	if (!success) return buttons.oauth.resetHTML();
+
+	buttons.oauth.setButtonLabel('Authorised!');
+	buttons.oauth.resetHTML(1325);
+});
 
 buttons.save.addEventListener('click', OptionsPage.saveOptions.bind(OptionsPage));
 

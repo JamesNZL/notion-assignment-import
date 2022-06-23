@@ -1,6 +1,7 @@
 import browser from 'webextension-polyfill';
 
 import { Storage } from '../apis/storage';
+import { OAuth2 } from '../apis/oauth';
 
 import { SavedAssignments } from './parse';
 import { exportToNotion } from './import';
@@ -14,6 +15,7 @@ interface PopupElements {
 	buttons: {
 		options: 'options-icon';
 		parse: 'parse-button';
+		oauth: 'notion-oauth-button';
 		export: 'export-button';
 		listAssignments: 'list-assignments-button';
 		listCourses: 'list-courses-button';
@@ -83,6 +85,7 @@ const SavedCoursesList = {
 const buttons: Record<PopupButtonName, Button> = <const>{
 	options: Button.getInstance<PopupElementId>('options-icon'),
 	parse: Button.getInstance<PopupElementId>('parse-button'),
+	oauth: Button.getInstance<PopupButtonId>('notion-oauth-button'),
 	export: Button.getInstance<PopupElementId>('export-button'),
 	listAssignments: Button.getInstance<PopupElementId>('list-assignments-button'),
 	listCourses: Button.getInstance<PopupElementId>('list-courses-button'),
@@ -137,6 +140,17 @@ buttons.parse.addEventListener('click', async () => {
 		buttons.parse.setButtonLabel(`Saved ${courseCode}!`);
 		buttons.parse.resetHTML(1325);
 	}
+});
+
+buttons.oauth.addEventListener('click', async () => {
+	buttons.oauth.setButtonLabel('Authorising with Notion...');
+
+	const success = await OAuth2.authorise();
+
+	if (!success) return buttons.oauth.resetHTML();
+
+	buttons.oauth.setButtonLabel('Authorised!');
+	buttons.oauth.resetHTML(1325);
 });
 
 buttons.export.addEventListener('click', async () => {
