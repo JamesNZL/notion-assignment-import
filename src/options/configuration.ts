@@ -14,12 +14,12 @@ import { valueof } from '../types/utils';
 export type SupportedTypes = NullIfEmpty<string> | boolean;
 
 interface OptionConfiguration<T> {
-	elementId: string;
-	defaultValue: T;
+	readonly elementId: string;
+	readonly defaultValue: T;
 	Validator?: InputFieldValidator;
 	// default to 'input' if undefined
-	validateOn?: 'input' | 'change';
-	dependents?: string[];
+	readonly validateOn?: 'input' | 'change';
+	readonly dependents?: readonly string[];
 }
 
 function isOptionConfiguration(object: valueof<NestedConfigurationsOf<SavedOptions>> | OptionConfiguration<SupportedTypes>): object is OptionConfiguration<SupportedTypes> {
@@ -40,7 +40,7 @@ type IncompleteFieldKey<K extends string> = K extends keyof SavedFields
 export const CONFIGURATION: {
 	FIELDS: Record<keyof SavedFields, OptionConfiguration<SupportedTypes>>;
 	OPTIONS: NestedConfigurationsOf<SavedOptions>;
-} = {
+} = <const>{
 	get FIELDS() {
 		function flattenOptions<K extends string>([keyPath, valueObject]: [keyof SavedFields | IncompleteFieldKey<K>, valueof<typeof CONFIGURATION['OPTIONS']>]): [keyof SavedFields, OptionConfiguration<SupportedTypes>][] {
 			if (!isOptionConfiguration(valueObject)) {

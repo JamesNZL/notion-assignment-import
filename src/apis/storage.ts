@@ -5,12 +5,12 @@ import { CONFIGURATION, SupportedTypes } from '../options/configuration';
 
 import { SavedAssignments } from '../popup/parse';
 
-const KEYS = {
+const KEYS = <const>{
 	course: 'savedCourse',
 	assignments: 'savedAssignments',
 };
 
-export const Storage = {
+export const Storage = <const>{
 	async getSavedCourse() {
 		return (await browser.storage.local.get(KEYS.course))[KEYS.course];
 	},

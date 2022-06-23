@@ -92,6 +92,7 @@ class RestoreButton extends Button {
 	public clickHandler() {
 		this.removeClass('red-hover');
 		this.setLabel('Restored!');
+		// TODO: 750ms
 		this.resetHTML(1325);
 
 		this.restoreDefaults();
@@ -103,7 +104,7 @@ class RestoreButton extends Button {
 	}
 }
 
-const OptionsPage = {
+const OptionsPage = <const>{
 	async validateInput(elementId: string, Validator: InputFieldValidator) {
 		const inputValue = Input.getInstance(elementId).getValue() ?? null;
 
@@ -153,7 +154,7 @@ const OptionsPage = {
 	},
 };
 
-const AdvancedOptions = {
+const AdvancedOptions = <const>{
 	element: getElementById<OptionsElementId>('advanced-options'),
 	control: getElementById<OptionsElementId>('display-advanced-options'),
 	showInput: getElementById(CONFIGURATION.FIELDS['options.displayAdvanced'].elementId),
@@ -185,7 +186,7 @@ const buttons: {
 	restore: {
 		[K in OptionsRestoreButtonName]: RestoreButton;
 	};
-} = {
+} = <const>{
 	undo: Button.getInstance<OptionsButtonId>('options-undo-all'),
 	save: Button.getInstance<OptionsButtonId>('save-button'),
 	restore: {
@@ -281,6 +282,7 @@ buttons.undo.addEventListener('click', async () => {
 
 	buttons.undo.removeClass('red-hover');
 	buttons.undo.setLabel('Restored!');
+	// TODO: 750ms
 	buttons.undo.resetHTML(1325);
 });
 
@@ -294,11 +296,11 @@ document.addEventListener('keydown', keyEvent => {
 });
 
 const Konami = {
-	pattern: ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'],
+	pattern: <const>['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'],
 	currentIndex: 0,
 
 	handler(event: KeyboardEvent) {
-		if (this.pattern.indexOf(event.key) < 0 || event.key !== this.pattern[this.currentIndex]) {
+		if (!(<readonly string[]>this.pattern).includes(event.key) || event.key !== this.pattern[this.currentIndex]) {
 			return this.currentIndex = 0;
 		}
 

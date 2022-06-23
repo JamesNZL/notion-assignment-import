@@ -80,7 +80,7 @@ const SavedCoursesList = {
 	},
 };
 
-const buttons: Record<PopupButtonName, Button> = {
+const buttons: Record<PopupButtonName, Button> = <const>{
 	options: Button.getInstance<PopupElementId>('options-icon'),
 	parse: Button.getInstance<PopupElementId>('parse-button'),
 	export: Button.getInstance<PopupElementId>('export-button'),

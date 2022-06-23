@@ -16,7 +16,7 @@ const enum SaveButtonUpdates {
 const SaveButton: {
 	button?: Button;
 	updateState(update: SaveButtonUpdates): void;
-} = {
+} = <const>{
 	get button() {
 		try {
 			delete this.button;
