@@ -70,6 +70,11 @@ html {
 	overflow: overlay;
 }
 
+#popup {
+	max-height: 600px;
+	display: flex;
+}
+
 #options {
 	margin: auto;
 	width: 600px;
@@ -79,6 +84,16 @@ body {
 	width: 360px;
 	margin: 2rem 1.5rem;
 	font-size: 12px;
+}
+
+#popup body {
+	flex: 0 auto;
+	display: flex;
+	flex-direction: column;
+}
+
+#popup body>#saved-assignments {
+	flex: 1 auto;
 }
 
 #options body {
@@ -162,14 +177,31 @@ h3 {
 	background-color: var(--darkest-grey);
 }
 
+#saved-assignments {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+}
+
+#saved-assignments>.tile {
+	flex: 1 auto;
+	min-height: 0;
+}
+
+#saved-assignments>.tile>*:not(#saved-courses-list) {
+	flex: 0 auto;
+	height: auto;
+}
+
 #saved-assignments .row {
 	width: 90%;
 	margin: auto;
 }
 
 #saved-courses-list {
+	flex: 1 auto;
 	color: var(--light-grey-text-colour);
-	max-height: 33vh;
+	min-height: 0;
 	overflow-y: scroll;
 	margin: 0;
 	margin-bottom: min(calc(1.75 * var(--margin)), 0.5rem);
