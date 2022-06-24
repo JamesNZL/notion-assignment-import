@@ -276,6 +276,7 @@ h3 {
 
 .button:hover {
 	background-color: var(--darkest-grey) !important;
+	box-shadow: 0 0 0 0.2rem rgb(20 20 20 / 50%);
 }
 
 .button.accent {
@@ -283,9 +284,9 @@ h3 {
 }
 
 .button.accent:hover {
-	border-color: transparent !important;
 	background-color: var(--accent-complement) !important;
 	color: white !important;
+	box-shadow: 0 0 0 0.2rem rgb(229 60 46 / 17.5%);
 }
 
 .button.accent.emphasis {
@@ -300,6 +301,7 @@ h3 {
 .button.red-hover:hover {
 	background-color: var(--red) !important;
 	color: white !important;
+	box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 15%);
 }
 
 .button.red {
@@ -310,6 +312,7 @@ h3 {
 .button.red:hover {
 	background-color: var(--red-hover) !important;
 	color: white !important;
+	box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 15%);
 }
 
 .button.green {
@@ -321,6 +324,7 @@ h3 {
 .button.green:hover {
 	background-color: var(--green-hover) !important;
 	color: black !important;
+	box-shadow: 0 0 0 0.2rem rgb(0 184 0 / 27.5%);
 }
 
 .button.outline.green {
