@@ -66,7 +66,7 @@ export const OAuth2 = <const>{
 
 			const state = grant.searchParams.get('state');
 
-			if (!state || !this.verifyState(state)) throw new Error(`Received state ${state} does not match generated state ${await Storage.getOAuthState()}.`);
+			if (!state || state === 'undefined' || !this.verifyState(state)) throw new Error(`Received state ${state} does not match generated state ${await Storage.getOAuthState()}.`);
 
 			const code = grant.searchParams.get('code');
 
@@ -100,7 +100,7 @@ export const OAuth2 = <const>{
 			return true;
 		}
 		catch (error) {
-			console.error(error);
+			console.warn(error);
 			alert('Authorisation failed. Please try again.');
 			return false;
 		}
