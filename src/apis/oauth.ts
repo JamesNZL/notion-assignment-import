@@ -25,19 +25,15 @@ interface AuthorisedResponse {
 	owner: Owner;
 }
 
-const CLIENT = <const>{
-	ID: '7a4406f4-cdd0-42b1-918c-a2eab09c0d14',
-	SECRET: '',
-};
-
 export const OAuth2 = <const>{
+	ENDPOINTS: {
+		authorise: 'https://oauth.jamesnzl.xyz/api/notion/authorise',
+		accessToken: 'https://oauth.jamesnzl.xyz/api/notion/access-token',
+	},
+
 	async getAuthorisationURL() {
-		const baseURL = 'https://api.notion.com/v1/oauth/authorize';
-		return baseURL + '?' + new URLSearchParams({
-			client_id: CLIENT.ID,
+		return this.ENDPOINTS.authorise + '?' + new URLSearchParams({
 			redirect_uri: browser.identity.getRedirectURL('oauth'),
-			response_type: 'code',
-			owner: 'user',
 			state: await this.getState(),
 		});
 	},
@@ -76,16 +72,13 @@ export const OAuth2 = <const>{
 
 			if (!code) throw new Error('No authorisation code received.');
 
-			const authorisedResponse: AuthorisedResponse = await fetch('https://api.notion.com/v1/oauth/token', {
+			const authorisedResponse: AuthorisedResponse = await fetch(this.ENDPOINTS.accessToken, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					Authorization: `Basic ${window.btoa(`${CLIENT.ID}:${CLIENT.SECRET}`)}`,
 				},
 				body: JSON.stringify({
-					grant_type: 'authorization_code',
 					code,
-					redirect_uri: browser.identity.getRedirectURL('oauth'),
 				}),
 			}).then(response => response.json());
 

@@ -24,7 +24,9 @@
 		"identity"
 	],
 	"host_permissions": [
-		"https://api.notion.com/*"
+		"https://api.notion.com/*",
+		"https://oauth.jamesnzl.xyz/api/notion/authorise",
+		"https://oauth.jamesnzl.xyz/api/notion/access-token"
 	],
 	"icons": {
 		"16": "favicon/favicon-16x16.png",
