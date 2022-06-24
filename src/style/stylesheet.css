@@ -81,12 +81,12 @@ html {
 }
 
 body {
-	width: 360px;
 	margin: 2rem 1.5rem;
 	font-size: 12px;
 }
 
 #popup body {
+	width: 360px;
 	flex: 0 auto;
 	display: flex;
 	flex-direction: column;
@@ -94,10 +94,6 @@ body {
 
 #popup body>#saved-assignments {
 	flex: 1 auto;
-}
-
-#options body {
-	width: unset;
 }
 
 #popup h1 {
