@@ -275,7 +275,7 @@ h3 {
 }
 
 .button:hover,
-.button:focus {
+.button:focus-visible {
 	outline: none;
 	background-color: var(--darkest-grey) !important;
 	box-shadow: 0 0 0 0.2rem rgb(20 20 20 / 50%);
@@ -286,7 +286,7 @@ h3 {
 }
 
 .button.accent:hover,
-.button.accent:focus {
+.button.accent:focus-visible {
 	outline: none;
 	background-color: var(--accent-complement) !important;
 	color: white !important;
@@ -299,13 +299,13 @@ h3 {
 }
 
 .button.accent.emphasis:hover,
-.button.accent.emphasis:focus {
+.button.accent.emphasis:focus-visible {
 	outline: none;
 	border-color: var(--accent-complement) !important;
 }
 
 .button.red-hover:hover,
-.button.red-hover:focus {
+.button.red-hover:focus-visible {
 	outline: none;
 	background-color: var(--red) !important;
 	color: white !important;
@@ -318,7 +318,7 @@ h3 {
 }
 
 .button.red:hover,
-.button.red:focus {
+.button.red:focus-visible {
 	outline: none;
 	background-color: var(--red-hover) !important;
 	color: white !important;
@@ -332,7 +332,7 @@ h3 {
 }
 
 .button.green:hover,
-.button.green:focus {
+.button.green:focus-visible {
 	outline: none;
 	background-color: var(--green-hover) !important;
 	color: black !important;
@@ -347,7 +347,7 @@ h3 {
 }
 
 .button.outline.green:hover,
-.button.outline.green:focus {
+.button.outline.green:focus-visible {
 	outline: none;
 	border-color: transparent !important;
 	background-color: var(--green-hover) !important;
