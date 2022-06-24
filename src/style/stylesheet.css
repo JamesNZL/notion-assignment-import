@@ -266,7 +266,7 @@ h3 {
 	font-size: 0.825rem;
 	text-decoration: none;
 	border-radius: var(--border-radius);
-	border: var(--border-width) solid transparent;
+	border: var(--border-width) solid rgba(0, 0, 0, 0.125);
 	box-sizing: border-box;
 	transition: color 0.15s ease-in-out,
 		background-color 0.15s ease-in-out,
