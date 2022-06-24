@@ -274,7 +274,9 @@ h3 {
 		box-shadow 0.15s ease-in-out;
 }
 
-.button:hover {
+.button:hover,
+.button:focus {
+	outline: none;
 	background-color: var(--darkest-grey) !important;
 	box-shadow: 0 0 0 0.2rem rgb(20 20 20 / 50%);
 }
@@ -283,7 +285,9 @@ h3 {
 	color: var(--accent) !important;
 }
 
-.button.accent:hover {
+.button.accent:hover,
+.button.accent:focus {
+	outline: none;
 	background-color: var(--accent-complement) !important;
 	color: white !important;
 	box-shadow: 0 0 0 0.2rem rgb(229 60 46 / 17.5%);
@@ -294,11 +298,15 @@ h3 {
 	margin: calc(0.0625em + var(--margin)) 0;
 }
 
-.button.accent.emphasis:hover {
+.button.accent.emphasis:hover,
+.button.accent.emphasis:focus {
+	outline: none;
 	border-color: var(--accent-complement) !important;
 }
 
-.button.red-hover:hover {
+.button.red-hover:hover,
+.button.red-hover:focus {
+	outline: none;
 	background-color: var(--red) !important;
 	color: white !important;
 	box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 15%);
@@ -309,7 +317,9 @@ h3 {
 	color: white !important;
 }
 
-.button.red:hover {
+.button.red:hover,
+.button.red:focus {
+	outline: none;
 	background-color: var(--red-hover) !important;
 	color: white !important;
 	box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 15%);
@@ -321,7 +331,9 @@ h3 {
 	font-weight: 600 !important;
 }
 
-.button.green:hover {
+.button.green:hover,
+.button.green:focus {
+	outline: none;
 	background-color: var(--green-hover) !important;
 	color: black !important;
 	box-shadow: 0 0 0 0.2rem rgb(0 184 0 / 27.5%);
@@ -334,7 +346,9 @@ h3 {
 	background-color: unset !important;
 }
 
-.button.outline.green:hover {
+.button.outline.green:hover,
+.button.outline.green:focus {
+	outline: none;
 	border-color: transparent !important;
 	background-color: var(--green-hover) !important;
 	color: black !important;
