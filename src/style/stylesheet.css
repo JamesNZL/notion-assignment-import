@@ -531,11 +531,11 @@ textarea:focus-visible {
 }
 
 .segmented-control>input:nth-of-type(1):checked~label:last-of-type:before {
-	transform: translateX(calc(0%));
+	transform: translateX(calc(-1 * var(--border-width)));
 }
 
 .segmented-control>input:nth-of-type(2):checked~label:last-of-type:before {
-	transform: translateX(calc(100%));
+	transform: translateX(calc(100% - 3 * var(--border-width)));
 }
 
 .segmented-control label {
