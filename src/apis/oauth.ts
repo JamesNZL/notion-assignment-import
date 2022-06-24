@@ -70,7 +70,7 @@ export const OAuth2 = <const>{
 
 			const code = grant.searchParams.get('code');
 
-			if (!code) throw new Error('No authorisation code received.');
+			if (!code || code === 'undefined') throw new Error('No authorisation code received.');
 
 			const authorisedResponse: AuthorisedResponse = await fetch(this.ENDPOINTS.accessToken, {
 				method: 'POST',
