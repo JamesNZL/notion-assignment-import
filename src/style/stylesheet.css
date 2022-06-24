@@ -6,10 +6,13 @@
 	--dark-grey: #1e1e1e;
 	--darker-grey: #141414;
 	--darkest-grey: #060606;
+	--grey-active: #0d0d0d;
 	--green: #00b800;
 	--green-hover: #4dff4d;
+	--green-active: #25da25;
 	--red: #a80e0e;
 	--red-hover: #8b0000;
+	--red-active: #780000;
 	--text-colour: #ffffff;
 	--grey-text-colour: #d6d6d6;
 	--light-grey-text-colour: #cccccc;
@@ -144,6 +147,10 @@ h3 {
 	fill: var(--accent);
 	width: 18px;
 	height: 18px;
+}
+
+#options-icon:hover svg {
+	fill: var(--accent-complement);
 }
 
 .tile {
@@ -281,6 +288,10 @@ h3 {
 	box-shadow: 0 0 0 0.2rem rgb(20 20 20 / 50%);
 }
 
+.button:active {
+	background-color: var(--grey-active) !important;
+}
+
 .button.accent {
 	color: var(--accent) !important;
 }
@@ -291,6 +302,11 @@ h3 {
 	background-color: var(--accent-complement) !important;
 	color: white !important;
 	box-shadow: 0 0 0 0.2rem rgb(229 60 46 / 17.5%);
+}
+
+.button.accent:active {
+	color: white !important;
+	background-color: var(--accent) !important;
 }
 
 .button.accent.emphasis {
@@ -307,9 +323,14 @@ h3 {
 .button.red-hover:hover,
 .button.red-hover:focus-visible {
 	outline: none;
-	background-color: var(--red) !important;
+	background-color: var(--red-hover) !important;
 	color: white !important;
 	box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 15%);
+}
+
+.button.red-hover:active {
+	color: white !important;
+	background-color: var(--red-active) !important;
 }
 
 .button.red {
@@ -323,6 +344,11 @@ h3 {
 	background-color: var(--red-hover) !important;
 	color: white !important;
 	box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 15%);
+}
+
+.button.red:active {
+	color: white !important;
+	background-color: var(--red-active) !important;
 }
 
 .button.green {
@@ -352,6 +378,12 @@ h3 {
 	border-color: transparent !important;
 	background-color: var(--green-hover) !important;
 	color: black !important;
+}
+
+.button.green:active,
+.button.outline.green:active {
+	color: black !important;
+	background-color: var(--green-active) !important;
 }
 
 .button.emphasis {
