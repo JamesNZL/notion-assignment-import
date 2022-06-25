@@ -96,7 +96,7 @@ export class NotionClient extends Client {
 				await this.retryAfterPromise;
 			}
 
-			return await method(parameters);
+			return await method.call(this, parameters);
 		}
 
 		catch (error: unknown) {
