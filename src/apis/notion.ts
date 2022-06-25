@@ -49,6 +49,11 @@ export class NotionClient extends Client {
 	public constructor(options: HandlerClientOptions) {
 		super(options);
 		this.auth = options.auth;
+
+		NotionClient.rateLimits[options.auth] = {
+			isRateLimited: false,
+			retryAfterPromise: null,
+		};
 	}
 
 	private get isRateLimited() {
@@ -68,7 +73,7 @@ export class NotionClient extends Client {
 	}
 
 	private static alertRateLimited() {
-		alert('You are being rate-limited for making too many requests too quickly.\n\nLeave this popup open and I will automatically resume once you are no longer rate-limited.\n\nAlternatively, please try again in a few minutes\' time.');
+		alert('You are being rate-limited for making too many requests too quickly.\n\nLeave the extension popup open and I will automatically resume once you are no longer rate-limited.\n\nAlternatively, please try again in a few minutes\' time.');
 	}
 
 	private static async sleep(ms: number): Promise<void> {
@@ -79,7 +84,7 @@ export class NotionClient extends Client {
 		try {
 			// if the handler is currently rate-limited, delay the request
 			if (this.isRateLimited && this.retryAfterPromise !== null) {
-				NotionClient.alertRateLimited;
+				NotionClient.alertRateLimited();
 				await this.retryAfterPromise;
 			}
 
@@ -98,7 +103,7 @@ export class NotionClient extends Client {
 					// pause for Retry-After seconds
 					this.isRateLimited = true;
 					this.retryAfterPromise = NotionClient.sleep(retryAfter * 1000);
-					NotionClient.alertRateLimited;
+					NotionClient.alertRateLimited();
 					await this.retryAfterPromise;
 
 					// reset rate-limit state
