@@ -58,22 +58,22 @@ export const Storage = <const>{
 	},
 
 	async getNotionFields(): Promise<NotionFields> {
-		const fieldsWithDefaultValues: NotionFields = {
-			'notion.accessToken': undefined,
-			'notion.botId': undefined,
-			'notion.workspace.id': undefined,
-			'notion.workspace.name': undefined,
-			'notion.workspace.icon': undefined,
-			'notion.owner.workspace': undefined,
-			'notion.owner.type': undefined,
-			'notion.owner.user.object': undefined,
-			'notion.owner.user.id': undefined,
-			'notion.owner.user.type': undefined,
-			'notion.owner.user.name': undefined,
-			'notion.owner.user.avatarURL': undefined,
-		};
+		const fieldKeys: (keyof NotionFields)[] = [
+			'notion.accessToken',
+			'notion.botId',
+			'notion.workspace.id',
+			'notion.workspace.name',
+			'notion.workspace.icon',
+			'notion.owner.workspace',
+			'notion.owner.type',
+			'notion.owner.user.object',
+			'notion.owner.user.id',
+			'notion.owner.user.type',
+			'notion.owner.user.name',
+			'notion.owner.user.avatarURL',
+		];
 
-		return await <Promise<NotionFields>>browser.storage.local.get(fieldsWithDefaultValues);
+		return await <Promise<NotionFields>>browser.storage.local.get(fieldKeys);
 	},
 
 	async setNotionFields(fields: NotionFields) {
