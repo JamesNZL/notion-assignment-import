@@ -191,23 +191,22 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 		return parsedAssignments.filter(assignment => !notionAssignments.some(page => page.url === assignment.url));
 	}
 
-	alert('Work in progress.');
-	return [];
-
 	// Set up Notion API handler
 
-	// if (!options.notionKey || !options.databaseId) return alert('Invalid Notion Integration Key or Database ID.\n\nRefer to the extension set-up instructions on GitHub for more information.');
+	const authorisation = await Storage.getNotionAuthorisation();
 
-	const notionClient = new NotionClient({ auth: 'options.notionKey' });
+	if (!authorisation.accessToken || !options.databaseId) return alert('Invalid Notion Authorisation or Database.\n\nRefer to the extension set-up instructions on GitHub for more information.');
+
+	const notionClient = new NotionClient({ auth: authorisation.accessToken });
 
 	// Create assignments
 
-	const assignments = await getNewAssignments('options.databaseId');
+	const assignments = await getNewAssignments(options.databaseId);
 	let errorCount = 0;
 
 	const createdAssignments = await Promise.all(
 		assignments.map(async assignment => {
-			const page = await notionClient.createPage(assignment.getPageParameters('<NonNullable<typeof options.databaseId>>options.databaseId'));
+			const page = await notionClient.createPage(assignment.getPageParameters(<NonNullable<typeof options.databaseId>>options.databaseId));
 
 			if (page) {
 				console.log(`Created assignment ${assignment.course} ${assignment.name}`);
