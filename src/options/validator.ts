@@ -238,7 +238,7 @@ export class RequiredNotionDatabaseIdField extends RequiredFieldCache {
 
 		if (await super.validator(inputValue) === inputValue) {
 			const { accessToken } = await Storage.getNotionAuthorisation();
-			if (accessToken) {
+			if (accessToken && await new NotionClient({ auth: accessToken }).validateToken()) {
 				if (navigator.onLine) {
 					const notionClient = new NotionClient({ auth: accessToken });
 					if (await notionClient.retrieveDatabase(inputValue)) return this.cacheInput(inputValue);

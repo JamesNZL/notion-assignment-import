@@ -34,6 +34,10 @@ interface HandlerClientOptions extends ClientOptions {
 }
 
 export class NotionClient extends Client {
+	private static validTokens: {
+		[auth: string]: boolean;
+	} = {};
+
 	// rate limits are stored in static field by auth as multiple instances may exist that use the same auth
 	// this ensures a different secret is not affected if another is rate limited, while ensuring different instances
 	// of the same secret cannot make new requests while rate limited
@@ -54,6 +58,10 @@ export class NotionClient extends Client {
 			isRateLimited: false,
 			retryAfterPromise: null,
 		};
+	}
+
+	public async validateToken() {
+		return NotionClient.validTokens[this.auth] = NotionClient.validTokens[this.auth] ?? Boolean(await this.retrieveMe());
 	}
 
 	private get isRateLimited() {
