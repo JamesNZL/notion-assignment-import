@@ -32,6 +32,7 @@ interface OptionsElements {
 		advancedOptions: 'advanced-options';
 		advancedOptionsSegmentedControl: 'display-advanced-options';
 		advancedOptionsHide: 'hide-advanced-options';
+		databaseSelect: 'database-id';
 	};
 }
 
@@ -181,6 +182,31 @@ const AdvancedOptions = <const>{
 	},
 };
 
+const DatabaseSelect = <const>{
+	element: getElementById<OptionsElementId>('database-id'),
+
+	async populate() {
+		const { accessToken } = await Storage.getNotionAuthorisation();
+
+		if (!accessToken) return;
+
+		const notionClient = new NotionClient({ auth: accessToken });
+
+		const databases = await notionClient.searchShared({
+			filter: {
+				property: 'object',
+				value: 'database',
+			},
+		});
+
+		databases?.results.forEach(database => {
+			// TODO: format nicely
+			const option = `<option value='${database.id}'>${database.id}</option>`;
+			this.element?.insertAdjacentHTML('beforeend', option);
+		});
+	},
+};
+
 const buttons: {
 	[K in OptionsButtonName]: Button;
 } & {
@@ -272,6 +298,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 		: buttons.oauth.setDefaultLabel('Reauthorise with Notion');
 
 	buttons.oauth.resetHTML();
+
+	DatabaseSelect.populate();
 });
 
 // add event listener to advanced options toggle
@@ -309,9 +337,7 @@ buttons.oauth.addEventListener('click', async () => {
 	buttons.oauth.setDefaultLabel('Reauthorise with Notion');
 	buttons.oauth.resetHTML(1325);
 
-	const databaseId = CONFIGURATION.FIELDS['notion.databaseId'];
-
-	if (databaseId.Validator) OptionsPage.validateInput(databaseId.elementId, databaseId.Validator);
+	DatabaseSelect.populate();
 });
 
 buttons.save.addEventListener('click', OptionsPage.saveOptions.bind(OptionsPage));

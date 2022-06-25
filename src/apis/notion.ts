@@ -1,6 +1,6 @@
 import { APIErrorCode, Client, isNotionClientError } from '@notionhq/client';
 import { ClientOptions } from '@notionhq/client/build/src/Client';
-import { CreatePageParameters, CreatePageResponse, GetDatabaseResponse, GetSelfResponse, QueryDatabaseParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
+import { CreatePageParameters, CreatePageResponse, GetDatabaseResponse, GetSelfResponse, QueryDatabaseParameters, QueryDatabaseResponse, SearchParameters, SearchResponse } from '@notionhq/client/build/src/api-endpoints';
 
 import { valueof } from '../types/utils';
 
@@ -59,6 +59,8 @@ export class NotionClient extends Client {
 			retryAfterPromise: null,
 		};
 	}
+
+	// TODO: getInstance
 
 	public async validateToken() {
 		return NotionClient.validTokens[this.auth] = NotionClient.validTokens[this.auth] ?? Boolean(await this.retrieveMe());
@@ -178,5 +180,14 @@ export class NotionClient extends Client {
 		);
 	}
 
-	// TODO: search and set up databases
+	public async searchShared({ query, sort, filter }: SearchParameters): Promise<void | SearchResponse> {
+		return await this.makePaginatedRequest(
+			this.search,
+			{
+				query,
+				sort,
+				filter,
+			},
+		);
+	}
 }

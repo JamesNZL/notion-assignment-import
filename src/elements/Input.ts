@@ -11,11 +11,11 @@ export class Input extends Element {
 		return Input.instances[id] = <Input>Input.instances[id] ?? new Input(id);
 	}
 
-	private static isValid(element: HTMLElement | null): element is HTMLInputElement | HTMLTextAreaElement {
-		return (Boolean(element) && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement));
+	private static isValid(element: HTMLElement | null): element is HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement {
+		return (Boolean(element) && (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement || element instanceof HTMLSelectElement));
 	}
 
-	private static useChecked(element: HTMLInputElement | HTMLTextAreaElement) {
+	private static useChecked(element: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement) {
 		return (element.type === 'checkbox' || element.type === 'radio');
 	}
 
