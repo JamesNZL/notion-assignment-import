@@ -7,6 +7,7 @@ import {
 	JSONStringObjectField,
 	JSONEmojiObjectField,
 	TimeZoneField,
+	RequiredNotionDatabaseIdField,
 } from './validator';
 
 import { valueof } from '../types/utils';
@@ -169,6 +170,15 @@ export const CONFIGURATION: {
 			},
 		},
 		notion: {
+			databaseId: {
+				elementId: 'database-id',
+				defaultValue: null,
+				get Validator() {
+					delete this.Validator;
+					return this.Validator = new RequiredNotionDatabaseIdField('database-id');
+				},
+				validateOn: 'change',
+			},
 			propertyNames: {
 				name: {
 					elementId: 'notion-property-name',

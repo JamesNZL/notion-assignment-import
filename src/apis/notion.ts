@@ -171,4 +171,5 @@ export class NotionClient extends Client {
 	}
 
 	// TODO: search and set up databases
+	// TODO: validateToken()
 }

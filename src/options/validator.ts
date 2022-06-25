@@ -1,4 +1,5 @@
-import { VALID_EMOJIS } from '../apis/notion';
+import { NotionClient, VALID_EMOJIS } from '../apis/notion';
+import { Storage } from '../apis/storage';
 
 import { NullIfEmpty, NeverEmpty } from './';
 
@@ -223,6 +224,31 @@ export class RequiredStringField extends RequiredField {
 export class RequiredNumberAsStringField extends RequiredField {
 	public constructor(elementId: string) {
 		super(elementId, typeGuards.isParsableNumber, 'number');
+	}
+}
+
+export class RequiredNotionDatabaseIdField extends RequiredFieldCache {
+	public constructor(elementId: string) {
+		super(elementId, typeGuards.isString, 'string');
+	}
+
+	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NeverEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
+		// check the cache first
+		if (this.getCachedInput() === inputValue) return inputValue;
+
+		if (await super.validator(inputValue) === inputValue) {
+			const { accessToken } = await Storage.getNotionAuthorisation();
+			if (accessToken) {
+				if (navigator.onLine) {
+					const notionClient = new NotionClient({ auth: accessToken });
+					if (await notionClient.retrieveDatabase(inputValue)) return this.cacheInput(inputValue);
+					else this.addInvalidError('Could not find the database.<br>Verify the ID and make sure the database is shared with your integration.');
+				}
+				else this.addInvalidError('Please connect to the Internet to validate this input.');
+			}
+			else this.addInvalidError('Invalid Notion Integration Key.');
+		}
+		return InputFieldValidator.INVALID_INPUT;
 	}
 }
 

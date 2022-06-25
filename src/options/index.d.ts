@@ -17,6 +17,7 @@ interface RequiredFields {
 	'canvas.classNames.dateElement': NeverEmpty<string>;
 	'canvas.classValues.courseCodeN': NeverEmpty<string>,
 	'canvas.classValues.notAvailable': NeverEmpty<string>;
+	'notion.databaseId': NullIfEmpty<string>;
 	'notion.propertyNames.name': NeverEmpty<string>;
 }
 
@@ -69,6 +70,7 @@ export type SavedOptions = {
 		courseCodeOverrides: OptionalFields['canvas.courseCodeOverrides'];
 	},
 	notion: {
+		databaseId: RequiredFields['notion.databaseId'];
 		propertyNames: {
 			name: RequiredFields['notion.propertyNames.name'];
 			category: OptionalFields['notion.propertyNames.category'];
