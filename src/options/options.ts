@@ -73,7 +73,6 @@ class RestoreDefaultsButton extends Button {
 		Object.entries(this.inputs).forEach(([key, input]) => {
 			const { defaultValue } = CONFIGURATION.FIELDS[<keyof SavedFields>key];
 			input.setValue(defaultValue);
-			// TODO: validate inputs that aren't validated on 'input'
 		});
 	}
 
