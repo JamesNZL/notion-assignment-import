@@ -17,6 +17,10 @@ export class Button extends Element {
 		return Button.instances[id] = <Button>Button.instances[id] ?? new Button(id);
 	}
 
+	public setDefaultLabel(html: string) {
+		this.defaultHtml = html;
+	}
+
 	public getButtonLabel() {
 		return this.buttonLabel.innerHTML;
 	}

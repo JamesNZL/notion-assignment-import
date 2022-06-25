@@ -1,3 +1,4 @@
+import { NotionClient } from '../apis/notion';
 import { Storage } from '../apis/storage';
 import { OAuth2 } from '../apis/oauth';
 
@@ -72,6 +73,7 @@ class RestoreDefaultsButton extends Button {
 		Object.entries(this.inputs).forEach(([key, input]) => {
 			const { defaultValue } = CONFIGURATION.FIELDS[<keyof SavedFields>key];
 			input.setValue(defaultValue);
+			// TODO: validate inputs that aren't validated on 'input'
 		});
 	}
 
@@ -263,6 +265,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 		if (!dependents) return;
 		Input.getInstance(elementId).toggleDependents(dependents);
 	});
+
+	const { accessToken } = await Storage.getNotionAuthorisation();
+
+	(!accessToken || !await new NotionClient({ auth: accessToken }).validateToken())
+		? buttons.oauth.setDefaultLabel('Authorise with Notion')
+		: buttons.oauth.setDefaultLabel('Reauthorise with Notion');
+
+	buttons.oauth.resetHTML();
 });
 
 // add event listener to advanced options toggle
@@ -296,7 +306,9 @@ buttons.oauth.addEventListener('click', async () => {
 
 	if (!success) return buttons.oauth.resetHTML();
 
+	// TODO: validate inputs
 	buttons.oauth.setButtonLabel('Authorised!');
+	buttons.oauth.setDefaultLabel('Reauthorise with Notion');
 	buttons.oauth.resetHTML(1325);
 });
 

@@ -1,5 +1,6 @@
 import browser from 'webextension-polyfill';
 
+import { NotionClient } from '../apis/notion';
 import { Storage } from '../apis/storage';
 import { OAuth2 } from '../apis/oauth';
 
@@ -142,6 +143,13 @@ buttons.parse.addEventListener('click', async () => {
 	}
 });
 
+Storage.getNotionAuthorisation().then(async ({ accessToken }) => {
+	if (!accessToken || !await new NotionClient({ auth: accessToken }).validateToken()) {
+		buttons.oauth.show();
+		buttons.export.hide();
+	}
+});
+
 buttons.oauth.addEventListener('click', async () => {
 	buttons.oauth.setButtonLabel('Authorising with Notion...');
 
@@ -150,7 +158,13 @@ buttons.oauth.addEventListener('click', async () => {
 	if (!success) return buttons.oauth.resetHTML();
 
 	buttons.oauth.setButtonLabel('Authorised!');
-	buttons.oauth.resetHTML(1325);
+
+	buttons.oauth.setTimeout('authorised', () => {
+		buttons.oauth.resetHTML();
+
+		buttons.oauth.hide();
+		buttons.export.show();
+	}, 1325);
 });
 
 buttons.export.addEventListener('click', async () => {
