@@ -180,7 +180,7 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 
 			const notionAssignments = await notionClient.queryDatabase(databaseId, filterForCanvasAssignments);
 
-			return notionAssignments?.results?.map(assignment => new NotionAssignment(assignment));
+			return notionAssignments?.results.map(assignment => new NotionAssignment(assignment));
 		}
 
 		const parsedAssignments = await getParsedAssignments();

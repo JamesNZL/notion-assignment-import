@@ -166,7 +166,7 @@ abstract class JSONObjectField extends InputFieldValidator {
 			// JSON can't serialise any non-primitives other than 'objects' and arrays, so this will do
 			if (parsed instanceof Object && !Array.isArray(parsed)) {
 				if (Object.values(parsed).every(this.typeGuard)) {
-					document.getElementById(this.elementId)?.classList?.remove('invalid-input');
+					document.getElementById(this.elementId)?.classList.remove('invalid-input');
 					return inputValue;
 				}
 				else this.addInvalidError(`All object values must be ${this.typeLabel}s!`);
