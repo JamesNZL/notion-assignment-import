@@ -156,18 +156,6 @@ abstract class RequiredField extends InputFieldValidator {
 	}
 }
 
-abstract class RequiredFieldCache extends RequiredField {
-	protected static cache: Record<string, NeverEmpty<string>> = {};
-
-	public getCachedInput(): NeverEmpty<string> | undefined {
-		return RequiredFieldCache.cache?.[this.elementId];
-	}
-
-	protected cacheInput<T extends NeverEmpty<string>>(inputValue: T): T {
-		return RequiredFieldCache.cache[this.elementId] = inputValue;
-	}
-}
-
 abstract class JSONObjectField extends InputFieldValidator {
 	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NeverEmpty<string> | '{}' | typeof InputFieldValidator.INVALID_INPUT> {
 		try {
@@ -227,21 +215,18 @@ export class RequiredNumberAsStringField extends RequiredField {
 	}
 }
 
-export class RequiredNotionDatabaseIdField extends RequiredFieldCache {
+export class RequiredNotionDatabaseIdField extends RequiredField {
 	public constructor(elementId: string) {
 		super(elementId, typeGuards.isString, 'string');
 	}
 
 	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NeverEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
-		// check the cache first
-		if (this.getCachedInput() === inputValue) return inputValue;
-
 		if (await super.validator(inputValue) === inputValue) {
 			const { accessToken } = await Storage.getNotionAuthorisation();
 			if (accessToken && await new NotionClient({ auth: accessToken }).validateToken()) {
 				if (navigator.onLine) {
 					const notionClient = new NotionClient({ auth: accessToken });
-					if (await notionClient.retrieveDatabase(inputValue)) return this.cacheInput(inputValue);
+					if (await notionClient.retrieveDatabase(inputValue)) return inputValue;
 					else this.addInvalidError('Could not find the database.<br>Verify the ID and make sure the database is shared with your integration.');
 				}
 				else this.addInvalidError('Please connect to the Internet to validate this input.');

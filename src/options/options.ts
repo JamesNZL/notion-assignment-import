@@ -306,10 +306,13 @@ buttons.oauth.addEventListener('click', async () => {
 
 	if (!success) return buttons.oauth.resetHTML();
 
-	// TODO: validate inputs
 	buttons.oauth.setButtonLabel('Authorised!');
 	buttons.oauth.setDefaultLabel('Reauthorise with Notion');
 	buttons.oauth.resetHTML(1325);
+
+	const databaseId = CONFIGURATION.FIELDS['notion.databaseId'];
+
+	if (databaseId.Validator) OptionsPage.validateInput(databaseId.elementId, databaseId.Validator);
 });
 
 buttons.save.addEventListener('click', OptionsPage.saveOptions.bind(OptionsPage));
