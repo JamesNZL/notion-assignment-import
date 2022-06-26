@@ -213,7 +213,7 @@ const DatabaseSelect = <const>{
 
 		const selectOptions = databases?.results.reduce((html: string, database) => html + `
 			<option value='${database.id}' ${(databaseId === database.id) ? 'selected' : ''}>
-				${NotionClient.resolveTitle(database) ?? database.id}
+				${NotionClient.resolveTitle(database) ?? 'Untitled'}
 			</option>
 			`, '');
 
