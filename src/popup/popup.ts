@@ -50,7 +50,11 @@ const SavedCoursesList = {
 
 		savedAssignments = savedAssignments ?? await Storage.getSavedAssignments();
 
-		const coursesList = Object.entries(savedAssignments).reduce((list: string, [course, assignments]) => list + `<li><strong>${course}</strong> (<code>${assignments.length}</code> assignment${(assignments.length !== 1) ? 's' : ''})</li>\n`, '');
+		const coursesList = Object.entries(savedAssignments).reduce((list: string, [course, assignments]) => list + `
+		<li>
+			<strong>${course}</strong> (<code>${assignments.length}</code> assignment${(assignments.length !== 1) ? 's' : ''})
+		</li>
+		`, '');
 
 		buttons.listCourses.hide();
 		buttons.listAssignments.show();
@@ -66,13 +70,17 @@ const SavedCoursesList = {
 		const savedAssignments = await Storage.getSavedAssignments();
 
 		const assignmentsList = Object.entries(savedAssignments)
-			.reduce((list: string, [course, assignments]) => list +
-				`
-			<li><strong>${course}</strong></li>\n
+			.reduce((list: string, [course, assignments]) => list + `
+			<li>
+				<strong>${course}</strong>
+			</li>
 			<ul>
-				${assignments.reduce((courseList: string, { icon, name, url }) => courseList +
-					`<li>${(icon) ? `${icon} ` : ''}<a href='${url}' target='_blank'>${name}</a></li>\n`, '')}
-			</ul>\n
+				${assignments.reduce((courseList: string, { icon, name, url }) => courseList + `
+					<li>
+						${(icon) ? `${icon} ` : ''}<a href='${url}' target='_blank'>${name}</a>
+					</li>
+					`, '')}
+			</ul>
 			`, '');
 
 		buttons.listAssignments.hide();
