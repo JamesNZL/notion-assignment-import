@@ -477,8 +477,13 @@ label.required:before {
 	padding-bottom: 0;
 }
 
+#refresh-database-select {
+	margin-top: calc(-2 * var(--margin));
+}
+
 input,
-textarea {
+textarea,
+select {
 	width: 100%;
 	margin-top: calc(2 * var(--margin));
 	margin-bottom: calc(5 * var(--margin));
@@ -495,22 +500,26 @@ textarea {
 }
 
 input::-webkit-scrollbar-thumb,
-textarea::-webkit-scrollbar-thumb {
+textarea::-webkit-scrollbar-thumb,
+select::-webkit-scrollbar-thumb {
 	background-color: var(--dark-grey);
 }
 
 input::-webkit-scrollbar-thumb:hover,
-textarea::-webkit-scrollbar-thumb:hover {
+textarea::-webkit-scrollbar-thumb:hover,
+select::-webkit-scrollbar-thumb:hover {
 	background-color: var(--light-grey);
 }
 
 input.invalid-input,
-textarea.invalid-input {
+textarea.invalid-input,
+select.invalid-input {
 	box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 27.5%);
 }
 
 input.invalid-input:focus,
-textarea.invalid-input:focus {
+textarea.invalid-input:focus,
+select.invalid-input:focus {
 	box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 15%);
 }
 
@@ -539,13 +548,15 @@ textarea {
 }
 
 input:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
 	box-shadow: 0 0 0 0.2rem rgb(20 20 20 / 50%);
 	background-color: var(--darkest-grey);
 }
 
 input:focus-visible,
-textarea:focus-visible {
+textarea:focus-visible,
+select:focus-visible {
 	outline: none;
 }
 
