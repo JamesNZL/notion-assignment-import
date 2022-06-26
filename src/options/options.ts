@@ -186,6 +186,8 @@ const DatabaseSelect = <const>{
 	element: getElementById<OptionsElementId>('database-id'),
 
 	async populate() {
+		if (!this.element) return;
+
 		const { accessToken } = await Storage.getNotionAuthorisation();
 
 		if (!accessToken) return;
@@ -199,11 +201,10 @@ const DatabaseSelect = <const>{
 			},
 		});
 
-		databases?.results.forEach(database => {
-			// TODO: format nicely
-			const option = `<option value='${database.id}'>${database.id}</option>`;
-			this.element?.insertAdjacentHTML('beforeend', option);
-		});
+		// TODO: format nicely
+		const selectOptions = databases?.results.reduce((html: string, database) => html + `<option value='${database.id}'>${database.id}</option>`, '');
+
+		this.element.innerHTML = selectOptions ?? '';
 	},
 };
 
