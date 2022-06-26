@@ -477,7 +477,7 @@ label.required:before {
 	padding-bottom: 0;
 }
 
-#refresh-database-select {
+#options .button.associated {
 	margin-top: calc(-2 * var(--margin));
 }
 
