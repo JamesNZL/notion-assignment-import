@@ -5,6 +5,8 @@ const zip = require('gulp-zip');
 
 const fs = require('fs');
 
+const autoprefixer = require('gulp-autoprefixer');
+
 const browserify = require('browserify');
 const tsify = require('tsify');
 const sourceStream = require('vinyl-source-stream');
@@ -87,6 +89,20 @@ function copy(vendor, source) {
 	};
 }
 
+function prefix(vendor, source) {
+	return function prefixGlob() {
+		const prefixed = src(source.glob, { base: source?.base ?? '.' })
+			.pipe(autoprefixer());
+		return (
+			(!source.outFile)
+				? prefixed
+				: prefixed
+					.pipe(rename(source.outFile))
+		)
+			.pipe(dest(`${CONFIGURATION.DIRECTORIES.OUT}/${vendor}`));
+	};
+}
+
 function bundle(vendor, source) {
 	return function bundleGlob() {
 		const tsified = browserify({
@@ -126,7 +142,7 @@ exports.default = series(clean,
 		...Object.entries(sources.manifests).map(([vendor, manifest]) => parallel(
 			copy(vendor, manifest),
 			...sources.markup.map(source => copy(vendor, source)),
-			...sources.style.map(source => copy(vendor, source)),
+			...sources.style.map(source => prefix(vendor, source)),
 			...sources.assets.map(source => copy(vendor, source)),
 			...sources.scripts.map(source => bundle(vendor, source)),
 		)),
