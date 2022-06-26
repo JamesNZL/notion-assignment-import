@@ -218,6 +218,9 @@ const DatabaseSelect = <const>{
 			`, '');
 
 		this.select.innerHTML = selectOptions ?? '';
+
+		// TODO: create Select class
+		this.select.dispatchEvent(new Event('input'));
 	},
 };
 
