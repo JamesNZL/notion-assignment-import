@@ -209,9 +209,14 @@ const DatabaseSelect = <const>{
 			},
 		});
 
+		const { notion: { databaseId } } = await Storage.getOptions();
+
 		// TODO: include icon
-		// TODO: select saved opt by default
-		const selectOptions = databases?.results.reduce((html: string, database) => html + `<option value='${database.id}'>${NotionClient.resolveTitle(database) ?? database.id}</option>`, '');
+		const selectOptions = databases?.results.reduce((html: string, database) => html + `
+			<option value='${database.id}' ${(databaseId === database.id) ? 'selected' : ''}>
+				${NotionClient.resolveTitle(database) ?? database.id}
+			</option>
+			`, '');
 
 		this.select.innerHTML = selectOptions ?? '';
 	},
