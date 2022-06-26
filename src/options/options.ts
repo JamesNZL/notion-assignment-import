@@ -192,12 +192,13 @@ const DatabaseSelect = <const>{
 		this.element?.classList.remove('hidden');
 	},
 
-	async populate() {
+	async populate(placeholder = 'Loading') {
 		if (!this.select) return;
 
 		const { accessToken } = await Storage.getNotionAuthorisation();
-
 		if (!accessToken) return;
+
+		this.select.innerHTML = `<option selected disabled hidden>${placeholder}...</option>`;
 
 		const notionClient = new NotionClient({ auth: accessToken });
 
@@ -309,7 +310,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 	else {
 		buttons.oauth.setDefaultLabel('Reauthorise with Notion');
 
-		await DatabaseSelect.populate();
+		DatabaseSelect.populate();
 		DatabaseSelect.show();
 	}
 
@@ -352,14 +353,14 @@ buttons.oauth.addEventListener('click', async () => {
 	buttons.oauth.resetHTML(1325);
 
 	Storage.clearDatabaseId();
-	await DatabaseSelect.populate();
+	DatabaseSelect.populate();
 	DatabaseSelect.show();
 });
 
 buttons.refreshDatabaseSelect.addEventListener('click', async () => {
 	buttons.refreshDatabaseSelect.setButtonLabel('Refreshing...');
 
-	await DatabaseSelect.populate();
+	await DatabaseSelect.populate('Refreshing');
 
 	buttons.refreshDatabaseSelect.setButtonLabel('Refreshed!');
 	buttons.refreshDatabaseSelect.resetHTML(1325);
