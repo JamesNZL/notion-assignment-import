@@ -211,7 +211,6 @@ const DatabaseSelect = <const>{
 
 		const { notion: { databaseId } } = await Storage.getOptions();
 
-		// TODO: include icon
 		const selectOptions = databases?.results.reduce((html: string, database) => html + `
 			<option value='${database.id}' ${(databaseId === database.id) ? 'selected' : ''}>
 				${NotionClient.resolveTitle(database) ?? database.id}

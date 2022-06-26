@@ -193,7 +193,7 @@ export class NotionClient extends Client {
 		);
 	}
 
-	public static resolveTitle(object: ArrayElement<SearchResponse['results']>) {
+	public static resolveTitle(object: ArrayElement<SearchResponse['results']>, icon = true) {
 		try {
 			const richTextObjects: RichTextItemResponse[] = [];
 
@@ -216,9 +216,23 @@ export class NotionClient extends Client {
 				}
 			}
 
-			return (richTextObjects.length)
+			const title = (richTextObjects.length)
 				? richTextObjects.map(({ plain_text }) => plain_text).join('')
 				: null;
+
+			if (!icon || !('icon' in object)) return title;
+
+			switch (object.icon?.type) {
+				case 'emoji':
+					return `${object.icon.emoji} ${title}`;
+				// ! the below don't work
+				case 'external':
+					return `<img class='select-icon' src='${object.icon.external.url}' alt='${title} database icon'> ${title}`;
+				case 'file':
+					return `<img class='select-icon' src='${object.icon.file.url}' alt='${title} database icon'> ${title}`;
+			}
+
+			return title;
 		}
 
 		catch (error) {
