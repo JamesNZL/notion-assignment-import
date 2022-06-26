@@ -72,9 +72,6 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 				[options.propertyNames.url ?? EMPTY_PROPERTY]: {
 					url: this.url,
 				},
-				[options.propertyNames.status ?? EMPTY_PROPERTY]: {
-					select: ParsedAssignment.verifySelectValue(options.propertyValues.statusToDo),
-				},
 				[options.propertyNames.available ?? EMPTY_PROPERTY]: {
 					date: {
 						start: this.available,

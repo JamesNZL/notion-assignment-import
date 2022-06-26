@@ -27,12 +27,10 @@ interface OptionalFields {
 	'notion.propertyNames.category': NullIfEmpty<string>;
 	'notion.propertyNames.course': NullIfEmpty<string>;
 	'notion.propertyNames.url': NullIfEmpty<string>;
-	'notion.propertyNames.status': NullIfEmpty<string>;
 	'notion.propertyNames.available': NullIfEmpty<string>;
 	'notion.propertyNames.due': NullIfEmpty<string>;
 	'notion.propertyNames.span': NullIfEmpty<string>;
 	'notion.propertyValues.categoryCanvas': NullIfEmpty<string>;
-	'notion.propertyValues.statusToDo': NullIfEmpty<string>;
 	'notion.courseEmojis': NeverEmpty<string>;
 }
 
@@ -76,14 +74,12 @@ export type SavedOptions = {
 			category: OptionalFields['notion.propertyNames.category'];
 			course: OptionalFields['notion.propertyNames.course'];
 			url: OptionalFields['notion.propertyNames.url'];
-			status: OptionalFields['notion.propertyNames.status'];
 			available: OptionalFields['notion.propertyNames.available'];
 			due: OptionalFields['notion.propertyNames.due'];
 			span: OptionalFields['notion.propertyNames.span'];
 		},
 		propertyValues: {
 			categoryCanvas: OptionalFields['notion.propertyValues.categoryCanvas'];
-			statusToDo: OptionalFields['notion.propertyValues.statusToDo'];
 		},
 		courseEmojis: OptionalFields['notion.courseEmojis'];
 	},

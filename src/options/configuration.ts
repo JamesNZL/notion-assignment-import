@@ -213,15 +213,6 @@ export const CONFIGURATION: {
 						return this.Validator = new StringField('notion-property-url');
 					},
 				},
-				status: {
-					elementId: 'notion-property-status',
-					defaultValue: 'Status',
-					get Validator() {
-						delete this.Validator;
-						return this.Validator = new StringField('notion-property-status');
-					},
-					dependents: ['notion-status-todo'],
-				},
 				available: {
 					elementId: 'notion-property-available',
 					defaultValue: 'Reminder',
@@ -254,14 +245,6 @@ export const CONFIGURATION: {
 					get Validator() {
 						delete this.Validator;
 						return this.Validator = new StringField('notion-category-canvas');
-					},
-				},
-				statusToDo: {
-					elementId: 'notion-status-todo',
-					defaultValue: 'To Do',
-					get Validator() {
-						delete this.Validator;
-						return this.Validator = new StringField('notion-status-todo');
 					},
 				},
 			},

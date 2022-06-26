@@ -265,7 +265,6 @@ const buttons: {
 				'notion.propertyNames.category',
 				'notion.propertyNames.course',
 				'notion.propertyNames.url',
-				'notion.propertyNames.status',
 				'notion.propertyNames.available',
 				'notion.propertyNames.due',
 				'notion.propertyNames.span',
@@ -274,7 +273,6 @@ const buttons: {
 		notionPropertyValues: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>('options-restore-notion-property-values',
 			[
 				'notion.propertyValues.categoryCanvas',
-				'notion.propertyValues.statusToDo',
 			],
 		),
 		notionEmojis: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>('options-restore-notion-emojis',
