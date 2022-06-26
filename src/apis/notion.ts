@@ -220,19 +220,9 @@ export class NotionClient extends Client {
 				? richTextObjects.map(({ plain_text }) => plain_text).join('')
 				: null;
 
-			if (!icon || !('icon' in object)) return title;
+			if (!icon || !('icon' in object) || object.icon?.type !== 'emoji') return title;
 
-			switch (object.icon?.type) {
-				case 'emoji':
-					return `${object.icon.emoji} ${title}`;
-				// ! the below don't work
-				case 'external':
-					return `<img class='select-icon' src='${object.icon.external.url}' alt='${title} database icon'> ${title}`;
-				case 'file':
-					return `<img class='select-icon' src='${object.icon.file.url}' alt='${title} database icon'> ${title}`;
-			}
-
-			return title;
+			return `${object.icon.emoji} ${title}`;
 		}
 
 		catch (error) {
