@@ -45,41 +45,41 @@ const SavedCoursesList = {
 	},
 
 	async listCourses(savedAssignments?: SavedAssignments) {
-		if (this.element) {
-			savedAssignments = savedAssignments ?? await Storage.getSavedAssignments();
+		if (!this.element) return;
 
-			const coursesList = Object.entries(savedAssignments).reduce((list: string, [course, assignments]) => list + `<li><strong>${course}</strong> (<code>${assignments.length}</code> assignment${(assignments.length !== 1) ? 's' : ''})</li>\n`, '');
+		savedAssignments = savedAssignments ?? await Storage.getSavedAssignments();
 
-			buttons.listCourses.hide();
-			buttons.listAssignments.show();
+		const coursesList = Object.entries(savedAssignments).reduce((list: string, [course, assignments]) => list + `<li><strong>${course}</strong> (<code>${assignments.length}</code> assignment${(assignments.length !== 1) ? 's' : ''})</li>\n`, '');
 
-			this.element.innerHTML = (coursesList && this.renderChanges)
-				? `<ol>${coursesList}</ol>`
-				: '<p>No saved courses.</p>';
-		}
+		buttons.listCourses.hide();
+		buttons.listAssignments.show();
+
+		this.element.innerHTML = (coursesList && this.renderChanges)
+			? `<ol>${coursesList}</ol>`
+			: '<p>No saved courses.</p>';
 	},
 
 	async listAssignments() {
-		if (this.element) {
-			const savedAssignments = await Storage.getSavedAssignments();
+		if (!this.element) return;
 
-			const assignmentsList = Object.entries(savedAssignments)
-				.reduce((list: string, [course, assignments]) => list +
-					`
-				<li><strong>${course}</strong></li>\n
-				<ul>
-					${assignments.reduce((courseList: string, { icon, name, url }) => courseList +
-						`<li>${(icon) ? `${icon} ` : ''}<a href='${url}' target='_blank'>${name}</a></li>\n`, '')}
-				</ul>\n
-				`, '');
+		const savedAssignments = await Storage.getSavedAssignments();
 
-			buttons.listAssignments.hide();
-			buttons.listCourses.show();
+		const assignmentsList = Object.entries(savedAssignments)
+			.reduce((list: string, [course, assignments]) => list +
+				`
+			<li><strong>${course}</strong></li>\n
+			<ul>
+				${assignments.reduce((courseList: string, { icon, name, url }) => courseList +
+					`<li>${(icon) ? `${icon} ` : ''}<a href='${url}' target='_blank'>${name}</a></li>\n`, '')}
+			</ul>\n
+			`, '');
 
-			this.element.innerHTML = (assignmentsList && this.renderChanges)
-				? `<ol>${assignmentsList}</ol>`
-				: '<p>No saved assignments.</p>';
-		}
+		buttons.listAssignments.hide();
+		buttons.listCourses.show();
+
+		this.element.innerHTML = (assignmentsList && this.renderChanges)
+			? `<ol>${assignmentsList}</ol>`
+			: '<p>No saved assignments.</p>';
 	},
 };
 
