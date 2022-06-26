@@ -33,6 +33,7 @@ interface OptionsElements {
 		advancedOptions: 'advanced-options';
 		advancedOptionsSegmentedControl: 'display-advanced-options';
 		advancedOptionsHide: 'hide-advanced-options';
+		databaseSelectElement: 'database-select';
 		databaseSelect: 'database-id';
 	};
 }
@@ -184,10 +185,15 @@ const AdvancedOptions = <const>{
 };
 
 const DatabaseSelect = <const>{
-	element: getElementById<OptionsElementId>('database-id'),
+	element: getElementById<OptionsElementId>('database-select'),
+	select: getElementById<OptionsElementId>('database-id'),
+
+	show() {
+		this.element?.classList.remove('hidden');
+	},
 
 	async populate() {
-		if (!this.element) return;
+		if (!this.select) return;
 
 		const { accessToken } = await Storage.getNotionAuthorisation();
 
@@ -206,7 +212,7 @@ const DatabaseSelect = <const>{
 		// TODO: select saved opt by default
 		const selectOptions = databases?.results.reduce((html: string, database) => html + `<option value='${database.id}'>${NotionClient.resolveTitle(database)}</option>`, '');
 
-		this.element.innerHTML = selectOptions ?? '';
+		this.select.innerHTML = selectOptions ?? '';
 	},
 };
 
@@ -297,13 +303,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 	const { accessToken } = await Storage.getNotionAuthorisation();
 
-	(!accessToken || !await new NotionClient({ auth: accessToken }).validateToken())
-		? buttons.oauth.setDefaultLabel('Authorise with Notion')
-		: buttons.oauth.setDefaultLabel('Reauthorise with Notion');
+	if (!accessToken || !await new NotionClient({ auth: accessToken }).validateToken()) {
+		buttons.oauth.setDefaultLabel('Authorise with Notion');
+	}
+	else {
+		buttons.oauth.setDefaultLabel('Reauthorise with Notion');
+
+		await DatabaseSelect.populate();
+		DatabaseSelect.show();
+	}
 
 	buttons.oauth.resetHTML();
-
-	DatabaseSelect.populate();
 });
 
 // add event listener to advanced options toggle
@@ -342,7 +352,8 @@ buttons.oauth.addEventListener('click', async () => {
 	buttons.oauth.resetHTML(1325);
 
 	Storage.clearDatabaseId();
-	DatabaseSelect.populate();
+	await DatabaseSelect.populate();
+	DatabaseSelect.show();
 });
 
 buttons.refreshDatabaseSelect.addEventListener('click', async () => {
