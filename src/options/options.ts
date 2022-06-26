@@ -201,8 +201,8 @@ const DatabaseSelect = <const>{
 			},
 		});
 
-		// TODO: format nicely
-		const selectOptions = databases?.results.reduce((html: string, database) => html + `<option value='${database.id}'>${database.id}</option>`, '');
+		// TODO: include icon
+		const selectOptions = databases?.results.reduce((html: string, database) => html + `<option value='${database.id}'>${NotionClient.resolveTitle(database)}</option>`, '');
 
 		this.element.innerHTML = selectOptions ?? '';
 	},
