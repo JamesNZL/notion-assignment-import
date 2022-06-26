@@ -202,6 +202,7 @@ const DatabaseSelect = <const>{
 		});
 
 		// TODO: include icon
+		// TODO: select saved opt by default
 		const selectOptions = databases?.results.reduce((html: string, database) => html + `<option value='${database.id}'>${NotionClient.resolveTitle(database)}</option>`, '');
 
 		this.element.innerHTML = selectOptions ?? '';
@@ -338,6 +339,7 @@ buttons.oauth.addEventListener('click', async () => {
 	buttons.oauth.setDefaultLabel('Reauthorise with Notion');
 	buttons.oauth.resetHTML(1325);
 
+	Storage.clearDatabaseId();
 	DatabaseSelect.populate();
 });
 

@@ -17,6 +17,7 @@ interface PopupElements {
 		options: 'options-icon';
 		parse: 'parse-button';
 		oauth: 'notion-oauth-button';
+		configureDatabase: 'configure-database-button';
 		export: 'export-button';
 		listAssignments: 'list-assignments-button';
 		listCourses: 'list-courses-button';
@@ -87,6 +88,7 @@ const buttons: Record<PopupButtonName, Button> = <const>{
 	options: Button.getInstance<PopupElementId>('options-icon'),
 	parse: Button.getInstance<PopupElementId>('parse-button'),
 	oauth: Button.getInstance<PopupButtonId>('notion-oauth-button'),
+	configureDatabase: Button.getInstance<PopupButtonId>('configure-database-button'),
 	export: Button.getInstance<PopupElementId>('export-button'),
 	listAssignments: Button.getInstance<PopupElementId>('list-assignments-button'),
 	listCourses: Button.getInstance<PopupElementId>('list-courses-button'),
@@ -147,6 +149,13 @@ Storage.getNotionAuthorisation().then(async ({ accessToken }) => {
 	if (!accessToken || !await new NotionClient({ auth: accessToken }).validateToken()) {
 		buttons.oauth.show();
 		buttons.export.hide();
+
+		return Storage.clearDatabaseId();
+	}
+
+	if (!(await Storage.getOptions()).notion.databaseId) {
+		buttons.configureDatabase.show();
+		buttons.export.hide();
 	}
 });
 
@@ -163,9 +172,13 @@ buttons.oauth.addEventListener('click', async () => {
 		buttons.oauth.resetHTML();
 
 		buttons.oauth.hide();
-		buttons.export.show();
+		buttons.configureDatabase.show();
+
+		Storage.clearDatabaseId();
 	}, 1325);
 });
+
+buttons.configureDatabase.addEventListener('click', buttons.options.click.bind(buttons.options));
 
 buttons.export.addEventListener('click', async () => {
 	buttons.export.setButtonLabel('Exporting to Notion...');

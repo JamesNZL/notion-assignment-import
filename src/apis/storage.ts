@@ -137,6 +137,11 @@ export const Storage = <const>{
 		return await <Promise<SavedFields>>browser.storage.local.get(fieldsWithDefaultValues);
 	},
 
+	async clearDatabaseId() {
+		const databaseIdKey: keyof SavedFields = 'notion.databaseId';
+		return await browser.storage.local.remove(databaseIdKey);
+	},
+
 	async setSavedFields(fields: Record<keyof SavedFields, SupportedTypes>) {
 		return await browser.storage.local.set(fields);
 	},

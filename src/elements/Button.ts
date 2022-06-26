@@ -46,4 +46,8 @@ export class Button extends Element {
 	public enable() {
 		if (this.element instanceof HTMLButtonElement) this.element.disabled = false;
 	}
+
+	public click() {
+		this.element.click();
+	}
 }
