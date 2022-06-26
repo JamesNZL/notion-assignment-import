@@ -26,6 +26,7 @@ interface OptionsElements {
 	};
 	buttons: {
 		oauth: 'notion-oauth';
+		refreshDatabaseSelect: 'refresh-database-select';
 		save: 'save-button';
 	};
 	elements: {
@@ -217,6 +218,7 @@ const buttons: {
 	};
 } = <const>{
 	oauth: Button.getInstance<OptionsButtonId>('notion-oauth'),
+	refreshDatabaseSelect: Button.getInstance<OptionsButtonId>('refresh-database-select'),
 	save: Button.getInstance<OptionsButtonId>('save-button'),
 	restore: {
 		timeZone: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>('options-restore-timezone',
@@ -341,6 +343,15 @@ buttons.oauth.addEventListener('click', async () => {
 
 	Storage.clearDatabaseId();
 	DatabaseSelect.populate();
+});
+
+buttons.refreshDatabaseSelect.addEventListener('click', async () => {
+	buttons.refreshDatabaseSelect.setButtonLabel('Refreshing...');
+
+	await DatabaseSelect.populate();
+
+	buttons.refreshDatabaseSelect.setButtonLabel('Refreshed!');
+	buttons.refreshDatabaseSelect.resetHTML(1325);
 });
 
 buttons.save.addEventListener('click', OptionsPage.saveOptions.bind(OptionsPage));

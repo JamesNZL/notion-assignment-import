@@ -351,6 +351,19 @@ h3 {
 	background-color: var(--red-active) !important;
 }
 
+.button.green-hover:hover,
+.button.green-hover:focus-visible {
+	outline: none;
+	background-color: var(--green-hover) !important;
+	color: black !important;
+	box-shadow: 0 0 0 0.2rem rgb(0 184 0 / 27.5%);
+}
+
+.button.green-hover:active {
+	color: black !important;
+	background-color: var(--green-active) !important;
+}
+
 .button.green {
 	background-color: var(--green) !important;
 	color: black !important;
