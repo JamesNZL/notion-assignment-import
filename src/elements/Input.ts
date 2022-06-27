@@ -3,8 +3,8 @@ import { Element } from './Element';
 import { SupportedTypes } from '../options/configuration';
 
 export class Input extends Element {
-	protected constructor(id: string) {
-		super(id, 'input');
+	protected constructor(id: string, type = 'input') {
+		super(id, type);
 	}
 
 	public static getInstance(id: string): Input {

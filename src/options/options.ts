@@ -6,7 +6,7 @@ import { SavedFields } from './';
 import { InputFieldValidator } from './validator';
 import { CONFIGURATION, SupportedTypes } from './configuration';
 
-import { Button, Input, getElementById } from '../elements';
+import { Button, Input, getElementById, Select } from '../elements';
 
 import { valueof } from '../types/utils';
 
@@ -186,7 +186,7 @@ const AdvancedOptions = <const>{
 
 const DatabaseSelect = <const>{
 	element: getElementById<OptionsElementId>('database-select'),
-	select: getElementById<OptionsElementId>('database-id'),
+	select: Select.getInstance('database-id'),
 
 	show() {
 		this.element?.classList.remove('hidden');
@@ -198,7 +198,7 @@ const DatabaseSelect = <const>{
 		const { accessToken } = await Storage.getNotionAuthorisation();
 		if (!accessToken) return;
 
-		this.select.innerHTML = `<option selected disabled hidden>${placeholder}...</option>`;
+		this.select.setInnerHTML(`<option selected disabled hidden>${placeholder}...</option>`);
 
 		const notionClient = NotionClient.getInstance({ auth: accessToken });
 
@@ -217,10 +217,9 @@ const DatabaseSelect = <const>{
 			</option>
 			`, '');
 
-		this.select.innerHTML = selectOptions ?? '';
+		this.select.setInnerHTML(selectOptions ?? '');
 
-		// TODO: create Select class
-		this.select.dispatchEvent(new Event('input'));
+		this.select.dispatchInputEvent();
 	},
 };
 
