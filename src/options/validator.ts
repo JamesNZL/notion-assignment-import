@@ -80,10 +80,9 @@ export abstract class InputFieldValidator {
 
 	protected async validator(inputValue: NullIfEmpty<string>): Promise<NullIfEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
 		if (this.typeGuard(inputValue)) return inputValue;
-		else {
-			this.addInvalidError(`Input must be a ${this.typeLabel}!`);
-			return InputFieldValidator.INVALID_INPUT;
-		}
+
+		this.addInvalidError(`Input must be a ${this.typeLabel}!`);
+		return InputFieldValidator.INVALID_INPUT;
 	}
 
 	public async validate(inputValue: NullIfEmpty<string>): Promise<NullIfEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
@@ -146,13 +145,17 @@ export abstract class InputFieldValidator {
 
 abstract class RequiredField extends InputFieldValidator {
 	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NeverEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
-		if (inputValue) {
-			if (this.typeGuard(inputValue)) return inputValue;
-			else this.addInvalidError(`Input must be a ${this.typeLabel}!`);
-		}
-		else this.addInvalidError('Required field cannot be empty!');
+		try {
+			if (!inputValue) throw 'Required field cannot be empty!';
 
-		return InputFieldValidator.INVALID_INPUT;
+			if (!this.typeGuard(inputValue)) throw `Input must be a ${this.typeLabel}!`;
+
+			return inputValue;
+		}
+		catch (error: unknown) {
+			if (typeof error === 'string') this.addInvalidError(error);
+			return InputFieldValidator.INVALID_INPUT;
+		}
 	}
 }
 
@@ -164,19 +167,18 @@ abstract class JSONObjectField extends InputFieldValidator {
 			const parsed = JSON.parse(inputValue);
 
 			// JSON can't serialise any non-primitives other than 'objects' and arrays, so this will do
-			if (parsed instanceof Object && !Array.isArray(parsed)) {
-				if (Object.values(parsed).every(this.typeGuard)) {
-					document.getElementById(this.elementId)?.classList.remove('invalid-input');
-					return inputValue;
-				}
-				else this.addInvalidError(`All object values must be ${this.typeLabel}s!`);
-			}
-			else this.addInvalidError('Input must be an object <code>{}</code>.');
+			if (!(parsed instanceof Object) || Array.isArray(parsed)) throw 'Input must be an object <code>{}</code>.';
 
-			return InputFieldValidator.INVALID_INPUT;
+			// this also fails-fast, just like .some(!this.typeGuard)
+			if (!Object.values(parsed).every(this.typeGuard)) throw `All object values must be ${this.typeLabel}s!`;
+
+			return inputValue;
 		}
-		catch {
-			this.addInvalidError('Input is not valid <code>JSON</code>.');
+		catch (error: unknown) {
+			(typeof error === 'string')
+				? this.addInvalidError(error)
+				: this.addInvalidError('Input is not valid <code>JSON</code>.');
+
 			return InputFieldValidator.INVALID_INPUT;
 		}
 	}
@@ -221,19 +223,24 @@ export class RequiredNotionDatabaseIdField extends RequiredField {
 	}
 
 	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NeverEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
-		if (await super.validator(inputValue) === inputValue) {
+		try {
+			if (await super.validator(inputValue) !== inputValue) return InputFieldValidator.INVALID_INPUT;
+
 			const { accessToken } = await Storage.getNotionAuthorisation();
 			const notionClient = NotionClient.getInstance({ auth: accessToken ?? '' });
-			if (accessToken && await notionClient.validateToken()) {
-				if (navigator.onLine) {
-					if (await notionClient.retrieveDatabase(inputValue)) return inputValue;
-					else this.addInvalidError('Could not find the database.<br>Verify the ID and make sure the database is shared with your integration.');
-				}
-				else this.addInvalidError('Please connect to the Internet to validate this input.');
-			}
-			else this.addInvalidError('Invalid Notion Integration Key.');
+
+			if (!await notionClient.validateToken()) throw 'Invalid Notion Integration Key.';
+
+			if (!navigator.onLine) throw 'Please connect to the Internet to validate this input.';
+
+			if (!await notionClient.retrieveDatabase(inputValue)) throw 'Could not find the database.<br>Verify the ID and make sure the database is shared with your integration.';
+
+			return inputValue;
 		}
-		return InputFieldValidator.INVALID_INPUT;
+		catch (error: unknown) {
+			if (typeof error === 'string') this.addInvalidError(error);
+			return InputFieldValidator.INVALID_INPUT;
+		}
 	}
 }
 
@@ -257,15 +264,15 @@ export class TimeZoneField extends InputFieldValidator {
 	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NullIfEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
 		if (!inputValue) return null;
 
-		if (await super.validator(inputValue) === inputValue) {
-			try {
-				Intl.DateTimeFormat(undefined, { timeZone: inputValue });
-				return inputValue;
-			}
-			catch {
-				this.addInvalidError('Invalid time zone.');
-			}
+		if (await super.validator(inputValue) !== inputValue) return InputFieldValidator.INVALID_INPUT;
+
+		try {
+			Intl.DateTimeFormat(undefined, { timeZone: inputValue });
+			return inputValue;
 		}
-		return InputFieldValidator.INVALID_INPUT;
+		catch {
+			this.addInvalidError('Invalid time zone.');
+			return InputFieldValidator.INVALID_INPUT;
+		}
 	}
 }

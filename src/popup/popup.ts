@@ -104,15 +104,7 @@ const buttons: Record<PopupButtonName, Button> = <const>{
 	clearStorage: Button.getInstance<PopupButtonId>('clear-storage-button'),
 };
 
-buttons.options.addEventListener('click', () => {
-	if (browser.runtime.openOptionsPage) {
-		browser.runtime.openOptionsPage();
-	}
-
-	else {
-		window.open(browser.runtime.getURL('options.html'));
-	}
-});
+buttons.options.addEventListener('click', () => browser.runtime.openOptionsPage());
 
 buttons.parse.addEventListener('click', async () => {
 	await Storage.clearSavedCourse();
@@ -147,24 +139,30 @@ buttons.parse.addEventListener('click', async () => {
 
 	SavedCoursesList.listCourses();
 
-	if (courseCode) {
-		buttons.parse.setButtonLabel(`Saved ${courseCode}!`);
-		buttons.parse.resetHTML(1325);
-	}
+	if (!courseCode) return;
+
+	buttons.parse.setButtonLabel(`Saved ${courseCode}!`);
+	buttons.parse.resetHTML(1325);
 });
 
 Storage.getNotionAuthorisation().then(async ({ accessToken }) => {
-	if (!accessToken || !await NotionClient.getInstance({ auth: accessToken }).validateToken()) {
+	const validAccessToken = accessToken && await NotionClient.getInstance({ auth: accessToken }).validateToken;
+
+	if (!validAccessToken) {
 		buttons.oauth.show();
 		buttons.export.hide();
 
-		return Storage.clearDatabaseId();
+		Storage.clearDatabaseId();
+
+		return;
 	}
 
-	if (!(await Storage.getOptions()).notion.databaseId) {
-		buttons.configureDatabase.show();
-		buttons.export.hide();
-	}
+	const { notion: { databaseId } } = await Storage.getOptions();
+
+	if (databaseId) return;
+
+	buttons.configureDatabase.show();
+	buttons.export.hide();
 });
 
 buttons.oauth.addEventListener('click', async () => {
@@ -193,15 +191,15 @@ buttons.export.addEventListener('click', async () => {
 
 	const createdAssignments = await exportToNotion();
 
-	if (createdAssignments) {
-		const createdNames = (createdAssignments.length)
-			? createdAssignments.reduce((list, { course, name }, index) => list + `${index + 1}. ${course} ${name}\n`, '\n\n')
-			: '';
+	if (!createdAssignments) return;
 
-		buttons.export.setButtonLabel(`Created <code>${createdAssignments.length}</code> new assignment${(createdAssignments.length !== 1) ? 's' : ''}!`);
-		buttons.export.resetHTML(3500);
-		alert(`Created ${createdAssignments.length} new assignments.${createdNames}`);
-	}
+	const createdNames = (createdAssignments.length)
+		? createdAssignments.reduce((list, { course, name }, index) => list + `${index + 1}. ${course} ${name}\n`, '\n\n')
+		: '';
+
+	buttons.export.setButtonLabel(`Created <code>${createdAssignments.length}</code> new assignment${(createdAssignments.length !== 1) ? 's' : ''}!`);
+	buttons.export.resetHTML(3500);
+	alert(`Created ${createdAssignments.length} new assignments.${createdNames}`);
 });
 
 buttons.listAssignments.addEventListener('click', SavedCoursesList.listAssignments.bind(SavedCoursesList));
@@ -225,36 +223,38 @@ buttons.clearStorage.addEventListener('click', () => {
 	const undoPrompt = 'Undo';
 	const undoPeriod = 3000;
 
-	if (buttons.clearStorage.getButtonLabel() !== undoPrompt) {
-		buttons.clearStorage.addClass('green');
-		buttons.clearStorage.removeClass('red-hover');
+	if (buttons.clearStorage.getButtonLabel() === undoPrompt) {
+		buttons.clearStorage.clearTimeout('clear');
 
-		buttons.clearStorage.setButtonLabel(undoPrompt);
+		// reset list display after verify period is over
+		SavedCoursesList.enableUpdates();
+		SavedCoursesList.listCourses();
 
-		SavedCoursesList.listCourses({});
-		SavedCoursesList.disableUpdates();
+		buttons.clearStorage.resetHTML();
 
-		buttons.clearStorage.setTimeout('clear', () => {
-			Storage.clearSavedAssignments();
-
-			SavedCoursesList.listCourses();
-
-			buttons.clearStorage.addClass('red');
-			buttons.clearStorage.removeClass('green');
-			buttons.clearStorage.setButtonLabel('Cleared!');
-			buttons.clearStorage.resetHTML(1325);
-		}, undoPeriod);
-
-		return buttons.clearStorage.resetHTML(undoPeriod);
+		return;
 	}
 
-	buttons.clearStorage.clearTimeout('clear');
+	buttons.clearStorage.addClass('green');
+	buttons.clearStorage.removeClass('red-hover');
 
-	// reset list display after verify period is over
-	SavedCoursesList.enableUpdates();
-	SavedCoursesList.listCourses();
+	buttons.clearStorage.setButtonLabel(undoPrompt);
 
-	buttons.clearStorage.resetHTML();
+	SavedCoursesList.listCourses({});
+	SavedCoursesList.disableUpdates();
+
+	buttons.clearStorage.setTimeout('clear', () => {
+		Storage.clearSavedAssignments();
+
+		SavedCoursesList.listCourses();
+
+		buttons.clearStorage.addClass('red');
+		buttons.clearStorage.removeClass('green');
+		buttons.clearStorage.setButtonLabel('Cleared!');
+		buttons.clearStorage.resetHTML(1325);
+	}, undoPeriod);
+
+	buttons.clearStorage.resetHTML(undoPeriod);
 });
 
 SavedCoursesList.listCourses();

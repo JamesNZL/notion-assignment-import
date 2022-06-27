@@ -113,10 +113,12 @@ export class NotionClient extends Client {
 			const type = (isNotionClientError(error)) ? 'NOTION_ERROR' : 'UNKNOWN_ERROR';
 			console.error({ type, error });
 
-			if (isNotionClientError(error)) {
-				if (error.code === APIErrorCode.RateLimited) {
+			if (!isNotionClientError(error)) return;
+
+			switch (error.code) {
+				case APIErrorCode.RateLimited: {
 					// get Retry-After header from API response
-					const retryAfter = Number(<NonNullable<string>>error.headers.get('Retry-After'));
+					const retryAfter = Number(error.headers.get('Retry-After'));
 
 					// pause for Retry-After seconds
 					this.isRateLimited = true;
@@ -138,19 +140,19 @@ export class NotionClient extends Client {
 	private async makePaginatedRequest<T, R>(method: (arg: T) => Promise<R>, parameters: T & PaginatedRequest): Promise<void | R> {
 		let response = await this.makeRequest(method, parameters);
 
-		if (isPaginatedResponse(response)) {
-			const _results = response.results;
+		if (!isPaginatedResponse(response)) return response;
 
-			while (isPaginatedResponse(response) && response.has_more) {
-				parameters.start_cursor = response.next_cursor;
+		const _results = response.results;
 
-				response = await this.makeRequest(method, parameters);
+		while (isPaginatedResponse(response) && response.has_more) {
+			parameters.start_cursor = response.next_cursor;
 
-				if (isPaginatedResponse(response)) _results.push(...response.results);
-			}
+			response = await this.makeRequest(method, parameters);
 
-			if (isPaginatedResponse(response)) response.results = _results;
+			if (isPaginatedResponse(response)) _results.push(...response.results);
 		}
+
+		if (isPaginatedResponse(response)) response.results = _results;
 
 		return response;
 	}

@@ -138,14 +138,14 @@ export interface SavedAssignments {
 		private parseDue(): string | typeof CanvasAssignment.INVALID_REQUIRED {
 			const dueString = this.queryRequired(options.canvas.selectors.dueDate, false)?.textContent?.trim();
 
-			if (dueString) {
-				const dueDate = parseDate(dueString, { timezone: options.timeZone ?? undefined });
+			if (!dueString) return CanvasAssignment.INVALID_REQUIRED;
 
-				if (dueDate.valueOf() > Date.now()) return dueDate.toISOString();
-			}
+			const dueDate = parseDate(dueString, { timezone: options.timeZone ?? undefined });
 
 			// if due date was unable to be parsed, or if the due date is in the past, return INVALID_REQUIRED
-			return CanvasAssignment.INVALID_REQUIRED;
+			if (dueDate.valueOf() < Date.now()) return CanvasAssignment.INVALID_REQUIRED;
+
+			return dueDate.toISOString();
 		}
 	}
 
@@ -157,18 +157,16 @@ export interface SavedAssignments {
 		.map(assignment => new CanvasAssignment(assignment))
 		.filter(assignment => assignment.isValid());
 
-	if (canvasAssignments.length) {
-		const savedAssignments = await Storage.getSavedAssignments();
-
-		savedAssignments[canvasAssignments[0].getCourse()] = <IParsedAssignment[]>canvasAssignments.map(assignment => assignment.toParsedAssignment()).filter(Boolean);
-
-		await Storage.setSavedAssignments(savedAssignments);
-		await Storage.setSavedCourse(canvasAssignments[0].getCourse());
-	}
-
-	else {
+	if (!canvasAssignments.length) {
 		alert('No valid assignments were found on this page.\n\nNOTE: Assignments without due dates are treated as invalid.');
 
-		await Storage.setSavedCourse(null);
+		return await Storage.setSavedCourse(null);
 	}
+
+	const savedAssignments = await Storage.getSavedAssignments();
+
+	savedAssignments[canvasAssignments[0].getCourse()] = <IParsedAssignment[]>canvasAssignments.map(assignment => assignment.toParsedAssignment()).filter(Boolean);
+
+	await Storage.setSavedAssignments(savedAssignments);
+	await Storage.setSavedCourse(canvasAssignments[0].getCourse());
 })();

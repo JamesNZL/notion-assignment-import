@@ -124,30 +124,40 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 		}
 
 		public get course(): string | undefined {
-			if (!options.propertyNames.course) return undefined;
+			try {
+				if (!options.propertyNames.course) throw null;
 
-			if ('properties' in this.assignment && options.propertyNames.course in this.assignment.properties) {
+				if (!('properties' in this.assignment) || !(options.propertyNames.course in this.assignment.properties)) throw null;
+
 				// Extract the course property from the page
 				const courseProperty = this.assignment.properties[options.propertyNames.course];
 
-				// If the course property is a select property, return its name
-				if ('select' in courseProperty) return courseProperty.select?.name;
-			}
+				if (!('select' in courseProperty)) throw null;
 
-			// Return undefined if no select was found
-			return undefined;
+				// If the course property is a select property, return its name
+				return courseProperty.select?.name;
+			}
+			catch {
+				// Return undefined if no select was found
+				return undefined;
+			}
 		}
 
 		public get url(): string | undefined {
-			if (!options.propertyNames.url) return undefined;
+			try {
+				if (!options.propertyNames.url) throw null;
 
-			if ('properties' in this.assignment && options.propertyNames.url in this.assignment.properties) {
+				if (!('properties' in this.assignment) || !(options.propertyNames.url in this.assignment.properties)) throw null;
+
 				const urlProperty = this.assignment.properties[options.propertyNames.url];
 
-				if ('url' in urlProperty && urlProperty?.url) return urlProperty.url;
-			}
+				if (!('url' in urlProperty) || !urlProperty?.url) throw null;
 
-			return undefined;
+				return urlProperty.url;
+			}
+			catch {
+				return undefined;
+			}
 		}
 	}
 

@@ -44,17 +44,16 @@ export const CONFIGURATION: {
 } = <const>{
 	get FIELDS() {
 		function flattenOptions<K extends string>([keyPath, valueObject]: [keyof SavedFields | IncompleteFieldKey<K>, valueof<typeof CONFIGURATION['OPTIONS']>]): [keyof SavedFields, OptionConfiguration<SupportedTypes>][] {
-			if (!isOptionConfiguration(valueObject)) {
-				// the current valueObject is a NestedConfigurationsOf<>,
-				// where Object.values(valueObject) is of type { [key: string]: NestedConfigurationOf<> | OptionConfiguration<> }[]
-				return Object.entries(valueObject)
-					.flatMap(([nestedKey, nestedValueObject]) => {
-						const nestedKeyPath = <keyof SavedFields | IncompleteFieldKey<typeof keyPath>>`${keyPath}.${nestedKey}`;
-						return flattenOptions<typeof keyPath>([nestedKeyPath, nestedValueObject]);
-					});
-			}
 			// the current valueObject is a single OptionConfiguration<>
-			return [[<keyof SavedFields>keyPath, valueObject]];
+			if (isOptionConfiguration(valueObject)) return [[<keyof SavedFields>keyPath, valueObject]];
+
+			// the current valueObject is a NestedConfigurationsOf<>,
+			// where Object.values(valueObject) is of type { [key: string]: NestedConfigurationOf<> | OptionConfiguration<> }[]
+			return Object.entries(valueObject)
+				.flatMap(([nestedKey, nestedValueObject]) => {
+					const nestedKeyPath = <keyof SavedFields | IncompleteFieldKey<typeof keyPath>>`${keyPath}.${nestedKey}`;
+					return flattenOptions<typeof keyPath>([nestedKeyPath, nestedValueObject]);
+				});
 		}
 
 		delete (<Partial<typeof CONFIGURATION>>this).FIELDS;

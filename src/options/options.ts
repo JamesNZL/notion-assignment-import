@@ -130,14 +130,14 @@ const OptionsPage = <const>{
 	async saveOptions() {
 		const fieldEntries = await OptionsPage.getInputs();
 
-		if (fieldEntries) {
-			await Storage.setSavedFields(fieldEntries);
+		if (!fieldEntries) return;
 
-			buttons.save.setButtonLabel('Saved!');
-			buttons.save.resetHTML(1325);
+		await Storage.setSavedFields(fieldEntries);
 
-			this.restoreOptions();
-		}
+		buttons.save.setButtonLabel('Saved!');
+		buttons.save.resetHTML(1325);
+
+		this.restoreOptions();
 	},
 
 	async getInputs(): Promise<Record<keyof SavedFields, SupportedTypes> | null> {
@@ -310,15 +310,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 	if (!accessToken || !await NotionClient.getInstance({ auth: accessToken }).validateToken()) {
 		buttons.oauth.setDefaultLabel('Authorise with Notion');
-	}
-	else {
-		buttons.oauth.setDefaultLabel('Reauthorise with Notion');
-
-		DatabaseSelect.populate();
-		DatabaseSelect.show();
+		return buttons.oauth.resetHTML();
 	}
 
+	buttons.oauth.setDefaultLabel('Reauthorise with Notion');
 	buttons.oauth.resetHTML();
+
+	DatabaseSelect.populate();
+	DatabaseSelect.show();
 });
 
 // add event listener to advanced options toggle
@@ -373,10 +372,10 @@ buttons.refreshDatabaseSelect.addEventListener('click', async () => {
 buttons.save.addEventListener('click', OptionsPage.saveOptions.bind(OptionsPage));
 
 document.addEventListener('keydown', keyEvent => {
-	if (keyEvent.ctrlKey && keyEvent.key === 's') {
-		keyEvent.preventDefault();
-		OptionsPage.saveOptions();
-	}
+	if (!keyEvent.ctrlKey || keyEvent.key !== 's') return;
+
+	keyEvent.preventDefault();
+	OptionsPage.saveOptions();
 });
 
 const Konami = {
@@ -390,10 +389,10 @@ const Konami = {
 
 		this.currentIndex++;
 
-		if (this.currentIndex === this.pattern.length && AdvancedOptions.control) {
-			this.currentIndex = 0;
-			AdvancedOptions.showInput.setValue(true);
-		}
+		if (this.currentIndex !== this.pattern.length || !AdvancedOptions.control) return;
+
+		this.currentIndex = 0;
+		AdvancedOptions.showInput.setValue(true);
 	},
 };
 
