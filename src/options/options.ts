@@ -221,7 +221,12 @@ class PropertySelect extends Select {
 			<option value='${name}'>
 				${name}
 			</option>
-			`, '');
+			`, (!(this.element instanceof HTMLSelectElement) || !this.element.required)
+				? `
+				<option value=''>❌ Exclude</option>
+				`
+				: '',
+			);
 
 		this.setInnerHTML(selectOptions ?? '');
 
