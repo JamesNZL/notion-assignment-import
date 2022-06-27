@@ -82,8 +82,9 @@ class RestoreDefaultsButton extends Button {
 			: new this(id, restoreKeys);
 	}
 
+	// TODO: call toggle() on show/hide
 	public toggle() {
-		(Object.entries(this.inputs).some(([key, input]) => input.getValue() !== CONFIGURATION.FIELDS[<keyof SavedFields>key].defaultValue))
+		(Object.entries(this.inputs).some(([key, input]) => !input.isHidden() && input.getValue() !== CONFIGURATION.FIELDS[<keyof SavedFields>key].defaultValue))
 			? this.show()
 			: this.hide();
 	}
@@ -110,7 +111,7 @@ class RestoreSavedButton extends RestoreDefaultsButton {
 	public override async toggle() {
 		const savedFields = await Storage.getSavedFields();
 
-		(Object.entries(this.inputs).some(([key, input]) => input.getValue() !== savedFields[<keyof SavedFields>key]))
+		(Object.entries(this.inputs).some(([key, input]) => !input.isHidden() && input.getValue() !== savedFields[<keyof SavedFields>key]))
 			? this.show()
 			: this.hide();
 	}

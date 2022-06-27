@@ -27,6 +27,10 @@ export abstract class Element {
 		return Array.from(parentElement.children).every(child => child.classList.contains('hidden'));
 	}
 
+	public isHidden() {
+		return this.element.classList.contains('hidden');
+	}
+
 	public show() {
 		this.removeClass('hidden');
 		this.getLabels()?.forEach(label => label.classList.remove('hidden'));
