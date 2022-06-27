@@ -198,27 +198,31 @@ const AdvancedOptions = <const>{
 
 class PropertySelect extends Select {
 	private type: valueof<GetDatabaseResponse['properties']>['type'];
+	private fieldKey: keyof SavedFields;
 
-	protected constructor(id: string, type: PropertySelect['type']) {
+	protected constructor(id: string, type: PropertySelect['type'], fieldKey: PropertySelect['fieldKey']) {
 		super(id);
 
 		this.type = type;
+		this.fieldKey = fieldKey;
 	}
 
-	public static override getInstance<T extends string>(id: T, type?: PropertySelect['type']): PropertySelect {
+	public static override getInstance<T extends string>(id: T, type?: PropertySelect['type'], fieldKey?: PropertySelect['fieldKey']): PropertySelect {
 		if (!type) throw new Error('Argument type must be defined for class PropertySelect!');
-		return PropertySelect.instances[id] = <PropertySelect>PropertySelect.instances[id] ?? new PropertySelect(id, type);
+		if (!fieldKey) throw new Error('Argument fieldKey must be defined for class PropertySelect!');
+
+		return PropertySelect.instances[id] = <PropertySelect>PropertySelect.instances[id] ?? new PropertySelect(id, type, fieldKey);
 	}
 
 	public async populate(database: GetDatabaseResponse, placeholder = 'Loading') {
 		this.setInnerHTML(`<option selected disabled hidden>${placeholder}...</option>`);
 
-		// TODO: pre-select configured
+		const configured = (await Storage.getSavedFields())[this.fieldKey];
 
 		const selectOptions = Object.values(database.properties)
 			.filter(({ type }) => type === this.type)
 			.reduce((html: string, { name }) => html + `
-			<option value='${name}'>
+			<option value='${name}' ${(configured === name) ? 'selected' : ''}>
 				${name}
 			</option>
 			`, (!(this.element instanceof HTMLSelectElement) || !this.element.required)
@@ -239,17 +243,17 @@ const DatabaseSelect = <const>{
 	element: Select.getInstance<OptionsSelectId>('database-id'),
 	refreshButton: Button.getInstance<OptionsButtonId>('refresh-database-select'),
 	propertySelects: {
-		name: PropertySelect.getInstance<OptionsSelectId>('notion-property-name', 'title'),
-		category: PropertySelect.getInstance<OptionsSelectId>('notion-property-category', 'select'),
-		course: PropertySelect.getInstance<OptionsSelectId>('notion-property-course', 'select'),
-		url: PropertySelect.getInstance<OptionsSelectId>('notion-property-url', 'url'),
-		available: PropertySelect.getInstance<OptionsSelectId>('notion-property-available', 'date'),
-		due: PropertySelect.getInstance<OptionsSelectId>('notion-property-due', 'date'),
-		span: PropertySelect.getInstance<OptionsSelectId>('notion-property-span', 'date'),
+		name: PropertySelect.getInstance<OptionsSelectId>('notion-property-name', 'title', 'notion.propertyNames.name'),
+		category: PropertySelect.getInstance<OptionsSelectId>('notion-property-category', 'select', 'notion.propertyNames.category'),
+		course: PropertySelect.getInstance<OptionsSelectId>('notion-property-course', 'select', 'notion.propertyNames.course'),
+		url: PropertySelect.getInstance<OptionsSelectId>('notion-property-url', 'url', 'notion.propertyNames.url'),
+		available: PropertySelect.getInstance<OptionsSelectId>('notion-property-available', 'date', 'notion.propertyNames.available'),
+		due: PropertySelect.getInstance<OptionsSelectId>('notion-property-due', 'date', 'notion.propertyNames.due'),
+		span: PropertySelect.getInstance<OptionsSelectId>('notion-property-span', 'date', 'notion.propertyNames.span'),
 	},
 	propertyValueSelects: {
 		// TODO: PropertyValueSelect
-		categoryCanvas: PropertySelect.getInstance<OptionsSelectId>('notion-category-canvas', 'select'),
+		categoryCanvas: PropertySelect.getInstance<OptionsSelectId>('notion-category-canvas', 'select', 'notion.propertyValues.categoryCanvas'),
 	},
 
 	show() {
