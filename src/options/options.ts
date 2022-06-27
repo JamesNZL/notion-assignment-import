@@ -75,7 +75,9 @@ class RestoreDefaultsButton extends Button {
 
 	public static override getInstance<T extends string>(id: T, restoreKeys?: (keyof SavedFields)[]): RestoreDefaultsButton {
 		if (!restoreKeys) throw new Error('Argument restoreKeys must be defined for class RestoreButton!');
-		return RestoreDefaultsButton.instances[id] = RestoreDefaultsButton.instances[id] ?? new this(id, restoreKeys);
+		return RestoreDefaultsButton.instances[id] = (RestoreDefaultsButton.instances[id] instanceof RestoreDefaultsButton)
+			? RestoreDefaultsButton.instances[id]
+			: new this(id, restoreKeys);
 	}
 
 	public toggle() {
@@ -211,7 +213,9 @@ class PropertySelect extends Select {
 		if (!type) throw new Error('Argument type must be defined for class PropertySelect!');
 		if (!fieldKey) throw new Error('Argument fieldKey must be defined for class PropertySelect!');
 
-		return PropertySelect.instances[id] = <PropertySelect>PropertySelect.instances[id] ?? new PropertySelect(id, type, fieldKey);
+		return PropertySelect.instances[id] = (PropertySelect.instances[id] instanceof PropertySelect)
+			? <PropertySelect>PropertySelect.instances[id]
+			: new PropertySelect(id, type, fieldKey);
 	}
 
 	public async populate(database: GetDatabaseResponse, placeholder = 'Loading') {

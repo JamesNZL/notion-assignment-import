@@ -14,7 +14,9 @@ export class Button extends Element {
 	}
 
 	public static getInstance<T extends string>(id: T): Button {
-		return Button.instances[id] = <Button>Button.instances[id] ?? new Button(id);
+		return Button.instances[id] = (Button.instances[id] instanceof Button)
+			? <Button>Button.instances[id]
+			: new Button(id);
 	}
 
 	public setDefaultLabel(html: string) {

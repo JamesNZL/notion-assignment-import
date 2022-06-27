@@ -8,7 +8,9 @@ export class Input extends Element {
 	}
 
 	public static getInstance<T extends string>(id: T): Input {
-		return Input.instances[id] = <Input>Input.instances[id] ?? new Input(id);
+		return Input.instances[id] = (Input.instances[id] instanceof Input)
+			? <Input>Input.instances[id]
+			: new Input(id);
 	}
 
 	private static isValid(element: HTMLElement | null): element is HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement {
