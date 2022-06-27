@@ -5,7 +5,7 @@ export class Select extends Input {
 		super(id, 'select');
 	}
 
-	public static getInstance(id: string): Select {
+	public static getInstance<T extends string>(id: T): Select {
 		return Select.instances[id] = <Select>Select.instances[id] ?? new Select(id);
 	}
 

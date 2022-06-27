@@ -162,7 +162,7 @@ const AdvancedOptions = <const>{
 	element: getElementById<OptionsElementId>('advanced-options'),
 	control: getElementById<OptionsElementId>('display-advanced-options'),
 	showInput: Input.getInstance(CONFIGURATION.FIELDS['options.displayAdvanced'].elementId),
-	hideInput: Input.getInstance('hide-advanced-options'),
+	hideInput: Input.getInstance<OptionsElementId>('hide-advanced-options'),
 
 	show() {
 		this.element?.classList.remove('hidden');
@@ -186,7 +186,7 @@ const AdvancedOptions = <const>{
 
 const DatabaseSelect = <const>{
 	element: getElementById<OptionsElementId>('database-select'),
-	select: Select.getInstance('database-id'),
+	select: Select.getInstance<OptionsElementId>('database-id'),
 
 	show() {
 		this.element?.classList.remove('hidden');
