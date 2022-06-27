@@ -33,7 +33,6 @@ interface OptionsElements {
 		advancedOptions: 'advanced-options';
 		advancedOptionsSegmentedControl: 'display-advanced-options';
 		advancedOptionsHide: 'hide-advanced-options';
-		databaseSelectElement: 'database-select';
 		databaseSelect: 'database-id';
 	};
 }
@@ -185,20 +184,21 @@ const AdvancedOptions = <const>{
 };
 
 const DatabaseSelect = <const>{
-	element: getElementById<OptionsElementId>('database-select'),
-	select: Select.getInstance<OptionsElementId>('database-id'),
+	element: Select.getInstance<OptionsElementId>('database-id'),
+	refreshButton: Button.getInstance<OptionsButtonId>('refresh-database-select'),
 
 	show() {
-		this.element?.classList.remove('hidden');
+		this.element.show();
+		this.refreshButton.show();
 	},
 
 	async populate(placeholder = 'Loading') {
-		if (!this.select) return;
+		if (!this.element) return;
 
 		const { accessToken } = await Storage.getNotionAuthorisation();
 		if (!accessToken) return;
 
-		this.select.setInnerHTML(`<option selected disabled hidden>${placeholder}...</option>`);
+		this.element.setInnerHTML(`<option selected disabled hidden>${placeholder}...</option>`);
 
 		const notionClient = NotionClient.getInstance({ auth: accessToken });
 
@@ -217,9 +217,9 @@ const DatabaseSelect = <const>{
 			</option>
 			`, '');
 
-		this.select.setInnerHTML(selectOptions ?? '');
+		this.element.setInnerHTML(selectOptions ?? '');
 
-		this.select.dispatchInputEvent();
+		this.element.dispatchInputEvent();
 	},
 };
 
@@ -231,7 +231,7 @@ const buttons: {
 	};
 } = <const>{
 	oauth: Button.getInstance<OptionsButtonId>('notion-oauth'),
-	refreshDatabaseSelect: Button.getInstance<OptionsButtonId>('refresh-database-select'),
+	refreshDatabaseSelect: DatabaseSelect.refreshButton,
 	save: Button.getInstance<OptionsButtonId>('save-button'),
 	restore: {
 		timeZone: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>('options-restore-timezone',
