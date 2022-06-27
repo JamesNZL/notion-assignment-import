@@ -56,6 +56,8 @@ type OptionsButtonId = valueof<OptionsElements['buttons']>;
 type OptionsSelectId = valueof<OptionsElements['selects']>;
 type OptionsElementId = OptionsRestoreButtonId | OptionsButtonId | OptionsSelectId | valueof<OptionsElements['elements']>;
 
+// TODO: hide whilst dropdowns are loading
+
 class RestoreDefaultsButton extends Button {
 	protected static override instances: Record<string, RestoreDefaultsButton> = {};
 
@@ -200,7 +202,7 @@ const AdvancedOptions = <const>{
 
 class PropertySelect extends Select {
 	private type: valueof<GetDatabaseResponse['properties']>['type'];
-	private fieldKey: keyof SavedFields;
+	protected fieldKey: keyof SavedFields;
 
 	protected constructor(id: string, type: PropertySelect['type'], fieldKey: PropertySelect['fieldKey']) {
 		super(id);
@@ -238,6 +240,70 @@ class PropertySelect extends Select {
 
 		this.setInnerHTML(selectOptions ?? '');
 
+		this.dispatchInputEvent();
+	}
+}
+
+class SelectPropertyValueSelect extends PropertySelect {
+	private propertySelect: PropertySelect;
+
+	protected constructor(id: string, type: PropertySelect['type'], fieldKey: PropertySelect['fieldKey'], propertySelect: PropertySelect) {
+		super(id, type, fieldKey);
+
+		this.propertySelect = propertySelect;
+
+		this.propertySelect.addEventListener('input', async () => {
+			const databaseId = DatabaseSelect.element.getValue();
+			if (typeof databaseId !== 'string') return;
+
+			const { accessToken } = await Storage.getNotionAuthorisation();
+			if (!accessToken) return;
+
+			const database = await NotionClient.getInstance({ auth: accessToken }).retrieveDatabase(databaseId);
+
+			if (!database) return;
+
+			this.populate(database);
+		});
+	}
+
+	public static override getInstance<T extends string>(id: T, type?: PropertySelect['type'], fieldKey?: PropertySelect['fieldKey'], propertySelect?: PropertySelect): PropertySelect {
+		if (!type) throw new Error('Argument type must be defined for class PropertySelect!');
+		if (!fieldKey) throw new Error('Argument fieldKey must be defined for class PropertySelect!');
+		if (!propertySelect) throw new Error('Argument propertySelect must be defined for class PropertySelect!');
+
+		return SelectPropertyValueSelect.instances[id] = (SelectPropertyValueSelect.instances[id] instanceof SelectPropertyValueSelect)
+			? <SelectPropertyValueSelect>SelectPropertyValueSelect.instances[id]
+			: new SelectPropertyValueSelect(id, type, fieldKey, propertySelect);
+	}
+
+	public override async populate(database: GetDatabaseResponse, placeholder = 'Loading') {
+		this.setInnerHTML(`<option selected disabled hidden>${placeholder}...</option>`);
+
+		const propertyName = this.propertySelect.getValue();
+
+		if (typeof propertyName !== 'string') return;
+
+		const configured = (await Storage.getSavedFields())[this.fieldKey];
+
+		const property = Object.values(database.properties)
+			.find(({ name, type }) => name === propertyName && type === 'select');
+
+		if (!property || !('select' in property)) return;
+
+		const selectOptions = property.select.options.reduce((html: string, { name }) => html + `
+			<option value='${name}' ${(configured === name) ? 'selected' : ''}>
+				${name}
+			</option>
+			`, (!(this.element instanceof HTMLSelectElement) || !this.element.required)
+			? `
+				<option value=''>❌ Exclude</option>
+				`
+			: '',
+		);
+
+		this.setInnerHTML(selectOptions ?? '');
+
 		// TODO: hide restore button if all restoreKeys are hidden
 		this.dispatchInputEvent();
 	}
@@ -256,8 +322,9 @@ const DatabaseSelect = <const>{
 		span: PropertySelect.getInstance<OptionsSelectId>('notion-property-span', 'date', 'notion.propertyNames.span'),
 	},
 	propertyValueSelects: {
-		// TODO: PropertyValueSelect
-		categoryCanvas: PropertySelect.getInstance<OptionsSelectId>('notion-category-canvas', 'select', 'notion.propertyValues.categoryCanvas'),
+		get categoryCanvas() {
+			return SelectPropertyValueSelect.getInstance<OptionsSelectId>('notion-category-canvas', 'select', 'notion.propertyValues.categoryCanvas', DatabaseSelect.propertySelects.category);
+		},
 	},
 
 	show() {
@@ -292,6 +359,7 @@ const DatabaseSelect = <const>{
 
 		this.element.setInnerHTML(selectOptions ?? '');
 
+		// TODO: hide restore button if all restoreKeys are hidden
 		this.element.dispatchInputEvent();
 	},
 };
@@ -428,7 +496,11 @@ DatabaseSelect.element.addEventListener('input', async () => {
 
 	if (!database) return;
 
-	Object.values(DatabaseSelect.propertySelects).forEach(select => select.populate(database));
+	[
+		...Object.values(DatabaseSelect.propertySelects),
+		...Object.values(DatabaseSelect.propertyValueSelects),
+	]
+		.forEach(select => select.populate(database));
 });
 
 buttons.oauth.addEventListener('click', async () => {
