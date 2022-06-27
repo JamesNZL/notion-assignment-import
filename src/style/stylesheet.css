@@ -464,21 +464,19 @@ label.required:before {
 	padding-bottom: calc(4 * var(--margin) + 0.25rem);
 }
 
-#options label+.button {
+#options label+.button,
+#options div>button {
 	margin-top: calc(2 * var(--margin));
 }
 
 .tile input,
-.tile textarea {
+.tile textarea,
+.tile select {
 	margin-bottom: 0;
 }
 
 .tile .segmented-control-wrapper {
 	padding-bottom: 0;
-}
-
-#options .button.associated {
-	margin-top: calc(-2 * var(--margin));
 }
 
 input,
