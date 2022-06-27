@@ -57,8 +57,12 @@ export class Input extends Element {
 
 	public toggleDependents(dependents: readonly string[]) {
 		if (this.getValue() === null) {
-			return dependents.forEach(dependentId => Input.getInstance(dependentId).hide());
+			dependents.forEach(dependentId => Input.getInstance(dependentId).hide());
+
+			return;
 		}
+
+		if (this.isHidden()) return;
 
 		dependents.forEach(dependentId => Input.getInstance(dependentId).show());
 	}
