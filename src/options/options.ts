@@ -220,8 +220,11 @@ class PropertySelect extends Select {
 			: new PropertySelect(id, type, fieldKey);
 	}
 
-	public async populate(database: GetDatabaseResponse, placeholder = 'Loading') {
+	public async populate(databasePromise: Promise<void | GetDatabaseResponse>, placeholder = 'Loading') {
 		this.setInnerHTML(`<option selected disabled hidden>${placeholder}...</option>`);
+
+		const database = await databasePromise;
+		if (!database) return;
 
 		const configured = (await Storage.getSavedFields())[this.fieldKey];
 
@@ -259,11 +262,9 @@ class SelectPropertyValueSelect extends PropertySelect {
 			const { accessToken } = await Storage.getNotionAuthorisation();
 			if (!accessToken) return;
 
-			const database = await NotionClient.getInstance({ auth: accessToken }).retrieveDatabase(databaseId);
+			const databasePromise = NotionClient.getInstance({ auth: accessToken }).retrieveDatabase(databaseId);
 
-			if (!database) return;
-
-			this.populate(database);
+			this.populate(databasePromise);
 		});
 	}
 
@@ -277,8 +278,11 @@ class SelectPropertyValueSelect extends PropertySelect {
 			: new SelectPropertyValueSelect(id, type, fieldKey, propertySelect);
 	}
 
-	public override async populate(database: GetDatabaseResponse, placeholder = 'Loading') {
+	public override async populate(databasePromise: Promise<void | GetDatabaseResponse>, placeholder = 'Loading') {
 		this.setInnerHTML(`<option selected disabled hidden>${placeholder}...</option>`);
+
+		const database = await databasePromise;
+		if (!database) return;
 
 		const propertyName = this.propertySelect.getValue();
 
@@ -495,15 +499,13 @@ DatabaseSelect.element.addEventListener('input', async () => {
 	const { accessToken } = await Storage.getNotionAuthorisation();
 	if (!accessToken) return;
 
-	const database = await NotionClient.getInstance({ auth: accessToken }).retrieveDatabase(databaseId);
-
-	if (!database) return;
+	const databasePromise = NotionClient.getInstance({ auth: accessToken }).retrieveDatabase(databaseId);
 
 	[
 		...Object.values(DatabaseSelect.propertySelects),
 		...Object.values(DatabaseSelect.propertyValueSelects),
 	]
-		.forEach(select => select.populate(database));
+		.forEach(select => select.populate(databasePromise));
 });
 
 buttons.oauth.addEventListener('click', async () => {
