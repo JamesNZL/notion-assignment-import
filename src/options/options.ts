@@ -56,8 +56,6 @@ type OptionsButtonId = valueof<OptionsElements['buttons']>;
 type OptionsSelectId = valueof<OptionsElements['selects']>;
 type OptionsElementId = OptionsRestoreButtonId | OptionsButtonId | OptionsSelectId | valueof<OptionsElements['elements']>;
 
-// TODO: hide whilst dropdowns are loading
-
 class RestoreDefaultsButton extends Button {
 	protected static override instances: Record<string, RestoreDefaultsButton> = {};
 
@@ -82,7 +80,6 @@ class RestoreDefaultsButton extends Button {
 			: new this(id, restoreKeys);
 	}
 
-	// TODO: call toggle() on show/hide
 	public toggle() {
 		(Object.entries(this.inputs).some(([key, input]) => !input.isHidden() && input.getValue() !== CONFIGURATION.FIELDS[<keyof SavedFields>key].defaultValue))
 			? this.show()
@@ -309,7 +306,6 @@ class SelectPropertyValueSelect extends PropertySelect {
 
 		this.setInnerHTML(selectOptions ?? '');
 
-		// TODO: hide restore button if all restoreKeys are hidden
 		this.dispatchInputEvent();
 	}
 }
@@ -367,7 +363,6 @@ const DatabaseSelect = <const>{
 
 		this.element.setInnerHTML(selectOptions ?? '');
 
-		// TODO: hide restore button if all restoreKeys are hidden
 		this.element.dispatchInputEvent();
 	},
 };

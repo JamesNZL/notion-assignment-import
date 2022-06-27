@@ -51,6 +51,16 @@ export class Input extends Element {
 		throw new Error(`Failed to set unexpected value ${value} of type ${typeof value} on element ${this.element.id}`);
 	}
 
+	public override show() {
+		super.show();
+		this.dispatchInputEvent();
+	}
+
+	public override hide() {
+		super.hide();
+		this.dispatchInputEvent();
+	}
+
 	public dispatchInputEvent(bubbles = true) {
 		this.element.dispatchEvent(new Event('input', { bubbles }));
 	}

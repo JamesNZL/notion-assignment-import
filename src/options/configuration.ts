@@ -196,6 +196,7 @@ export const CONFIGURATION: {
 						delete this.Validator;
 						return this.Validator = new RequiredStringField('notion-property-name');
 					},
+					validateOn: 'change',
 				},
 				category: {
 					elementId: 'notion-property-category',
