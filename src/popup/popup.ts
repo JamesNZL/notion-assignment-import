@@ -146,7 +146,9 @@ buttons.parse.addEventListener('click', async () => {
 });
 
 Storage.getNotionAuthorisation().then(async ({ accessToken }) => {
-	const validAccessToken = accessToken && await NotionClient.getInstance({ auth: accessToken }).validateToken;
+	const notionClient = NotionClient.getInstance({ auth: accessToken ?? '' });
+
+	const validAccessToken = accessToken && await notionClient.validateToken;
 
 	if (!validAccessToken) {
 		buttons.oauth.show();
@@ -159,7 +161,9 @@ Storage.getNotionAuthorisation().then(async ({ accessToken }) => {
 
 	const { notion: { databaseId } } = await Storage.getOptions();
 
-	if (databaseId) return;
+	const validDatabaseId = databaseId && await notionClient.retrieveDatabase(databaseId);
+
+	if (validDatabaseId) return;
 
 	buttons.configureDatabase.show();
 	buttons.export.hide();
