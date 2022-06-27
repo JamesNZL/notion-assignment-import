@@ -185,7 +185,7 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 				}
 				: undefined;
 
-			const notionAssignments = await notionClient.queryDatabase(databaseId, filterForCanvasAssignments);
+			const notionAssignments = await notionClient.queryDatabase(databaseId, filterForCanvasAssignments, { cache: false, force: true });
 
 			return notionAssignments?.results.map(assignment => new NotionAssignment(assignment));
 		}

@@ -233,7 +233,7 @@ export class RequiredNotionDatabaseIdField extends RequiredField {
 
 			if (!navigator.onLine) throw 'Please connect to the Internet to validate this input.';
 
-			if (!await notionClient.retrieveDatabase(inputValue)) throw 'Could not find the database.<br>Verify the ID and make sure the database is shared with your integration.';
+			if (!await notionClient.retrieveDatabase(inputValue, { cache: true, force: true })) throw 'Could not find the database.<br>Verify the ID and make sure the database is shared with your integration.';
 
 			return inputValue;
 		}

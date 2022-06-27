@@ -347,6 +347,9 @@ const DatabaseSelect = <const>{
 				property: 'object',
 				value: 'database',
 			},
+		}, {
+			cache: false,
+			force: true,
 		});
 
 		const { notion: { databaseId } } = await Storage.getOptions();
