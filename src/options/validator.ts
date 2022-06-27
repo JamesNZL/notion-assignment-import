@@ -229,7 +229,7 @@ export class RequiredNotionDatabaseIdField extends RequiredField {
 			const { accessToken } = await Storage.getNotionAuthorisation();
 			const notionClient = NotionClient.getInstance({ auth: accessToken ?? '' });
 
-			if (!await notionClient.validateToken()) throw 'Invalid Notion Integration Key.';
+			if (!accessToken || !await notionClient.validateToken()) throw 'Invalid Notion Integration Key.';
 
 			if (!navigator.onLine) throw 'Please connect to the Internet to validate this input.';
 
