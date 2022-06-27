@@ -177,6 +177,16 @@ export const CONFIGURATION: {
 					return this.Validator = new RequiredNotionDatabaseIdField('database-id');
 				},
 				validateOn: 'change',
+				dependents: [
+					'notion-property-name',
+					'notion-property-category',
+					'notion-property-course',
+					'notion-property-url',
+					'notion-property-available',
+					'notion-property-due',
+					'notion-property-span',
+					'notion-category-canvas',
+				],
 			},
 			propertyNames: {
 				name: {

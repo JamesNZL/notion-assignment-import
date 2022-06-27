@@ -1,3 +1,5 @@
+import { GetDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
+
 import { NotionClient } from '../apis/notion';
 import { Storage } from '../apis/storage';
 import { OAuth2 } from '../apis/oauth';
@@ -29,11 +31,21 @@ interface OptionsElements {
 		refreshDatabaseSelect: 'refresh-database-select';
 		save: 'save-button';
 	};
+	selects: {
+		databaseId: 'database-id';
+		nameProperty: 'notion-property-name';
+		categoryProperty: 'notion-property-category';
+		courseProperty: 'notion-property-course';
+		urlProperty: 'notion-property-url';
+		availableProperty: 'notion-property-available';
+		dueProperty: 'notion-property-due';
+		spanProperty: 'notion-property-span';
+		categoryCanvas: 'notion-category-canvas';
+	};
 	elements: {
 		advancedOptions: 'advanced-options';
 		advancedOptionsSegmentedControl: 'display-advanced-options';
 		advancedOptionsHide: 'hide-advanced-options';
-		databaseSelect: 'database-id';
 	};
 }
 
@@ -41,7 +53,8 @@ type OptionsRestoreButtonName = keyof OptionsElements['restore'];
 type OptionsRestoreButtonId = valueof<OptionsElements['restore']>;
 type OptionsButtonName = keyof OptionsElements['buttons'];
 type OptionsButtonId = valueof<OptionsElements['buttons']>;
-type OptionsElementId = OptionsRestoreButtonId | OptionsButtonId | valueof<OptionsElements['elements']>;
+type OptionsSelectId = valueof<OptionsElements['selects']>;
+type OptionsElementId = OptionsRestoreButtonId | OptionsButtonId | OptionsSelectId | valueof<OptionsElements['elements']>;
 
 class RestoreDefaultsButton extends Button {
 	protected static override instances: Record<string, RestoreDefaultsButton> = {};
@@ -183,9 +196,56 @@ const AdvancedOptions = <const>{
 	},
 };
 
+class PropertySelect extends Select {
+	private type: valueof<GetDatabaseResponse['properties']>['type'];
+
+	protected constructor(id: string, type: PropertySelect['type']) {
+		super(id);
+
+		this.type = type;
+	}
+
+	public static override getInstance<T extends string>(id: T, type?: PropertySelect['type']): PropertySelect {
+		if (!type) throw new Error('Argument type must be defined for class PropertySelect!');
+		return PropertySelect.instances[id] = <PropertySelect>PropertySelect.instances[id] ?? new PropertySelect(id, type);
+	}
+
+	public async populate(database: GetDatabaseResponse, placeholder = 'Loading') {
+		this.setInnerHTML(`<option selected disabled hidden>${placeholder}...</option>`);
+
+		// TODO: pre-select configured
+
+		const selectOptions = Object.values(database.properties)
+			.filter(({ type }) => type === this.type)
+			.reduce((html: string, { name }) => html + `
+			<option value='${name}'>
+				${name}
+			</option>
+			`, '');
+
+		this.setInnerHTML(selectOptions ?? '');
+
+		// TODO: hide restore button if all restoreKeys are hidden
+		this.dispatchInputEvent();
+	}
+}
+
 const DatabaseSelect = <const>{
-	element: Select.getInstance<OptionsElementId>('database-id'),
+	element: Select.getInstance<OptionsSelectId>('database-id'),
 	refreshButton: Button.getInstance<OptionsButtonId>('refresh-database-select'),
+	propertySelects: {
+		name: PropertySelect.getInstance<OptionsSelectId>('notion-property-name', 'title'),
+		category: PropertySelect.getInstance<OptionsSelectId>('notion-property-category', 'select'),
+		course: PropertySelect.getInstance<OptionsSelectId>('notion-property-course', 'select'),
+		url: PropertySelect.getInstance<OptionsSelectId>('notion-property-url', 'url'),
+		available: PropertySelect.getInstance<OptionsSelectId>('notion-property-available', 'date'),
+		due: PropertySelect.getInstance<OptionsSelectId>('notion-property-due', 'date'),
+		span: PropertySelect.getInstance<OptionsSelectId>('notion-property-span', 'date'),
+	},
+	propertyValueSelects: {
+		// TODO: PropertyValueSelect
+		categoryCanvas: PropertySelect.getInstance<OptionsSelectId>('notion-category-canvas', 'select'),
+	},
 
 	show() {
 		this.element.show();
@@ -343,6 +403,20 @@ Object.values(CONFIGURATION.FIELDS)
 	});
 
 Object.values(buttons.restore).forEach(button => button.addEventListener('click', button.restore.bind(button)));
+
+DatabaseSelect.element.addEventListener('input', async () => {
+	const databaseId = DatabaseSelect.element.getValue();
+	if (typeof databaseId !== 'string') return;
+
+	const { accessToken } = await Storage.getNotionAuthorisation();
+	if (!accessToken) return;
+
+	const database = await NotionClient.getInstance({ auth: accessToken }).retrieveDatabase(databaseId);
+
+	if (!database) return;
+
+	Object.values(DatabaseSelect.propertySelects).forEach(select => select.populate(database));
+});
 
 buttons.oauth.addEventListener('click', async () => {
 	buttons.oauth.setButtonLabel('Authorising with Notion...');
