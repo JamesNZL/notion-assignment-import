@@ -200,7 +200,7 @@ const DatabaseSelect = <const>{
 
 		this.select.innerHTML = `<option selected disabled hidden>${placeholder}...</option>`;
 
-		const notionClient = new NotionClient({ auth: accessToken });
+		const notionClient = NotionClient.getInstance({ auth: accessToken });
 
 		const databases = await notionClient.searchShared({
 			filter: {
@@ -309,7 +309,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 	const { accessToken } = await Storage.getNotionAuthorisation();
 
-	if (!accessToken || !await new NotionClient({ auth: accessToken }).validateToken()) {
+	if (!accessToken || !await NotionClient.getInstance({ auth: accessToken }).validateToken()) {
 		buttons.oauth.setDefaultLabel('Authorise with Notion');
 	}
 	else {

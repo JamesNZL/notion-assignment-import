@@ -223,9 +223,9 @@ export class RequiredNotionDatabaseIdField extends RequiredField {
 	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NeverEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
 		if (await super.validator(inputValue) === inputValue) {
 			const { accessToken } = await Storage.getNotionAuthorisation();
-			if (accessToken && await new NotionClient({ auth: accessToken }).validateToken()) {
+			const notionClient = NotionClient.getInstance({ auth: accessToken ?? '' });
+			if (accessToken && await notionClient.validateToken()) {
 				if (navigator.onLine) {
-					const notionClient = new NotionClient({ auth: accessToken });
 					if (await notionClient.retrieveDatabase(inputValue)) return inputValue;
 					else this.addInvalidError('Could not find the database.<br>Verify the ID and make sure the database is shared with your integration.');
 				}

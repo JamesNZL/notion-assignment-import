@@ -194,7 +194,7 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 
 	if (!authorisation.accessToken || !options.databaseId) return alert('Invalid Notion Authorisation or Database.\n\nRefer to the extension set-up instructions on GitHub for more information.');
 
-	const notionClient = new NotionClient({ auth: authorisation.accessToken });
+	const notionClient = NotionClient.getInstance({ auth: authorisation.accessToken });
 
 	// Create assignments
 

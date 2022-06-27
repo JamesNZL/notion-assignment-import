@@ -154,7 +154,7 @@ buttons.parse.addEventListener('click', async () => {
 });
 
 Storage.getNotionAuthorisation().then(async ({ accessToken }) => {
-	if (!accessToken || !await new NotionClient({ auth: accessToken }).validateToken()) {
+	if (!accessToken || !await NotionClient.getInstance({ auth: accessToken }).validateToken()) {
 		buttons.oauth.show();
 		buttons.export.hide();
 

@@ -36,6 +36,8 @@ interface HandlerClientOptions extends ClientOptions {
 }
 
 export class NotionClient extends Client {
+	private static instances = new Map<HandlerClientOptions, NotionClient>();
+
 	private static validTokens: {
 		[auth: string]: boolean;
 	} = {};
@@ -52,7 +54,7 @@ export class NotionClient extends Client {
 
 	private auth: string;
 
-	public constructor(options: HandlerClientOptions) {
+	private constructor(options: HandlerClientOptions) {
 		super(options);
 		this.auth = options.auth;
 
@@ -62,7 +64,11 @@ export class NotionClient extends Client {
 		};
 	}
 
-	// TODO: getInstance
+	public static getInstance(options: HandlerClientOptions): NotionClient {
+		if (!NotionClient.instances.has(options)) NotionClient.instances.set(options, new NotionClient(options));
+
+		return <NotionClient>NotionClient.instances.get(options);
+	}
 
 	public async validateToken() {
 		return NotionClient.validTokens[this.auth] = NotionClient.validTokens[this.auth] ?? Boolean(await this.retrieveMe());
