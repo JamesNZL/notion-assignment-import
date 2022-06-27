@@ -93,15 +93,15 @@ const SavedCoursesList = {
 };
 
 const buttons: Record<PopupButtonName, Button> = <const>{
-	options: Button.getInstance<PopupElementId>('options-icon'),
-	parse: Button.getInstance<PopupElementId>('parse-button'),
+	options: Button.getInstance<PopupButtonId>('options-icon'),
+	parse: Button.getInstance<PopupButtonId>('parse-button'),
 	oauth: Button.getInstance<PopupButtonId>('notion-oauth-button'),
 	configureDatabase: Button.getInstance<PopupButtonId>('configure-database-button'),
-	export: Button.getInstance<PopupElementId>('export-button'),
-	listAssignments: Button.getInstance<PopupElementId>('list-assignments-button'),
-	listCourses: Button.getInstance<PopupElementId>('list-courses-button'),
-	copyJSON: Button.getInstance<PopupElementId>('copy-json-button'),
-	clearStorage: Button.getInstance<PopupElementId>('clear-storage-button'),
+	export: Button.getInstance<PopupButtonId>('export-button'),
+	listAssignments: Button.getInstance<PopupButtonId>('list-assignments-button'),
+	listCourses: Button.getInstance<PopupButtonId>('list-courses-button'),
+	copyJSON: Button.getInstance<PopupButtonId>('copy-json-button'),
+	clearStorage: Button.getInstance<PopupButtonId>('clear-storage-button'),
 };
 
 buttons.options.addEventListener('click', () => {
