@@ -441,8 +441,7 @@ courseEmojis.setPlaceholders({
 	key: 'COURSE 101',
 	value: '&#x1F468;&#x200D;&#x1F4BB;',
 })
-	.setValueValidator(EmojiField)
-	.addRow();
+	.setValueValidator(EmojiField);
 
 // show advanced options if appropriate
 Storage.getOptions().then(({ options: { displayAdvanced } }) => AdvancedOptions.toggle(displayAdvanced));
@@ -468,6 +467,8 @@ Storage.getNotionAuthorisation().then(async ({ accessToken }) => {
 
 document.addEventListener('DOMContentLoaded', async () => {
 	await OptionsPage.restoreOptions();
+
+	courseEmojis.restoreRows();
 
 	Object.values(buttons.restore).forEach(button => button.toggle());
 });

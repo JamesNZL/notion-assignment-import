@@ -1,6 +1,7 @@
 import { Element } from './Element';
 import { Input } from './Input';
 
+import { SupportedTypes } from '../options/configuration';
 import { ValidatorConstructor, StringField, InputFieldValidator } from '../options/validator';
 
 import { NonNullableValues } from '../types/utils';
@@ -29,6 +30,8 @@ export class KeyValueGroup extends Element {
 		this.keyGroup = Element.getInstance(keyGroupId, 'key group');
 		this.valueGroup = Element.getInstance(valueGroupId, 'value group');
 		this.valueInput = Input.getInstance(valueInputId);
+
+		this.valueInput.addEventListener('input', this.restoreRows.bind(this));
 	}
 
 	public static override getInstance<T extends string>(id: T, keyGroupId?: T, valueGroupId?: T, valueInputId?: T): KeyValueGroup {
@@ -57,6 +60,32 @@ export class KeyValueGroup extends Element {
 		return this;
 	}
 
+	public restoreRows() {
+		if (this.getLivingRows().some(inputs => !this.isRowEmpty(inputs) && !this.isRowFull(inputs))) return;
+
+		const input = this.valueInput.getValue();
+		if (typeof input !== 'string') return;
+
+		try {
+			const parsed = JSON.parse(input);
+			if (!(parsed instanceof Object)) return;
+
+			// TODO: reset this.rows
+			this.rows.forEach((...[, index]) => this.removeRow(index));
+
+			Object.entries(parsed).forEach(([key, value]) => {
+				if (typeof value !== 'string' && typeof value !== 'boolean' && value !== null) return;
+
+				this.addRow({ key, value });
+			});
+
+			if (!Object.entries(parsed).length) this.addRow();
+
+			this.manageRows(this.rows.length - 1);
+		}
+		catch { null; }
+	}
+
 	private getKeyId(row: number) {
 		return `${this.keyGroup.id}-${row}`;
 	}
@@ -81,7 +110,7 @@ export class KeyValueGroup extends Element {
 		return this.rows[row] ?? { keyInput: null, valueInput: null };
 	}
 
-	public addRow() {
+	public addRow(values?: { key: SupportedTypes, value: SupportedTypes; }) {
 		const row = this.rows.length;
 		const [keyId, valueId] = [this.getKeyId(row), this.getValueId(row)];
 
@@ -108,6 +137,10 @@ export class KeyValueGroup extends Element {
 
 		[keyInput, valueInput].forEach(input => input.addEventListener('input', inputListener.bind(this)));
 
+		if (!values) return;
+
+		keyInput.setValue(values.key, false);
+		valueInput.setValue(values.value, false);
 	}
 
 	private removeRow(row: number) {
@@ -150,8 +183,6 @@ export class KeyValueGroup extends Element {
 			),
 		);
 	}
-
-	// TODO: add event listener to valueInput that generates rows
 
 	private updateValueInput() {
 		this.valueInput.setValue(this.serialiseInputs());
