@@ -73,6 +73,10 @@ export class KeyValueGroup extends Element {
 		return `<input type='text' placeholder='${this.valuePlaceholder}' id='${valueId}' name='${this.valueGroup.id}' class='row'>`;
 	}
 
+	private getLivingRows(): RowInputs[] {
+		return <NonNullableValues<typeof this.rows>>this.rows.filter(Boolean);
+	}
+
 	private getRowInputs(row: number) {
 		return this.rows[row] ?? { keyInput: null, valueInput: null };
 	}
@@ -96,8 +100,8 @@ export class KeyValueGroup extends Element {
 		async function inputListener(this: KeyValueGroup) {
 			if ([await keyValidator.validate(), await valueValidator.validate()].includes(InputFieldValidator.INVALID_INPUT)) return;
 
-			// TODO: update valueInput if valid
 			this.manageRows(row);
+			this.updateValueInput();
 		}
 
 		// TODO: make invalid fields align
@@ -117,8 +121,7 @@ export class KeyValueGroup extends Element {
 		const { keyInput, valueInput } = this.getRowInputs(row);
 		if (!keyInput || !valueInput) return;
 
-		const emptyRows = (<NonNullableValues<typeof this.rows>>this.rows.filter(Boolean))
-			.filter(this.isRowEmpty);
+		const emptyRows = this.getLivingRows().filter(this.isRowEmpty);
 
 		if (this.isRowFull({ keyInput, valueInput }) && emptyRows.length === 0) return this.addRow();
 
@@ -131,5 +134,21 @@ export class KeyValueGroup extends Element {
 		this.rows[this.rows.indexOf(emptyRows[1])] = null;
 
 		console.log(this.rows);
+	}
+
+	private serialiseInputs() {
+		return JSON.stringify(
+			Object.fromEntries(
+				this.getLivingRows().filter(this.isRowFull)
+					.map(({ keyInput, valueInput }) => [keyInput.getValue(), valueInput.getValue()]),
+			),
+		);
+	}
+
+	// TODO: .hidden is preventing restore button from showing
+	// TODO: add event listener to valueInput that generates rows
+
+	private updateValueInput() {
+		this.valueInput.setValue(this.serialiseInputs());
 	}
 }
