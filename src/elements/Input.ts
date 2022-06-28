@@ -7,7 +7,7 @@ export class Input extends Element {
 		super(id, type);
 	}
 
-	public static getInstance<T extends string>(id: T): Input {
+	public static override getInstance<T extends string>(id: T): Input {
 		return Input.instances[id] = (Input.instances[id] instanceof Input)
 			? <Input>Input.instances[id]
 			: new Input(id);

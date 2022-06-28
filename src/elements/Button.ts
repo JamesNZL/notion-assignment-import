@@ -13,7 +13,7 @@ export class Button extends Element {
 		this.defaultClassList = this.element.classList.value;
 	}
 
-	public static getInstance<T extends string>(id: T): Button {
+	public static override getInstance<T extends string>(id: T): Button {
 		return Button.instances[id] = (Button.instances[id] instanceof Button)
 			? <Button>Button.instances[id]
 			: new Button(id);

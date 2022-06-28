@@ -1,4 +1,4 @@
-export abstract class Element {
+export class Element {
 	protected static instances: Record<string, Element> = {};
 
 	protected element: HTMLElement;
@@ -9,6 +9,10 @@ export abstract class Element {
 		if (!element) throw new Error(`Invalid ${type} identifier ${id}!`);
 
 		this.element = element;
+	}
+
+	public static getInstance<T extends string>(id: T, type: string): Element {
+		return Element.instances[id] = Element.instances[id] ?? new Element(id, type);
 	}
 
 	public addClass(className: string) {
