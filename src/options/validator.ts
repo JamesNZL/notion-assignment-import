@@ -7,6 +7,7 @@ import { NullIfEmpty, NeverEmpty } from './';
 import { Button, Input } from '../elements';
 
 type TypeGuard = (value: unknown) => boolean;
+type TypeGuardModifier = (typeGuard: TypeGuard) => TypeGuard;
 
 export type ValidatorConstructor = new (elementId: string) => InputFieldValidator;
 
@@ -189,10 +190,13 @@ abstract class JSONObjectField extends InputFieldValidator {
 	}
 }
 
-const typeGuards: Record<string, TypeGuard> = {
-	isNullableString(value) {
-		return (typeof value === 'string' || value === null);
+const typeGuardModifiers: Record<string, TypeGuardModifier> = <const>{
+	isNullable(typeGuard) {
+		return value => typeGuard(value) || value === null;
 	},
+};
+
+const typeGuards: Record<string, TypeGuard> = <const>{
 	isString(value) {
 		return (typeof value === 'string');
 	},
@@ -206,7 +210,7 @@ const typeGuards: Record<string, TypeGuard> = {
 
 export class StringField extends InputFieldValidator {
 	public constructor(elementId: string) {
-		super(elementId, typeGuards.isNullableString, 'string');
+		super(elementId, typeGuardModifiers.isNullable(typeGuards.isString), 'string');
 	}
 }
 
@@ -263,7 +267,7 @@ export class JSONEmojiObjectField extends JSONObjectField {
 
 export class TimeZoneField extends InputFieldValidator {
 	public constructor(elementId: string) {
-		super(elementId, typeGuards.isNullableString, 'string');
+		super(elementId, typeGuardModifiers.isNullable(typeGuards.isString), 'string');
 	}
 
 	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NullIfEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
