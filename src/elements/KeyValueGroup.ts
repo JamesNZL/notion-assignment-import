@@ -1,7 +1,7 @@
 import { Element } from './Element';
 import { Input } from './Input';
 
-import { ValidatorConstructor, StringField } from '../options/validator';
+import { ValidatorConstructor, StringField, InputFieldValidator } from '../options/validator';
 
 import { NonNullableValues } from '../types/utils';
 
@@ -93,19 +93,16 @@ export class KeyValueGroup extends Element {
 		const keyValidator = new this.KeyValidator(keyId);
 		const valueValidator = new this.ValueValidator(valueId);
 
-		// TODO: make invalid fields align
-		keyInput?.addEventListener('input', () => {
-			// TODO: update valueInput if valid
-			keyValidator.validate();
-			this.manageRows(row);
-		});
+		async function inputListener(this: KeyValueGroup) {
+			if ([await keyValidator.validate(), await valueValidator.validate()].includes(InputFieldValidator.INVALID_INPUT)) return;
 
-		valueInput?.addEventListener('input', () => {
 			// TODO: update valueInput if valid
-			valueValidator.validate();
-			// TODO: only add if valid
 			this.manageRows(row);
-		});
+		}
+
+		// TODO: make invalid fields align
+
+		[keyInput, valueInput].forEach(input => input.addEventListener('input', inputListener.bind(this)));
 	}
 
 	private isRowEmpty({ keyInput, valueInput }: NonNullableValues<RowInputs>) {
@@ -120,6 +117,7 @@ export class KeyValueGroup extends Element {
 		const { keyInput, valueInput } = this.getRowInputs(row);
 		if (!keyInput || !valueInput) return;
 
+		// TODO: fix adding extra rows when more than one empty
 		if (this.isRowFull({ keyInput, valueInput })) return this.addRow();
 
 		const emptyRows = (<NonNullableValues<typeof this.rows>>this.rows.filter(Boolean))
