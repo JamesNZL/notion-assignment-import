@@ -50,12 +50,27 @@ export class KeyValueGroup extends Element {
 		return this;
 	}
 
-	public addRow() {
-		const keyHTML = `<input type='text' placeholder='${this.keyPlaceholder}' id='${this.keyGroup.id}-${this.rows}' name='${this.keyGroup.id}' class='row'>`;
-		const valueHTML = `<input type='text' placeholder='${this.valuePlaceholder}' id='${this.valueGroup.id}-${this.rows}' name='${this.valueGroup.id}' class='row'>`;
+	private getKeyId(row: number) {
+		return `${this.keyGroup.id}-${row}`;
+	}
 
-		const keyInput = this.keyGroup.insertAdjacentHTML('beforeend', keyHTML);
-		const valueInput = this.valueGroup.insertAdjacentHTML('beforeend', valueHTML);
+	private getValueId(row: number) {
+		return `${this.valueGroup.id}-${row}`;
+	}
+
+	private getKeyHTML(keyId: string) {
+		return `<input type='text' placeholder='${this.keyPlaceholder}' id='${keyId}' name='${this.keyGroup.id}' class='row'>`;
+	}
+
+	private getValueHTML(valueId: string) {
+		return `<input type='text' placeholder='${this.valuePlaceholder}' id='${valueId}' name='${this.valueGroup.id}' class='row'>`;
+	}
+
+	public addRow() {
+		const row = this.rows++;
+
+		const keyInput = this.keyGroup.insertAdjacentHTML('beforeend', this.getKeyHTML(this.getKeyId(row)));
+		const valueInput = this.valueGroup.insertAdjacentHTML('beforeend', this.getValueHTML(this.getValueId(row)));
 
 		if (!keyInput || !valueInput) return;
 
