@@ -435,23 +435,16 @@ const buttons: {
 	},
 };
 
-document.addEventListener('DOMContentLoaded', async () => {
-	await OptionsPage.restoreOptions();
+// show advanced options if appropriate
+Storage.getOptions().then(({ options: { displayAdvanced } }) => AdvancedOptions.toggle(displayAdvanced));
 
-	Object.values(buttons.restore).forEach(button => button.toggle());
+// toggle dependents if appropriate
+Object.values(CONFIGURATION.FIELDS).forEach(({ elementId, dependents }) => {
+	if (!dependents) return;
+	Input.getInstance(elementId).toggleDependents(dependents);
+});
 
-	// show advanced options if appropriate
-	const { options: { displayAdvanced } } = await Storage.getOptions();
-	AdvancedOptions.toggle(displayAdvanced);
-
-	// toggle dependents if appropriate
-	Object.values(CONFIGURATION.FIELDS).forEach(({ elementId, dependents }) => {
-		if (!dependents) return;
-		Input.getInstance(elementId).toggleDependents(dependents);
-	});
-
-	const { accessToken } = await Storage.getNotionAuthorisation();
-
+Storage.getNotionAuthorisation().then(async ({ accessToken }) => {
 	if (!accessToken || !await NotionClient.getInstance({ auth: accessToken }).validateToken()) {
 		buttons.oauth.setDefaultLabel('Authorise with Notion');
 		return buttons.oauth.resetHTML();
@@ -462,6 +455,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 	DatabaseSelect.populate();
 	DatabaseSelect.show();
+});
+
+document.addEventListener('DOMContentLoaded', async () => {
+	await OptionsPage.restoreOptions();
+
+	Object.values(buttons.restore).forEach(button => button.toggle());
 });
 
 // add event listener to advanced options toggle
