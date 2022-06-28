@@ -80,7 +80,7 @@ html {
 
 #options {
 	margin: auto;
-	width: 600px;
+	width: min(600px, 100vw);
 }
 
 body {
