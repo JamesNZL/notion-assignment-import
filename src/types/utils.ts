@@ -18,6 +18,10 @@ export type ModifyDeep<A, B> = A extends object
 	: A & B
 	: B;
 
+export type NonNullableValues<T> = {
+	[K in keyof T]: NonNullable<T[K]>;
+};
+
 export function areHTMLElements<K extends string>(object: Record<K, HTMLElement | null>): object is Record<K, HTMLElement> {
 	return (Object.values(object).every(element => element !== null));
 }

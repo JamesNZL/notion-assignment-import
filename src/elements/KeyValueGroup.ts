@@ -3,6 +3,13 @@ import { Input } from './Input';
 
 import { ValidatorConstructor, StringField } from '../options/validator';
 
+import { NonNullableValues } from '../types/utils';
+
+interface RowInputs {
+	keyInput: Input;
+	valueInput: Input;
+}
+
 export class KeyValueGroup extends Element {
 	private keyGroup: Element;
 	private valueGroup: Element;
@@ -14,7 +21,7 @@ export class KeyValueGroup extends Element {
 	private KeyValidator: ValidatorConstructor = StringField;
 	private ValueValidator: ValidatorConstructor = StringField;
 
-	private rows = 0;
+	private rows: (RowInputs | null)[] = [];
 
 	private constructor(id: string, keyGroupId: string, valueGroupId: string, valueInputId: string) {
 		super(id, 'key-value group');
@@ -66,24 +73,66 @@ export class KeyValueGroup extends Element {
 		return `<input type='text' placeholder='${this.valuePlaceholder}' id='${valueId}' name='${this.valueGroup.id}' class='row'>`;
 	}
 
-	public addRow() {
-		const row = this.rows++;
+	private getRowInputs(row: number) {
+		return this.rows[row] ?? { keyInput: null, valueInput: null };
+	}
 
-		const keyInput = this.keyGroup.insertAdjacentHTML('beforeend', this.getKeyHTML(this.getKeyId(row)));
-		const valueInput = this.valueGroup.insertAdjacentHTML('beforeend', this.getValueHTML(this.getValueId(row)));
+	public addRow() {
+		const row = this.rows.length;
+		const [keyId, valueId] = [this.getKeyId(row), this.getValueId(row)];
+
+		this.keyGroup.insertAdjacentHTML('beforeend', this.getKeyHTML(keyId));
+		this.valueGroup.insertAdjacentHTML('beforeend', this.getValueHTML(valueId));
+
+		const [keyInput, valueInput] = [keyId, valueId].map(id => Input.getInstance(id));
 
 		if (!keyInput || !valueInput) return;
 
-		this.rows++;
+		this.rows.push({ keyInput, valueInput });
 
-		const keyValidator = new this.KeyValidator(keyInput.id);
-		const valueValidator = new this.ValueValidator(valueInput.id);
+		const keyValidator = new this.KeyValidator(keyId);
+		const valueValidator = new this.ValueValidator(valueId);
 
-		// TODO: check if should create/delete rows
-		// TODO: update valueInput
+		// TODO: make invalid fields align
+		keyInput?.addEventListener('input', () => {
+			// TODO: update valueInput if valid
+			keyValidator.validate();
+			this.manageRows(row);
+		});
 
-		keyInput?.addEventListener('input', keyValidator.validate.bind(keyValidator));
+		valueInput?.addEventListener('input', () => {
+			// TODO: update valueInput if valid
+			valueValidator.validate();
+			// TODO: only add if valid
+			this.manageRows(row);
+		});
+	}
 
-		valueInput?.addEventListener('input', valueValidator.validate.bind(valueValidator));
+	private isRowEmpty({ keyInput, valueInput }: NonNullableValues<RowInputs>) {
+		return keyInput.getValue() === null && valueInput.getValue() === null;
+	}
+
+	private isRowFull({ keyInput, valueInput }: NonNullableValues<RowInputs>) {
+		return keyInput.getValue() !== null && valueInput.getValue() !== null;
+	}
+
+	private manageRows(row: number) {
+		const { keyInput, valueInput } = this.getRowInputs(row);
+		if (!keyInput || !valueInput) return;
+
+		if (this.isRowFull({ keyInput, valueInput })) return this.addRow();
+
+		const emptyRows = (<NonNullableValues<typeof this.rows>>this.rows.filter(Boolean))
+			.filter(this.isRowEmpty);
+
+		if (emptyRows.length <= 1) return;
+
+		// remove the 'other' empty row so cursor focus isn't disrupted
+		emptyRows[1].keyInput.remove();
+		emptyRows[1].valueInput.remove();
+
+		this.rows[this.rows.indexOf(emptyRows[1])] = null;
+
+		console.log(this.rows);
 	}
 }

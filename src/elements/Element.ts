@@ -19,6 +19,10 @@ export class Element {
 		return this.element.id;
 	}
 
+	public remove() {
+		this.element.remove();
+	}
+
 	public addClass(className: string) {
 		this.element.classList.add(className);
 	}
