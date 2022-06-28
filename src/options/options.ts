@@ -46,6 +46,10 @@ interface OptionsElements {
 		advancedOptions: 'advanced-options';
 		advancedOptionsSegmentedControl: 'display-advanced-options';
 		advancedOptionsHide: 'hide-advanced-options';
+		courseCodesGroup: 'course-code-overrides-group';
+		courseCodesCanvas: 'course-code-overrides-canvas';
+		courseCodesNotion: 'course-code-overrides-notion';
+		courseCodesValue: 'course-code-overrides';
 		courseEmojisGroup: 'course-emojis-group';
 		courseEmojisCodes: 'course-emojis-codes';
 		courseEmojisEmojis: 'course-emojis-emojis';
@@ -435,6 +439,13 @@ const buttons: {
 	},
 };
 
+const courseCodes = KeyValueGroup.getInstance<OptionsElementId>('course-code-overrides-group', 'course-code-overrides-canvas', 'course-code-overrides-notion', 'course-code-overrides');
+
+courseCodes.setPlaceholders({
+	key: '101 UoA',
+	value: 'COURSE 101',
+});
+
 const courseEmojis = KeyValueGroup.getInstance<OptionsElementId>('course-emojis-group', 'course-emojis-codes', 'course-emojis-emojis', 'course-emojis');
 
 courseEmojis.setPlaceholders({
@@ -469,6 +480,7 @@ Storage.getNotionAuthorisation().then(async ({ accessToken }) => {
 document.addEventListener('DOMContentLoaded', async () => {
 	await OptionsPage.restoreOptions();
 
+	courseCodes.restoreRows();
 	courseEmojis.restoreRows();
 
 	Object.values(buttons.restore).forEach(button => button.toggle());

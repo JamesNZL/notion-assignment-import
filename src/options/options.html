@@ -113,16 +113,19 @@
 			<button id='options-restore-canvas-class-values' class='button red-hover row hidden'>Restore Defaults</button>
 		</div>
 
-		<h2>Course Codes</h2>
+		<h2>Course Code Overrides</h2>
 		<div class='tile'>
-			<div>
-				<label for='course-code-overrides'>Course code overrides</label>
-				<p>This must be a valid <code>JSON</code> object string.</p>
-				<strong>Example</strong>
-				<p class='code'>
-					<code>{ 'Canvas Course Code': 'Database Course Code' }</code>
-				</p>
-				<textarea id='course-code-overrides' name='course-code-overrides'></textarea>
+			<div id='course-code-overrides-group' class='row'>
+				<div>
+					<label for='course-code-overrides-canvas'>Canvas course code</label>
+					<div id='course-code-overrides-canvas'></div>
+				</div>
+				<div>
+					<label for='course-code-overrides-notion'>Notion course code</label>
+					<div id='course-code-overrides-notion'></div>
+				</div>
+
+				<textarea id='course-code-overrides' name='course-code-overrides' class='key-value-input'></textarea>
 			</div>
 
 			<button id='options-restore-canvas-course-codes' class='button red-hover row hidden'>Restore Default</button>
@@ -208,7 +211,7 @@
 		<div class='tile'>
 			<div id='course-emojis-group' class='row'>
 				<div>
-					<label for='course-emojis-codes'>Course code</label>
+					<label for='course-emojis-codes'>Notion course code</label>
 					<div id='course-emojis-codes'></div>
 				</div>
 				<div class='row-half'>
