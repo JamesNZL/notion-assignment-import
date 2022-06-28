@@ -52,7 +52,7 @@ export class KeyValueGroup extends Element {
 
 	public addRow() {
 		const keyHTML = `<input type='text' placeholder='${this.keyPlaceholder}' id='${this.keyGroup.id}-${this.rows}' name='${this.keyGroup.id}' class='row'>`;
-		const valueHTML = `<input type='text' placeholder='${this.valuePlaceholder}' id='${this.keyGroup.id}-${this.rows}' name='${this.valueGroup.id}' class='row'>`;
+		const valueHTML = `<input type='text' placeholder='${this.valuePlaceholder}' id='${this.valueGroup.id}-${this.rows}' name='${this.valueGroup.id}' class='row'>`;
 
 		const keyInput = this.keyGroup.insertAdjacentHTML('beforeend', keyHTML);
 		const valueInput = this.valueGroup.insertAdjacentHTML('beforeend', valueHTML);
