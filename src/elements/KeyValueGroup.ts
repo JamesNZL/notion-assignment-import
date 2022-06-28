@@ -117,11 +117,10 @@ export class KeyValueGroup extends Element {
 		const { keyInput, valueInput } = this.getRowInputs(row);
 		if (!keyInput || !valueInput) return;
 
-		// TODO: fix adding extra rows when more than one empty
-		if (this.isRowFull({ keyInput, valueInput })) return this.addRow();
-
 		const emptyRows = (<NonNullableValues<typeof this.rows>>this.rows.filter(Boolean))
 			.filter(this.isRowEmpty);
+
+		if (this.isRowFull({ keyInput, valueInput }) && emptyRows.length === 0) return this.addRow();
 
 		if (emptyRows.length <= 1) return;
 
