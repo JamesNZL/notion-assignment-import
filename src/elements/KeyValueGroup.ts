@@ -145,7 +145,6 @@ export class KeyValueGroup extends Element {
 		);
 	}
 
-	// TODO: .hidden is preventing restore button from showing
 	// TODO: add event listener to valueInput that generates rows
 
 	private updateValueInput() {
