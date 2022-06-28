@@ -8,7 +8,7 @@ import { SavedFields } from './';
 import { InputFieldValidator } from './validator';
 import { CONFIGURATION, SupportedTypes } from './configuration';
 
-import { Button, Input, getElementById, Select } from '../elements';
+import { Button, Input, Select, KeyValueGroup, getElementById } from '../elements';
 
 import { valueof } from '../types/utils';
 
@@ -46,6 +46,10 @@ interface OptionsElements {
 		advancedOptions: 'advanced-options';
 		advancedOptionsSegmentedControl: 'display-advanced-options';
 		advancedOptionsHide: 'hide-advanced-options';
+		courseEmojisGroup: 'course-emojis-group';
+		courseEmojisCodes: 'course-emojis-codes';
+		courseEmojisEmojis: 'course-emojis-emojis';
+		courseEmojisValue: 'course-emojis';
 	};
 }
 
@@ -439,6 +443,14 @@ const buttons: {
 		),
 	},
 };
+
+const courseEmojis = KeyValueGroup.getInstance<OptionsElementId>('course-emojis-group', 'course-emojis-codes', 'course-emojis-emojis', 'course-emojis');
+
+courseEmojis.setPlaceholders({
+	key: 'COURSE 001',
+	value: '&#x1F468;&#x200D;&#x1F4BB;',
+})
+	.addRow();
 
 // show advanced options if appropriate
 Storage.getOptions().then(({ options: { displayAdvanced } }) => AdvancedOptions.toggle(displayAdvanced));

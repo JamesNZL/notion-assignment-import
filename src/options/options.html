@@ -206,14 +206,17 @@
 
 		<h2>Page Emojis</h2>
 		<div class='tile'>
-			<div>
-				<label for='course-emojis'>Course emojis</label>
-				<p>This must be a valid <code>JSON</code> object string.</p>
-				<strong>Example</strong>
-				<p class='code'>
-					<code>{ 'Database Course Code': '&#x1F468;&#x200D;&#x1F4BB;' }</code>
-				</p>
-				<textarea id='course-emojis' name='course-emojis' class='row'></textarea>
+			<div id='course-emojis-group' class='row'>
+				<div>
+					<label for='course-emojis-codes'>Course code</label>
+					<div id='course-emojis-codes'></div>
+				</div>
+				<div class='row-half'>
+					<label for='course-emojis-emojis'>Emoji</label>
+					<div id='course-emojis-emojis'></div>
+				</div>
+
+				<textarea id='course-emojis' name='course-emojis' class='row hidden'></textarea>
 			</div>
 
 			<button id='options-restore-notion-emojis' class='button red-hover row hidden'>Restore Default</button>

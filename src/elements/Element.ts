@@ -96,6 +96,21 @@ export class Element {
 			: document.querySelectorAll(`label[for='${this.element.id}']`);
 	}
 
+	public insertAdjacentHTML(...args: Parameters<typeof HTMLElement.prototype.insertAdjacentHTML>) {
+		this.element.insertAdjacentHTML(...args);
+
+		switch (args[0]) {
+			case 'beforebegin':
+				return this.element.previousElementSibling;
+			case 'afterbegin':
+				return this.element.firstElementChild;
+			case 'beforeend':
+				return this.element.lastElementChild;
+			case 'afterend':
+				return this.element.nextElementSibling;
+		}
+	}
+
 	public addEventListener(...args: Parameters<typeof HTMLElement.prototype.addEventListener>) {
 		this.element.addEventListener(...args);
 	}

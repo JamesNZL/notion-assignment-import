@@ -7,6 +7,8 @@ import { Button } from '../elements';
 
 type TypeGuard = (value: unknown) => boolean;
 
+export type ValidatorConstructor = new (elementId: string) => InputFieldValidator;
+
 const enum SaveButtonUpdates {
 	Pending,
 	Disable,
@@ -57,6 +59,7 @@ export abstract class InputFieldValidator {
 	protected typeGuard: TypeGuard;
 	protected typeLabel: string;
 
+	// TODO: should this be an Input?
 	private fieldElement: HTMLElement;
 
 	public constructor(elementId: string, typeGuard: TypeGuard, typeLabel: string) {

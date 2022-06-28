@@ -135,6 +135,10 @@ h3 {
 	width: 100%;
 }
 
+.row>.row-half {
+	flex-basis: 50%;
+}
+
 #options-icon {
 	width: fit-content;
 	height: fit-content;
