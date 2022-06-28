@@ -22,6 +22,9 @@ export class KeyValueGroup extends Element {
 	private KeyValidator: ValidatorConstructor = StringField;
 	private ValueValidator: ValidatorConstructor = StringField;
 
+	private keyValidateOn: 'input' | 'change' = 'change';
+	private valueValidateOn: 'input' | 'change' = 'change';
+
 	private rows: (RowInputs | null)[] = [];
 	private restoreCount = 0;
 
@@ -52,6 +55,16 @@ export class KeyValueGroup extends Element {
 
 	public setValueValidator(Validator: ValidatorConstructor) {
 		this.ValueValidator = Validator;
+		return this;
+	}
+
+	public setKeyValidateOn(validateOn: 'input' | 'change') {
+		this.keyValidateOn = validateOn;
+		return this;
+	}
+
+	public setValueValidateOn(validateOn: 'input' | 'change') {
+		this.valueValidateOn = validateOn;
 		return this;
 	}
 
@@ -137,7 +150,8 @@ export class KeyValueGroup extends Element {
 
 		// TODO: make invalid fields align
 
-		[keyInput, valueInput].forEach(input => input.addEventListener('change', inputListener.bind(this)));
+		keyInput.addEventListener(this.keyValidateOn, inputListener.bind(this));
+		valueInput.addEventListener(this.valueValidateOn, inputListener.bind(this));
 
 		if (!values) return;
 

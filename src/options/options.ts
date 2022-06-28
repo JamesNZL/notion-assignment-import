@@ -441,7 +441,8 @@ courseEmojis.setPlaceholders({
 	key: 'COURSE 101',
 	value: '&#x1F468;&#x200D;&#x1F4BB;',
 })
-	.setValueValidator(EmojiField);
+	.setValueValidator(EmojiField)
+	.setValueValidateOn('input');
 
 // show advanced options if appropriate
 Storage.getOptions().then(({ options: { displayAdvanced } }) => AdvancedOptions.toggle(displayAdvanced));
