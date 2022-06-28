@@ -74,7 +74,8 @@ class RestoreDefaultsButton extends Button {
 	}
 
 	public static override getInstance<T extends string>(id: T, restoreKeys?: (keyof SavedFields)[]): RestoreDefaultsButton {
-		if (!restoreKeys) throw new Error('Argument restoreKeys must be defined for class RestoreButton!');
+		if (!restoreKeys) throw new Error('Argument restoreKeys must be defined for class Restore(Defauts|Saved)Button!');
+
 		return RestoreDefaultsButton.instances[id] = (RestoreDefaultsButton.instances[id] instanceof RestoreDefaultsButton)
 			? RestoreDefaultsButton.instances[id]
 			: new this(id, restoreKeys);
@@ -271,9 +272,9 @@ class SelectPropertyValueSelect extends PropertySelect {
 	}
 
 	public static override getInstance<T extends string>(id: T, type?: PropertySelect['type'], fieldKey?: PropertySelect['fieldKey'], propertySelect?: PropertySelect): PropertySelect {
-		if (!type) throw new Error('Argument type must be defined for class PropertySelect!');
-		if (!fieldKey) throw new Error('Argument fieldKey must be defined for class PropertySelect!');
-		if (!propertySelect) throw new Error('Argument propertySelect must be defined for class PropertySelect!');
+		if (!type) throw new Error('Argument type must be defined for class SelectPropertyValueSelect!');
+		if (!fieldKey) throw new Error('Argument fieldKey must be defined for class SelectPropertyValueSelect!');
+		if (!propertySelect) throw new Error('Argument propertySelect must be defined for class SelectPropertyValueSelect!');
 
 		return SelectPropertyValueSelect.instances[id] = (SelectPropertyValueSelect.instances[id] instanceof SelectPropertyValueSelect)
 			? <SelectPropertyValueSelect>SelectPropertyValueSelect.instances[id]
