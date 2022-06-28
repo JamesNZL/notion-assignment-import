@@ -15,6 +15,10 @@ export class Element {
 		return Element.instances[id] = Element.instances[id] ?? new Element(id, type);
 	}
 
+	public get id() {
+		return this.element.id;
+	}
+
 	public addClass(className: string) {
 		this.element.classList.add(className);
 	}

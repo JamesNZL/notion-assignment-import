@@ -48,7 +48,7 @@ export class Input extends Element {
 			return;
 		}
 
-		throw new Error(`Failed to set unexpected value ${value} of type ${typeof value} on element ${this.element.id}`);
+		throw new Error(`Failed to set unexpected value ${value} of type ${typeof value} on element ${this.id}`);
 	}
 
 	public setPlaceholder(placeholder: SupportedTypes) {
