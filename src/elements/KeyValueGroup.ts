@@ -23,6 +23,7 @@ export class KeyValueGroup extends Element {
 	private ValueValidator: ValidatorConstructor = StringField;
 
 	private rows: (RowInputs | null)[] = [];
+	private restoreCount = 0;
 
 	private constructor(id: string, keyGroupId: string, valueGroupId: string, valueInputId: string) {
 		super(id, 'key-value group');
@@ -70,8 +71,9 @@ export class KeyValueGroup extends Element {
 			const parsed = JSON.parse(input);
 			if (!(parsed instanceof Object)) return;
 
-			// TODO: reset this.rows
 			this.rows.forEach((...[, index]) => this.removeRow(index));
+			this.rows = [];
+			this.restoreCount++;
 
 			Object.entries(parsed).forEach(([key, value]) => {
 				if (typeof value !== 'string' && typeof value !== 'boolean' && value !== null) return;
@@ -87,11 +89,11 @@ export class KeyValueGroup extends Element {
 	}
 
 	private getKeyId(row: number) {
-		return `${this.keyGroup.id}-${row}`;
+		return `${this.keyGroup.id}-${this.restoreCount}-${row}`;
 	}
 
 	private getValueId(row: number) {
-		return `${this.valueGroup.id}-${row}`;
+		return `${this.valueGroup.id}-${this.restoreCount}-${row}`;
 	}
 
 	private getKeyHTML(keyId: string) {
