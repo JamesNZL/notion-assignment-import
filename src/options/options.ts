@@ -438,7 +438,7 @@ const buttons: {
 const courseEmojis = KeyValueGroup.getInstance<OptionsElementId>('course-emojis-group', 'course-emojis-codes', 'course-emojis-emojis', 'course-emojis');
 
 courseEmojis.setPlaceholders({
-	key: 'COURSE 001',
+	key: 'COURSE 101',
 	value: '&#x1F468;&#x200D;&#x1F4BB;',
 })
 	.setValueValidator(EmojiField)
