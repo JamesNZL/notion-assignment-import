@@ -137,7 +137,7 @@ export class KeyValueGroup extends Element {
 
 		// TODO: make invalid fields align
 
-		[keyInput, valueInput].forEach(input => input.addEventListener('input', inputListener.bind(this)));
+		[keyInput, valueInput].forEach(input => input.addEventListener('change', inputListener.bind(this)));
 
 		if (!values) return;
 
