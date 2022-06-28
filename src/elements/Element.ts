@@ -27,6 +27,15 @@ export abstract class Element {
 		return Array.from(parentElement.children).every(child => child.classList.contains('hidden'));
 	}
 
+	private static findParentTile(element: HTMLElement): HTMLElement | null {
+		if (element === document.body) return null;
+		if (element.classList.contains('tile')) return element;
+
+		return (element.parentElement)
+			? Element.findParentTile(element.parentElement)
+			: null;
+	}
+
 	public isHidden() {
 		return this.element.classList.contains('hidden');
 	}
@@ -41,12 +50,9 @@ export abstract class Element {
 			this.element.parentElement.classList.remove('hidden');
 		}
 
-		if (!this.element.parentElement.parentElement) return;
-		if (!this.element.parentElement.parentElement.classList.contains('tile')) return;
+		const parentTile = Element.findParentTile(this.element.parentElement);
 
-		const parentTile = this.element.parentElement.parentElement;
-
-		if (!Element.isSomeChildShown(parentTile)) return;
+		if (!parentTile || !Element.isSomeChildShown(parentTile)) return;
 
 		parentTile.classList.remove('hidden');
 
@@ -65,12 +71,9 @@ export abstract class Element {
 			this.element.parentElement.classList.add('hidden');
 		}
 
-		if (!this.element.parentElement.parentElement) return;
-		if (!this.element.parentElement.parentElement.classList.contains('tile')) return;
+		const parentTile = Element.findParentTile(this.element.parentElement);
 
-		const parentTile = this.element.parentElement.parentElement;
-
-		if (!Element.isEveryChildHidden(parentTile)) return;
+		if (!parentTile || !Element.isEveryChildHidden(parentTile)) return;
 
 		parentTile.classList.add('hidden');
 
