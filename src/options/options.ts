@@ -134,8 +134,12 @@ const OptionsPage = <const>{
 		const savedFields = await Storage.getSavedFields();
 
 		Object.entries(savedFields).forEach(([field, value]) => {
-			const fieldElementId = CONFIGURATION.FIELDS[<keyof typeof savedFields>field].elementId;
-			Input.getInstance(fieldElementId).setValue(value, false);
+			const { elementId, defaultValue } = CONFIGURATION.FIELDS[<keyof typeof savedFields>field];
+
+			const input = Input.getInstance(elementId);
+
+			input.setValue(value, false);
+			input.setPlaceholder(defaultValue);
 		});
 
 		Object.values(buttons.restore).forEach(button => button.toggle());

@@ -51,6 +51,14 @@ export class Input extends Element {
 		throw new Error(`Failed to set unexpected value ${value} of type ${typeof value} on element ${this.element.id}`);
 	}
 
+	public setPlaceholder(placeholder: SupportedTypes) {
+		if (!(this.element instanceof HTMLInputElement) && !(this.element instanceof HTMLTextAreaElement)) return;
+
+		if (typeof placeholder !== 'string') return;
+
+		this.element.setAttribute('placeholder', placeholder);
+	}
+
 	public override show() {
 		super.show();
 		this.dispatchInputEvent();
