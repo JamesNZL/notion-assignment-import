@@ -62,7 +62,7 @@ export abstract class InputFieldValidator {
 
 	public constructor(elementId: string, typeGuard: TypeGuard, typeLabel: string) {
 		this.input = Input.getInstance(elementId);
-		this.typeGuard = typeGuard;
+		this.typeGuard = typeGuard.bind(typeGuards);
 		this.typeLabel = typeLabel;
 	}
 
