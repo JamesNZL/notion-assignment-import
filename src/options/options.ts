@@ -5,7 +5,7 @@ import { Storage } from '../apis/storage';
 import { OAuth2 } from '../apis/oauth';
 
 import { SavedFields } from './';
-import { InputFieldValidator } from './validator';
+import { EmojiField, InputFieldValidator } from './validator';
 import { CONFIGURATION, SupportedTypes } from './configuration';
 
 import { Button, Input, Select, KeyValueGroup, getElementById } from '../elements';
@@ -441,6 +441,7 @@ courseEmojis.setPlaceholders({
 	key: 'COURSE 001',
 	value: '&#x1F468;&#x200D;&#x1F4BB;',
 })
+	.setValueValidator(EmojiField)
 	.addRow();
 
 // show advanced options if appropriate

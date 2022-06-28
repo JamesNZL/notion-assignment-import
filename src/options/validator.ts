@@ -214,6 +214,12 @@ export class StringField extends InputFieldValidator {
 	}
 }
 
+export class EmojiField extends InputFieldValidator {
+	public constructor(elementId: string) {
+		super(elementId, typeGuardModifiers.isNullable(typeGuards.isEmojiRequest), 'emoji');
+	}
+}
+
 export class RequiredStringField extends RequiredField {
 	public constructor(elementId: string) {
 		super(elementId, typeGuards.isString, 'string');
