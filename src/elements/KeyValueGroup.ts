@@ -107,6 +107,17 @@ export class KeyValueGroup extends Element {
 		// TODO: make invalid fields align
 
 		[keyInput, valueInput].forEach(input => input.addEventListener('input', inputListener.bind(this)));
+
+	}
+
+	private removeRow(row: number) {
+		const { keyInput, valueInput } = this.getRowInputs(row);
+		if (!keyInput || !valueInput) return;
+
+		keyInput.remove();
+		valueInput.remove();
+
+		this.rows[row] = null;
 	}
 
 	private isRowEmpty({ keyInput, valueInput }: NonNullableValues<RowInputs>) {
@@ -128,12 +139,7 @@ export class KeyValueGroup extends Element {
 		if (emptyRows.length <= 1) return;
 
 		// remove the 'other' empty row so cursor focus isn't disrupted
-		emptyRows[1].keyInput.remove();
-		emptyRows[1].valueInput.remove();
-
-		this.rows[this.rows.indexOf(emptyRows[1])] = null;
-
-		console.log(this.rows);
+		this.removeRow(this.rows.indexOf(emptyRows[1]));
 	}
 
 	private serialiseInputs() {
