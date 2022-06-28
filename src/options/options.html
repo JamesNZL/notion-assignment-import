@@ -16,7 +16,7 @@
 			<div>
 				<label class='required' for='display-advanced-options'>Show advanced options</label>
 				<div class='segmented-control-wrapper'>
-					<div class=' segmented-control' id='display-advanced-options'>
+					<div class='segmented-control row' id='display-advanced-options'>
 						<input checked type='radio' name='display-advanced-options' value='hide-advanced-options' id='hide-advanced-options'>
 						<label for='hide-advanced-options'>Hide</label>
 
@@ -31,7 +31,7 @@
 		<div class='tile'>
 			<div>
 				<label for='timezone'>Timezone (must be a valid <a target='_blank' href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>TZ database name</a>)</label>
-				<input type='text' id='timezone' name='timezone'>
+				<input type='text' id='timezone' name='timezone' class='row'>
 			</div>
 
 			<button id='options-restore-timezone' class='button red-hover row hidden'>Restore Default</button>
@@ -44,7 +44,7 @@
 			<div>
 				<label class='required' for='display-json-button'>Display 'Copy <code>JSON</code>' button</label>
 				<div class='segmented-control-wrapper'>
-					<div class=' segmented-control' id='display-json-button'>
+					<div class='segmented-control row' id='display-json-button'>
 						<input checked type='radio' name='display-json-button' value='hide-json-button' id='hide-json-button'>
 						<label for='hide-json-button'>Hide</label>
 
@@ -62,37 +62,37 @@
 		<div class='tile'>
 			<div>
 				<label class='required' for='breadcrumbs'>Breadcrumbs class</label>
-				<input required type='text' id='breadcrumbs' name='breadcrumbs'>
+				<input required type='text' id='breadcrumbs' name='breadcrumbs' class='row'>
 			</div>
 
 			<div>
 				<label class='required' for='assignment-class'>Assignment class</label>
-				<input required type='text' id='assignment-class' name='assignment-class'>
+				<input required type='text' id='assignment-class' name='assignment-class' class='row'>
 			</div>
 
 			<div>
 				<label class='required' for='assignment-title'>Assignment title class</label>
-				<input required type='text' id='assignment-title' name='assignment-title'>
+				<input required type='text' id='assignment-title' name='assignment-title' class='row'>
 			</div>
 
 			<div>
 				<label class='required' for='available-date'>Available date class</label>
-				<input required type='text' id='available-date' name='available-date'>
+				<input required type='text' id='available-date' name='available-date' class='row'>
 			</div>
 
 			<div>
 				<label class='required' for='available-status'>Available status class</label>
-				<input required type='text' id='available-status' name='available-status'>
+				<input required type='text' id='available-status' name='available-status' class='row'>
 			</div>
 
 			<div>
 				<label class='required' for='due-date'>Due date class</label>
-				<input required type='text' id='due-date' name='due-date'>
+				<input required type='text' id='due-date' name='due-date' class='row'>
 			</div>
 
 			<div>
 				<label class='required' for='date-element'>Date element class</label>
-				<input required type='text' id='date-element' name='date-element'>
+				<input required type='text' id='date-element' name='date-element' class='row'>
 			</div>
 
 			<button id='options-restore-canvas-class-names' class='button red-hover row hidden'>Restore Defaults</button>
@@ -102,12 +102,12 @@
 		<div class='tile'>
 			<div>
 				<label class='required' for='course-code-n'>Course code <code>nth li</code></label>
-				<input required type='text' id='course-code-n' name='course-code-n'>
+				<input required type='text' id='course-code-n' name='course-code-n' class='row'>
 			</div>
 
 			<div>
 				<label class='required' for='status-not-available'>Not available status</label>
-				<input required type='text' id='status-not-available' name='status-not-available'>
+				<input required type='text' id='status-not-available' name='status-not-available' class='row'>
 			</div>
 
 			<button id='options-restore-canvas-class-values' class='button red-hover row hidden'>Restore Defaults</button>
@@ -147,7 +147,7 @@
 
 			<div class='hidden'>
 				<label class='required' for='database-id'>Database (<a target='_blank' href='https://jamesnzl-sandbox.notion.site/c4d73bebd39c4103b96b2edb8be9e0bd'>Notion Template</a>)</label>
-				<select required id='database-id' name='database-id'></select>
+				<select required id='database-id' name='database-id' class='row'></select>
 
 				<button id='refresh-database-select' class='button green-hover row'>Refresh</button>
 			</div>
@@ -158,37 +158,37 @@
 		<div class='tile hidden'>
 			<div class='hidden'>
 				<label class='required' for='notion-property-name'>Page 'name' property (<a target='_blank' href='https://www.notion.so/help/database-properties'><code>Title</code></a>)</label>
-				<select required id='notion-property-name' name='notion-property-name'></select>
+				<select required id='notion-property-name' name='notion-property-name' class='row'></select>
 			</div>
 
 			<div class='hidden'>
 				<label for='notion-property-category'>Category property (<a target='_blank' href='https://www.notion.so/help/database-properties'><code>Select</code></a>)</label>
-				<select id='notion-property-category' name='notion-property-category'></select>
+				<select id='notion-property-category' name='notion-property-category' class='row'></select>
 			</div>
 
 			<div class='hidden'>
 				<label for='notion-property-course'>Course property (<a target='_blank' href='https://www.notion.so/help/database-properties'><code>Select</code></a>)</label>
-				<select id='notion-property-course' name='notion-property-course'></select>
+				<select id='notion-property-course' name='notion-property-course' class='row'></select>
 			</div>
 
 			<div class='hidden'>
 				<label for='notion-property-url'>URL property (<a target='_blank' href='https://www.notion.so/help/database-properties'><code>URL</code></a>)</label>
-				<select id='notion-property-url' name='notion-property-url'></select>
+				<select id='notion-property-url' name='notion-property-url' class='row'></select>
 			</div>
 
 			<div class='hidden'>
 				<label for='notion-property-available'>Available date property (<a target='_blank' href='https://www.notion.so/help/database-properties'><code>Date</code></a>)</label>
-				<select id='notion-property-available' name='notion-property-available'></select>
+				<select id='notion-property-available' name='notion-property-available' class='row'></select>
 			</div>
 
 			<div class='hidden'>
 				<label for='notion-property-due'>Due date property (<a target='_blank' href='https://www.notion.so/help/database-properties'><code>Date</code></a>)</label>
-				<select id='notion-property-due' name='notion-property-due'></select>
+				<select id='notion-property-due' name='notion-property-due' class='row'></select>
 			</div>
 
 			<div class='hidden'>
 				<label for='notion-property-span'>Date span property (<a target='_blank' href='https://www.notion.so/help/database-properties'><code>Date</code></a>)</label>
-				<select id='notion-property-span' name='notion-property-span'></select>
+				<select id='notion-property-span' name='notion-property-span' class='row'></select>
 			</div>
 
 			<button id='options-restore-notion-property-names' class='button red-hover row hidden'>Restore Defaults</button>
@@ -198,7 +198,7 @@
 		<div class='tile hidden'>
 			<div class='hidden'>
 				<label for='notion-category-canvas'>Canvas Category</label>
-				<select id='notion-category-canvas' name='notion-category-canvas'></select>
+				<select id='notion-category-canvas' name='notion-category-canvas' class='row'></select>
 			</div>
 
 			<button id='options-restore-notion-property-values' class='button red-hover row hidden'>Restore Defaults</button>
@@ -213,7 +213,7 @@
 				<p class='code'>
 					<code>{ 'Database Course Code': '&#x1F468;&#x200D;&#x1F4BB;' }</code>
 				</p>
-				<textarea id='course-emojis' name='course-emojis'></textarea>
+				<textarea id='course-emojis' name='course-emojis' class='row'></textarea>
 			</div>
 
 			<button id='options-restore-notion-emojis' class='button red-hover row hidden'>Restore Default</button>

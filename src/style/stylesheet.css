@@ -475,6 +475,12 @@ label.required:before {
 	margin-bottom: 0;
 }
 
+.tile .row>input,
+.tile .row>textarea,
+.tile .row>select {
+	margin-top: calc(2 * var(--margin));
+}
+
 .tile .segmented-control-wrapper {
 	padding-bottom: 0;
 }
@@ -482,7 +488,6 @@ label.required:before {
 input,
 textarea,
 select {
-	width: 100%;
 	margin-top: calc(2 * var(--margin));
 	margin-bottom: calc(5 * var(--margin));
 	padding: 8px 20px;
