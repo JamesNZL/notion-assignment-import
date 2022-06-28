@@ -1,9 +1,10 @@
 import { NotionClient, VALID_EMOJIS } from '../apis/notion';
 import { Storage } from '../apis/storage';
 
+import { SupportedTypes } from './configuration';
 import { NullIfEmpty, NeverEmpty } from './';
 
-import { Button } from '../elements';
+import { Button, Input } from '../elements';
 
 type TypeGuard = (value: unknown) => boolean;
 
@@ -55,22 +56,18 @@ export abstract class InputFieldValidator {
 	private static validatingFields = new Set<string>();
 	private static invalidFields = new Set<string>();
 
-	protected elementId: string;
+	private input: Input;
 	protected typeGuard: TypeGuard;
 	protected typeLabel: string;
 
-	// TODO: should this be an Input?
-	private fieldElement: HTMLElement;
-
 	public constructor(elementId: string, typeGuard: TypeGuard, typeLabel: string) {
-		this.elementId = elementId;
+		this.input = Input.getInstance(elementId);
 		this.typeGuard = typeGuard;
 		this.typeLabel = typeLabel;
+	}
 
-		const fieldElement = document.getElementById(elementId);
-		if (!fieldElement) throw new Error(`Failed to get element ${elementId}.`);
-
-		this.fieldElement = fieldElement;
+	public get elementId() {
+		return this.input.id;
 	}
 
 	public static countValidatingFields(): number {
@@ -88,9 +85,14 @@ export abstract class InputFieldValidator {
 		return InputFieldValidator.INVALID_INPUT;
 	}
 
-	public async validate(inputValue: NullIfEmpty<string>): Promise<NullIfEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
+	public async validate(): Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT> {
 		this.addValidatingStatus();
+
+		const inputValue = this.input.getValue() ?? null;
+		if (typeof inputValue === 'boolean') return inputValue;
+
 		const validatedInput = await this.validator(inputValue);
+
 		this.removeValidatingStatus();
 
 		if (validatedInput !== InputFieldValidator.INVALID_INPUT) this.removeInvalidError();
@@ -108,7 +110,7 @@ export abstract class InputFieldValidator {
 		const statusElement = document.getElementById(`validating-input-${this.elementId}`);
 		const statusHTML = `<span id='validating-input-${this.elementId}' class='validating-input-status'>${status}</span>`;
 
-		if (!statusElement) this.fieldElement.insertAdjacentHTML('beforebegin', statusHTML);
+		if (!statusElement) this.input.insertAdjacentHTML('beforebegin', statusHTML);
 		else statusElement.innerHTML = status;
 
 		SaveButton.updateState(SaveButtonUpdates.Pending);
@@ -125,12 +127,12 @@ export abstract class InputFieldValidator {
 	protected addInvalidError(error: string) {
 		InputFieldValidator.invalidFields.add(this.elementId);
 
-		this.fieldElement.classList.add('invalid-input');
+		this.input.addClass('invalid-input');
 
 		const errorElement = document.getElementById(`invalid-input-${this.elementId}`);
 		const errorHTML = `<span id='invalid-input-${this.elementId}' class='invalid-input-error'>${error}</span>`;
 
-		if (!errorElement) this.fieldElement.insertAdjacentHTML('beforebegin', errorHTML);
+		if (!errorElement) this.input.insertAdjacentHTML('beforebegin', errorHTML);
 		else errorElement.innerHTML = error;
 
 		SaveButton.updateState(SaveButtonUpdates.Disable);
@@ -139,7 +141,7 @@ export abstract class InputFieldValidator {
 	private removeInvalidError() {
 		InputFieldValidator.invalidFields.delete(this.elementId);
 
-		document.getElementById(this.elementId)?.classList.remove('invalid-input');
+		this.input.removeClass('invalid-input');
 		document.getElementById(`invalid-input-${this.elementId}`)?.remove();
 
 		SaveButton.updateState(SaveButtonUpdates.Restore);

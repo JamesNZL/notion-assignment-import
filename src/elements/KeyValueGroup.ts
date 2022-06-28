@@ -67,21 +67,8 @@ export class KeyValueGroup extends Element {
 		// TODO: check if should create/delete rows
 		// TODO: update valueInput
 
-		// TODO: refactor this to validator class
-		keyInput?.addEventListener('input', () => {
-			const inputValue = Input.getInstance(keyInput.id).getValue() ?? null;
+		keyInput?.addEventListener('input', keyValidator.validate.bind(keyValidator));
 
-			if (typeof inputValue === 'boolean') return inputValue;
-
-			keyValidator.validate(inputValue);
-		});
-
-		valueInput?.addEventListener('input', () => {
-			const inputValue = Input.getInstance(valueInput.id).getValue() ?? null;
-
-			if (typeof inputValue === 'boolean') return inputValue;
-
-			valueValidator.validate(inputValue);
-		});
+		valueInput?.addEventListener('input', valueValidator.validate.bind(valueValidator));
 	}
 }

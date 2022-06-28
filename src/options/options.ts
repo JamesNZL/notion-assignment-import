@@ -126,15 +126,6 @@ class RestoreSavedButton extends RestoreDefaultsButton {
 }
 
 const OptionsPage = <const>{
-	async validateInput(elementId: string, Validator: InputFieldValidator) {
-		const inputValue = Input.getInstance(elementId).getValue() ?? null;
-
-		// boolean values are always valid
-		if (typeof inputValue === 'boolean') return inputValue;
-
-		return await Validator.validate(inputValue);
-	},
-
 	async restoreOptions() {
 		const savedFields = await Storage.getSavedFields();
 
@@ -168,7 +159,7 @@ const OptionsPage = <const>{
 			await Promise.all(
 				Object.entries(CONFIGURATION.FIELDS).map(async ([field, { elementId, Validator }]) => {
 					const validatedInput = (Validator)
-						? await this.validateInput(elementId, Validator)
+						? await Validator.validate()
 						: Input.getInstance(elementId).getValue();
 					return [field, validatedInput];
 				}),
@@ -494,7 +485,7 @@ Object.values(CONFIGURATION.FIELDS)
 		const input = Input.getInstance(elementId);
 
 		if (Validator) {
-			input.addEventListener(validateOn, () => OptionsPage.validateInput(elementId, Validator));
+			input.addEventListener(validateOn, Validator.validate.bind(Validator));
 		}
 
 		if (dependents.length) {
