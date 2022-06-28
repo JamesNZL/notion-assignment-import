@@ -70,11 +70,11 @@ export abstract class InputFieldValidator {
 		return this.input.id;
 	}
 
-	public static countValidatingFields(): number {
+	public static countValidatingFields() {
 		return InputFieldValidator.validatingFields.size;
 	}
 
-	public static countInvalidFields(): number {
+	public static countInvalidFields() {
 		return InputFieldValidator.invalidFields.size;
 	}
 
