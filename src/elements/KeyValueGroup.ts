@@ -14,6 +14,8 @@ export class KeyValueGroup extends Element {
 	private KeyValidator: ValidatorConstructor = StringField;
 	private ValueValidator: ValidatorConstructor = StringField;
 
+	private rows = 0;
+
 	private constructor(id: string, keyGroupId: string, valueGroupId: string, valueInputId: string) {
 		super(id, 'key-value group');
 
@@ -49,13 +51,15 @@ export class KeyValueGroup extends Element {
 	}
 
 	public addRow() {
-		const keyHTML = `<input type='text' placeholder='${this.keyPlaceholder}' name='${this.keyGroup.id}' class='row'>`;
-		const valueHTML = `<input type='text' placeholder='${this.valuePlaceholder}' name='${this.valueGroup.id}' class='row'>`;
+		const keyHTML = `<input type='text' placeholder='${this.keyPlaceholder}' id='${this.keyGroup.id}-${this.rows}' name='${this.keyGroup.id}' class='row'>`;
+		const valueHTML = `<input type='text' placeholder='${this.valuePlaceholder}' id='${this.keyGroup.id}-${this.rows}' name='${this.valueGroup.id}' class='row'>`;
 
 		const keyInput = this.keyGroup.insertAdjacentHTML('beforeend', keyHTML);
 		const valueInput = this.valueGroup.insertAdjacentHTML('beforeend', valueHTML);
 
 		if (!keyInput || !valueInput) return;
+
+		this.rows++;
 
 		const keyValidator = new this.KeyValidator(keyInput.id);
 		const valueValidator = new this.ValueValidator(valueInput.id);
