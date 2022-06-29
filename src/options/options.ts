@@ -137,8 +137,6 @@ const OptionsPage = <const>{
 			const { input, defaultValue } = CONFIGURATION.FIELDS[<keyof typeof savedFields>field];
 
 			input.setValue(value, false);
-			// TODO: fix this
-			// this is overwriting my custom KVG placeholder
 			input.setPlaceholder?.(defaultValue);
 		});
 
