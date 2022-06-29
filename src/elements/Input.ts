@@ -1,16 +1,29 @@
 import { Element } from './Element';
 
 import { SupportedTypes } from '../options/configuration';
+import { InputFieldValidator, ValidatorConstructor } from '../options/validator';
 
 export class Input extends Element {
-	protected constructor(id: string, type = 'input') {
+	private validator?: InputFieldValidator;
+
+	protected element: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+
+	protected constructor(id: string, type = 'input', Validator?: ValidatorConstructor) {
 		super(id, type);
+
+		const element = document.getElementById(id);
+		if (!element) throw new Error(`Invalid ${type} identifier ${id}!`);
+		if (!Input.isValid(element)) throw new Error(`Invalid input element ${element}`);
+
+		this.element = element;
+
+		if (Validator) this.validator = new Validator(id);
 	}
 
-	public static override getInstance<T extends string>(id: T): Input {
+	public static override getInstance<T extends string>(id: T, type = 'input', Validator?: ValidatorConstructor): Input {
 		return Input.instances[id] = (Input.instances[id] instanceof Input)
 			? <Input>Input.instances[id]
-			: new Input(id);
+			: new Input(id, type, Validator);
 	}
 
 	private static isValid(element: HTMLElement | null): element is HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement {
@@ -25,9 +38,12 @@ export class Input extends Element {
 		return !this.element.classList.contains('invalid-input');
 	}
 
-	public getValue(): SupportedTypes | void {
-		if (!Input.isValid(this.element)) return;
+	public async validate() {
+		if (!this.validator) return this.getValue();
+		return await this.validator.validate();
+	}
 
+	public getValue(): SupportedTypes {
 		if (this.element instanceof HTMLInputElement && Input.useChecked(this.element)) {
 			return this.element.checked;
 		}
@@ -36,8 +52,6 @@ export class Input extends Element {
 	}
 
 	public setValue(value: SupportedTypes, dispatchEvent = true) {
-		if (!Input.isValid(this.element)) return;
-
 		if (this.element instanceof HTMLInputElement && Input.useChecked(this.element) && typeof value === 'boolean') {
 			this.element.checked = value;
 

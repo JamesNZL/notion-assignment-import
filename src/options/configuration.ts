@@ -1,11 +1,11 @@
+import { Input, KeyValueGroup } from '../elements';
+
 import { NullIfEmpty, SavedFields, SavedOptions } from './';
 import {
 	InputFieldValidator,
 	StringField,
 	RequiredStringField,
 	RequiredNumberAsStringField,
-	JSONStringObjectField,
-	JSONEmojiObjectField,
 	TimeZoneField,
 	RequiredNotionDatabaseIdField,
 } from './validator';
@@ -14,17 +14,39 @@ import { valueof } from '../types/utils';
 
 export type SupportedTypes = NullIfEmpty<string> | boolean;
 
+interface Readable {
+	getValue(): SupportedTypes;
+	validate(): Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT>;
+}
+
+interface Settable {
+	setValue(value: SupportedTypes, dispatchEvent?: boolean): void;
+}
+
+interface Dependable {
+	toggleDependents(dependents: readonly string[]): void;
+}
+
+interface Subscribable {
+	addEventListener(...args: Parameters<typeof HTMLElement.prototype.addEventListener>): void;
+	dispatchInputEvent(bubbles?: boolean): void;
+
+}
+
+interface HasPlaceholder {
+	setPlaceholder(placeholder: unknown): void;
+}
+
 interface OptionConfiguration<T> {
-	readonly elementId: string;
 	readonly defaultValue: T;
-	validator?: InputFieldValidator;
+	input: Readable & Settable & Dependable & Subscribable & Partial<HasPlaceholder>;
 	// default to 'input' if undefined
 	readonly validateOn?: 'input' | 'change';
 	readonly dependents?: readonly string[];
 }
 
 function isOptionConfiguration(object: valueof<NestedConfigurationsOf<SavedOptions>> | OptionConfiguration<SupportedTypes>): object is OptionConfiguration<SupportedTypes> {
-	const configurationProperties: (keyof OptionConfiguration<SupportedTypes>)[] = ['elementId', 'defaultValue'];
+	const configurationProperties: (keyof OptionConfiguration<SupportedTypes>)[] = ['defaultValue', 'input'];
 	return (<string[]>configurationProperties).every(key => Object.keys(object).includes(key));
 }
 
@@ -37,6 +59,40 @@ type IncompleteFieldKey<K extends string> = K extends keyof SavedFields
 	: `${K}.${string}` extends keyof SavedFields
 	? `${K}.${string}`
 	: never;
+
+interface InputElements {
+	'timeZone': 'timezone';
+	'popup.displayJSONButton': 'show-json-button';
+	'options.displayAdvanced': 'show-advanced-options';
+	'canvas.classNames.breadcrumbs': 'breadcrumbs';
+	'canvas.classNames.assignment': 'assignment-class';
+	'canvas.classNames.title': 'assignment-title';
+	'canvas.classNames.availableDate': 'available-date';
+	'canvas.classNames.availableStatus': 'available-status';
+	'canvas.classNames.dueDate': 'due-date';
+	'canvas.classNames.dateElement': 'date-element';
+	'canvas.classValues.courseCodeN': 'course-code-n';
+	'canvas.classValues.notAvailable': 'status-not-available';
+	'canvas.courseCodeOverrides': 'course-code-overrides-group';
+	courseCodesCanvas: 'course-code-overrides-canvas';
+	courseCodesNotion: 'course-code-overrides-notion';
+	courseCodesValue: 'course-code-overrides';
+	'notion.databaseId': 'database-id';
+	'notion.propertyNames.name': 'notion-property-name';
+	'notion.propertyNames.category': 'notion-property-category';
+	'notion.propertyNames.course': 'notion-property-course';
+	'notion.propertyNames.url': 'notion-property-url';
+	'notion.propertyNames.available': 'notion-property-available';
+	'notion.propertyNames.due': 'notion-property-due';
+	'notion.propertyNames.span': 'notion-property-span';
+	'notion.propertyValues.categoryCanvas': 'notion-category-canvas';
+	'notion.courseEmojis': 'course-emojis-group';
+	courseEmojisCodes: 'course-emojis-codes';
+	courseEmojisEmojis: 'course-emojis-emojis';
+	courseEmojisValue: 'course-emojis';
+}
+
+type InputElementId = valueof<InputElements>;
 
 export const CONFIGURATION: {
 	FIELDS: Record<keyof SavedFields, OptionConfiguration<SupportedTypes>>;
@@ -63,118 +119,112 @@ export const CONFIGURATION: {
 	},
 	OPTIONS: {
 		timeZone: {
-			elementId: 'timezone',
 			defaultValue: 'Pacific/Auckland',
-			get validator() {
-				delete this.validator;
-				return this.validator = new TimeZoneField('timezone');
+			get input() {
+				delete (<Partial<typeof this>>this).input;
+				return this.input = Input.getInstance<InputElementId>('timezone', 'input', TimeZoneField);
 			},
 		},
 		popup: {
 			displayJSONButton: {
-				elementId: 'show-json-button',
 				defaultValue: false,
+				get input() {
+					delete (<Partial<typeof this>>this).input;
+					return this.input = Input.getInstance<InputElementId>('show-json-button', 'input');
+				},
 			},
 		},
 		options: {
 			displayAdvanced: {
-				elementId: 'show-advanced-options',
 				defaultValue: false,
+				get input() {
+					delete (<Partial<typeof this>>this).input;
+					return this.input = Input.getInstance<InputElementId>('show-advanced-options', 'input');
+				},
 			},
 		},
 		canvas: {
 			classNames: {
 				breadcrumbs: {
-					elementId: 'breadcrumbs',
 					defaultValue: 'ic-app-crumbs',
-					get validator() {
-						delete this.validator;
-						return this.validator = new RequiredStringField('breadcrumbs');
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = Input.getInstance<InputElementId>('breadcrumbs', 'input', RequiredStringField);
 					},
 				},
 				assignment: {
-					elementId: 'assignment-class',
 					defaultValue: 'assignment',
-					get validator() {
-						delete this.validator;
-						return this.validator = new RequiredStringField('assignment-class');
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = Input.getInstance<InputElementId>('assignment-class', 'input', RequiredStringField);
 					},
 				},
 				title: {
-					elementId: 'assignment-title',
 					defaultValue: 'ig-title',
-					get validator() {
-						delete this.validator;
-						return this.validator = new RequiredStringField('assignment-title');
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = Input.getInstance<InputElementId>('assignment-title', 'input', RequiredStringField);
 					},
 				},
 				availableDate: {
-					elementId: 'available-date',
 					defaultValue: 'assignment-date-available',
-					get validator() {
-						delete this.validator;
-						return this.validator = new RequiredStringField('available-date');
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = Input.getInstance<InputElementId>('available-date', 'input', RequiredStringField);
 					},
 				},
 				availableStatus: {
-					elementId: 'available-status',
 					defaultValue: 'status-description',
-					get validator() {
-						delete this.validator;
-						return this.validator = new RequiredStringField('available-status');
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = Input.getInstance<InputElementId>('available-status', 'input', RequiredStringField);
 					},
 				},
 				dueDate: {
-					elementId: 'due-date',
 					defaultValue: 'assignment-date-due',
-					get validator() {
-						delete this.validator;
-						return this.validator = new RequiredStringField('due-date');
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = Input.getInstance<InputElementId>('due-date', 'input', RequiredStringField);
 					},
 				},
 				dateElement: {
-					elementId: 'date-element',
 					defaultValue: 'screenreader-only',
-					get validator() {
-						delete this.validator;
-						return this.validator = new RequiredStringField('date-element');
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = Input.getInstance<InputElementId>('date-element', 'input', RequiredStringField);
 					},
 				},
 			},
 			classValues: {
 				courseCodeN: {
-					elementId: 'course-code-n',
 					defaultValue: '2',
-					get validator() {
-						delete this.validator;
-						return this.validator = new RequiredNumberAsStringField('course-code-n');
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = Input.getInstance<InputElementId>('course-code-n', 'input', RequiredNumberAsStringField);
 					},
 				},
 				notAvailable: {
-					elementId: 'status-not-available',
 					defaultValue: 'Not available until',
-					get validator() {
-						delete this.validator;
-						return this.validator = new RequiredStringField('status-not-available');
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = Input.getInstance<InputElementId>('status-not-available', 'input', RequiredStringField);
 					},
 				},
 			},
 			courseCodeOverrides: {
-				elementId: 'course-code-overrides',
 				defaultValue: '{}',
-				get validator() {
-					delete this.validator;
-					return this.validator = new JSONStringObjectField('course-code-overrides');
+				get input() {
+					delete (<Partial<typeof this>>this).input;
+					return this.input = KeyValueGroup.getInstance<InputElementId>('course-code-overrides-group', 'course-code-overrides-canvas', 'course-code-overrides-notion', 'course-code-overrides');
 				},
 			},
 		},
 		notion: {
 			databaseId: {
-				elementId: 'database-id',
 				defaultValue: null,
-				get validator() {
-					delete this.validator;
-					return this.validator = new RequiredNotionDatabaseIdField('database-id');
+				get input() {
+					delete (<Partial<typeof this>>this).input;
+					return this.input = Input.getInstance<InputElementId>('database-id', 'input', RequiredNotionDatabaseIdField);
 				},
 				validateOn: 'change',
 				dependents: [
@@ -190,80 +240,71 @@ export const CONFIGURATION: {
 			},
 			propertyNames: {
 				name: {
-					elementId: 'notion-property-name',
 					defaultValue: 'Name',
-					get validator() {
-						delete this.validator;
-						return this.validator = new RequiredStringField('notion-property-name');
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = Input.getInstance<InputElementId>('notion-property-name', 'input', RequiredStringField);
 					},
 					validateOn: 'change',
 				},
 				category: {
-					elementId: 'notion-property-category',
 					defaultValue: 'Category',
-					get validator() {
-						delete this.validator;
-						return this.validator = new StringField('notion-property-category');
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = Input.getInstance<InputElementId>('notion-property-category', 'input', StringField);
 					},
 					dependents: ['notion-category-canvas'],
 				},
 				course: {
-					elementId: 'notion-property-course',
 					defaultValue: 'Course',
-					get validator() {
-						delete this.validator;
-						return this.validator = new StringField('notion-property-course');
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = Input.getInstance<InputElementId>('notion-property-course', 'input', StringField);
 					},
 				},
 				url: {
-					elementId: 'notion-property-url',
 					defaultValue: 'URL',
-					get validator() {
-						delete this.validator;
-						return this.validator = new StringField('notion-property-url');
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = Input.getInstance<InputElementId>('notion-property-url', 'input', StringField);
 					},
 				},
 				available: {
-					elementId: 'notion-property-available',
 					defaultValue: 'Reminder',
-					get validator() {
-						delete this.validator;
-						return this.validator = new StringField('notion-property-available');
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = Input.getInstance<InputElementId>('notion-property-available', 'input', StringField);
 					},
 				},
 				due: {
-					elementId: 'notion-property-due',
 					defaultValue: 'Due',
-					get validator() {
-						delete this.validator;
-						return this.validator = new StringField('notion-property-due');
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = Input.getInstance<InputElementId>('notion-property-due', 'input', StringField);
 					},
 				},
 				span: {
-					elementId: 'notion-property-span',
 					defaultValue: 'Date Span',
-					get validator() {
-						delete this.validator;
-						return this.validator = new StringField('notion-property-span');
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = Input.getInstance<InputElementId>('notion-property-span', 'input', StringField);
 					},
 				},
 			},
 			propertyValues: {
 				categoryCanvas: {
-					elementId: 'notion-category-canvas',
 					defaultValue: 'Canvas',
-					get validator() {
-						delete this.validator;
-						return this.validator = new StringField('notion-category-canvas');
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = Input.getInstance<InputElementId>('notion-category-canvas', 'input', StringField);
 					},
 				},
 			},
 			courseEmojis: {
-				elementId: 'course-emojis',
 				defaultValue: '{}',
-				get validator() {
-					delete this.validator;
-					return this.validator = new JSONEmojiObjectField('course-emojis');
+				get input() {
+					delete (<Partial<typeof this>>this).input;
+					return this.input = KeyValueGroup.getInstance<InputElementId>('course-emojis-group', 'course-emojis-codes', 'course-emojis-emojis', 'course-emojis');
 				},
 			},
 		},

@@ -68,10 +68,23 @@ export class KeyValueGroup extends Element {
 		return this;
 	}
 
-	public setPlaceholders({ key = '', value = '' }) {
+	public setPlaceholder({ key = '', value = '' }) {
 		this.keyPlaceholder = key;
 		this.valuePlaceholder = value;
 		return this;
+	}
+
+	public async validate() {
+		// TODO: implement this properly
+		return this.getValue();
+	}
+
+	public getValue(): SupportedTypes {
+		return this.valueInput.getValue();
+	}
+
+	public setValue(value: SupportedTypes, dispatchEvent = true) {
+		this.valueInput.setValue(value, dispatchEvent);
 	}
 
 	public restoreRows() {
@@ -207,5 +220,21 @@ export class KeyValueGroup extends Element {
 		if (this.getLivingRows().some(({ keyInput, valueInput }) => !keyInput.isValid || !valueInput.isValid)) return;
 
 		this.valueInput.setValue(this.serialiseInputs());
+	}
+
+	public dispatchInputEvent(bubbles = true) {
+		this.valueInput.dispatchInputEvent(bubbles);
+	}
+
+	public toggleDependents(dependents: readonly string[]) {
+		if (this.getValue() === '{}') {
+			dependents.forEach(dependentId => Input.getInstance(dependentId).hide());
+
+			return;
+		}
+
+		if (this.isHidden()) return;
+
+		dependents.forEach(dependentId => Input.getInstance(dependentId).show());
 	}
 }

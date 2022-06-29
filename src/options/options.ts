@@ -75,7 +75,7 @@ class RestoreDefaultsButton extends Button {
 
 		this.restoreKeys = restoreKeys;
 		this.inputs = Object.fromEntries(
-			this.restoreKeys.map(key => [key, Input.getInstance(CONFIGURATION.FIELDS[key].elementId)]),
+			this.restoreKeys.map(key => [key, CONFIGURATION.FIELDS[key].input]),
 		);
 
 		Object.values(this.inputs).forEach(input => input.addEventListener('input', this.toggle.bind(this)));
@@ -134,12 +134,10 @@ const OptionsPage = <const>{
 		const savedFields = await Storage.getSavedFields();
 
 		Object.entries(savedFields).forEach(([field, value]) => {
-			const { elementId, defaultValue } = CONFIGURATION.FIELDS[<keyof typeof savedFields>field];
-
-			const input = Input.getInstance(elementId);
+			const { input, defaultValue } = CONFIGURATION.FIELDS[<keyof typeof savedFields>field];
 
 			input.setValue(value, false);
-			input.setPlaceholder(defaultValue);
+			input.setPlaceholder?.(defaultValue);
 		});
 
 		Object.values(buttons.restore).forEach(button => button.toggle());
@@ -161,12 +159,7 @@ const OptionsPage = <const>{
 	async getInputs(): Promise<Record<keyof SavedFields, SupportedTypes> | null> {
 		const fieldEntries = Object.fromEntries(
 			await Promise.all(
-				Object.entries(CONFIGURATION.FIELDS).map(async ([field, { elementId, validator }]) => {
-					const validatedInput = (validator)
-						? await validator.validate()
-						: Input.getInstance(elementId).getValue();
-					return [field, validatedInput];
-				}),
+				Object.entries(CONFIGURATION.FIELDS).map(async ([field, { input }]) => [field, await input.validate()]),
 			),
 		);
 
@@ -179,7 +172,7 @@ const OptionsPage = <const>{
 const AdvancedOptions = <const>{
 	element: getElementById<OptionsElementId>('advanced-options'),
 	control: getElementById<OptionsElementId>('display-advanced-options'),
-	showInput: Input.getInstance(CONFIGURATION.FIELDS['options.displayAdvanced'].elementId),
+	showInput: CONFIGURATION.FIELDS['options.displayAdvanced'].input,
 	hideInput: Input.getInstance<OptionsElementId>('hide-advanced-options'),
 
 	show() {
@@ -439,29 +432,13 @@ const buttons: {
 	},
 };
 
-const courseCodes = KeyValueGroup.getInstance<OptionsElementId>('course-code-overrides-group', 'course-code-overrides-canvas', 'course-code-overrides-notion', 'course-code-overrides');
-
-courseCodes.setPlaceholders({
-	key: '101 UoA',
-	value: 'COURSE 101',
-});
-
-const courseEmojis = KeyValueGroup.getInstance<OptionsElementId>('course-emojis-group', 'course-emojis-codes', 'course-emojis-emojis', 'course-emojis');
-
-courseEmojis.setPlaceholders({
-	key: 'COURSE 101',
-	value: '&#x1F468;&#x200D;&#x1F4BB;',
-})
-	.setValueValidator(EmojiField)
-	.setValueValidateOn('input');
-
 // show advanced options if appropriate
 Storage.getOptions().then(({ options: { displayAdvanced } }) => AdvancedOptions.toggle(displayAdvanced));
 
 // toggle dependents if appropriate
-Object.values(CONFIGURATION.FIELDS).forEach(({ elementId, dependents }) => {
+Object.values(CONFIGURATION.FIELDS).forEach(({ input, dependents }) => {
 	if (!dependents) return;
-	Input.getInstance(elementId).toggleDependents(dependents);
+	input.toggleDependents(dependents);
 });
 
 Storage.getNotionAuthorisation().then(async ({ accessToken }) => {
@@ -480,6 +457,22 @@ Storage.getNotionAuthorisation().then(async ({ accessToken }) => {
 document.addEventListener('DOMContentLoaded', async () => {
 	await OptionsPage.restoreOptions();
 
+	const courseCodes = KeyValueGroup.getInstance<OptionsElementId>('course-code-overrides-group', 'course-code-overrides-canvas', 'course-code-overrides-notion', 'course-code-overrides');
+
+	courseCodes.setPlaceholder({
+		key: '101 UoA',
+		value: 'COURSE 101',
+	});
+
+	const courseEmojis = KeyValueGroup.getInstance<OptionsElementId>('course-emojis-group', 'course-emojis-codes', 'course-emojis-emojis', 'course-emojis');
+
+	courseEmojis.setPlaceholder({
+		key: 'COURSE 101',
+		value: '&#x1F468;&#x200D;&#x1F4BB;',
+	})
+		.setValueValidator(EmojiField)
+		.setValueValidateOn('input');
+
 	courseCodes.restoreRows();
 	courseEmojis.restoreRows();
 
@@ -496,16 +489,12 @@ AdvancedOptions.control?.addEventListener('input', () => {
 
 // validate fields on input
 Object.values(CONFIGURATION.FIELDS)
-	.forEach(({ elementId, validator, validateOn = 'input', dependents = [] }) => {
-		const input = Input.getInstance(elementId);
+	.forEach(({ input, validateOn = 'input', dependents = [] }) => {
+		input.addEventListener(validateOn, input.validate.bind(input));
 
-		if (validator) {
-			input.addEventListener(validateOn, validator.validate.bind(validator));
-		}
+		if (!dependents.length) return;
 
-		if (dependents.length) {
-			input.addEventListener('input', () => input.toggleDependents(dependents));
-		}
+		input.addEventListener('input', () => input.toggleDependents(dependents));
 	});
 
 Object.values(buttons.restore).forEach(button => button.addEventListener('click', button.restore.bind(button)));
