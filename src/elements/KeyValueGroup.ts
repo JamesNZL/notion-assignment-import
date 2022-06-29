@@ -201,6 +201,8 @@ export class KeyValueGroup extends Element {
 	}
 
 	private updateValueInput() {
+		if (this.getLivingRows().some(({ keyInput, valueInput }) => !keyInput.isValid || !valueInput.isValid)) return;
+
 		this.valueInput.setValue(this.serialiseInputs());
 	}
 }

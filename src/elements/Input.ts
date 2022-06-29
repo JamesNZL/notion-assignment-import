@@ -21,6 +21,10 @@ export class Input extends Element {
 		return (element.type === 'checkbox' || element.type === 'radio');
 	}
 
+	public get isValid() {
+		return !this.element.classList.contains('invalid-input');
+	}
+
 	public getValue(): SupportedTypes | void {
 		if (!Input.isValid(this.element)) return;
 
