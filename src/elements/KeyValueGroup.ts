@@ -68,7 +68,7 @@ export class KeyValueGroup extends Element {
 		return this;
 	}
 
-	public setPlaceholder({ key = '', value = '' }) {
+	public setPlaceholders({ key = '', value = '' }) {
 		this.keyPlaceholder = key;
 		this.valuePlaceholder = value;
 		return this;

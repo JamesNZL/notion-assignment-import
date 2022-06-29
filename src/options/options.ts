@@ -459,14 +459,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 	const courseCodes = KeyValueGroup.getInstance<OptionsElementId>('course-code-overrides-group', 'course-code-overrides-canvas', 'course-code-overrides-notion', 'course-code-overrides');
 
-	courseCodes.setPlaceholder({
+	courseCodes.setPlaceholders({
 		key: '101 UoA',
 		value: 'COURSE 101',
 	});
 
 	const courseEmojis = KeyValueGroup.getInstance<OptionsElementId>('course-emojis-group', 'course-emojis-codes', 'course-emojis-emojis', 'course-emojis');
 
-	courseEmojis.setPlaceholder({
+	courseEmojis.setPlaceholders({
 		key: 'COURSE 101',
 		value: '&#x1F468;&#x200D;&#x1F4BB;',
 	})
