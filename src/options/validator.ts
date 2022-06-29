@@ -11,6 +11,12 @@ type TypeGuardModifier = (typeGuard: TypeGuard) => TypeGuard;
 
 export type ValidatorConstructor = new (elementId: string) => InputFieldValidator;
 
+interface CoupledValidator {
+	readonly validator: InputFieldValidator;
+	readonly propagateInvalidClass: boolean;
+	readonly propagateError: boolean;
+}
+
 const enum SaveButtonUpdates {
 	Pending,
 	Disable,
@@ -61,6 +67,8 @@ export abstract class InputFieldValidator {
 	protected typeGuard: TypeGuard;
 	protected typeLabel: string;
 
+	private coupledValidators: CoupledValidator[] = [];
+
 	public constructor(elementId: string, typeGuard: TypeGuard, typeLabel: string) {
 		this.input = Input.getInstance(elementId);
 		this.typeGuard = typeGuard.bind(typeGuards);
@@ -69,6 +77,23 @@ export abstract class InputFieldValidator {
 
 	public get id() {
 		return this.input.id;
+	}
+
+	public coupleTo(validator: InputFieldValidator, {
+		propagateInvalidClass = true,
+		propagateError = true,
+	}) {
+		this.coupledValidators.push({
+			validator,
+			propagateInvalidClass,
+			propagateError,
+		});
+
+		validator.coupledValidators.push({
+			validator: this,
+			propagateInvalidClass,
+			propagateError,
+		});
 	}
 
 	public static countValidatingFields() {
@@ -101,7 +126,7 @@ export abstract class InputFieldValidator {
 		return validatedInput;
 	}
 
-	protected addValidatingStatus() {
+	protected addValidatingStatus(isTarget = true) {
 		this.removeInvalidError();
 
 		InputFieldValidator.validatingFields.add(this.id);
@@ -115,20 +140,28 @@ export abstract class InputFieldValidator {
 		else statusElement.innerHTML = status;
 
 		SaveButton.updateState(SaveButtonUpdates.Pending);
+
+		if (!isTarget) return;
+
+		this.coupledValidators.forEach(({ validator, propagateInvalidClass }) => validator.addValidatingStatus(propagateInvalidClass));
 	}
 
-	private removeValidatingStatus() {
+	private removeValidatingStatus(isTarget = true) {
 		InputFieldValidator.validatingFields.delete(this.id);
 
 		document.getElementById(`validating-input-${this.id}`)?.remove();
 
 		SaveButton.updateState(SaveButtonUpdates.Restore);
+
+		if (!isTarget) return;
+
+		this.coupledValidators.forEach(({ validator, propagateInvalidClass }) => validator.removeValidatingStatus(propagateInvalidClass));
 	}
 
-	protected addInvalidError(error: string) {
+	protected addInvalidError(error: string, isTarget = true) {
 		InputFieldValidator.invalidFields.add(this.id);
 
-		this.input.addClass('invalid-input');
+		if (isTarget) this.input.addClass('invalid-input');
 
 		const errorElement = document.getElementById(`invalid-input-${this.id}`);
 		const errorHTML = `<span id='invalid-input-${this.id}' class='invalid-input-error'>${error}</span>`;
@@ -137,15 +170,23 @@ export abstract class InputFieldValidator {
 		else errorElement.innerHTML = error;
 
 		SaveButton.updateState(SaveButtonUpdates.Disable);
+
+		if (!isTarget) return;
+
+		this.coupledValidators.forEach(({ validator, propagateInvalidClass, propagateError }) => validator.addInvalidError((propagateError) ? error : '&nbsp;', propagateInvalidClass));
 	}
 
-	private removeInvalidError() {
+	private removeInvalidError(isTarget = true) {
 		InputFieldValidator.invalidFields.delete(this.id);
 
-		this.input.removeClass('invalid-input');
+		if (isTarget) this.input.removeClass('invalid-input');
 		document.getElementById(`invalid-input-${this.id}`)?.remove();
 
 		SaveButton.updateState(SaveButtonUpdates.Restore);
+
+		if (!isTarget) return;
+
+		this.coupledValidators.forEach(({ validator, propagateInvalidClass }) => validator.removeInvalidError(propagateInvalidClass));
 	}
 }
 

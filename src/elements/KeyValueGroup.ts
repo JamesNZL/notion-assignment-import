@@ -141,14 +141,17 @@ export class KeyValueGroup extends Element {
 		const keyValidator = new this.KeyValidator(keyId);
 		const valueValidator = new this.ValueValidator(valueId);
 
+		keyValidator.coupleTo(valueValidator, {
+			propagateInvalidClass: false,
+			propagateError: false,
+		});
+
 		async function inputListener(this: KeyValueGroup) {
 			if ([await keyValidator.validate(), await valueValidator.validate()].includes(InputFieldValidator.INVALID_INPUT)) return;
 
 			this.manageRows(row);
 			this.updateValueInput();
 		}
-
-		// TODO: make invalid fields align
 
 		keyInput.addEventListener(this.keyValidateOn, inputListener.bind(this));
 		valueInput.addEventListener(this.valueValidateOn, inputListener.bind(this));
