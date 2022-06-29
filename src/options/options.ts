@@ -161,9 +161,9 @@ const OptionsPage = <const>{
 	async getInputs(): Promise<Record<keyof SavedFields, SupportedTypes> | null> {
 		const fieldEntries = Object.fromEntries(
 			await Promise.all(
-				Object.entries(CONFIGURATION.FIELDS).map(async ([field, { elementId, Validator }]) => {
-					const validatedInput = (Validator)
-						? await Validator.validate()
+				Object.entries(CONFIGURATION.FIELDS).map(async ([field, { elementId, validator }]) => {
+					const validatedInput = (validator)
+						? await validator.validate()
 						: Input.getInstance(elementId).getValue();
 					return [field, validatedInput];
 				}),
@@ -496,11 +496,11 @@ AdvancedOptions.control?.addEventListener('input', () => {
 
 // validate fields on input
 Object.values(CONFIGURATION.FIELDS)
-	.forEach(({ elementId, Validator, validateOn = 'input', dependents = [] }) => {
+	.forEach(({ elementId, validator, validateOn = 'input', dependents = [] }) => {
 		const input = Input.getInstance(elementId);
 
-		if (Validator) {
-			input.addEventListener(validateOn, Validator.validate.bind(Validator));
+		if (validator) {
+			input.addEventListener(validateOn, validator.validate.bind(validator));
 		}
 
 		if (dependents.length) {
