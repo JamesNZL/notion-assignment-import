@@ -76,7 +76,6 @@ interface InputElements {
 	'canvas.courseCodeOverrides': 'course-code-overrides-group';
 	courseCodesCanvas: 'course-code-overrides-canvas';
 	courseCodesNotion: 'course-code-overrides-notion';
-	courseCodesValue: 'course-code-overrides';
 	'notion.databaseId': 'database-id';
 	'notion.propertyNames.name': 'notion-property-name';
 	'notion.propertyNames.category': 'notion-property-category';
@@ -89,7 +88,6 @@ interface InputElements {
 	'notion.courseEmojis': 'course-emojis-group';
 	courseEmojisCodes: 'course-emojis-codes';
 	courseEmojisEmojis: 'course-emojis-emojis';
-	courseEmojisValue: 'course-emojis';
 }
 
 type InputElementId = valueof<InputElements>;
@@ -215,7 +213,7 @@ export const CONFIGURATION: {
 				defaultValue: '{}',
 				get input() {
 					delete (<Partial<typeof this>>this).input;
-					return this.input = KeyValueGroup.getInstance<InputElementId>('course-code-overrides-group', 'course-code-overrides-canvas', 'course-code-overrides-notion', 'course-code-overrides');
+					return this.input = KeyValueGroup.getInstance<InputElementId>('course-code-overrides-group', 'course-code-overrides-canvas', 'course-code-overrides-notion');
 				},
 			},
 		},
@@ -304,7 +302,7 @@ export const CONFIGURATION: {
 				defaultValue: '{}',
 				get input() {
 					delete (<Partial<typeof this>>this).input;
-					return this.input = KeyValueGroup.getInstance<InputElementId>('course-emojis-group', 'course-emojis-codes', 'course-emojis-emojis', 'course-emojis');
+					return this.input = KeyValueGroup.getInstance<InputElementId>('course-emojis-group', 'course-emojis-codes', 'course-emojis-emojis');
 				},
 			},
 		},

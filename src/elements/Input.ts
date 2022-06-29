@@ -87,6 +87,14 @@ export class Input extends Element {
 		this.dispatchInputEvent();
 	}
 
+	public coupleValidators(input: Input, {
+		propagateInvalidClass = true,
+		propagateError = true,
+	}) {
+		if (!this.validator || !input.validator) return;
+		this.validator.coupleTo(input.validator, { propagateInvalidClass, propagateError });
+	}
+
 	public dispatchInputEvent(bubbles = true) {
 		this.element.dispatchEvent(new Event('input', { bubbles }));
 	}

@@ -111,7 +111,7 @@ export abstract class InputFieldValidator {
 		return InputFieldValidator.INVALID_INPUT;
 	}
 
-	public async validate(): Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT> {
+	public async validate(isTarget = true): Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT> {
 		this.addValidatingStatus();
 
 		const inputValue = this.input.getValue() ?? null;
@@ -120,6 +120,9 @@ export abstract class InputFieldValidator {
 		const validatedInput = await this.validator(inputValue);
 
 		this.removeValidatingStatus();
+
+		// TODO: fix this properly
+		// if (isTarget && ![validatedInput, ...(await Promise.all(this.coupledValidators.map(({ validator }) => validator.validate(false))))].includes(InputFieldValidator.INVALID_INPUT)) this.removeInvalidError();
 
 		if (validatedInput !== InputFieldValidator.INVALID_INPUT) this.removeInvalidError();
 

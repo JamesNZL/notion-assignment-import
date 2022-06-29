@@ -137,6 +137,8 @@ const OptionsPage = <const>{
 			const { input, defaultValue } = CONFIGURATION.FIELDS[<keyof typeof savedFields>field];
 
 			input.setValue(value, false);
+			// TODO: fix this
+			// this is overwriting my custom KVG placeholder
 			input.setPlaceholder?.(defaultValue);
 		});
 
@@ -455,26 +457,21 @@ Storage.getNotionAuthorisation().then(async ({ accessToken }) => {
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
-	await OptionsPage.restoreOptions();
+	KeyValueGroup.getInstance<OptionsElementId>('course-code-overrides-group', 'course-code-overrides-canvas', 'course-code-overrides-notion')
+		.setPlaceholders({
+			key: '101 UoA',
+			value: 'COURSE 101',
+		});
 
-	const courseCodes = KeyValueGroup.getInstance<OptionsElementId>('course-code-overrides-group', 'course-code-overrides-canvas', 'course-code-overrides-notion', 'course-code-overrides');
-
-	courseCodes.setPlaceholders({
-		key: '101 UoA',
-		value: 'COURSE 101',
-	});
-
-	const courseEmojis = KeyValueGroup.getInstance<OptionsElementId>('course-emojis-group', 'course-emojis-codes', 'course-emojis-emojis', 'course-emojis');
-
-	courseEmojis.setPlaceholders({
-		key: 'COURSE 101',
-		value: '&#x1F468;&#x200D;&#x1F4BB;',
-	})
+	KeyValueGroup.getInstance<OptionsElementId>('course-emojis-group', 'course-emojis-codes', 'course-emojis-emojis')
+		.setPlaceholders({
+			key: 'COURSE 101',
+			value: '&#x1F468;&#x200D;&#x1F4BB;',
+		})
 		.setValueValidator(EmojiField)
 		.setValueValidateOn('input');
 
-	courseCodes.restoreRows();
-	courseEmojis.restoreRows();
+	await OptionsPage.restoreOptions();
 
 	Object.values(buttons.restore).forEach(button => button.toggle());
 });

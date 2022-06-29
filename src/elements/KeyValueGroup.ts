@@ -14,7 +14,6 @@ interface RowInputs {
 export class KeyValueGroup extends Element {
 	private keyGroup: Element;
 	private valueGroup: Element;
-	private valueInput: Input;
 
 	private keyPlaceholder = '';
 	private valuePlaceholder = '';
@@ -28,24 +27,20 @@ export class KeyValueGroup extends Element {
 	private rows: (RowInputs | null)[] = [];
 	private restoreCount = 0;
 
-	private constructor(id: string, keyGroupId: string, valueGroupId: string, valueInputId: string) {
+	private constructor(id: string, keyGroupId: string, valueGroupId: string) {
 		super(id, 'key-value group');
 
 		this.keyGroup = Element.getInstance(keyGroupId, 'key group');
 		this.valueGroup = Element.getInstance(valueGroupId, 'value group');
-		this.valueInput = Input.getInstance(valueInputId);
-
-		this.valueInput.addEventListener('input', this.restoreRows.bind(this));
 	}
 
-	public static override getInstance<T extends string>(id: T, keyGroupId?: T, valueGroupId?: T, valueInputId?: T): KeyValueGroup {
+	public static override getInstance<T extends string>(id: T, keyGroupId?: T, valueGroupId?: T): KeyValueGroup {
 		if (!keyGroupId) throw new Error('Argument keyGroupId must be defined for class KeyValueGroup!');
 		if (!valueGroupId) throw new Error('Argument valueGroupId must be defined for class KeyValueGroup!');
-		if (!valueInputId) throw new Error('Argument valueInputId must be defined for class KeyValueGroup!');
 
 		return KeyValueGroup.instances[id] = (KeyValueGroup.instances[id] instanceof KeyValueGroup)
 			? <KeyValueGroup>KeyValueGroup.instances[id]
-			: new KeyValueGroup(id, keyGroupId, valueGroupId, valueInputId);
+			: new KeyValueGroup(id, keyGroupId, valueGroupId);
 	}
 
 	public setKeyValidator(Validator: ValidatorConstructor) {
@@ -75,23 +70,41 @@ export class KeyValueGroup extends Element {
 	}
 
 	public async validate() {
-		// TODO: implement this properly
-		return this.getValue();
+		// TODO: see validator.ts TODO
+		// const validatedInputs = await Promise.all(
+		// 	this.getLivingRows()
+		// 		.flatMap(({ keyInput, valueInput }) => [keyInput.validate(), valueInput.validate()]),
+		// );
+
+		// return (validatedInputs.includes(InputFieldValidator.INVALID_INPUT))
+		// 	? InputFieldValidator.INVALID_INPUT
+		// 	: this.getValue();
+
+		return (this.getLivingRows().some(({ keyInput, valueInput }) => !keyInput.isValid || !valueInput.isValid))
+			? InputFieldValidator.INVALID_INPUT
+			: this.getValue();
 	}
 
 	public getValue(): SupportedTypes {
-		return this.valueInput.getValue();
+		return this.serialiseInputs();
+	}
+
+	private serialiseInputs() {
+		return JSON.stringify(
+			Object.fromEntries(
+				this.getLivingRows().filter(this.isRowFull)
+					.map(({ keyInput, valueInput }) => [keyInput.getValue(), valueInput.getValue()]),
+			),
+		);
 	}
 
 	public setValue(value: SupportedTypes, dispatchEvent = true) {
-		this.valueInput.setValue(value, dispatchEvent);
+		if (typeof value !== 'string') return;
+		this.restoreRows(value, dispatchEvent);
 	}
 
-	public restoreRows() {
+	public restoreRows(input: string, dispatchEvent = true) {
 		if (this.getLivingRows().some(inputs => !this.isRowEmpty(inputs) && !this.isRowFull(inputs))) return;
-
-		const input = this.valueInput.getValue();
-		if (typeof input !== 'string') return;
 
 		try {
 			const parsed = JSON.parse(input);
@@ -110,6 +123,9 @@ export class KeyValueGroup extends Element {
 			if (!Object.entries(parsed).length) this.addRow();
 
 			this.manageRows(this.rows.length - 1);
+
+			if (!dispatchEvent) return;
+			this.dispatchInputEvent();
 		}
 		catch { null; }
 	}
@@ -145,25 +161,27 @@ export class KeyValueGroup extends Element {
 		this.keyGroup.insertAdjacentHTML('beforeend', this.getKeyHTML(keyId));
 		this.valueGroup.insertAdjacentHTML('beforeend', this.getValueHTML(valueId));
 
-		const [keyInput, valueInput] = [keyId, valueId].map(id => Input.getInstance(id));
+		const keyInput = Input.getInstance(keyId, 'input', this.KeyValidator);
+		const valueInput = Input.getInstance(valueId, 'input', this.ValueValidator);
 
 		if (!keyInput || !valueInput) return;
 
 		this.rows.push({ keyInput, valueInput });
 
-		const keyValidator = new this.KeyValidator(keyId);
-		const valueValidator = new this.ValueValidator(valueId);
-
-		keyValidator.coupleTo(valueValidator, {
+		keyInput.coupleValidators(valueInput, {
 			propagateInvalidClass: false,
 			propagateError: false,
 		});
 
 		async function inputListener(this: KeyValueGroup) {
-			if ([await keyValidator.validate(), await valueValidator.validate()].includes(InputFieldValidator.INVALID_INPUT)) return;
+			if ([await keyInput.validate(), await valueInput.validate()].includes(InputFieldValidator.INVALID_INPUT)) return;
 
 			this.manageRows(row);
-			this.updateValueInput();
+
+			if (this.getLivingRows().some(rowInput => !rowInput.keyInput.isValid || !rowInput.valueInput.isValid)) return;
+
+			// remove dead rows from this.rows
+			this.setValue(this.getValue());
 		}
 
 		keyInput.addEventListener(this.keyValidateOn, inputListener.bind(this));
@@ -207,23 +225,8 @@ export class KeyValueGroup extends Element {
 		this.removeRow(this.rows.indexOf(emptyRows[1]));
 	}
 
-	private serialiseInputs() {
-		return JSON.stringify(
-			Object.fromEntries(
-				this.getLivingRows().filter(this.isRowFull)
-					.map(({ keyInput, valueInput }) => [keyInput.getValue(), valueInput.getValue()]),
-			),
-		);
-	}
-
-	private updateValueInput() {
-		if (this.getLivingRows().some(({ keyInput, valueInput }) => !keyInput.isValid || !valueInput.isValid)) return;
-
-		this.valueInput.setValue(this.serialiseInputs());
-	}
-
 	public dispatchInputEvent(bubbles = true) {
-		this.valueInput.dispatchInputEvent(bubbles);
+		this.element.dispatchEvent(new Event('input', { bubbles }));
 	}
 
 	public toggleDependents(dependents: readonly string[]) {
