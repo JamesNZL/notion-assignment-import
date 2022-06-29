@@ -159,9 +159,10 @@ export abstract class InputFieldValidator {
 	}
 
 	protected addInvalidError(error: string, isTarget = true) {
-		InputFieldValidator.invalidFields.add(this.id);
-
-		if (isTarget) this.input.addClass('invalid-input');
+		if (isTarget) {
+			InputFieldValidator.invalidFields.add(this.id);
+			this.input.addClass('invalid-input');
+		}
 
 		const errorElement = document.getElementById(`invalid-input-${this.id}`);
 		const errorHTML = `<span id='invalid-input-${this.id}' class='invalid-input-error'>${error}</span>`;
@@ -177,9 +178,11 @@ export abstract class InputFieldValidator {
 	}
 
 	private removeInvalidError(isTarget = true) {
-		InputFieldValidator.invalidFields.delete(this.id);
+		if (isTarget) {
+			InputFieldValidator.invalidFields.delete(this.id);
+			this.input.removeClass('invalid-input');
+		}
 
-		if (isTarget) this.input.removeClass('invalid-input');
 		document.getElementById(`invalid-input-${this.id}`)?.remove();
 
 		SaveButton.updateState(SaveButtonUpdates.Restore);
