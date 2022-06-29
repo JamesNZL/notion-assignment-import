@@ -143,7 +143,7 @@ export abstract class InputFieldValidator {
 
 		if (!isTarget) return;
 
-		this.coupledValidators.forEach(({ validator, propagateInvalidClass }) => validator.addValidatingStatus(propagateInvalidClass));
+		this.coupledValidators.forEach(({ validator }) => validator.addValidatingStatus(false));
 	}
 
 	private removeValidatingStatus(isTarget = true) {
@@ -155,11 +155,11 @@ export abstract class InputFieldValidator {
 
 		if (!isTarget) return;
 
-		this.coupledValidators.forEach(({ validator, propagateInvalidClass }) => validator.removeValidatingStatus(propagateInvalidClass));
+		this.coupledValidators.forEach(({ validator }) => validator.removeValidatingStatus(false));
 	}
 
-	protected addInvalidError(error: string, isTarget = true) {
-		if (isTarget) {
+	protected addInvalidError(error: string, isTarget = true, addInvalidClass = true) {
+		if (addInvalidClass) {
 			InputFieldValidator.invalidFields.add(this.id);
 			this.input.addClass('invalid-input');
 		}
@@ -174,11 +174,11 @@ export abstract class InputFieldValidator {
 
 		if (!isTarget) return;
 
-		this.coupledValidators.forEach(({ validator, propagateInvalidClass, propagateError }) => validator.addInvalidError((propagateError) ? error : '&nbsp;', propagateInvalidClass));
+		this.coupledValidators.forEach(({ validator, propagateInvalidClass, propagateError }) => validator.addInvalidError((propagateError) ? error : '&nbsp;', false, propagateInvalidClass));
 	}
 
-	private removeInvalidError(isTarget = true) {
-		if (isTarget) {
+	private removeInvalidError(isTarget = true, removeInvalidClass = true) {
+		if (removeInvalidClass) {
 			InputFieldValidator.invalidFields.delete(this.id);
 			this.input.removeClass('invalid-input');
 		}
@@ -189,7 +189,7 @@ export abstract class InputFieldValidator {
 
 		if (!isTarget) return;
 
-		this.coupledValidators.forEach(({ validator, propagateInvalidClass }) => validator.removeInvalidError(propagateInvalidClass));
+		this.coupledValidators.forEach(({ validator, propagateInvalidClass }) => validator.removeInvalidError(false, propagateInvalidClass));
 	}
 }
 
