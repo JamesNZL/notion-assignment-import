@@ -230,7 +230,6 @@ buttons.clearStorage.addEventListener('click', () => {
 	if (buttons.clearStorage.getButtonLabel() === undoPrompt) {
 		buttons.clearStorage.clearTimeout('clear');
 
-		// reset list display after verify period is over
 		SavedCoursesList.enableUpdates();
 		SavedCoursesList.listCourses();
 
@@ -250,6 +249,8 @@ buttons.clearStorage.addEventListener('click', () => {
 	buttons.clearStorage.setTimeout('clear', () => {
 		Storage.clearSavedAssignments();
 
+		// reset list display after verify period is over
+		SavedCoursesList.enableUpdates();
 		SavedCoursesList.listCourses();
 
 		buttons.clearStorage.addClass('red');
