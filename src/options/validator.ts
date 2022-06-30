@@ -112,19 +112,28 @@ export abstract class InputFieldValidator {
 	}
 
 	public async validate(isTarget = true): Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT> {
-		this.addValidatingStatus();
+		if (isTarget) this.addValidatingStatus();
 
 		const inputValue = this.input.getValue() ?? null;
 		if (typeof inputValue === 'boolean') return inputValue;
 
 		const validatedInput = await this.validator(inputValue);
 
+		if (!isTarget) return validatedInput;
+
 		this.removeValidatingStatus();
 
-		// TODO: fix this properly
-		// if (isTarget && ![validatedInput, ...(await Promise.all(this.coupledValidators.map(({ validator }) => validator.validate(false))))].includes(InputFieldValidator.INVALID_INPUT)) this.removeInvalidError();
+		if (!this.coupledValidators.length) return validatedInput;
 
-		if (validatedInput !== InputFieldValidator.INVALID_INPUT) this.removeInvalidError();
+		const anyCoupledInvalid = [
+			validatedInput,
+			...(await Promise.all(
+				this.coupledValidators.map(({ validator }) => validator.validate(false)),
+			)),
+		]
+			.includes(InputFieldValidator.INVALID_INPUT);
+
+		if (!anyCoupledInvalid) this.removeInvalidError();
 
 		return validatedInput;
 	}
