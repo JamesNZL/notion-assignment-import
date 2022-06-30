@@ -201,9 +201,9 @@ buttons.export.addEventListener('click', async () => {
 		? createdAssignments.reduce((list, { course, name }, index) => list + `${index + 1}. ${course} ${name}\n`, '\n\n')
 		: '';
 
+	alert(`Created ${createdAssignments.length} new assignments.${createdNames}`);
 	buttons.export.setButtonLabel(`Created <code>${createdAssignments.length}</code> new assignment${(createdAssignments.length !== 1) ? 's' : ''}!`);
 	buttons.export.resetHTML(3500);
-	alert(`Created ${createdAssignments.length} new assignments.${createdNames}`);
 });
 
 buttons.listAssignments.addEventListener('click', SavedCoursesList.listAssignments.bind(SavedCoursesList));
