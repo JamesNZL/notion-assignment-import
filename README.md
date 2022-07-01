@@ -61,7 +61,7 @@
 
 <br>
 
-A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/), [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/), and [Safari](#macos-instructions) extension to load [Canvas](https://www.instructure.com/canvas) assignments into a [Notion](https://www.notion.so/) database, at just the click of a button — unlock your full time-management and productivity potential!
+A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/), [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/), and [Safari](#macos-instructions) extension to load [Canvas](https://www.instructure.com/canvas) assignments into a [Notion](https://www.notion.so/) database, at just the click of a button—unlock your full time-management and productivity potential!
 
 - [Features](#features)
 - [Screenshots](#screenshots)
@@ -71,8 +71,9 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
 - [Setup Instructions](#setup-instructions)
   - [macOS Instructions](#macos-instructions)
   - [Configurable Options](#configurable-options)
-    - [`Canvas Course Code Overrides`](#canvas-course-code-overrides)
-    - [`Notion Course Emojis`](#notion-course-emojis)
+    - [`Course Code Overrides`](#course-code-overrides)
+    - [`Page Emojis`](#page-emojis)
+  - [BREAKING CHANGES](#breaking-changes)
 - [Building For Local Development](#building-for-local-development)
 - [How It Works](#how-it-works)
   - [Assignment Parsing](#assignment-parsing)
@@ -80,15 +81,16 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
 
 # Features
 
-- Simple and user-friendly interface
+- Simple, user-friendly interface
 - Provided [Notion database template](https://jamesnzl-sandbox.notion.site/c4d73bebd39c4103b96b2edb8be9e0bd?v=9afaf4b4faee4a5a977c00291be06c9e)
-- Configurable options with input validation
+- Configurable options, with input validation
 - `Category` database property for seamless integration into an existing tasks database
-- Fine-tuning of database property names and values
-- Overriding of the course name displayed in Canvas
-- Custom emojis for each course to be displayed as Notion page icons
+- Fine-tuning of database property names & values
+- Overriding of Canvas course names
+- Emojis for Notion page icons
 - Open source
-- Private and secure — all data is stored locally, and loaded by your own Notion Integration!
+- Private and secure—all data is stored locally!
+	> My integration does not save or log any user data.
 
 # Screenshots
 
@@ -117,35 +119,40 @@ To be notified with updates and changelogs, to get in touch, or just to lurk, jo
 
 2. Duplicate [this Notion database template](https://jamesnzl-sandbox.notion.site/c4d73bebd39c4103b96b2edb8be9e0bd?v=9afaf4b4faee4a5a977c00291be06c9e) (or create/modify your own!).
 
-3. Click `Configure Options` to configure the extension.
-   1. Create a new Notion Internal Integration, and add it to the desired database.
-		> Follow step 1–2 on [this page](https://developers.notion.com/docs/getting-started#step-1-create-an-integration).
-      1. Copy and paste your integration key into the `Notion Integration Key` option field.
-      2. Copy and paste your database identifier into the `Notion Database ID` option field.
+3. Click on the options icon to configure the extension.
 
-4. Configure the `Timezone` and `Notion Database Properties` if necessary.
-	> You should only ever change the `Canvas Class Names` options if the extension is not parsing assignments correctly, and you know what you are doing.
+4. Click `Authorise with Notion` to add the integration to your Notion workspace, and share your relevant database(s).
 
-5. Open the Canvas Assignments page for the course you wish to import.
+5. Select the desired target database in the `Database` dropdown.
+	> NOTE: Databases that have not been *directly* shared with the integration (ie those which are a child of a shared page) might not immediately appear. Use the `Refresh` button until the desired database appears.
 
-6. Click `Save Canvas Assignments`.
+6. Configure the `Property Names` and `Property Values` if necessary.
+	> If you have duplicated my database template, you do not need to change the applied defaults.
 
-7. You should see the course code appear in the `Saved Assignments` list.
-   1. Click `View Saved JSON` to view the raw stored `JSON`.
-   2. Click `List Saved Courses` to return to the ordered list of course codes.
-   3. Click `Clear Saved Assignments` to remove the saved assignments from storage.
+7. Configure the `Timezone`, `Course Code Overrides`, and `Page Emojis` options if necessary.
+   > `Course Code Overrides` can be found under **Advanced Options**.  
 
-8. Repeat steps 5–7 as desired.
+   > You should only change the `HTML Class Names` if the extension is not parsing assignments correctly, and you know what you are doing.  
+   > If you are running into issues, feel free to ask for help on the [Discord server](https://discord.gg/k2jjmmVPeK)!
 
-9. Once you have saved the assignments of all your desired courses, click the `Export Saved Assignments` button to export to Notion.
+8. Open the Canvas Assignments page for the course you wish to import.
+
+9. Click `Copy from Canvas`.
+
+10.  You should see the course appear in the `Saved Assignments` list.  
+    1. Click `Expand` to view a list of individual saved assignments.  
+    2. Click `Clear` to remove the saved assignments from storage.
+
+11.  Repeat steps **8** and **9** as desired.
+
+12.  Once you have finished saving assignments, click the `Export to Notion` button to export to your Notion database.
 
 ## macOS Instructions
 
 > **DISCLAIMER:** This is an unsigned extension that is not installed through the Apple App Store.  
-> This means that you **will not** receive automatic updates, and you must repeat the below installation steps if you wish to update your extension.
+> This means that you **will not** receive automatic updates, and you must repeat the below installation steps if you wish to update your extension.  
 > This may change in a future update.  
-> Note that I am planning to make some major enhancements to the extension after Semester One exams (ie after 22 Jun 22), so you may wish to wait until v4 is released before installing.
-> For updates, join [this Discord server](https://discord.gg/k2jjmmVPeK).
+> For updates, join the [Discord server](https://discord.gg/k2jjmmVPeK).
 
 1. Download the latest [`notion-assignment-import-safari_latest.zip`](releases/safari/notion-assignment-import-safari_latest.zip) archive from [`releases/safari`](releases/safari/).
 
@@ -190,82 +197,86 @@ chmod +x chmod +x /Users/YOUR_USERNAME/Downloads/notion-assignment-import-safari
 
 ## Configurable Options
 
-| Option                         | Default Value               | Purpose/Remarks                                                                                                                      |
-| ------------------------------ | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| Breadcrumbs class              | `ic-app-crumbs`             | Select the breadcrumb at the top of the page, containing the course code as the `nth li` child element                               |
-| Course code `nth li`           | `2`                         | Parse the course code, as the `nth li` of the breadcrumbs parent element                                                             |
-| Assignment class               | `assignment`                | Select the individual assignments on the page                                                                                        |
-| Assignment title               | `ig-title`                  | Select the `a` element that contains the assignment URL as the `href` attribute and the assignment name as `innerHTML`               |
-| Available date                 | `assignment-date-available` | Select the element containing the assignment available date information                                                              |
-| Available status               | `status-description`        | Select the element containing the text that specifies whether the assignment is already available or not                             |
-| Due date                       | `assignment-date-due`       | Select the element containing the assignment due date information                                                                    |
-| Date element                   | `screenreader-only`         | Select the `span` element which contains the date as `innerHTML`                                                                     |
-| Not available status           | `Not available until`       | The text within `Available status` that specifies that an assignment is not yet available                                            |
-| Notion Integration Key         | `null`                      | The integration key of the Notion Internal Integration that is added to the desired database                                         |
-| Notion Database ID             | `null`                      | The identifier of the desired database                                                                                               |
-| Timezone                       | `Pacific/Auckland`          | The `TZ` timezone in which to parse and set all dates                                                                                |
-| Page 'name' property           | `Name`                      | The name of the database Name/Title property, used to set the assignment name                                                        |
-| Category property name         | `Category`                  | The name of a database Category property, used to allow grouping of all Canvas assignments together if using a single tasks database |
-| Course property name           | `Course`                    | The name of the database Course property, used to set the assignment course code                                                     |
-| URL property name              | `URL`                       | The name of the database URL property, used to set the assignment URL                                                                |
-| Status property name           | `Status`                    | The name of the database Status property, used to initialise the status of all assignments as `Status property To Do value`          |
-| Available date property name   | `Reminder`                  | The name of the database Reminder property, used to set the assignment available (from) date                                         |
-| Due date property name         | `Due`                       | The name of the database Due property, used to set the assignment due date                                                           |
-| Date span property name        | `Date Span`                 | The name of the database Date Span property, used to set the date span of the assignment as `available from date`–`due date`         |
-| Category property Canvas value | `Canvas`                    | The value of the database `Course` property to set all Canvas assignments as                                                         |
-| Status property To Do value    | `To Do`                     | The value of the database `Status` property to initialise all Canvas assignments as                                                  |
-| Canvas Course Code Overrides   | `{}`                        | A `string` representation of a `JSON` `object` for any course code overrides to apply                                                |
-| Notion Course Emojis           | `{}`                        | A `string` representation of a `JSON` `object` for any course emojis to apply                                                        |
+| Option                    | Purpose/Remarks                                                                                                                      |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `Show Advanced Options`   | Whether to `Show`/`Hide` the **Advanced Options**.                                                                                   |
+| `Timezone`                | The `TZ` timezone in which to parse and set all dates                                                                                |
+| `Database`                | The target Notion database                                                                                                           |
+| `Page 'Name' Property`    | The name of the database `Title` property, used to set the assignment name                                                           |
+| `Category Property`       | The name of a database Category property, used to allow grouping of all Canvas assignments together if using a single tasks database |
+| `Course Property`         | The name of a database Course property, used to set the assignment course code                                                       |
+| `URL Property`            | The name of a database URL property, used to set the assignment URL                                                                  |
+| `Available Date Property` | The name of a database Reminder property, used to set the assignment available date                                                  |
+| `Due Date Property`       | The name of a database Due property, used to set the assignment due date                                                             |
+| `Date Span Property`      | The name of a database Date Span property, used to set the date span of the assignment as `available from date`–`due date`           |
+| `Canvas Category`         | The value of a database Category property to categorise all Canvas assignments as                                                    |
+| `Page Emojis`             | Any Notion page emojis to apply                                                                                                      |
 
-### Why have `Date span`, on top of `Available date` and `Due date`?
+**Advanced Options**
 
-Good question — this was ultimately a design decision I made for maximum flexibility.
+| Option                       | Purpose/Remarks                                                                                                         |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `Display 'Copy JSON' Button` | Whether to `Show`/`Hide` the `Copy JSON` button in the extension popup                                                  |
+| `Breadcrumbs Class`          | Selects the breadcrumb at the top of the page, containing the course code as the `nth li` child element                 |
+| `Assignment Class`           | Selects each individual assignment on the page                                                                          |
+| `Assignment Title Class`     | Selects the `a` element that contains the assignment URL as the `href` attribute and the assignment name as `innerHTML` |
+| `Available Date Class`       | Selects the element containing the assignment available date                                                            |
+| `Available Status Class`     | Selects the element containing the text that specifies whether the assignment is already available or not               |
+| `Due Date Class`             | Selects the element containing the assignment due date                                                                  |
+| `Date Element Class`         | Selects the inner element which directly contains the above dates as `innerHTML`                                        |
+| `Course Code nth li`         | Parses the course code as the `nth li` of the `breadcrumbs` parent element                                              |
+| `Not Available Status`       | The text within `Available Status Class` that specifies that an assignment is not yet available                         |
+| `Course Code Overrides`      | Any course code overrides to apply                                                                                      |
+
+### What is the difference between `Available Date`, `Due Date`, and `Date Span`?
+
+Good question—this was ultimately a design decision I made for maximum flexibility.
+
+| Property         | Purpose                                                         |
+| ---------------- | --------------------------------------------------------------- |
+| `Available Date` | Used for the date that an assignment unlocks/becomes available. |
+| `Due Date`       | Used for the date that an assignment is due.                    |
+| `Date Span`      | Used for the date **span** `Available`–`Due`.                   |
 
 This enables many possible use-cases, such as:
-   1. Timelines to be created by `Date span`;
+   1. Timelines to be created by `Date Span`;
    2. Calendars to be set to:
-      1. `Date span`, or
-      2. `Due date` only.
+      1. `Date Span`, or
+      2. `Due Date` only.
    3. Reminders to be set independent to the available date;
    4. Manipulation of the start/end dates on a timeline independent to the available/due date; and
    5. Sorting assignments by *due date*, rather than only being able to sort by available date.
-      > There is no ability to sort Notion `Date` (span) properties by their end date — only their start date.
+      > Notion doesn't let you sort `Date` (span) properties by their end date—only their start date.
 
-Of course, you are welcome to configure any of these property names to be empty — empty properties are ignored on import.
+Of course, you are welcome to configure any of these property names to be `❌ Exclude`—these properties are ignored on import.
 
-### `Canvas Course Code Overrides`
+### `Course Code Overrides`
 
-Example — the course title in the page breadcrumb is `Course Title`, but you want it to be saved in your database as `CSE 121`.
+**Example:** The course title in the page breadcrumb is `Course Title`, but you want it to be saved in your database as `CSE 121`.
 
-Configure the `Canvas Course Code Overrides` to the following:
+Configure `Course Code Overrides` to the following:
 
-```javascript
-{
-   "Course Title": "CSE 121"
-}
-```
+| **Canvas Course Code** | **Notion Course Code** |
+| ---------------------- | ---------------------- |
+| `Course Title`         | `CSE 121`              |
 
-For any additional courses, simply separate them with a comma `,`:
+### `Page Emojis`
 
-```javascript
-{
-   "Course Title": "CSE 121",
-   "Other Course": "OTH 101"
-}
-```
+**Example:** You want all `CSE 121` pages to have the ✨ emoji, and all `OTH 101` pages to have the 👀 emoji.
 
-### `Notion Course Emojis`
+Configure `Page Emojis` to the following:
 
-Example — you want all `CSE 121` pages to have the ✨ emoji, and all `OTH 101` pages to have the 👀 emoji.
+| **Canvas Course Code** | **Notion Course Code** |
+| ---------------------- | ---------------------- |
+| `CSE 121`              | `✨`                    |
+| `OTH 101`              | `👀`                    |
 
-Configure the `Notion Course Emojis` to the following:
+## BREAKING CHANGES
 
-```javascript
-{
-   "CSE 121": "✨",
-   "OTH 101": "👀"
-}
-```
+### `v4`
+
+1. Support for a configurable Notion `'Status'` property has been removed, as Notion has implemented their own built-in `Status` property. To fix assignments being imported without a `'Status'` value, change your database property to be of type `Status`, and assign a `DEFAULT` value.
+   > [Read more here](https://www.notion.so/help/guides/status-property-gives-clarity-on-tasks).
 
 # Building For Local Development
 
@@ -285,22 +296,22 @@ This project uses [`gulp`](https://gulpjs.com/) and [`browserify`](https://brows
 
 ## Assignment Parsing
 
-1. Assignments are parsed from the `DOM` using the configured `Assignment class`.
+1. Assignments are parsed from the `DOM` using the configured `Assignment Class`.
 
 2. Assignments are individually parsed for their name, course, URL, available (from) date, and due date:
-   1. `Canvas Course Code Overrides` are applied as configured,
-   2. `Notion Course Emojis` are applied as configured, and
+   1. `Course Code Overrides` are applied,
+   2. `Page Emojis` are applied, and
    3. Assignments without due dates are ignored.
-   > Assignments without 'available date' information (or are already available), are set to be available from the top of the next hour (relative to parsing time).
+   > Assignments without 'available date' information (or that are already available), are set to be available from the top of the next hour (relative to parsing time).
 
-3. Parsed assignments are saved by course in Chrome local storage in a `JSON`-serialisable format (see `IParsedAssignment` and `SavedAssignment` in [`parse.ts`](src/popup/parse.ts)).
+3. Parsed assignments are saved by course in browser local storage in a `JSON`-serialisable format (see `IParsedAssignment` and `SavedAssignment` in [`parse.ts`](src/popup/parse.ts)).
 
 ## Notion Import
 
-4. The configured `Notion Integration Key` is used to authenticate with the [Notion API](https://developers.notion.com/).
+4. The OAuth2 token is used to authorise with the [Notion API](https://developers.notion.com/).
 
 5. The saved assignment data is retrieved from local storage.
 
-6. The configured `Database ID` is queried to avoid import of duplicate assignments (matching assignment URLs).
+6. The configured `Database` is queried to avoid import of duplicate assignments (by matching assignment URLs).
 
-7. The configured `Notion Database Properties` are used to create a new database page for each assignment with the Notion API.
+7. The configured `Database Properties` are used to create a new database page for each assignment with the Notion API.
