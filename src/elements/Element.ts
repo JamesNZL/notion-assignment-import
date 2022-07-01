@@ -52,6 +52,34 @@ export class Element {
 		return this.element.classList.contains('hidden');
 	}
 
+	private parseHeadingLevel(tagName: string) {
+		return Number(tagName.match(/\d+/));
+	}
+
+	private findParentHeading(heading: HTMLHeadingElement) {
+		const thisLevel = this.parseHeadingLevel(heading.tagName);
+
+		let previousElement = heading.previousElementSibling;
+		while (previousElement && !(this.parseHeadingLevel(previousElement.tagName) < thisLevel)) {
+			previousElement = previousElement.previousElementSibling;
+		}
+
+		if (!(previousElement instanceof HTMLHeadingElement)) return null;
+		return previousElement;
+	}
+
+	private isAllHeadingChildrenHidden(heading: HTMLHeadingElement) {
+		let nextElement = heading.nextElementSibling;
+		while (nextElement?.classList.contains('hidden')) {
+			nextElement = nextElement.nextElementSibling;
+		}
+
+		if (!nextElement) return true;
+		if (!(nextElement instanceof HTMLHeadingElement)) return false;
+
+		return (this.parseHeadingLevel(nextElement.tagName) <= this.parseHeadingLevel(heading.tagName));
+	}
+
 	public show() {
 		this.removeClass('hidden');
 		this.getLabels()?.forEach(label => label.classList.remove('hidden'));
@@ -68,9 +96,15 @@ export class Element {
 
 		parentTile.classList.remove('hidden');
 
-		if (parentTile.previousElementSibling instanceof HTMLHeadingElement) {
-			parentTile.previousElementSibling.classList.remove('hidden');
-		}
+		if (!(parentTile.previousElementSibling instanceof HTMLHeadingElement)) return;
+
+		if (!this.isAllHeadingChildrenHidden(parentTile.previousElementSibling)) parentTile.previousElementSibling.classList.remove('hidden');
+
+		const parentHeading = this.findParentHeading(parentTile.previousElementSibling);
+
+		if (!parentHeading) return;
+
+		if (!this.isAllHeadingChildrenHidden(parentHeading)) parentHeading.classList.remove('hidden');
 	}
 
 	public hide() {
@@ -89,9 +123,15 @@ export class Element {
 
 		parentTile.classList.add('hidden');
 
-		if (parentTile.previousElementSibling instanceof HTMLHeadingElement) {
-			parentTile.previousElementSibling.classList.add('hidden');
-		}
+		if (!(parentTile.previousElementSibling instanceof HTMLHeadingElement)) return;
+
+		if (this.isAllHeadingChildrenHidden(parentTile.previousElementSibling)) parentTile.previousElementSibling.classList.add('hidden');
+
+		const parentHeading = this.findParentHeading(parentTile.previousElementSibling);
+
+		if (!parentHeading) return;
+
+		if (this.isAllHeadingChildrenHidden(parentHeading)) parentHeading.classList.add('hidden');
 	}
 
 	public getLabels() {
