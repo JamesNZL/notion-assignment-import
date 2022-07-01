@@ -263,3 +263,14 @@ buttons.clearStorage.addEventListener('click', () => {
 });
 
 SavedCoursesList.listCourses();
+
+// ! alert for removal of status select property support
+Storage.getStorageKey('notion.propertyNames.status', false).then(value => {
+	if (value === false) return;
+
+	const deleteProperty = confirm('Prior support for a \'Status\' Notion property has been removed.\n\nPlease update your database to use the newly-released Notion built-in Status property.\n\nFor more information, visit the GitHub Repository.\n\nClick \'OK\' to hide this message forever.');
+
+	if (!deleteProperty) return;
+
+	Storage.clearStorageKey('notion.propertyNames.status');
+});
