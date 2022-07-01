@@ -30,7 +30,7 @@
     "debug": "gulp --debug=true",
     "build": "gulp --debug=false",
     "release": "standard-version --sign --commit-all",
-    "publish": "git push --follow-tags origin master"
+    "publish": "git push --follow-tags origin main"
   },
   "standard-version": {
     "scripts": {
