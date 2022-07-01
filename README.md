@@ -252,24 +252,24 @@ Of course, you are welcome to configure any of these property names to be `❌ E
 
 ### `Course Code Overrides`
 
-**Example:** The course title in the page breadcrumb is `Course Title`, but you want it to be saved in your database as `CSE 121`.
+**Example:** The course title in the page breadcrumb is `Course Title`, but you want it to be saved in your database as `COURSE 121`.
 
 Configure `Course Code Overrides` to the following:
 
 | **Canvas Course Code** | **Notion Course Code** |
 | ---------------------- | ---------------------- |
-| `Course Title`         | `CSE 121`              |
+| `Course Title`         | `COURSE 121`           |
 
 ### `Page Emojis`
 
-**Example:** You want all `CSE 121` pages to have the ✨ emoji, and all `OTH 101` pages to have the 👀 emoji.
+**Example:** You want all `COURSE 121` pages to have the 👨‍💻 emoji, and all `COURSE 101` pages to have the 👀 emoji.
 
 Configure `Page Emojis` to the following:
 
 | **Canvas Course Code** | **Notion Course Code** |
 | ---------------------- | ---------------------- |
-| `CSE 121`              | `✨`                    |
-| `OTH 101`              | `👀`                    |
+| `COURSE 121`           | `👨‍💻`                    |
+| `COURSE 101`           | `✨`                    |
 
 ## BREAKING CHANGES
 
