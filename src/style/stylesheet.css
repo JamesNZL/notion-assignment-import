@@ -20,6 +20,7 @@
 	--border-radius: 1rem;
 	--border-width: 1px;
 	--button-padding: 6px;
+	--navbar-height: 66px;
 }
 
 ::-webkit-scrollbar {
@@ -97,6 +98,47 @@ body {
 
 #popup body>#saved-assignments {
 	flex: 1 auto;
+}
+
+#options body {
+	position: relative;
+	top: var(--navbar-height);
+	padding-bottom: 2.75rem;
+}
+
+#options nav {
+	position: fixed;
+	display: flex;
+	align-items: center;
+	height: var(--navbar-height);
+	background-color: var(--dark-grey);
+	top: 0;
+	left: 0;
+	right: 0;
+	padding: 0 20px;
+	justify-content: space-between;
+	z-index: 1000;
+}
+
+#options nav>div {
+	display: inline-flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 1em;
+}
+
+#options nav h1 {
+	margin: 0;
+}
+
+#options nav>#navbar {
+	gap: 1.75em;
+	margin-right: 0.4rem;
+}
+
+#options nav>#navbar a {
+	font-weight: 500;
+	font-size: 1.2em;
 }
 
 #popup h1 {
