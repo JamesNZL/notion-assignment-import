@@ -4,6 +4,9 @@ export class Element {
 	protected element: HTMLElement;
 	private timeouts: Record<string, NodeJS.Timeout> = {};
 
+	private tile?: HTMLElement | false;
+	private parentHeading?: HTMLHeadingElement | false;
+
 	protected constructor(id: string, type: string) {
 		const element = document.getElementById(id);
 		if (!element) throw new Error(`Invalid ${type} identifier ${id}!`);
@@ -39,13 +42,13 @@ export class Element {
 		return Array.from(parentElement.children).every(child => child.classList.contains('hidden'));
 	}
 
-	private static findParentTile(element: HTMLElement): HTMLElement | null {
-		if (element === document.body) return null;
+	private static findParentTile(element: HTMLElement): HTMLElement | false {
+		if (element === document.body) return false;
 		if (element.classList.contains('tile')) return element;
 
 		return (element.parentElement)
 			? Element.findParentTile(element.parentElement)
-			: null;
+			: false;
 	}
 
 	public isHidden() {
@@ -64,7 +67,7 @@ export class Element {
 			previousElement = previousElement.previousElementSibling;
 		}
 
-		if (!(previousElement instanceof HTMLHeadingElement)) return null;
+		if (!(previousElement instanceof HTMLHeadingElement)) return false;
 		return previousElement;
 	}
 
@@ -90,21 +93,21 @@ export class Element {
 			this.element.parentElement.classList.remove('hidden');
 		}
 
-		const parentTile = Element.findParentTile(this.element.parentElement);
+		this.tile = this.tile ?? Element.findParentTile(this.element.parentElement);
 
-		if (!parentTile || !Element.isSomeChildShown(parentTile)) return;
+		if (!this.tile || !Element.isSomeChildShown(this.tile)) return;
 
-		parentTile.classList.remove('hidden');
+		this.tile.classList.remove('hidden');
 
-		if (!(parentTile.previousElementSibling instanceof HTMLHeadingElement)) return;
+		if (!(this.tile.previousElementSibling instanceof HTMLHeadingElement)) return;
 
-		if (!this.isAllHeadingChildrenHidden(parentTile.previousElementSibling)) parentTile.previousElementSibling.classList.remove('hidden');
+		if (!this.isAllHeadingChildrenHidden(this.tile.previousElementSibling)) this.tile.previousElementSibling.classList.remove('hidden');
 
-		const parentHeading = this.findParentHeading(parentTile.previousElementSibling);
+		this.parentHeading = this.parentHeading ?? this.findParentHeading(this.tile.previousElementSibling);
 
-		if (!parentHeading) return;
+		if (!this.parentHeading) return;
 
-		if (!this.isAllHeadingChildrenHidden(parentHeading)) parentHeading.classList.remove('hidden');
+		if (!this.isAllHeadingChildrenHidden(this.parentHeading)) this.parentHeading.classList.remove('hidden');
 	}
 
 	public hide() {
@@ -117,21 +120,21 @@ export class Element {
 			this.element.parentElement.classList.add('hidden');
 		}
 
-		const parentTile = Element.findParentTile(this.element.parentElement);
+		this.tile = this.tile ?? Element.findParentTile(this.element.parentElement);
 
-		if (!parentTile || !Element.isEveryChildHidden(parentTile)) return;
+		if (!this.tile || !Element.isEveryChildHidden(this.tile)) return;
 
-		parentTile.classList.add('hidden');
+		this.tile.classList.add('hidden');
 
-		if (!(parentTile.previousElementSibling instanceof HTMLHeadingElement)) return;
+		if (!(this.tile.previousElementSibling instanceof HTMLHeadingElement)) return;
 
-		if (this.isAllHeadingChildrenHidden(parentTile.previousElementSibling)) parentTile.previousElementSibling.classList.add('hidden');
+		if (this.isAllHeadingChildrenHidden(this.tile.previousElementSibling)) this.tile.previousElementSibling.classList.add('hidden');
 
-		const parentHeading = this.findParentHeading(parentTile.previousElementSibling);
+		this.parentHeading = this.parentHeading ?? this.findParentHeading(this.tile.previousElementSibling);
 
-		if (!parentHeading) return;
+		if (!this.parentHeading) return;
 
-		if (this.isAllHeadingChildrenHidden(parentHeading)) parentHeading.classList.add('hidden');
+		if (this.isAllHeadingChildrenHidden(this.parentHeading)) this.parentHeading.classList.add('hidden');
 	}
 
 	public getLabels() {
