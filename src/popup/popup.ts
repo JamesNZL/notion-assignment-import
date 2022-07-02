@@ -172,6 +172,7 @@ Storage.getNotionAuthorisation().then(async ({ accessToken }) => {
 buttons.oauth.addEventListener('click', async () => {
 	buttons.oauth.setButtonLabel('Authorising with Notion...');
 
+	// TODO: ensure browser.identity
 	const success = await OAuth2.authorise();
 
 	if (!success) return buttons.oauth.resetHTML();

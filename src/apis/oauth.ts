@@ -31,7 +31,11 @@ export const OAuth2 = <const>{
 		accessToken: 'https://oauth.jamesnzl.xyz/api/notion/access-token',
 	},
 
+	isIdentitySupported: Boolean(browser.identity),
+
 	async getAuthorisationURL() {
+		if (!this.isIdentitySupported) throw new Error('Unable to access the browser\'s identity API.');
+
 		return this.ENDPOINTS.authorise + '?' + new URLSearchParams({
 			redirect_uri: browser.identity.getRedirectURL('oauth'),
 			state: await this.getState(),
@@ -56,6 +60,8 @@ export const OAuth2 = <const>{
 	},
 
 	async authorise() {
+		if (!this.isIdentitySupported) throw new Error('Unable to access the browser\'s identity API.');
+
 		try {
 			const authorisation = await browser.identity.launchWebAuthFlow({
 				url: await this.getAuthorisationURL(),
