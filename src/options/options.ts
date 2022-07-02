@@ -8,7 +8,7 @@ import { SavedFields } from './';
 import { EmojiField, InputFieldValidator } from './validator';
 import { CONFIGURATION, SupportedTypes } from './configuration';
 
-import { Button, Input, Select, KeyValueGroup, getElementById } from '../elements';
+import { Element, Button, Input, Select, KeyValueGroup } from '../elements';
 
 import { valueof } from '../types/utils';
 
@@ -170,17 +170,17 @@ const OptionsPage = <const>{
 };
 
 const AdvancedOptions = <const>{
-	element: getElementById<OptionsElementId>('advanced-options'),
-	control: getElementById<OptionsElementId>('display-advanced-options'),
+	element: Element.getInstance<OptionsElementId>('advanced-options', 'advanced options'),
+	control: Element.getInstance<OptionsElementId>('display-advanced-options', 'advanced options control'),
 	showInput: CONFIGURATION.FIELDS['options.displayAdvanced'].input,
 	hideInput: Input.getInstance<OptionsElementId>('hide-advanced-options'),
 
 	show() {
-		this.element?.classList.remove('hidden');
+		this.element.removeClass('hidden');
 	},
 
 	hide() {
-		this.element?.classList.add('hidden');
+		this.element.addClass('hidden');
 		this.hideInput.setValue(true, false);
 	},
 
@@ -191,7 +191,7 @@ const AdvancedOptions = <const>{
 	},
 
 	dispatchInputEvent() {
-		this.control?.dispatchEvent(new Event('input', { bubbles: true }));
+		this.control.dispatchEvent(new Event('input', { bubbles: true }));
 	},
 };
 

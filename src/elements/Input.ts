@@ -96,7 +96,7 @@ export class Input extends Element {
 	}
 
 	public dispatchInputEvent(bubbles = true) {
-		this.element.dispatchEvent(new Event('input', { bubbles }));
+		this.dispatchEvent(new Event('input', { bubbles }));
 	}
 
 	public toggleDependents(dependents: readonly string[]) {

@@ -12,6 +12,6 @@ export class Select extends Input {
 	}
 
 	public setInnerHTML(html: string) {
-		this.element.innerHTML = html;
+		this.safelySetInnerHTML(html);
 	}
 }

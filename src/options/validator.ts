@@ -4,7 +4,7 @@ import { Storage } from '../apis/storage';
 import { SupportedTypes } from './configuration';
 import { NullIfEmpty, NeverEmpty } from './';
 
-import { Button, Input } from '../elements';
+import { Element, Button, Input } from '../elements';
 
 type TypeGuard = (value: unknown) => boolean;
 type TypeGuardModifier = (typeGuard: TypeGuard) => TypeGuard;
@@ -145,11 +145,16 @@ export abstract class InputFieldValidator {
 
 		const status = 'Validating input...';
 
-		const statusElement = document.getElementById(`validating-input-${this.id}`);
-		const statusHTML = `<span id='validating-input-${this.id}' class='validating-input-status'>${status}</span>`;
+		try {
+			const statusElement = Element.getInstance(`validating-input-${this.id}`, 'validator label');
 
-		if (!statusElement) this.input.insertAdjacentHTML('beforebegin', statusHTML);
-		else statusElement.innerHTML = status;
+			statusElement.safelySetInnerHTML(status);
+		}
+		catch {
+			const statusHTML = `<span id='validating-input-${this.id}' class='validating-input-status'>${status}</span>`;
+
+			this.input.insertAdjacentHTML('beforebegin', statusHTML);
+		}
 
 		SaveButton.updateState(SaveButtonUpdates.Pending);
 
@@ -161,7 +166,10 @@ export abstract class InputFieldValidator {
 	private removeValidatingStatus(isTarget = true) {
 		InputFieldValidator.validatingFields.delete(this.id);
 
-		document.getElementById(`validating-input-${this.id}`)?.remove();
+		try {
+			Element.getInstance(`validating-input-${this.id}`, 'validator label').remove();
+		}
+		catch { null; }
 
 		SaveButton.updateState(SaveButtonUpdates.Restore);
 
@@ -176,11 +184,16 @@ export abstract class InputFieldValidator {
 			this.input.addClass('invalid-input');
 		}
 
-		const errorElement = document.getElementById(`invalid-input-${this.id}`);
-		const errorHTML = `<span id='invalid-input-${this.id}' class='invalid-input-error'>${error}</span>`;
+		try {
+			const errorElement = Element.getInstance(`invalid-input-${this.id}`, 'validator label');
 
-		if (!errorElement) this.input.insertAdjacentHTML('beforebegin', errorHTML);
-		else errorElement.innerHTML = error;
+			errorElement.safelySetInnerHTML(error);
+		}
+		catch {
+			const errorHTML = `<span id='invalid-input-${this.id}' class='invalid-input-error'>${error}</span>`;
+
+			this.input.insertAdjacentHTML('beforebegin', errorHTML);
+		}
 
 		SaveButton.updateState(SaveButtonUpdates.Disable);
 
@@ -195,7 +208,10 @@ export abstract class InputFieldValidator {
 			this.input.removeClass('invalid-input');
 		}
 
-		document.getElementById(`invalid-input-${this.id}`)?.remove();
+		try {
+			Element.getInstance(`invalid-input-${this.id}`, 'validator label').remove();
+		}
+		catch { null; }
 
 		SaveButton.updateState(SaveButtonUpdates.Restore);
 

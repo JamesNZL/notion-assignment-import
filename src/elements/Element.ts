@@ -22,6 +22,10 @@ export class Element {
 		return this.element.id;
 	}
 
+	public get innerHTML() {
+		return this.element.innerHTML;
+	}
+
 	public remove() {
 		this.element.remove();
 	}
@@ -143,6 +147,17 @@ export class Element {
 			: document.querySelectorAll(`label[for='${this.element.id}']`);
 	}
 
+	public safelySetInnerHTML(html: string) {
+		this.element.innerHTML = '';
+
+		Array.from(
+			new DOMParser().parseFromString(html, 'text/html')
+				.getElementsByTagName('body')[0]
+				.childNodes,
+		)
+			.forEach(this.element.appendChild.bind(this.element));
+	}
+
 	public insertAdjacentHTML(...args: Parameters<typeof HTMLElement.prototype.insertAdjacentHTML>) {
 		this.element.insertAdjacentHTML(...args);
 
@@ -169,5 +184,9 @@ export class Element {
 
 	public clearTimeout(name: string) {
 		clearTimeout(this.timeouts[name]);
+	}
+
+	public dispatchEvent(event: Event) {
+		this.element.dispatchEvent(event);
 	}
 }

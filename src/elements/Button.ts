@@ -1,14 +1,16 @@
 import { Element } from './Element';
 
 export class Button extends Element {
-	private buttonLabel: HTMLElement;
+	private buttonLabel: Element;
 	private defaultHtml: string;
 	private defaultClassList: string;
 
 	protected constructor(id: string) {
 		super(id, 'button');
 
-		this.buttonLabel = this.element.querySelector('.button-label') ?? this.element;
+		this.buttonLabel = Element.getInstance(
+			this.element.querySelector('.button-label')?.id ?? this.element.id, 'button label',
+		);
 		this.defaultHtml = this.element.innerHTML;
 		this.defaultClassList = this.element.classList.value;
 	}
@@ -28,7 +30,7 @@ export class Button extends Element {
 	}
 
 	public setButtonLabel(html: string) {
-		this.buttonLabel.innerHTML = html;
+		this.buttonLabel.safelySetInnerHTML(html);
 	}
 
 	public resetHTML(delay?: number) {

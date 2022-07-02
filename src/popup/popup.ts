@@ -7,7 +7,7 @@ import { OAuth2 } from '../apis/oauth';
 import { SavedAssignments } from './parse';
 import { exportToNotion } from './import';
 
-import { Button, getElementById } from '../elements';
+import { Element, Button } from '../elements';
 import { valueof } from '../types/utils';
 
 // if an id ever changes in HTML, it must be updated here
@@ -34,7 +34,7 @@ type PopupButtonId = valueof<PopupElements['buttons']>;
 type PopupElementId = PopupButtonId | valueof<PopupElements['elements']>;
 
 const SavedCoursesList = {
-	element: getElementById<PopupElementId>('saved-courses-list'),
+	element: Element.getInstance<PopupElementId>('saved-courses-list', 'saved courses list'),
 	renderChanges: true,
 
 	disableUpdates() {
@@ -59,9 +59,9 @@ const SavedCoursesList = {
 		buttons.listCourses.hide();
 		buttons.listAssignments.show();
 
-		this.element.innerHTML = (coursesList && this.renderChanges)
-			? `<ol>${coursesList}</ol>`
-			: '<p>No saved courses.</p>';
+		(coursesList && this.renderChanges)
+			? this.element.safelySetInnerHTML(`<ol>${coursesList}</ol>`)
+			: this.element.safelySetInnerHTML('<p>No saved courses.</p>');
 	},
 
 	async listAssignments() {
@@ -86,9 +86,9 @@ const SavedCoursesList = {
 		buttons.listAssignments.hide();
 		buttons.listCourses.show();
 
-		this.element.innerHTML = (assignmentsList && this.renderChanges)
-			? `<ol>${assignmentsList}</ol>`
-			: '<p>No saved assignments.</p>';
+		(assignmentsList && this.renderChanges)
+			? this.element.safelySetInnerHTML(`<ol>${assignmentsList}</ol>`)
+			: this.element.safelySetInnerHTML('<p>No saved assignments.</p>');
 	},
 };
 
