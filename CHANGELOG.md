@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.0.1](https://github.com/JamesNZL/notion-assignment-import/compare/v4.0.0...v4.0.1) (2022-07-02)
+
+
+### Bug Fixes
+
+* **firefox:** :rotating_light: use `insertAdjacentElement` ([b5b4a38](https://github.com/JamesNZL/notion-assignment-import/commit/b5b4a38630acf6d58bb001fd9395bb9c3ab310a5))
+
 ## [4.0.0](https://github.com/JamesNZL/notion-assignment-import/compare/v3.0.6...v4.0.0) (2022-07-01)
 
 
