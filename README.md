@@ -152,8 +152,8 @@ To be notified with updates and changelogs, to get in touch, or just to lurk, jo
 
 > **DISCLAIMER:** This is an unsigned extension that is not installed through the Apple App Store.  
 > This means that you **will not** receive automatic updates, and you must repeat the below installation steps if you wish to update your extension.  
-> This may change in a future update.  
-> For updates, join the [Discord server](https://discord.gg/k2jjmmVPeK).
+> This may change in a future extension update.  
+> To be notified of new releases, join the [Discord server](https://discord.gg/k2jjmmVPeK).
 
 1. Download the latest [`notion-assignment-import-safari_latest.zip`](releases/safari/notion-assignment-import-safari_latest.zip) archive from [`releases/safari`](releases/safari/).
 
