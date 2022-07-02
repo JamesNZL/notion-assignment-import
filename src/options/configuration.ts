@@ -42,7 +42,7 @@ interface OptionConfiguration<T> {
 	input: Readable & Settable & Dependable & Subscribable & Partial<HasPlaceholder>;
 	// default to 'input' if undefined
 	readonly validateOn?: 'input' | 'change';
-	readonly dependents?: readonly string[];
+	readonly dependents?: readonly InputElementId[];
 }
 
 function isOptionConfiguration(object: valueof<NestedConfigurationsOf<SavedOptions>> | OptionConfiguration<SupportedTypes>): object is OptionConfiguration<SupportedTypes> {
