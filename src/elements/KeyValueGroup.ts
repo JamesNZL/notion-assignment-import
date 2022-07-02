@@ -243,13 +243,13 @@ export class KeyValueGroup extends Element {
 
 	public toggleDependents(dependents: readonly string[]) {
 		if (this.getValue() === '{}') {
-			dependents.forEach(dependentId => Input.getInstance(dependentId).hide());
+			dependents.forEach(dependentId => Element.getInstance(dependentId, 'dependent').hide());
 
 			return;
 		}
 
 		if (this.isHidden()) return;
 
-		dependents.forEach(dependentId => Input.getInstance(dependentId).show());
+		dependents.forEach(dependentId => Element.getInstance(dependentId, 'dependent').show());
 	}
 }
