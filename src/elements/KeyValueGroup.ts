@@ -128,12 +128,34 @@ export class KeyValueGroup extends Element {
 		return `${this.valueGroup.id}-${this.restoreCount}-${row}`;
 	}
 
-	private getKeyHTML(keyId: string) {
-		return `<input type='text' placeholder='${this.keyPlaceholder}' id='${keyId}' name='${this.keyGroup.id}' class='row'>`;
+	private getKeyElement(keyId: string) {
+		const keyElement = document.createElement('input');
+
+		Object.assign(keyElement, {
+			type: 'text',
+			placeholder: this.keyPlaceholder,
+			id: keyId,
+			name: this.keyGroup.id,
+		});
+
+		keyElement.classList.add('row');
+
+		return keyElement;
 	}
 
-	private getValueHTML(valueId: string) {
-		return `<input type='text' placeholder='${this.valuePlaceholder}' id='${valueId}' name='${this.valueGroup.id}' class='row'>`;
+	private getValueElement(valueId: string) {
+		const valueElement = document.createElement('input');
+
+		Object.assign(valueElement, {
+			type: 'text',
+			placeholder: this.valuePlaceholder,
+			id: valueId,
+			name: this.valueGroup.id,
+		});
+
+		valueElement.classList.add('row');
+
+		return valueElement;
 	}
 
 	private getLivingRows(): RowInputs[] {
@@ -148,8 +170,8 @@ export class KeyValueGroup extends Element {
 		const row = this.rows.length;
 		const [keyId, valueId] = [this.getKeyId(row), this.getValueId(row)];
 
-		this.keyGroup.insertAdjacentHTML('beforeend', this.getKeyHTML(keyId));
-		this.valueGroup.insertAdjacentHTML('beforeend', this.getValueHTML(valueId));
+		this.keyGroup.insertAdjacentElement('beforeend', this.getKeyElement(keyId));
+		this.valueGroup.insertAdjacentElement('beforeend', this.getValueElement(valueId));
 
 		const keyInput = Input.getInstance(keyId, 'input', this.KeyValidator);
 		const valueInput = Input.getInstance(valueId, 'input', this.ValueValidator);

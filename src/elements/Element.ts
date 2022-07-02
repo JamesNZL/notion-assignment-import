@@ -28,6 +28,7 @@ export class Element {
 
 	public remove() {
 		this.element.remove();
+		delete Element.instances[this.id];
 	}
 
 	public addClass(className: string) {
@@ -158,19 +159,8 @@ export class Element {
 			.forEach(this.element.appendChild.bind(this.element));
 	}
 
-	public insertAdjacentHTML(...args: Parameters<typeof HTMLElement.prototype.insertAdjacentHTML>) {
-		this.element.insertAdjacentHTML(...args);
-
-		switch (args[0]) {
-			case 'beforebegin':
-				return this.element.previousElementSibling;
-			case 'afterbegin':
-				return this.element.firstElementChild;
-			case 'beforeend':
-				return this.element.lastElementChild;
-			case 'afterend':
-				return this.element.nextElementSibling;
-		}
+	public insertAdjacentElement(...args: Parameters<typeof HTMLElement.prototype.insertAdjacentElement>) {
+		return this.element.insertAdjacentElement(...args);
 	}
 
 	public addEventListener(...args: Parameters<typeof HTMLElement.prototype.addEventListener>) {

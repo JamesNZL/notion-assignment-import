@@ -464,7 +464,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 	KeyValueGroup.getInstance<OptionsElementId>('course-emojis-group', 'course-emojis-codes', 'course-emojis-emojis')
 		.setPlaceholders({
 			key: 'COURSE 121',
-			value: '&#x1F468;&#x200D;&#x1F4BB;',
+			value: '👨‍💻',
 		})
 		.setValueValidator(EmojiField)
 		.setValueValidateOn('input');

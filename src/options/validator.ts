@@ -151,9 +151,13 @@ export abstract class InputFieldValidator {
 			statusElement.safelySetInnerHTML(status);
 		}
 		catch {
-			const statusHTML = `<span id='validating-input-${this.id}' class='validating-input-status'>${status}</span>`;
+			const statusElement = document.createElement('span');
 
-			this.input.insertAdjacentHTML('beforebegin', statusHTML);
+			statusElement.setAttribute('id', `validating-input-${this.id}`);
+			statusElement.classList.add('validating-input-status');
+			statusElement.textContent = status;
+
+			this.input.insertAdjacentElement('beforebegin', statusElement);
 		}
 
 		SaveButton.updateState(SaveButtonUpdates.Pending);
@@ -190,16 +194,20 @@ export abstract class InputFieldValidator {
 			errorElement.safelySetInnerHTML(error);
 		}
 		catch {
-			const errorHTML = `<span id='invalid-input-${this.id}' class='invalid-input-error'>${error}</span>`;
+			const errorElement = document.createElement('span');
 
-			this.input.insertAdjacentHTML('beforebegin', errorHTML);
+			errorElement.setAttribute('id', `invalid-input-${this.id}`);
+			errorElement.classList.add('invalid-input-error');
+			errorElement.textContent = error;
+
+			this.input.insertAdjacentElement('beforebegin', errorElement);
 		}
 
 		SaveButton.updateState(SaveButtonUpdates.Disable);
 
 		if (!isTarget) return;
 
-		this.coupledValidators.forEach(({ validator, propagateInvalidClass, propagateError }) => validator.addInvalidError((propagateError) ? error : '&nbsp;', false, propagateInvalidClass));
+		this.coupledValidators.forEach(({ validator, propagateInvalidClass, propagateError }) => validator.addInvalidError((propagateError) ? error : String.fromCharCode(0x00A0), false, propagateInvalidClass));
 	}
 
 	private removeInvalidError(isTarget = true, removeInvalidClass = true) {
