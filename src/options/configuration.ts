@@ -23,6 +23,11 @@ interface Settable {
 	setValue(value: SupportedTypes, dispatchEvent?: boolean): void;
 }
 
+interface Displayable {
+	show(): void;
+	hide(): void;
+}
+
 interface Dependable {
 	toggleDependents(dependents: readonly string[]): void;
 }
@@ -39,7 +44,7 @@ interface HasPlaceholder {
 
 interface OptionConfiguration<T> {
 	readonly defaultValue: T;
-	input: Readable & Settable & Dependable & Subscribable & Partial<HasPlaceholder>;
+	input: Readable & Settable & Displayable & Dependable & Subscribable & Partial<HasPlaceholder>;
 	// default to 'input' if undefined
 	readonly validateOn?: 'input' | 'change';
 	readonly dependents?: readonly InputElementId[];
