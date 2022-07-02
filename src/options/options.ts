@@ -327,7 +327,6 @@ const DatabaseSelect = <const>{
 
 	show() {
 		this.element.show();
-		this.refreshButton.show();
 	},
 
 	async populate(placeholder = 'Loading') {

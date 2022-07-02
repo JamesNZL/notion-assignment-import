@@ -82,6 +82,7 @@ interface InputElements {
 	courseCodesCanvas: 'course-code-overrides-canvas';
 	courseCodesNotion: 'course-code-overrides-notion';
 	'notion.databaseId': 'database-id';
+	refreshDatabaseSelect: 'refresh-database-select';
 	'notion.propertyNames.name': 'notion-property-name';
 	'notion.propertyNames.category': 'notion-property-category';
 	'notion.propertyNames.course': 'notion-property-course';
@@ -231,6 +232,7 @@ export const CONFIGURATION: {
 				},
 				validateOn: 'change',
 				dependents: [
+					'refresh-database-select',
 					'notion-property-name',
 					'notion-property-category',
 					'notion-property-course',
