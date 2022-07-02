@@ -68,6 +68,7 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
   - [Extension Popup](#extension-popup)
   - [Notion Database Examples](#notion-database-examples)
   - [Extension Options](#extension-options)
+- [Discord Server](#discord-server)
 - [Setup Instructions](#setup-instructions)
   - [macOS Instructions](#macos-instructions)
   - [Configurable Options](#configurable-options)
