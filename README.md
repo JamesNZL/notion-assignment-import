@@ -170,7 +170,7 @@ chmod +x
 5. Drag and drop the `Notion Canvas Assignment Import` file into your terminal window. Now you should have something looking like this:
 
 ```bash
-chmod +x chmod +x /Users/YOUR_USERNAME/Downloads/notion-assignment-import-safari/Contents/MacOS/Notion\ Canvas\ Assignment\ Import
+chmod +x /Users/YOUR_USERNAME/Downloads/notion-assignment-import-safari/Contents/MacOS/Notion\ Canvas\ Assignment\ Import
 ```
 
 6. Hit `Enter`. You may now close the terminal.
