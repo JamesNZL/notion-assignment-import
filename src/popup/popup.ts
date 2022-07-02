@@ -145,6 +145,11 @@ buttons.parse.addEventListener('click', async () => {
 	buttons.parse.resetHTML(1325);
 });
 
+if (!OAuth2.isIdentitySupported) {
+	buttons.oauth.setDefaultLabel('Configure Integration');
+	buttons.oauth.resetHTML();
+}
+
 Storage.getNotionAuthorisation().then(async ({ accessToken }) => {
 	const notionClient = NotionClient.getInstance({ auth: accessToken ?? '' });
 
@@ -169,25 +174,26 @@ Storage.getNotionAuthorisation().then(async ({ accessToken }) => {
 	buttons.export.hide();
 });
 
-buttons.oauth.addEventListener('click', async () => {
-	buttons.oauth.setButtonLabel('Authorising with Notion...');
+(OAuth2.isIdentitySupported)
+	? buttons.oauth.addEventListener('click', async () => {
+		buttons.oauth.setButtonLabel('Authorising with Notion...');
 
-	// TODO: ensure browser.identity
-	const success = await OAuth2.authorise();
+		const success = await OAuth2.authorise();
 
-	if (!success) return buttons.oauth.resetHTML();
+		if (!success) return buttons.oauth.resetHTML();
 
-	buttons.oauth.setButtonLabel('Authorised!');
+		buttons.oauth.setButtonLabel('Authorised!');
 
-	buttons.oauth.setTimeout('authorised', () => {
-		buttons.oauth.resetHTML();
+		buttons.oauth.setTimeout('authorised', () => {
+			buttons.oauth.resetHTML();
 
-		buttons.oauth.hide();
-		buttons.configureDatabase.show();
+			buttons.oauth.hide();
+			buttons.configureDatabase.show();
 
-		Storage.clearDatabaseId();
-	}, 1325);
-});
+			Storage.clearDatabaseId();
+		}, 1325);
+	})
+	: buttons.oauth.addEventListener('click', buttons.options.click.bind(buttons.options));
 
 buttons.configureDatabase.addEventListener('click', buttons.options.click.bind(buttons.options));
 
