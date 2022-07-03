@@ -123,6 +123,9 @@ To be notified with updates and changelogs, to get in touch, or just to lurk, jo
 3. Click on the options icon to configure the extension.
 
 4. Click `Authorise with Notion` to add the integration to your Notion workspace, and share your relevant database(s).
+   > **Safari:** Due to [browser API limitations](https://developer.apple.com/documentation/safariservices/safari_web_extensions/assessing_your_safari_web_extension_s_browser_compatibility), OAuth2 is not currently supported. As a temporary stop-gap, support for a Notion Internal Integration has been retained.  
+   1. Follow steps **1** and **2** on [this page](https://developers.notion.com/docs/getting-started#step-1-create-an-integration) to create a new Internal Integration.
+   2. Paste the Notion `Internal Integration Token` into the input field.
 
 5. Select the desired target database in the `Database` dropdown.
 	> NOTE: Databases that have not been *directly* shared with the integration (ie those which are a child of a shared page) might not immediately appear. Use the `Refresh` button until the desired database appears.
@@ -198,20 +201,21 @@ chmod +x /Users/YOUR_USERNAME/Downloads/notion-assignment-import-safari/Contents
 
 ## Configurable Options
 
-| Option                    | Purpose/Remarks                                                                                                                      |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `Show Advanced Options`   | Whether to `Show`/`Hide` the **Advanced Options**.                                                                                   |
-| `Timezone`                | The `TZ` timezone in which to parse and set all dates                                                                                |
-| `Database`                | The target Notion database                                                                                                           |
-| `Page 'Name' Property`    | The name of the database `Title` property, used to set the assignment name                                                           |
-| `Category Property`       | The name of a database Category property, used to allow grouping of all Canvas assignments together if using a single tasks database |
-| `Course Property`         | The name of a database Course property, used to set the assignment course code                                                       |
-| `URL Property`            | The name of a database URL property, used to set the assignment URL                                                                  |
-| `Available Date Property` | The name of a database Reminder property, used to set the assignment available date                                                  |
-| `Due Date Property`       | The name of a database Due property, used to set the assignment due date                                                             |
-| `Date Span Property`      | The name of a database Date Span property, used to set the date span of the assignment as `available from date`–`due date`           |
-| `Canvas Category`         | The value of a database Category property to categorise all Canvas assignments as                                                    |
-| `Page Emojis`             | Any Notion page emojis to apply                                                                                                      |
+| Option                                         | Purpose/Remarks                                                                                                                      |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `Show Advanced Options`                        | Whether to `Show`/`Hide` the **Advanced Options**.                                                                                   |
+| `Timezone`                                     | The `TZ` timezone in which to parse and set all dates                                                                                |
+| `Internal Integration Token` (**Safari only**) | The `Internal Integration Token` of your Notion integration                                                                          |
+| `Database`                                     | The target Notion database                                                                                                           |
+| `Page 'Name' Property`                         | The name of the database `Title` property, used to set the assignment name                                                           |
+| `Category Property`                            | The name of a database Category property, used to allow grouping of all Canvas assignments together if using a single tasks database |
+| `Course Property`                              | The name of a database Course property, used to set the assignment course code                                                       |
+| `URL Property`                                 | The name of a database URL property, used to set the assignment URL                                                                  |
+| `Available Date Property`                      | The name of a database Reminder property, used to set the assignment available date                                                  |
+| `Due Date Property`                            | The name of a database Due property, used to set the assignment due date                                                             |
+| `Date Span Property`                           | The name of a database Date Span property, used to set the date span of the assignment as `available from date`–`due date`           |
+| `Canvas Category`                              | The value of a database Category property to categorise all Canvas assignments as                                                    |
+| `Page Emojis`                                  | Any Notion page emojis to apply                                                                                                      |
 
 **Advanced Options**
 
