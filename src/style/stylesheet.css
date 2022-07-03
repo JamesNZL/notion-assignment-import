@@ -515,6 +515,10 @@ label.required:before {
 	margin-top: calc(2 * var(--margin));
 }
 
+#options .tile:not(.hidden)+.button {
+	margin-top: calc(5 * var(--margin));
+}
+
 .tile input,
 .tile textarea,
 .tile select {
