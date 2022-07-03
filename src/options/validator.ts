@@ -60,7 +60,7 @@ const SaveButton: {
 
 export abstract class InputFieldValidator {
 	public static readonly INVALID_INPUT: unique symbol = Symbol('INVALID_INPUT');
-	private static validatingFields = new Set<string>();
+	public static validatingFields = new Set<string>();
 	public static invalidFields = new Set<string>();
 
 	private input: Input;

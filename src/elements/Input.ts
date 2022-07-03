@@ -5,6 +5,7 @@ import { InputFieldValidator, ValidatorConstructor } from '../options/validator'
 
 export class Input extends Element {
 	private validator?: InputFieldValidator;
+	private validatePromise?: Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT>;
 
 	protected element: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
 
@@ -34,13 +35,17 @@ export class Input extends Element {
 		return (element.type === 'checkbox' || element.type === 'radio');
 	}
 
+	public get isValidating() {
+		return InputFieldValidator.validatingFields.has(this.id);
+	}
+
 	public get isValid() {
 		return !InputFieldValidator.invalidFields.has(this.id);
 	}
 
 	public async validate() {
 		if (!this.validator) return this.getValue();
-		return await this.validator.validate();
+		return this.validatePromise = this.validator.validate();
 	}
 
 	public getValue(): SupportedTypes {
@@ -99,8 +104,10 @@ export class Input extends Element {
 		this.dispatchEvent(new Event('input', { bubbles }));
 	}
 
-	public toggleDependents(dependents: readonly string[]) {
-		if (this.isHidden() || this.getValue() === null) {
+	public async toggleDependents(dependents: readonly string[]) {
+		await this.validatePromise;
+
+		if (!this.isValid || this.isHidden() || this.getValue() === null) {
 			dependents.forEach(dependentId => {
 				const dependent = Element.getInstance(dependentId, 'dependent');
 				dependent.hide();
@@ -109,9 +116,6 @@ export class Input extends Element {
 
 			return;
 		}
-
-		// TODO: respect validateOn and validate()
-		// if (!this.isValid) return;
 
 		dependents.forEach(dependentId => {
 			const dependent = Element.getInstance(dependentId, 'dependent');

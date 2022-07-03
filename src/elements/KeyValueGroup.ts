@@ -27,6 +27,8 @@ export class KeyValueGroup extends Element {
 	private rows: (RowInputs | null)[] = [];
 	private restoreCount = 0;
 
+	private validatePromises?: [Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT>, Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT>];
+
 	private constructor(id: string, keyGroupId: string, valueGroupId: string) {
 		super(id, 'key-value group');
 
@@ -41,6 +43,10 @@ export class KeyValueGroup extends Element {
 		return KeyValueGroup.instances[id] = (KeyValueGroup.instances[id] instanceof KeyValueGroup)
 			? <KeyValueGroup>KeyValueGroup.instances[id]
 			: new KeyValueGroup(id, keyGroupId, valueGroupId);
+	}
+
+	public get isValidating() {
+		return this.getLivingRows().some(({ keyInput, valueInput }) => keyInput.isValidating || valueInput.isValidating);
 	}
 
 	public get isValid() {
@@ -73,6 +79,7 @@ export class KeyValueGroup extends Element {
 		return this;
 	}
 
+	// TODO: validate(force = false)
 	public async validate() {
 		return (this.isValid)
 			? this.getValue()
@@ -190,7 +197,9 @@ export class KeyValueGroup extends Element {
 		});
 
 		async function inputListener(this: KeyValueGroup) {
-			if ([await keyInput.validate(), await valueInput.validate()].includes(InputFieldValidator.INVALID_INPUT)) return;
+			this.validatePromises = [keyInput.validate(), valueInput.validate()];
+
+			if ((await Promise.all(this.validatePromises)).includes(InputFieldValidator.INVALID_INPUT)) return;
 
 			this.manageRows(row);
 
@@ -245,8 +254,10 @@ export class KeyValueGroup extends Element {
 		this.dispatchEvent(new Event('input', { bubbles }));
 	}
 
-	public toggleDependents(dependents: readonly string[]) {
-		if (this.isHidden() || this.getValue() === '{}') {
+	public async toggleDependents(dependents: readonly string[]) {
+		await Promise.all(this.validatePromises ?? []);
+
+		if (!this.isValid || this.isHidden() || this.getValue() === '{}') {
 			dependents.forEach(dependentId => {
 				const dependent = Element.getInstance(dependentId, 'dependent');
 				dependent.hide();
@@ -255,9 +266,6 @@ export class KeyValueGroup extends Element {
 
 			return;
 		}
-
-		// TODO: respect validateOn and validate()
-		// if (!this.isValid) return;
 
 		dependents.forEach(dependentId => {
 			const dependent = Element.getInstance(dependentId, 'dependent');
