@@ -43,6 +43,10 @@ export class KeyValueGroup extends Element {
 			: new KeyValueGroup(id, keyGroupId, valueGroupId);
 	}
 
+	public get isValid() {
+		return this.getLivingRows().every(({ keyInput, valueInput }) => keyInput.isValid && valueInput.isValid);
+	}
+
 	public setKeyValidator(Validator: ValidatorConstructor) {
 		this.KeyValidator = Validator;
 		return this;
@@ -70,9 +74,9 @@ export class KeyValueGroup extends Element {
 	}
 
 	public async validate() {
-		return (this.getLivingRows().some(({ keyInput, valueInput }) => !keyInput.isValid || !valueInput.isValid))
-			? InputFieldValidator.INVALID_INPUT
-			: this.getValue();
+		return (this.isValid)
+			? this.getValue()
+			: InputFieldValidator.INVALID_INPUT;
 	}
 
 	public getValue(): SupportedTypes {
@@ -190,7 +194,7 @@ export class KeyValueGroup extends Element {
 
 			this.manageRows(row);
 
-			if (this.getLivingRows().some(rowInput => !rowInput.keyInput.isValid || !rowInput.valueInput.isValid)) return;
+			if (!this.isValid) return;
 
 			// remove dead rows from this.rows
 			this.setValue(this.getValue());
@@ -242,14 +246,23 @@ export class KeyValueGroup extends Element {
 	}
 
 	public toggleDependents(dependents: readonly string[]) {
-		if (this.getValue() === '{}') {
-			dependents.forEach(dependentId => Element.getInstance(dependentId, 'dependent').hide());
+		if (this.isHidden() || this.getValue() === '{}') {
+			dependents.forEach(dependentId => {
+				const dependent = Element.getInstance(dependentId, 'dependent');
+				dependent.hide();
+				dependent.dispatchEvent(new Event('input', { bubbles: false }));
+			});
 
 			return;
 		}
 
-		if (this.isHidden()) return;
+		// TODO: respect validateOn and validate()
+		// if (!this.isValid) return;
 
-		dependents.forEach(dependentId => Element.getInstance(dependentId, 'dependent').show());
+		dependents.forEach(dependentId => {
+			const dependent = Element.getInstance(dependentId, 'dependent');
+			dependent.show();
+			dependent.dispatchEvent(new Event('input', { bubbles: false }));
+		});
 	}
 }

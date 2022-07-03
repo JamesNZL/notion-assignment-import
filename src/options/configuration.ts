@@ -7,6 +7,7 @@ import {
 	RequiredStringField,
 	RequiredNumberAsStringField,
 	TimeZoneField,
+	RequiredNotionTokenField,
 	RequiredNotionDatabaseIdField,
 } from './validator';
 
@@ -81,6 +82,7 @@ interface InputElements {
 	'canvas.courseCodeOverrides': 'course-code-overrides-group';
 	courseCodesCanvas: 'course-code-overrides-canvas';
 	courseCodesNotion: 'course-code-overrides-notion';
+	'notion.accessToken': 'notion-token';
 	'notion.databaseId': 'database-id';
 	refreshDatabaseSelect: 'refresh-database-select';
 	'notion.propertyNames.name': 'notion-property-name';
@@ -224,6 +226,17 @@ export const CONFIGURATION: {
 			},
 		},
 		notion: {
+			accessToken: {
+				defaultValue: null,
+				get input() {
+					delete (<Partial<typeof this>>this).input;
+					return this.input = Input.getInstance<InputElementId>('notion-token', 'input', RequiredNotionTokenField);
+				},
+				dependents: [
+					'database-id',
+					'refresh-database-select',
+				],
+			},
 			databaseId: {
 				defaultValue: null,
 				get input() {

@@ -190,6 +190,7 @@ export const Storage = <const>{
 			},
 			notion: {
 				timeZone: savedFields['timeZone'],
+				accessToken: savedFields['notion.accessToken'],
 				databaseId: savedFields['notion.databaseId'],
 				propertyNames: {
 					name: savedFields['notion.propertyNames.name'],

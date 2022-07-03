@@ -254,8 +254,9 @@ class SelectPropertyValueSelect extends PropertySelect {
 			const databaseId = DatabaseSelect.element.getValue();
 			if (typeof databaseId !== 'string') return;
 
-			const { accessToken } = await Storage.getNotionAuthorisation();
-			if (!accessToken) return;
+			const accessToken = (await Storage.getNotionAuthorisation()).accessToken ?? await CONFIGURATION.FIELDS['notion.accessToken'].input.validate();
+
+			if (!accessToken || typeof accessToken !== 'string') return;
 
 			const databasePromise = NotionClient.getInstance({ auth: accessToken }).retrieveDatabase(databaseId);
 
@@ -332,8 +333,9 @@ const DatabaseSelect = <const>{
 	async populate(placeholder = 'Loading') {
 		if (!this.element) return;
 
-		const { accessToken } = await Storage.getNotionAuthorisation();
-		if (!accessToken) return;
+		const accessToken = (await Storage.getNotionAuthorisation()).accessToken ?? await CONFIGURATION.FIELDS['notion.accessToken'].input.validate();
+
+		if (!accessToken || typeof accessToken !== 'string') return;
 
 		this.element.setInnerHTML(`<option selected disabled hidden>${placeholder}...</option>`);
 
@@ -440,6 +442,11 @@ Object.values(CONFIGURATION.FIELDS).forEach(({ input, dependents }) => {
 	input.toggleDependents(dependents);
 });
 
+if (!OAuth2.isIdentitySupported) {
+	buttons.oauth.hide();
+	CONFIGURATION.FIELDS['notion.accessToken'].input.show();
+}
+
 Storage.getNotionAuthorisation().then(async ({ accessToken }) => {
 	if (!accessToken || !await NotionClient.getInstance({ auth: accessToken }).validateToken()) {
 		buttons.oauth.setDefaultLabel('Authorise with Notion');
@@ -497,8 +504,9 @@ DatabaseSelect.element.addEventListener('input', async () => {
 	const databaseId = DatabaseSelect.element.getValue();
 	if (typeof databaseId !== 'string') return;
 
-	const { accessToken } = await Storage.getNotionAuthorisation();
-	if (!accessToken) return;
+	const accessToken = (await Storage.getNotionAuthorisation()).accessToken ?? await CONFIGURATION.FIELDS['notion.accessToken'].input.validate();
+
+	if (!accessToken || typeof accessToken !== 'string') return;
 
 	const databasePromise = NotionClient.getInstance({ auth: accessToken }).retrieveDatabase(databaseId);
 
@@ -510,9 +518,10 @@ DatabaseSelect.element.addEventListener('input', async () => {
 });
 
 buttons.oauth.addEventListener('click', async () => {
+	if (!OAuth2.isIdentitySupported) return;
+
 	buttons.oauth.setButtonLabel('Authorising with Notion...');
 
-	// TODO: ensure browser.identity
 	const success = await OAuth2.authorise();
 
 	if (!success) return buttons.oauth.resetHTML();
@@ -524,6 +533,9 @@ buttons.oauth.addEventListener('click', async () => {
 	Storage.clearDatabaseId();
 	DatabaseSelect.populate();
 	DatabaseSelect.show();
+
+	const { accessToken } = await Storage.getNotionAuthorisation();
+	CONFIGURATION.FIELDS['notion.accessToken'].input.setValue(accessToken ?? null);
 });
 
 buttons.refreshDatabaseSelect.addEventListener('click', async () => {

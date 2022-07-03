@@ -1,7 +1,7 @@
 import { NotionClient, VALID_EMOJIS } from '../apis/notion';
 import { Storage } from '../apis/storage';
 
-import { SupportedTypes } from './configuration';
+import { SupportedTypes, CONFIGURATION } from './configuration';
 import { NullIfEmpty, NeverEmpty } from './';
 
 import { Element, Button, Input } from '../elements';
@@ -312,6 +312,30 @@ export class RequiredNumberAsStringField extends RequiredField {
 	}
 }
 
+export class RequiredNotionTokenField extends RequiredField {
+	public constructor(elementId: string) {
+		super(elementId, typeGuards.isString, 'string');
+	}
+
+	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NeverEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
+		try {
+			if (await super.validator(inputValue) !== inputValue) return InputFieldValidator.INVALID_INPUT;
+
+			if (!navigator.onLine) throw 'Please connect to the Internet to validate this input.';
+
+			const notionClient = NotionClient.getInstance({ auth: inputValue });
+
+			if (!await notionClient.validateToken()) throw 'Input is not a valid Notion Integration Token.';
+
+			return inputValue;
+		}
+		catch (error: unknown) {
+			if (typeof error === 'string') this.addInvalidError(error);
+			return InputFieldValidator.INVALID_INPUT;
+		}
+	}
+}
+
 export class RequiredNotionDatabaseIdField extends RequiredField {
 	public constructor(elementId: string) {
 		super(elementId, typeGuards.isString, 'string');
@@ -321,10 +345,11 @@ export class RequiredNotionDatabaseIdField extends RequiredField {
 		try {
 			if (await super.validator(inputValue) !== inputValue) return InputFieldValidator.INVALID_INPUT;
 
-			const { accessToken } = await Storage.getNotionAuthorisation();
-			const notionClient = NotionClient.getInstance({ auth: accessToken ?? '' });
+			const accessToken = (await Storage.getNotionAuthorisation()).accessToken ?? CONFIGURATION.FIELDS['notion.accessToken'].input.getValue();
 
-			if (!accessToken || !await notionClient.validateToken()) throw 'Invalid Notion Integration Key.';
+			const notionClient = NotionClient.getInstance({ auth: String(accessToken) });
+
+			if (!accessToken || !await notionClient.validateToken()) throw 'Invalid Notion Integration Token.';
 
 			if (!navigator.onLine) throw 'Please connect to the Internet to validate this input.';
 
