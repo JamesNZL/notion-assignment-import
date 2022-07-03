@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.1.1](https://github.com/JamesNZL/notion-assignment-import/compare/v4.1.0...v4.1.1) (2022-07-03)
+
+
+### Bug Fixes
+
+* **interface:** :lipstick: fix spacing bug above save button ([5e65e8e](https://github.com/JamesNZL/notion-assignment-import/commit/5e65e8ebf663c3daf0a39d279f99c27e7aba2228))
+* **interface:** :lipstick: make navbar x padding responsive with `vw` ([8353b88](https://github.com/JamesNZL/notion-assignment-import/commit/8353b88acc8e1e266e38fd20a99f3131f681705b))
+
 ## [4.1.0](https://github.com/JamesNZL/notion-assignment-import/compare/v4.0.1...v4.1.0) (2022-07-03)
 
 
