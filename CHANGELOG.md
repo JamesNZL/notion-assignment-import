@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/JamesNZL/notion-assignment-import/compare/v4.0.1...v4.1.0) (2022-07-03)
+
+
+### Features
+
+* **elements:** :children_crossing: toggle dependents based on own validity ([0e52961](https://github.com/JamesNZL/notion-assignment-import/commit/0e52961319c67a0f9ef1190282a45fb3d3790493))
+
+
+### Bug Fixes
+
+* **popup:** :alien: configure integration in options if no oauth ([b80ea69](https://github.com/JamesNZL/notion-assignment-import/commit/b80ea694673c6f8313e2b06f98511f9929b274bf))
+* **safari:** :alien: add internal integration token fallback ([322eec1](https://github.com/JamesNZL/notion-assignment-import/commit/322eec1a58f065fef731c525e94bd32f442ba78f))
+* **safari:** :construction: throw error if no `browser.identity` ([9ff6053](https://github.com/JamesNZL/notion-assignment-import/commit/9ff6053e10f72fea1cabe38a35c97e1cda0f12b7))
+* **validator:** :bug: force input validation on save ([0ad84f3](https://github.com/JamesNZL/notion-assignment-import/commit/0ad84f39798998af45f7f98477f05d48aa123b58))
+* **validator:** :speech_balloon: fix `'a emoji'` ([a390c05](https://github.com/JamesNZL/notion-assignment-import/commit/a390c055327a9c5aa6c6639e9b9cccf6a4de6e66))
+
 ### [4.0.1](https://github.com/JamesNZL/notion-assignment-import/compare/v4.0.0...v4.0.1) (2022-07-02)
 
 
