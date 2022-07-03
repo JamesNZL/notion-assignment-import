@@ -99,20 +99,20 @@ export class NotionClient extends Client {
 		return await new Promise(resolve => setTimeout(resolve, ms));
 	}
 
-	private cacheRequest<T, R>(method: (arg: T) => Promise<R>, parameters: T, response: R): R {
+	private cacheRequest<T, R>(cacheKey: string, parameters: T, response: R): R {
 		this.requestCache.set(JSON.stringify({
-			method: method.toString(),
+			cacheKey,
 			parameters,
 		}), response);
 
 		return response;
 	}
 
-	private getCachedRequest<T, R>(method: (arg: T) => Promise<R>, parameters: T): undefined | R {
-		return <undefined | R>this.requestCache.get(JSON.stringify({ method: method.toString(), parameters }));
+	private getCachedRequest<T, R>(cacheKey: string, parameters: T): undefined | R {
+		return <undefined | R>this.requestCache.get(JSON.stringify({ cacheKey, parameters }));
 	}
 
-	private async makeRequest<T, R>(method: (arg: T) => Promise<R>, parameters: T, { cache, force }: { cache: boolean; force: boolean; }): Promise<void | R> {
+	private async makeRequest<T, R>(method: (arg: T) => Promise<R>, cacheKey: string, parameters: T, { cache, force }: { cache: boolean; force: boolean; }): Promise<void | R> {
 		try {
 			// if the handler is currently rate-limited, delay the request
 			if (this.isRateLimited && this.retryAfterPromise !== null) {
@@ -122,10 +122,10 @@ export class NotionClient extends Client {
 
 			const response = (force)
 				? await method.call(this, parameters)
-				: this.getCachedRequest<T, R>(method, parameters) ?? await method.call(this, parameters);
+				: this.getCachedRequest<T, R>(cacheKey, parameters) ?? await method.call(this, parameters);
 
 			return (cache)
-				? this.cacheRequest<T, R>(method, parameters, response)
+				? this.cacheRequest<T, R>(cacheKey, parameters, response)
 				: response;
 		}
 
@@ -151,14 +151,14 @@ export class NotionClient extends Client {
 					this.retryAfterPromise = null;
 
 					// make the request again
-					return await this.makeRequest(method, parameters, { cache, force });
+					return await this.makeRequest(method, cacheKey, parameters, { cache, force });
 				}
 			}
 		}
 	}
 
-	private async makePaginatedRequest<T, R>(method: (arg: T) => Promise<R>, parameters: T & PaginatedRequest, { cache, force }: { cache: boolean; force: boolean; }): Promise<void | R> {
-		let response = await this.makeRequest(method, parameters, { cache, force });
+	private async makePaginatedRequest<T, R>(method: (arg: T) => Promise<R>, cacheKey: string, parameters: T & PaginatedRequest, { cache, force }: { cache: boolean; force: boolean; }): Promise<void | R> {
+		let response = await this.makeRequest(method, cacheKey, parameters, { cache, force });
 
 		if (!isPaginatedResponse(response)) return response;
 
@@ -167,7 +167,7 @@ export class NotionClient extends Client {
 		while (isPaginatedResponse(response) && response.has_more) {
 			parameters.start_cursor = response.next_cursor;
 
-			response = await this.makeRequest(method, parameters, { cache, force });
+			response = await this.makeRequest(method, cacheKey, parameters, { cache, force });
 
 			if (isPaginatedResponse(response)) _results.push(...response.results);
 		}
@@ -180,6 +180,7 @@ export class NotionClient extends Client {
 	public async retrieveMe({ cache, force } = { cache: true, force: false }): Promise<void | GetSelfResponse> {
 		return await this.makeRequest(
 			this.users.me,
+			'users.me',
 			{},
 			{
 				cache,
@@ -191,6 +192,7 @@ export class NotionClient extends Client {
 	public async queryDatabase(databaseId: string, filter?: QueryDatabaseParameters['filter'], { cache, force } = { cache: true, force: false }): Promise<void | QueryDatabaseResponse> {
 		return await this.makePaginatedRequest(
 			this.databases.query,
+			'databases.query',
 			{
 				database_id: databaseId,
 				filter,
@@ -205,6 +207,7 @@ export class NotionClient extends Client {
 	public async retrieveDatabase(databaseId: string, { cache, force } = { cache: true, force: false }): Promise<void | GetDatabaseResponse> {
 		return await this.makeRequest(
 			this.databases.retrieve,
+			'databases.retrieve',
 			{
 				database_id: databaseId,
 			},
@@ -218,6 +221,7 @@ export class NotionClient extends Client {
 	public async createPage(parameters: CreatePageParameters): Promise<void | CreatePageResponse> {
 		return await this.makeRequest(
 			this.pages.create,
+			'pages.create',
 			parameters,
 			{
 				cache: false,
@@ -229,6 +233,7 @@ export class NotionClient extends Client {
 	public async searchShared({ query, sort, filter }: SearchParameters, { cache, force } = { cache: true, force: false }): Promise<void | SearchResponse> {
 		return await this.makePaginatedRequest(
 			this.search,
+			'search',
 			{
 				query,
 				sort,
