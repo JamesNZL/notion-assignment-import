@@ -17,7 +17,7 @@ export type SupportedTypes = NullIfEmpty<string> | boolean;
 
 interface Readable {
 	getValue(): SupportedTypes;
-	validate(): Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT>;
+	validate(force?: boolean): Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT>;
 }
 
 interface Settable {

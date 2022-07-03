@@ -159,7 +159,7 @@ const OptionsPage = <const>{
 	async getInputs(): Promise<Record<keyof SavedFields, SupportedTypes> | null> {
 		const fieldEntries = Object.fromEntries(
 			await Promise.all(
-				Object.entries(CONFIGURATION.FIELDS).map(async ([field, { input }]) => [field, await input.validate()]),
+				Object.entries(CONFIGURATION.FIELDS).map(async ([field, { input }]) => [field, await input.validate(true)]),
 			),
 		);
 
@@ -254,7 +254,7 @@ class SelectPropertyValueSelect extends PropertySelect {
 			const databaseId = DatabaseSelect.element.getValue();
 			if (typeof databaseId !== 'string') return;
 
-			const accessToken = (await Storage.getNotionAuthorisation()).accessToken ?? await CONFIGURATION.FIELDS['notion.accessToken'].input.validate();
+			const accessToken = (await Storage.getNotionAuthorisation()).accessToken ?? await CONFIGURATION.FIELDS['notion.accessToken'].input.validate(true);
 
 			if (!accessToken || typeof accessToken !== 'string') return;
 
@@ -333,7 +333,7 @@ const DatabaseSelect = <const>{
 	async populate(placeholder = 'Loading') {
 		if (!this.element) return;
 
-		const accessToken = (await Storage.getNotionAuthorisation()).accessToken ?? await CONFIGURATION.FIELDS['notion.accessToken'].input.validate();
+		const accessToken = (await Storage.getNotionAuthorisation()).accessToken ?? await CONFIGURATION.FIELDS['notion.accessToken'].input.validate(true);
 
 		if (!accessToken || typeof accessToken !== 'string') return;
 
@@ -491,7 +491,7 @@ AdvancedOptions.control?.addEventListener('input', () => {
 // validate fields on input
 Object.values(CONFIGURATION.FIELDS)
 	.forEach(({ input, validateOn = 'input', dependents = [] }) => {
-		input.addEventListener(validateOn, input.validate.bind(input));
+		input.addEventListener(validateOn, () => input.validate());
 
 		if (!dependents.length) return;
 
@@ -504,7 +504,7 @@ DatabaseSelect.element.addEventListener('input', async () => {
 	const databaseId = DatabaseSelect.element.getValue();
 	if (typeof databaseId !== 'string') return;
 
-	const accessToken = (await Storage.getNotionAuthorisation()).accessToken ?? await CONFIGURATION.FIELDS['notion.accessToken'].input.validate();
+	const accessToken = (await Storage.getNotionAuthorisation()).accessToken ?? await CONFIGURATION.FIELDS['notion.accessToken'].input.validate(true);
 
 	if (!accessToken || typeof accessToken !== 'string') return;
 

@@ -79,11 +79,21 @@ export class KeyValueGroup extends Element {
 		return this;
 	}
 
-	// TODO: validate(force = false)
-	public async validate() {
-		return (this.isValid)
-			? this.getValue()
-			: InputFieldValidator.INVALID_INPUT;
+	public async validate(force = false) {
+		if (!force) {
+			return (this.isValid)
+				? this.getValue()
+				: InputFieldValidator.INVALID_INPUT;
+		}
+
+		const validatedInputs = await Promise.all(
+			this.getLivingRows()
+				.flatMap(({ keyInput, valueInput }) => [keyInput.validate(), valueInput.validate()]),
+		);
+
+		return (validatedInputs.includes(InputFieldValidator.INVALID_INPUT))
+			? InputFieldValidator.INVALID_INPUT
+			: this.getValue();
 	}
 
 	public getValue(): SupportedTypes {
