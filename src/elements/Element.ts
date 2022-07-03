@@ -15,7 +15,7 @@ export class Element {
 	}
 
 	public static getInstance<T extends string>(id: T, type: string): Element {
-		return Element.instances[id] = Element.instances[id] ?? new Element(id, type);
+		return Element.instances[id] ??= new Element(id, type);
 	}
 
 	public get id() {
@@ -98,7 +98,7 @@ export class Element {
 			this.element.parentElement.classList.remove('hidden');
 		}
 
-		this.tile = this.tile ?? Element.findParentTile(this.element.parentElement);
+		this.tile ??= Element.findParentTile(this.element.parentElement);
 
 		if (!this.tile || !Element.isSomeChildShown(this.tile)) return;
 
@@ -108,7 +108,7 @@ export class Element {
 
 		if (!this.isAllHeadingChildrenHidden(this.tile.previousElementSibling)) this.tile.previousElementSibling.classList.remove('hidden');
 
-		this.parentHeading = this.parentHeading ?? this.findParentHeading(this.tile.previousElementSibling);
+		this.parentHeading ??= this.findParentHeading(this.tile.previousElementSibling);
 
 		if (!this.parentHeading) return;
 
@@ -125,7 +125,7 @@ export class Element {
 			this.element.parentElement.classList.add('hidden');
 		}
 
-		this.tile = this.tile ?? Element.findParentTile(this.element.parentElement);
+		this.tile ??= Element.findParentTile(this.element.parentElement);
 
 		if (!this.tile || !Element.isEveryChildHidden(this.tile)) return;
 
@@ -135,7 +135,7 @@ export class Element {
 
 		if (this.isAllHeadingChildrenHidden(this.tile.previousElementSibling)) this.tile.previousElementSibling.classList.add('hidden');
 
-		this.parentHeading = this.parentHeading ?? this.findParentHeading(this.tile.previousElementSibling);
+		this.parentHeading ??= this.findParentHeading(this.tile.previousElementSibling);
 
 		if (!this.parentHeading) return;
 

@@ -72,7 +72,7 @@ export class NotionClient extends Client {
 	}
 
 	public async validateToken() {
-		return NotionClient.validTokens[this.auth] = NotionClient.validTokens[this.auth] ?? Boolean(await this.retrieveMe());
+		return NotionClient.validTokens[this.auth] ??= Boolean(await this.retrieveMe());
 	}
 
 	private get isRateLimited() {

@@ -48,7 +48,7 @@ const SavedCoursesList = {
 	async listCourses(savedAssignments?: SavedAssignments) {
 		if (!this.element) return;
 
-		savedAssignments = savedAssignments ?? await Storage.getSavedAssignments();
+		savedAssignments ??= await Storage.getSavedAssignments();
 
 		const coursesList = Object.entries(savedAssignments).reduce((list: string, [course, assignments]) => list + `
 		<li>
