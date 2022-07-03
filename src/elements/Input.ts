@@ -35,7 +35,7 @@ export class Input extends Element {
 	}
 
 	public get isValid() {
-		return !this.element.classList.contains('invalid-input');
+		return !InputFieldValidator.invalidFields.has(this.id);
 	}
 
 	public async validate() {
