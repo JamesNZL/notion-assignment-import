@@ -79,6 +79,7 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
 - [How It Works](#how-it-works)
   - [Assignment Parsing](#assignment-parsing)
   - [Notion Import](#notion-import)
+- [Contributors](#contributors)
 
 # Features
 
@@ -162,7 +163,7 @@ To be notified with updates and changelogs, to get in touch, or just to lurk, jo
 
 2. Unzip the `.zip` archive.
 
-3. Navigate to the file `Notion Canvas Assignment Import` in `notion-assignment-import-safari/Content/MacOS`.
+3. Navigate to the file `Notion Canvas Assignment Import` in `Notion Canvas Assignment Import/Content/MacOS`.
 
 4. Open up the `terminal` app. Paste in this command:
 
@@ -173,12 +174,12 @@ chmod +x
 5. Drag and drop the `Notion Canvas Assignment Import` file into your terminal window. Now you should have something looking like this:
 
 ```bash
-chmod +x /Users/YOUR_USERNAME/Downloads/notion-assignment-import-safari/Contents/MacOS/Notion\ Canvas\ Assignment\ Import
+chmod +x /Users/YOUR_USERNAME/Downloads/Notion\ Canvas\ Assignment\ Import/Contents/MacOS/Notion\ Canvas\ Assignment\ Import
 ```
 
 6. Hit `Enter`. You may now close the terminal.
 
-7. Rename the folder `notion-assignment-import-safari` to `notion-assignment-import-safari.app`.
+7. Rename the folder `Notion Canvas Assignment Import` to `Notion Canvas Assignment Import.app`.
    > This turns the folder into an app.
 
 8. Now drag and drop the app into the applications folder.
@@ -320,3 +321,7 @@ This project uses [`gulp`](https://gulpjs.com/) and [`browserify`](https://brows
 6. The configured `Database` is queried to avoid import of duplicate assignments (by matching assignment URLs).
 
 7. The configured `Database Properties` are used to create a new database page for each assignment with the Notion API.
+
+# Contributors
+
+1. Thank you to [PolarWolf314](https://github.com/PolarWolf314) for doing the conversion work to add Safari support!
