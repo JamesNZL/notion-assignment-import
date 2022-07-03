@@ -44,7 +44,7 @@
       <a href="https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/">
          <img src="https://img.shields.io/badge/Download_for-Firefox-FF9500?style=for-the-badge&logo=firefox&logoColor=FFFFFF" alt="Download for Firefox">
       </a>
-      <a href="#macos-instructions">
+      <a href="#safari-instructions">
          <img src="https://img.shields.io/badge/Download_for-Safari-000000?style=for-the-badge&logo=safari&logoColor=FFFFFF" alt="Download for Safari">
       </a>
       <a href="https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/">
@@ -61,7 +61,7 @@
 
 <br>
 
-A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/), [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/), and [Safari](#macos-instructions) extension to load [Canvas](https://www.instructure.com/canvas) assignments into a [Notion](https://www.notion.so/) database, at just the click of a button—unlock your full time-management and productivity potential!
+A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/), [Firefox](https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/), and [Safari](#safari-instructions) extension to load [Canvas](https://www.instructure.com/canvas) assignments into a [Notion](https://www.notion.so/) database, at just the click of a button—unlock your full time-management and productivity potential!
 
 - [Features](#features)
 - [Screenshots](#screenshots)
@@ -70,7 +70,7 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
   - [Extension Options](#extension-options)
 - [Discord Server](#discord-server)
 - [Setup Instructions](#setup-instructions)
-  - [macOS Instructions](#macos-instructions)
+  - [Safari Instructions](#safari-instructions)
   - [Configurable Options](#configurable-options)
     - [`Course Code Overrides`](#course-code-overrides)
     - [`Page Emojis`](#page-emojis)
@@ -116,7 +116,7 @@ To be notified with updates and changelogs, to get in touch, or just to lurk, jo
 
 # Setup Instructions
 
-1. Install the [Chromium extension](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/), [Firefox add-on](https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/), or [Safari extension](#macos-instructions).
+1. Install the [Chromium extension](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/), [Firefox add-on](https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/), or [Safari extension](#safari-instructions).
 
 2. Duplicate [this Notion database template](https://jamesnzl-sandbox.notion.site/c4d73bebd39c4103b96b2edb8be9e0bd?v=9afaf4b4faee4a5a977c00291be06c9e) (or create/modify your own!).
 
@@ -151,11 +151,11 @@ To be notified with updates and changelogs, to get in touch, or just to lurk, jo
 
 12.  Once you have finished saving assignments, click the `Export to Notion` button to export to your Notion database.
 
-## macOS Instructions
+## Safari Instructions
 
 > **DISCLAIMER:** This is an unsigned extension that is not installed through the Apple App Store.  
-> This means that you **will not** receive automatic updates, and you must repeat the below installation steps if you wish to update your extension.  
-> This may change in a future extension update.  
+> This means that you **will not receive automatic updates**, and you must repeat the below installation steps if you wish to update your extension.  
+> This may change in a future update.  
 > To be notified of new releases, join the [Discord server](https://discord.gg/k2jjmmVPeK).
 
 1. Download the latest [`notion-assignment-import-safari_latest.zip`](releases/safari/notion-assignment-import-safari_latest.zip) archive from [`releases/safari`](releases/safari/).
