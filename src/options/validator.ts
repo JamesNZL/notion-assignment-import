@@ -107,7 +107,7 @@ export abstract class InputFieldValidator {
 	protected async validator(inputValue: NullIfEmpty<string>): Promise<NullIfEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
 		if (this.typeGuard(inputValue)) return inputValue;
 
-		this.addInvalidError(`Input must be a ${this.typeLabel}!`);
+		this.addInvalidError(`Input must be ${this.typeLabel}!`);
 		return InputFieldValidator.INVALID_INPUT;
 	}
 
@@ -234,7 +234,7 @@ abstract class RequiredField extends InputFieldValidator {
 		try {
 			if (!inputValue) throw 'Required field cannot be empty!';
 
-			if (!this.typeGuard(inputValue)) throw `Input must be a ${this.typeLabel}!`;
+			if (!this.typeGuard(inputValue)) throw `Input must be ${this.typeLabel}!`;
 
 			return inputValue;
 		}
@@ -256,7 +256,7 @@ abstract class JSONObjectField extends InputFieldValidator {
 			if (!(parsed instanceof Object) || Array.isArray(parsed)) throw 'Input must be an object <code>{}</code>.';
 
 			// this also fails-fast, just like .some(!this.typeGuard)
-			if (!Object.values(parsed).every(this.typeGuard)) throw `All object values must be ${this.typeLabel}s!`;
+			if (!Object.values(parsed).every(this.typeGuard)) throw `Every object value must be ${this.typeLabel}!`;
 
 			return inputValue;
 		}
@@ -290,31 +290,31 @@ const typeGuards: Record<string, TypeGuard> = <const>{
 
 export class StringField extends InputFieldValidator {
 	public constructor(elementId: string) {
-		super(elementId, typeGuardModifiers.isNullable(typeGuards.isString), 'string');
+		super(elementId, typeGuardModifiers.isNullable(typeGuards.isString), 'a string');
 	}
 }
 
 export class EmojiField extends InputFieldValidator {
 	public constructor(elementId: string) {
-		super(elementId, typeGuardModifiers.isNullable(typeGuards.isEmojiRequest), 'emoji');
+		super(elementId, typeGuardModifiers.isNullable(typeGuards.isEmojiRequest), 'an emoji');
 	}
 }
 
 export class RequiredStringField extends RequiredField {
 	public constructor(elementId: string) {
-		super(elementId, typeGuards.isString, 'string');
+		super(elementId, typeGuards.isString, 'a string');
 	}
 }
 
 export class RequiredNumberAsStringField extends RequiredField {
 	public constructor(elementId: string) {
-		super(elementId, typeGuards.isParsableNumber, 'number');
+		super(elementId, typeGuards.isParsableNumber, 'a number');
 	}
 }
 
 export class RequiredNotionTokenField extends RequiredField {
 	public constructor(elementId: string) {
-		super(elementId, typeGuards.isString, 'string');
+		super(elementId, typeGuards.isString, 'a string');
 	}
 
 	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NeverEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
@@ -338,7 +338,7 @@ export class RequiredNotionTokenField extends RequiredField {
 
 export class RequiredNotionDatabaseIdField extends RequiredField {
 	public constructor(elementId: string) {
-		super(elementId, typeGuards.isString, 'string');
+		super(elementId, typeGuards.isString, 'a string');
 	}
 
 	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NeverEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
@@ -366,19 +366,19 @@ export class RequiredNotionDatabaseIdField extends RequiredField {
 
 export class JSONStringObjectField extends JSONObjectField {
 	public constructor(elementId: string) {
-		super(elementId, typeGuards.isString, 'string');
+		super(elementId, typeGuards.isString, 'a string');
 	}
 }
 
 export class JSONEmojiObjectField extends JSONObjectField {
 	public constructor(elementId: string) {
-		super(elementId, typeGuards.isEmojiRequest, 'emoji');
+		super(elementId, typeGuards.isEmojiRequest, 'an emoji');
 	}
 }
 
 export class TimeZoneField extends InputFieldValidator {
 	public constructor(elementId: string) {
-		super(elementId, typeGuardModifiers.isNullable(typeGuards.isString), 'string');
+		super(elementId, typeGuardModifiers.isNullable(typeGuards.isString), 'a string');
 	}
 
 	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NullIfEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
