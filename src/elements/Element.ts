@@ -2,7 +2,7 @@ export class Element {
 	protected static instances: Record<string, Element> = {};
 
 	protected element: HTMLElement;
-	private timeouts: Record<string, NodeJS.Timeout> = {};
+	private timeouts: Record<string, ReturnType<typeof setTimeout>> = {};
 
 	private tile?: HTMLElement | false;
 	private parentHeading?: HTMLHeadingElement | false;
