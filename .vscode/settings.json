@@ -1,0 +1,32 @@
+{
+	"conventionalCommits.scopes": [
+		"gitignore",
+		"gulp",
+		"deps",
+		"deps-dev",
+		"typescript",
+		"readme",
+		"parser",
+		"manifest",
+		"popup",
+		"release",
+		"import",
+		"interface",
+		"types",
+		"options",
+		"todo",
+		"assets",
+		"actions",
+		"validator",
+		"firefox",
+		"chromium",
+		"stylesheet",
+		"elements",
+		"oauth",
+		"storage",
+		"notion",
+		"safari",
+		"eslint",
+		"scopes"
+	]
+}
