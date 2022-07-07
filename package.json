@@ -24,7 +24,7 @@
     "yargs": "^17.5.1"
   },
   "dependencies": {
-    "@notionhq/client": "^1.0.4",
+    "@notionhq/client": "^2.0.0",
     "chrono-node": "^2.3.8"
   },
   "scripts": {
