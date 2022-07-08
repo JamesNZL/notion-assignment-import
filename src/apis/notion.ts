@@ -261,7 +261,7 @@ export class NotionClient extends Client {
 		);
 	}
 
-	public static resolveTitle(object: ArrayElement<SearchResponse['results']>, icon = true) {
+	public async resolveTitle(object: ArrayElement<SearchResponse['results']>, icon = true) {
 		try {
 			const richTextObjects: RichTextItemResponse[] = [];
 
@@ -269,9 +269,21 @@ export class NotionClient extends Client {
 				case ('page'): {
 					if (!('properties' in object)) break;
 
-					const titleProperty = Object.values(object.properties).find(({ type }) => type === 'title') ?? [];
+					const titlePropertyItem = await this.retrievePageProperty(object.id, 'title');
 
-					richTextObjects.push(...('title' in titleProperty) ? titleProperty.title : []);
+					if (!titlePropertyItem || !('property_item' in titlePropertyItem)) break;
+
+					if (titlePropertyItem.property_item.type !== 'title') break;
+
+					const titleProperties = titlePropertyItem.results
+						.filter(({ id }) => id === 'title')
+						.flatMap(property => {
+							return ('title' in property)
+								? [property.title]
+								: [];
+						});
+
+					richTextObjects.push(...titleProperties);
 
 					break;
 				}

@@ -119,8 +119,8 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 			this.assignment = assignment;
 		}
 
-		public get name(): string {
-			return NotionClient.resolveTitle(this.assignment) ?? '';
+		public async getName() {
+			return await notionClient.resolveTitle(this.assignment);
 		}
 
 		public get course(): string | undefined {

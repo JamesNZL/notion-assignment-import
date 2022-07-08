@@ -351,16 +351,24 @@ const DatabaseSelect = <const>{
 			force: true,
 		});
 
+		if (!databases) {
+			this.element.setInnerHTML('');
+			this.element.dispatchInputEvent();
+
+			return;
+		}
+
 		const { notion: { databaseId } } = await Storage.getOptions();
 
-		const selectOptions = databases?.results.reduce((html: string, database) => html + `
+		const databaseTitles = await Promise.all(databases.results.map(database => notionClient.resolveTitle(database)));
+
+		const selectOptions = databases.results.reduce((html: string, database, index) => html + `
 			<option value='${database.id}' ${(databaseId === database.id) ? 'selected' : ''}>
-				${NotionClient.resolveTitle(database) ?? 'Untitled'}
+				${databaseTitles[index] ?? 'Untitled'}
 			</option>
 			`, '');
 
-		this.element.setInnerHTML(selectOptions ?? '');
-
+		this.element.setInnerHTML(selectOptions);
 		this.element.dispatchInputEvent();
 	},
 };
