@@ -120,7 +120,7 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 		}
 
 		public get name(): string {
-			return ('properties' in this.assignment && 'title' in this.assignment.properties.Name) ? this.assignment.properties.Name.title.map(({ plain_text }) => plain_text).join('') : '';
+			return NotionClient.resolveTitle(this.assignment) ?? '';
 		}
 
 		public get course(): string | undefined {
