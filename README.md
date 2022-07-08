@@ -324,4 +324,4 @@ This project uses [`gulp`](https://gulpjs.com/) and [`browserify`](https://brows
 
 # Contributors
 
-1. Thank you to [PolarWolf314](https://github.com/PolarWolf314) for doing the conversion work to add Safari support!
+1. Thank you to [@PolarWolf314](https://github.com/PolarWolf314) for doing the conversion work to add Safari support!
