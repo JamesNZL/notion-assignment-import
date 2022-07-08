@@ -121,33 +121,6 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 			this.assignment = assignment;
 		}
 
-		// TODO: remove these unused getters/methods
-		public async getName() {
-			return await this.client.resolveTitle(this.assignment);
-		}
-
-		public async getCourse() {
-			try {
-				if (!options.propertyNames.course) throw null;
-
-				if (!('properties' in this.assignment) || !(options.propertyNames.course in this.assignment.properties)) throw null;
-
-				// Extract the course property from the page
-				const coursePropertyId = this.assignment.properties[options.propertyNames.course].id;
-
-				const courseProperty = await this.client.retrievePageProperty(this.assignment.id, coursePropertyId);
-
-				if (!courseProperty || !('select' in courseProperty)) throw null;
-
-				// If the course property is a select property, return its name
-				return courseProperty.select?.name;
-			}
-			catch {
-				// Return undefined if no select was found
-				return undefined;
-			}
-		}
-
 		public async getURL() {
 			try {
 				if (!options.propertyNames.url) throw null;
