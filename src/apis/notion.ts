@@ -1,6 +1,6 @@
 import { APIErrorCode, Client, isNotionClientError } from '@notionhq/client';
 import { ClientOptions } from '@notionhq/client/build/src/Client';
-import { CreatePageParameters, CreatePageResponse, GetDatabaseResponse, GetSelfResponse, QueryDatabaseParameters, QueryDatabaseResponse, SearchParameters, SearchResponse } from '@notionhq/client/build/src/api-endpoints';
+import { CreatePageParameters, CreatePageResponse, GetPagePropertyResponse, GetDatabaseResponse, GetSelfResponse, QueryDatabaseParameters, QueryDatabaseResponse, SearchParameters, SearchResponse } from '@notionhq/client/build/src/api-endpoints';
 
 import { valueof, ArrayElement } from '../types/utils';
 
@@ -226,6 +226,21 @@ export class NotionClient extends Client {
 			{
 				cache: false,
 				force: true,
+			},
+		);
+	}
+
+	public async retrievePageProperty(pageId: string, propertyId: string, { cache, force } = { cache: true, force: false }): Promise<void | GetPagePropertyResponse> {
+		return await this.makePaginatedRequest(
+			this.pages.properties.retrieve,
+			'pages.properties.retrieve',
+			{
+				page_id: pageId,
+				property_id: propertyId,
+			},
+			{
+				cache,
+				force,
 			},
 		);
 	}
