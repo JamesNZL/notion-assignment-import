@@ -243,7 +243,6 @@ export const CONFIGURATION: {
 					delete (<Partial<typeof this>>this).input;
 					return this.input = Input.getInstance<InputElementId>('database-id', 'input', RequiredNotionDatabaseIdField);
 				},
-				validateOn: 'change',
 				dependents: [
 					'refresh-database-select',
 					'notion-property-name',

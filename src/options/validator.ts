@@ -285,6 +285,14 @@ const typeGuards = <const>{
 	isEmojiRequest(value: unknown) {
 		return (typeof value === 'string' && (<string[]>VALID_EMOJIS).includes(value));
 	},
+	isUUIDv4(value: unknown) {
+		// allow hyphens to be optional as the Notion API doesn't require them
+		// also, Notion URLs don't have them, so it wouldn't be very user friendly to require them
+		const hyphensRegex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+		const noHyphensRegex = /^[0-9A-F]{8}[0-9A-F]{4}4[0-9A-F]{3}[89AB][0-9A-F]{3}[0-9A-F]{12}$/i;
+
+		return (typeof value === 'string') && [hyphensRegex, noHyphensRegex].some(regex => regex.test(value));
+	},
 };
 
 export class StringField extends InputFieldValidator {
@@ -337,7 +345,7 @@ export class RequiredNotionTokenField extends RequiredField {
 
 export class RequiredNotionDatabaseIdField extends RequiredField {
 	public constructor(elementId: string) {
-		super(elementId, typeGuards.isString, 'a string');
+		super(elementId, typeGuards.isUUIDv4, 'a valid database ID');
 	}
 
 	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NeverEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
