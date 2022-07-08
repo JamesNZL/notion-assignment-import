@@ -154,9 +154,11 @@ export abstract class InputFieldValidator {
 
 			statusElement.setAttribute('id', `validating-input-${this.id}`);
 			statusElement.classList.add('validating-input-status');
-			statusElement.textContent = status;
 
 			this.input.insertAdjacentElement('beforebegin', statusElement);
+
+			Element.getInstance(`validating-input-${this.id}`, 'validator label')
+				.safelySetInnerHTML(status);
 		}
 
 		SaveButton.updateState(SaveButtonUpdates.Pending);
@@ -197,9 +199,11 @@ export abstract class InputFieldValidator {
 
 			errorElement.setAttribute('id', `invalid-input-${this.id}`);
 			errorElement.classList.add('invalid-input-error');
-			errorElement.textContent = error;
 
 			this.input.insertAdjacentElement('beforebegin', errorElement);
+
+			Element.getInstance(`invalid-input-${this.id}`, 'validator label')
+				.safelySetInnerHTML(error);
 		}
 
 		SaveButton.updateState(SaveButtonUpdates.Disable);
