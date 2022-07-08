@@ -113,26 +113,31 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 	}
 
 	class NotionAssignment {
+		// TODO: keep track of the client
+		// private client: NotionClient;
 		private assignment: ArrayElement<QueryDatabaseResponse['results']>;
 
 		public constructor(assignment: ArrayElement<QueryDatabaseResponse['results']>) {
 			this.assignment = assignment;
 		}
 
+		// TODO: remove these unused getters/methods
 		public async getName() {
 			return await notionClient.resolveTitle(this.assignment);
 		}
 
-		public get course(): string | undefined {
+		public async getCourse() {
 			try {
 				if (!options.propertyNames.course) throw null;
 
 				if (!('properties' in this.assignment) || !(options.propertyNames.course in this.assignment.properties)) throw null;
 
 				// Extract the course property from the page
-				const courseProperty = this.assignment.properties[options.propertyNames.course];
+				const coursePropertyId = this.assignment.properties[options.propertyNames.course].id;
 
-				if (!('select' in courseProperty)) throw null;
+				const courseProperty = await notionClient.retrievePageProperty(this.assignment.id, coursePropertyId);
+
+				if (!courseProperty || !('select' in courseProperty)) throw null;
 
 				// If the course property is a select property, return its name
 				return courseProperty.select?.name;
@@ -143,15 +148,17 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 			}
 		}
 
-		public get url(): string | undefined {
+		public async getURL() {
 			try {
 				if (!options.propertyNames.url) throw null;
 
 				if (!('properties' in this.assignment) || !(options.propertyNames.url in this.assignment.properties)) throw null;
 
-				const urlProperty = this.assignment.properties[options.propertyNames.url];
+				const urlPropertyId = this.assignment.properties[options.propertyNames.url].id;
 
-				if (!('url' in urlProperty) || !urlProperty?.url) throw null;
+				const urlProperty = await notionClient.retrievePageProperty(this.assignment.id, urlPropertyId);
+
+				if (!urlProperty || !('url' in urlProperty) || !urlProperty?.url) throw null;
 
 				return urlProperty.url;
 			}
@@ -172,6 +179,7 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 		}
 
 		async function queryNotionAssignments(): Promise<void | NotionAssignment[]> {
+			// TODO: non-empty url
 			const filterForCanvasAssignments = (options.propertyNames.category)
 				? {
 					property: options.propertyNames.category,
@@ -195,7 +203,9 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 
 		if (!notionAssignments?.length) return parsedAssignments;
 
-		return parsedAssignments.filter(assignment => !notionAssignments.some(page => page.url === assignment.url));
+		const existingURLs = await Promise.all(notionAssignments.map(page => page.getURL()));
+
+		return parsedAssignments.filter(assignment => !existingURLs.includes(assignment.url));
 	}
 
 	// Set up Notion API handler
