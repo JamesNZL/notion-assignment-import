@@ -172,7 +172,7 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 		}
 
 		async function queryNotionAssignments(): Promise<void | NotionAssignment[]> {
-			const filterForCanvasAssignments = (options.propertyNames.category)
+			const canvasFilter = (options.propertyNames.category)
 				? {
 					property: options.propertyNames.category,
 					select: (options.propertyValues.categoryCanvas)
@@ -185,7 +185,21 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 				}
 				: undefined;
 
-			const notionAssignments = await notionClient.queryDatabase(databaseId, filterForCanvasAssignments, { cache: false, force: true });
+			const urlFilter = (options.propertyNames.url)
+				? {
+					property: options.propertyNames.url,
+					url: {
+						is_not_empty: <const>true,
+					},
+				}
+				: undefined;
+
+			const compoundFilter = {
+				// using flatMap for the in-built type safety
+				and: [canvasFilter, urlFilter].flatMap(filter => (filter) ? [filter] : []),
+			};
+
+			const notionAssignments = await notionClient.queryDatabase(databaseId, compoundFilter, { cache: false, force: true });
 
 			return notionAssignments?.results.map(assignment => new NotionAssignment(assignment));
 		}
