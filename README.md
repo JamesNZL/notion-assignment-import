@@ -258,7 +258,7 @@ Of course, you are welcome to configure any of these property names to be `❌ E
 
 ### `Course Code Overrides`
 
-**Example:** The course title in the page breadcrumb is `Course Title`, but you want it to be saved in your database as `COURSE 121`.
+**Example:** The course title in the page breadcrumb on Canvas is `Course Title`, but you want it to be saved in your database as `COURSE 121`.
 
 Configure `Course Code Overrides` to the following:
 
