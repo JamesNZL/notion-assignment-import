@@ -7,7 +7,6 @@ import { NullIfEmpty, NeverEmpty } from './';
 import { Element, Button, Input } from '../elements';
 
 type TypeGuard = (value: unknown) => boolean;
-type TypeGuardModifier = (typeGuard: TypeGuard) => TypeGuard;
 
 export type ValidatorConstructor = new (elementId: string) => InputFieldValidator;
 
@@ -270,20 +269,20 @@ abstract class JSONObjectField extends InputFieldValidator {
 	}
 }
 
-const typeGuardModifiers: Record<string, TypeGuardModifier> = <const>{
-	isNullable(typeGuard) {
-		return value => typeGuard(value) || value === null;
+const typeGuardModifiers = <const>{
+	isNullable(typeGuard: TypeGuard) {
+		return (value: unknown) => typeGuard(value) || value === null;
 	},
 };
 
-const typeGuards: Record<string, TypeGuard> = <const>{
-	isString(value) {
+const typeGuards = <const>{
+	isString(value: unknown) {
 		return (typeof value === 'string');
 	},
-	isParsableNumber(value) {
+	isParsableNumber(value: unknown) {
 		return (typeof value === 'string' && !isNaN(Number(value)));
 	},
-	isEmojiRequest(value) {
+	isEmojiRequest(value: unknown) {
 		return (typeof value === 'string' && (<string[]>VALID_EMOJIS).includes(value));
 	},
 };
