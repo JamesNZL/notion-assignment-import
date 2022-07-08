@@ -113,17 +113,17 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 	}
 
 	class NotionAssignment {
-		// TODO: keep track of the client
-		// private client: NotionClient;
+		private client: NotionClient;
 		private assignment: ArrayElement<QueryDatabaseResponse['results']>;
 
-		public constructor(assignment: ArrayElement<QueryDatabaseResponse['results']>) {
+		public constructor(client: NotionClient, assignment: ArrayElement<QueryDatabaseResponse['results']>) {
+			this.client = client;
 			this.assignment = assignment;
 		}
 
 		// TODO: remove these unused getters/methods
 		public async getName() {
-			return await notionClient.resolveTitle(this.assignment);
+			return await this.client.resolveTitle(this.assignment);
 		}
 
 		public async getCourse() {
@@ -135,7 +135,7 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 				// Extract the course property from the page
 				const coursePropertyId = this.assignment.properties[options.propertyNames.course].id;
 
-				const courseProperty = await notionClient.retrievePageProperty(this.assignment.id, coursePropertyId);
+				const courseProperty = await this.client.retrievePageProperty(this.assignment.id, coursePropertyId);
 
 				if (!courseProperty || !('select' in courseProperty)) throw null;
 
@@ -156,7 +156,7 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 
 				const urlPropertyId = this.assignment.properties[options.propertyNames.url].id;
 
-				const urlProperty = await notionClient.retrievePageProperty(this.assignment.id, urlPropertyId);
+				const urlProperty = await this.client.retrievePageProperty(this.assignment.id, urlPropertyId);
 
 				if (!urlProperty || !('url' in urlProperty) || !urlProperty?.url) throw null;
 
@@ -195,7 +195,7 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 
 			const notionAssignments = await notionClient.queryDatabase(databaseId, filterForCanvasAssignments, { cache: false, force: true });
 
-			return notionAssignments?.results.map(assignment => new NotionAssignment(assignment));
+			return notionAssignments?.results.map(assignment => new NotionAssignment(notionClient, assignment));
 		}
 
 		const parsedAssignments = await getParsedAssignments();
