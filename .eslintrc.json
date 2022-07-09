@@ -26,6 +26,16 @@
 				"eslint:recommended",
 				"plugin:@typescript-eslint/recommended"
 			]
+		},
+		{
+			"files": [
+				"gulpfile.js"
+			],
+			"env": {
+				"browser": false,
+				"webextensions": false,
+				"node": true
+			}
 		}
 	],
 	"rules": {
