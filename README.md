@@ -87,6 +87,7 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
 - Provided [Notion database template](https://jamesnzl-sandbox.notion.site/c4d73bebd39c4103b96b2edb8be9e0bd?v=9afaf4b4faee4a5a977c00291be06c9e)
 - Configurable options, with input validation
 - `Category` database property for seamless integration into an existing tasks database
+- No duplication of existing assignments
 - Fine-tuning of database property names & values
 - Overriding of Canvas course names
 - Emojis for Notion page icons
