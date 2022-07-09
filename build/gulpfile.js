@@ -119,8 +119,13 @@ function prefix(vendor, source) {
 	};
 }
 
-function typeCheck() {
-	return exec(`tsc --noEmit -p ${CONFIGURATION.FILES.TSCONFIG}`);
+/**
+ * @param {{ options?: string }} options
+ */
+function tsc({ options } = {}) {
+	return function typeCheck() {
+		return exec(`tsc --noEmit -p ${CONFIGURATION.FILES.TSCONFIG} ${options ?? ''}`);
+	};
 }
 
 /**
@@ -160,7 +165,7 @@ function releaseVendor(vendor) {
 
 export default series(clean,
 	parallel(
-		typeCheck,
+		tsc(),
 		...Object.entries(sources.manifests).map(([vendor, manifest]) => parallel(
 			copy(vendor, manifest),
 			...sources.markup.map(source => copy(vendor, source)),
