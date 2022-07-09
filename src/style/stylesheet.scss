@@ -1,27 +1,25 @@
-:root {
-	--accent: #e72429;
-	--accent-complement: #e53c2e;
-	--light-grey: #444444;
-	--background: #282828;
-	--dark-grey: #1e1e1e;
-	--darker-grey: #141414;
-	--darkest-grey: #060606;
-	--grey-active: #0d0d0d;
-	--green: #00b800;
-	--green-hover: #4dff4d;
-	--green-active: #25da25;
-	--red: #a80e0e;
-	--red-hover: #8b0000;
-	--red-active: #780000;
-	--text-colour: #ffffff;
-	--grey-text-colour: #d6d6d6;
-	--light-grey-text-colour: #cccccc;
-	--margin: 0.25em;
-	--border-radius: 1rem;
-	--border-width: 1px;
-	--button-padding: 6px;
-	--navbar-height: 66px;
-}
+$accent: #e72429;
+$accent-complement: #e53c2e;
+$light-grey: #444444;
+$background: #282828;
+$dark-grey: #1e1e1e;
+$darker-grey: #141414;
+$darkest-grey: #060606;
+$grey-active: #0d0d0d;
+$green: #00b800;
+$green-hover: #4dff4d;
+$green-active: #25da25;
+$red: #a80e0e;
+$red-hover: #8b0000;
+$red-active: #780000;
+$text-colour: #ffffff;
+$grey-text-colour: #d6d6d6;
+$light-grey-text-colour: #cccccc;
+$margin: 0.25em;
+$border-radius: 1rem;
+$border-width: 1px;
+$button-padding: 6px;
+$navbar-height: 66px;
 
 ::-webkit-scrollbar {
 	width: 0.85rem;
@@ -33,7 +31,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: var(--darker-grey);
+	background-color: $darker-grey;
 	border-radius: 10px;
 	cursor: pointer;
 	border: 3px solid transparent;
@@ -43,7 +41,7 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-	background-color: var(--darkest-grey);
+	background-color: $darkest-grey;
 }
 
 ::-webkit-scrollbar-track {
@@ -55,8 +53,8 @@
 }
 
 html {
-	background-color: var(--background);
-	color: var(--text-colour);
+	background-color: $background;
+	color: $text-colour;
 	font-family: ui-sans-serif,
 		system-ui,
 		-apple-system,
@@ -102,7 +100,7 @@ body {
 
 #options body {
 	position: relative;
-	top: var(--navbar-height);
+	top: $navbar-height;
 	padding-bottom: 2.75rem;
 }
 
@@ -110,8 +108,8 @@ body {
 	position: fixed;
 	display: flex;
 	align-items: center;
-	height: var(--navbar-height);
-	background-color: var(--dark-grey);
+	height: $navbar-height;
+	background-color: $dark-grey;
 	top: 0;
 	left: 0;
 	right: 0;
@@ -148,16 +146,16 @@ body {
 h2 {
 	font-size: 1.45em;
 	letter-spacing: 0.025em;
-	padding-inline-start: calc(0.125 * var(--border-radius));
+	padding-inline-start: calc(0.125 * $border-radius);
 }
 
 h3 {
-	color: var(--grey-text-colour);
+	color: $grey-text-colour;
 	font-size: 1.15em;
 	margin-block-start: 0.83em;
 	margin-block-end: 0.23rem;
 	letter-spacing: 0.05em;
-	padding-inline-start: calc(0.125 * var(--border-radius));
+	padding-inline-start: calc(0.125 * $border-radius);
 }
 
 h2,
@@ -169,7 +167,7 @@ h3 {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
-	gap: calc(2 * var(--margin));
+	gap: calc(2 * $margin);
 	width: 100%;
 }
 
@@ -184,30 +182,30 @@ h3 {
 #options-icon {
 	width: fit-content;
 	height: fit-content;
-	margin-inline-end: calc(0.125 * var(--border-radius));
+	margin-inline-end: calc(0.125 * $border-radius);
 	margin-top: 0.36rem;
 	cursor: pointer;
 }
 
 #options-icon svg {
-	fill: var(--accent);
+	fill: $accent;
 	width: 18px;
 	height: 18px;
 }
 
 #options-icon:hover svg {
-	fill: var(--accent-complement);
+	fill: $accent-complement;
 }
 
 .tile {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-	gap: calc(3 * var(--margin));
-	background-color: var(--dark-grey);
-	border-radius: var(--border-radius);
-	margin: var(--margin) 0;
-	padding: calc(4 * var(--margin));
+	gap: calc(3 * $margin);
+	background-color: $dark-grey;
+	border-radius: $border-radius;
+	margin: $margin 0;
+	padding: calc(4 * $margin);
 }
 
 .tile>* {
@@ -219,11 +217,11 @@ h3 {
 }
 
 .tile .button {
-	background-color: var(--darker-grey);
+	background-color: $darker-grey;
 }
 
 .tile .button:hover {
-	background-color: var(--darkest-grey);
+	background-color: $darkest-grey;
 }
 
 #saved-assignments {
@@ -249,23 +247,23 @@ h3 {
 
 #saved-courses-list {
 	flex: 1 auto;
-	color: var(--light-grey-text-colour);
+	color: $light-grey-text-colour;
 	min-height: 0;
 	overflow-y: scroll;
 	margin: 0;
-	margin-bottom: min(calc(1.75 * var(--margin)), 0.5rem);
+	margin-bottom: min(calc(1.75 * $margin), 0.5rem);
 }
 
 #saved-courses-list::-webkit-scrollbar-thumb {
-	background-color: var(--darker-grey);
+	background-color: $darker-grey;
 }
 
 #saved-courses-list::-webkit-scrollbar-thumb:hover {
-	background-color: var(--darkest-grey);
+	background-color: $darkest-grey;
 }
 
 #saved-courses-list p {
-	margin: 1em calc(1em + var(--margin));
+	margin: 1em calc(1em + $margin);
 	word-break: break-word;
 	color: #bbb;
 }
@@ -277,17 +275,17 @@ h3 {
 
 #saved-courses-list ol>li {
 	font-size: 14px;
-	margin-block: calc(0.5 * var(--margin));
+	margin-block: calc(0.5 * $margin);
 }
 
 #saved-courses-list strong {
-	color: var(--grey-text-colour);
+	color: $grey-text-colour;
 	font-weight: 600;
 }
 
 #saved-courses-list ol ul {
 	padding-inline-start: 21px;
-	margin-block: calc(2.5 * var(--margin));
+	margin-block: calc(2.5 * $margin);
 	list-style: '-   ';
 }
 
@@ -296,7 +294,7 @@ h3 {
 	position: absolute;
 	left: 24px;
 	vertical-align: middle;
-	fill: var(--light-grey-text-colour);
+	fill: $light-grey-text-colour;
 	width: 16px;
 	height: 16px;
 }
@@ -309,17 +307,17 @@ h3 {
 	position: relative;
 	cursor: pointer;
 	user-select: none;
-	margin: var(--margin) 0;
-	padding: var(--button-padding);
+	margin: $margin 0;
+	padding: $button-padding;
 	display: inline-block;
 	text-align: center;
-	background-color: var(--darker-grey);
-	color: var(--text-colour);
+	background-color: $darker-grey;
+	color: $text-colour;
 	font-family: inherit;
 	font-size: 0.825rem;
 	text-decoration: none;
-	border-radius: var(--border-radius);
-	border: var(--border-width) solid rgba(0, 0, 0, 0.125);
+	border-radius: $border-radius;
+	border: $border-width solid rgba(0, 0, 0, 0.125);
 	box-sizing: border-box;
 	transition: color 0.15s ease-in-out,
 		background-color 0.15s ease-in-out,
@@ -330,88 +328,88 @@ h3 {
 .button:hover,
 .button:focus-visible {
 	outline: none;
-	background-color: var(--darkest-grey) !important;
+	background-color: $darkest-grey  !important;
 	box-shadow: 0 0 0 0.2rem rgb(20 20 20 / 50%);
 }
 
 .button:active {
-	background-color: var(--grey-active) !important;
+	background-color: $grey-active  !important;
 }
 
 .button.accent {
-	color: var(--accent) !important;
+	color: $accent  !important;
 }
 
 .button.accent:hover,
 .button.accent:focus-visible {
 	outline: none;
-	background-color: var(--accent-complement) !important;
+	background-color: $accent-complement  !important;
 	color: white !important;
 	box-shadow: 0 0 0 0.2rem rgb(229 60 46 / 17.5%);
 }
 
 .button.accent:active {
 	color: white !important;
-	background-color: var(--accent) !important;
+	background-color: $accent  !important;
 }
 
 .button.accent.emphasis {
-	border-color: var(--accent) !important;
-	margin: calc(0.0625em + var(--margin)) 0;
+	border-color: $accent  !important;
+	margin: calc(0.0625em + $margin) 0;
 }
 
 .button.accent.emphasis:hover,
 .button.accent.emphasis:focus-visible {
 	outline: none;
-	border-color: var(--accent-complement) !important;
+	border-color: $accent-complement  !important;
 }
 
 .button.red-hover:hover,
 .button.red-hover:focus-visible {
 	outline: none;
-	background-color: var(--red-hover) !important;
+	background-color: $red-hover  !important;
 	color: white !important;
 	box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 15%);
 }
 
 .button.red-hover:active {
 	color: white !important;
-	background-color: var(--red-active) !important;
+	background-color: $red-active  !important;
 }
 
 .button.red {
-	background-color: var(--red) !important;
+	background-color: $red  !important;
 	color: white !important;
 }
 
 .button.red:hover,
 .button.red:focus-visible {
 	outline: none;
-	background-color: var(--red-hover) !important;
+	background-color: $red-hover  !important;
 	color: white !important;
 	box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 15%);
 }
 
 .button.red:active {
 	color: white !important;
-	background-color: var(--red-active) !important;
+	background-color: $red-active  !important;
 }
 
 .button.green-hover:hover,
 .button.green-hover:focus-visible {
 	outline: none;
-	background-color: var(--green-hover) !important;
+	background-color: $green-hover  !important;
 	color: black !important;
 	box-shadow: 0 0 0 0.2rem rgb(0 184 0 / 27.5%);
 }
 
 .button.green-hover:active {
 	color: black !important;
-	background-color: var(--green-active) !important;
+	background-color: $green-active  !important;
 }
 
 .button.green {
-	background-color: var(--green) !important;
+	background-color: $green  !important;
 	color: black !important;
 	font-weight: 600 !important;
 }
@@ -419,15 +417,15 @@ h3 {
 .button.green:hover,
 .button.green:focus-visible {
 	outline: none;
-	background-color: var(--green-hover) !important;
+	background-color: $green-hover  !important;
 	color: black !important;
 	box-shadow: 0 0 0 0.2rem rgb(0 184 0 / 27.5%);
 }
 
 .button.outline.green {
-	padding: calc(var(--button-padding) + var(--border-width));
-	color: var(--green) !important;
-	border-color: var(--green) !important;
+	padding: calc($button-padding + $border-width);
+	color: $green  !important;
+	border-color: $green  !important;
 	background-color: unset !important;
 }
 
@@ -435,14 +433,14 @@ h3 {
 .button.outline.green:focus-visible {
 	outline: none;
 	border-color: transparent !important;
-	background-color: var(--green-hover) !important;
+	background-color: $green-hover  !important;
 	color: black !important;
 }
 
 .button.green:active,
 .button.outline.green:active {
 	color: black !important;
-	background-color: var(--green-active) !important;
+	background-color: $green-active  !important;
 }
 
 .button.emphasis {
@@ -472,7 +470,7 @@ h3 {
 label:not(.button label, .segmented-control label) {
 	text-transform: uppercase;
 	letter-spacing: 0.06em;
-	color: var(--light-grey-text-colour);
+	color: $light-grey-text-colour;
 	font-weight: 500;
 	margin-inline-start: 20px;
 	font-size: 0.75rem;
@@ -506,17 +504,17 @@ label.required:before {
 
 #options .tile,
 #options .tile {
-	gap: calc(5 * var(--margin));
-	padding-bottom: calc(4 * var(--margin) + 0.25rem);
+	gap: calc(5 * $margin);
+	padding-bottom: calc(4 * $margin + 0.25rem);
 }
 
 #options label+.button,
 #options div>button {
-	margin-top: calc(2 * var(--margin));
+	margin-top: calc(2 * $margin);
 }
 
 #options .tile:not(.hidden)+.button {
-	margin-top: calc(5 * var(--margin));
+	margin-top: calc(5 * $margin);
 }
 
 .tile input,
@@ -528,7 +526,7 @@ label.required:before {
 .tile .row>input,
 .tile .row>textarea,
 .tile .row>select {
-	margin-top: calc(2 * var(--margin));
+	margin-top: calc(2 * $margin);
 }
 
 .tile .segmented-control-wrapper {
@@ -538,16 +536,16 @@ label.required:before {
 input,
 textarea,
 select {
-	margin-top: calc(2 * var(--margin));
-	margin-bottom: calc(5 * var(--margin));
+	margin-top: calc(2 * $margin);
+	margin-bottom: calc(5 * $margin);
 	padding: 8px 20px;
 	align-items: center;
 	font-family: monospace;
 	font-size: 0.75rem;
-	background-color: var(--darker-grey);
-	color: var(--light-grey-text-colour);
-	border-radius: var(--border-radius);
-	border: var(--border-width) solid rgba(0, 0, 0, 0.125);
+	background-color: $darker-grey;
+	color: $light-grey-text-colour;
+	border-radius: $border-radius;
+	border: $border-width solid rgba(0, 0, 0, 0.125);
 	box-sizing: border-box;
 	transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
@@ -555,13 +553,13 @@ select {
 input::-webkit-scrollbar-thumb,
 textarea::-webkit-scrollbar-thumb,
 select::-webkit-scrollbar-thumb {
-	background-color: var(--dark-grey);
+	background-color: $dark-grey;
 }
 
 input::-webkit-scrollbar-thumb:hover,
 textarea::-webkit-scrollbar-thumb:hover,
 select::-webkit-scrollbar-thumb:hover {
-	background-color: var(--light-grey);
+	background-color: $light-grey;
 }
 
 input.invalid-input,
@@ -579,7 +577,7 @@ select.invalid-input:focus {
 .invalid-input-error,
 .validating-input-status {
 	display: block;
-	margin-block-start: calc(1.5 * var(--margin));
+	margin-block-start: calc(1.5 * $margin);
 	margin-block-end: 0.125em;
 	margin-inline-start: 20px;
 }
@@ -596,7 +594,7 @@ textarea {
 	min-height: 75px;
 	min-width: 100%;
 	max-width: 100%;
-	border-radius: var(--border-radius);
+	border-radius: $border-radius;
 	text-align: center;
 }
 
@@ -604,7 +602,7 @@ input:focus,
 textarea:focus,
 select:focus {
 	box-shadow: 0 0 0 0.2rem rgb(20 20 20 / 50%);
-	background-color: var(--darkest-grey);
+	background-color: $darkest-grey;
 }
 
 input:focus-visible,
@@ -614,8 +612,8 @@ select:focus-visible {
 }
 
 .segmented-control-wrapper {
-	padding-top: calc(2.5 * var(--margin));
-	padding-bottom: calc(4 * var(--margin));
+	padding-top: calc(2.5 * $margin);
+	padding-bottom: calc(4 * $margin);
 }
 
 .segmented-control {
@@ -625,9 +623,9 @@ select:focus-visible {
 	user-select: none;
 	z-index: 1;
 	border: 0;
-	border-radius: var(--border-radius);
-	background-color: var(--darker-grey);
-	color: var(--text-colour);
+	border-radius: $border-radius;
+	background-color: $darker-grey;
+	color: $text-colour;
 }
 
 .segmented-control>input {
@@ -635,28 +633,28 @@ select:focus-visible {
 }
 
 .segmented-control>input:checked+label {
-	color: var(--accent-complement);
+	color: $accent-complement;
 	font-weight: 700;
 }
 
 .segmented-control>input:nth-of-type(1):checked~label:last-of-type:before {
-	transform: translateX(calc(-1 * var(--border-width)));
+	transform: translateX(calc(-1 * $border-width));
 }
 
 .segmented-control>input:nth-of-type(2):checked~label:last-of-type:before {
-	transform: translateX(calc(100% - 3 * var(--border-width)));
+	transform: translateX(calc(100% - 3 * $border-width));
 }
 
 .segmented-control label {
 	flex: 1;
 	text-align: center;
 	text-overflow: ellipsis;
-	color: var(--light-grey-text-colour);
+	color: $light-grey-text-colour;
 	white-space: nowrap;
 	overflow: hidden;
 	cursor: pointer;
-	padding: calc(var(--button-padding) + var(--border-width));
-	border-radius: var(--border-radius);
+	padding: calc($button-padding + $border-width);
+	border-radius: $border-radius;
 }
 
 .segmented-control label:last-of-type:before {
@@ -675,8 +673,8 @@ select:focus-visible {
 
 .segmented-control label:before {
 	transition: all 250ms cubic-bezier(0, 0.95, 0.38, 0.98);
-	border-radius: var(--border-radius);
-	border: var(--border-width) solid var(--accent)
+	border-radius: $border-radius;
+	border: $border-width solid $accent
 }
 
 .segmented-control>input:hover+label {
@@ -684,9 +682,9 @@ select:focus-visible {
 }
 
 .segmented-control>input:nth-of-type(1):active~label:last-of-type:before {
-	transform: translateX(calc(-1 * var(--border-width)));
+	transform: translateX(calc(-1 * $border-width));
 }
 
 .segmented-control>input:nth-of-type(2):active~label:last-of-type:before {
-	transform: translateX(calc(100% - 3 * var(--border-width)));
+	transform: translateX(calc(100% - 3 * $border-width));
 }
