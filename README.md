@@ -286,7 +286,7 @@ Configure `Page Emojis` to the following:
 
 # Building For Local Development
 
-This project uses [`gulp`](https://gulpjs.com/) and [`browserify`](https://browserify.org/) under-the-bonnet to bundle the compiled JavaScript files to be browser-ready.
+This project uses [`gulp`](https://gulpjs.com/) and [`esbuild`](https://esbuild.github.io/) under-the-bonnet to bundle the compiled JavaScript files to be browser-ready.
 
 1. Clone this repository.
 
