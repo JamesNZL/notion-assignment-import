@@ -7,6 +7,9 @@ import zip from 'gulp-zip';
 
 import fs from 'fs';
 
+import dartSass from 'sass';
+import gulpSass from 'gulp-sass';
+const sass = gulpSass(dartSass);
 import autoprefixer from 'gulp-autoprefixer';
 
 import { default as gulpEsbuild, createGulpEsbuild } from 'gulp-esbuild';
@@ -52,7 +55,7 @@ const sources = {
 	],
 	style: [
 		{
-			glob: `${CONFIGURATION.DIRECTORIES.SOURCE}/style/*.css`,
+			glob: `${CONFIGURATION.DIRECTORIES.SOURCE}/style/*.scss`,
 			base: `${CONFIGURATION.DIRECTORIES.SOURCE}/style`,
 		},
 	],
@@ -103,17 +106,17 @@ function copy(vendor, source) {
 }
 
 /**
- * @param {string} vendor
  * @param {import('./').Source} source
  */
-function prefix(vendor, source) {
-	return function prefixGlob() {
-		const prefixed = src(source.glob, { base: source?.base ?? '.' })
+function render(vendor, source) {
+	return function renderGlob() {
+		const rendered = src(source.glob, { base: source?.base ?? '.' })
+			.pipe(sass.sync())
 			.pipe(autoprefixer());
 		return (
 			(!source.outFile)
-				? prefixed
-				: prefixed
+				? rendered
+				: rendered
 					.pipe(rename(source.outFile))
 		)
 			.pipe(dest(`${CONFIGURATION.DIRECTORIES.OUT}/${vendor}`));
@@ -171,7 +174,7 @@ export default series(clean,
 		...Object.entries(sources.manifests).map(([vendor, manifest]) => parallel(
 			copy(vendor, manifest),
 			...sources.markup.map(source => copy(vendor, source)),
-			...sources.style.map(source => prefix(vendor, source)),
+			...sources.style.map(source => render(vendor, source)),
 			...sources.assets.map(source => copy(vendor, source)),
 			...sources.scripts.map(source => bundle(gulpEsbuild, vendor, source)),
 		)),
@@ -183,7 +186,7 @@ export function watch() {
 
 	Object.entries(sources.manifests).forEach(([vendor]) => {
 		sources.markup.forEach(source => watchGlob(source.glob, copy(vendor, source)));
-		sources.style.forEach(source => watchGlob(source.glob, prefix(vendor, source)));
+		sources.style.forEach(source => watchGlob(source.glob, render(vendor, source)));
 		sources.assets.forEach(source => watchGlob(source.glob, copy(vendor, source)));
 		sources.scripts.forEach(source => watchGlob(source.glob, bundle(incrementalGulpEsbuild, vendor, source)));
 	});
