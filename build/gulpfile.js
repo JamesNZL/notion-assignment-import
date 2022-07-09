@@ -1,5 +1,5 @@
 import gulp from 'gulp';
-const { src, dest, series, parallel } = gulp;
+const { src, dest, series, parallel, watch: watchGlob } = gulp;
 
 import del from 'del';
 import rename from 'gulp-rename';
@@ -9,7 +9,8 @@ import fs from 'fs';
 
 import autoprefixer from 'gulp-autoprefixer';
 
-import gulpEsbuild from 'gulp-esbuild';
+import { default as gulpEsbuild, createGulpEsbuild } from 'gulp-esbuild';
+const incrementalGulpEsbuild = createGulpEsbuild({ incremental: true });
 
 import { exec } from 'gulp-execa';
 
@@ -176,6 +177,17 @@ export default series(clean,
 		)),
 	),
 );
+
+export function watch() {
+	tsc({ options: '--watch --preserveWatchOutput' })();
+
+	Object.entries(sources.manifests).forEach(([vendor]) => {
+		sources.markup.forEach(source => watchGlob(source.glob, copy(vendor, source)));
+		sources.style.forEach(source => watchGlob(source.glob, prefix(vendor, source)));
+		sources.assets.forEach(source => watchGlob(source.glob, copy(vendor, source)));
+		sources.scripts.forEach(source => watchGlob(source.glob, bundle(incrementalGulpEsbuild, vendor, source)));
+	});
+}
 
 export const release = parallel(
 	...Object.keys(sources.manifests).map(releaseVendor),
