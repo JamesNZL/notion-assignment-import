@@ -1,5 +1,6 @@
 {
   "name": "notion-assignment-import",
+  "type": "module",
   "version": "4.1.1",
   "repository": {
     "type": "git",

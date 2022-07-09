@@ -1,16 +1,18 @@
-const { src, dest, series, parallel } = require('gulp');
-const del = require('del');
-const rename = require('gulp-rename');
-const zip = require('gulp-zip');
+import gulp from 'gulp';
+const { src, dest, series, parallel } = gulp;
 
-const fs = require('fs');
+import del from 'del';
+import rename from 'gulp-rename';
+import zip from 'gulp-zip';
 
-const autoprefixer = require('gulp-autoprefixer');
+import fs from 'fs';
 
-const gulpEsbuild = require('gulp-esbuild');
+import autoprefixer from 'gulp-autoprefixer';
 
-const yargs = require('yargs/yargs');
-const { hideBin } = require('yargs/helpers');
+import gulpEsbuild from 'gulp-esbuild';
+
+import yargs from 'yargs/yargs';
+import { hideBin } from 'yargs/helpers';
 const debug = yargs(hideBin(process.argv)).argv.debug === 'true';
 
 const CONFIGURATION = {
@@ -115,8 +117,8 @@ function bundle(vendor, source) {
 	};
 }
 
-function release(vendor) {
-	return function releaseVendor() {
+function releaseVendor(vendor) {
+	return function release() {
 		const { version } = JSON.parse(fs.readFileSync(sources.manifests[vendor].glob, { encoding: 'utf-8' }));
 
 		return src([`${CONFIGURATION.DIRECTORIES.OUT}/${vendor}/**/*`], {
@@ -129,7 +131,7 @@ function release(vendor) {
 	};
 }
 
-exports.default = series(clean,
+export default series(clean,
 	parallel(
 		...Object.entries(sources.manifests).map(([vendor, manifest]) => parallel(
 			copy(vendor, manifest),
@@ -141,6 +143,6 @@ exports.default = series(clean,
 	),
 );
 
-exports.release = parallel(
-	...Object.keys(sources.manifests).map(release),
+export const release = parallel(
+	...Object.keys(sources.manifests).map(releaseVendor),
 );
