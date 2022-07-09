@@ -1,5 +1,6 @@
 {
   "name": "notion-assignment-import",
+  "type": "module",
   "version": "4.1.1",
   "repository": {
     "type": "git",
@@ -8,18 +9,16 @@
   "devDependencies": {
     "@types/webextension-polyfill": "^0.9.0",
     "@typescript-eslint/eslint-plugin": "^5.30.5",
-    "browserify": "^17.0.0",
     "del": "^6.1.1",
     "eslint": "^8.19.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^8.0.0",
+    "gulp-esbuild": "^0.10.4",
+    "gulp-execa": "^4.0.0",
     "gulp-rename": "^2.0.0",
     "gulp-zip": "^5.1.0",
     "standard-version": "^9.5.0",
-    "tinyify": "^3.1.0",
-    "tsify": "^5.0.4",
     "typescript": "^4.7.4",
-    "vinyl-source-stream": "^2.0.0",
     "webextension-polyfill": "^0.9.0",
     "yargs": "^17.5.1"
   },
@@ -28,8 +27,8 @@
     "chrono-node": "^2.3.8"
   },
   "scripts": {
-    "debug": "gulp --debug=true",
-    "build": "gulp --debug=false",
+    "debug": "gulp --debug=true --gulpfile build/gulpfile.js --cwd .",
+    "build": "gulp --debug=false --gulpfile build/gulpfile.js --cwd .",
     "release": "standard-version --sign --commit-all",
     "publish": "git push --follow-tags origin main"
   },

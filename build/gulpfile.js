@@ -1,18 +1,20 @@
-const { src, dest, series, parallel } = require('gulp');
-const del = require('del');
-const rename = require('gulp-rename');
-const zip = require('gulp-zip');
+import gulp from 'gulp';
+const { src, dest, series, parallel } = gulp;
 
-const fs = require('fs');
+import del from 'del';
+import rename from 'gulp-rename';
+import zip from 'gulp-zip';
 
-const autoprefixer = require('gulp-autoprefixer');
+import fs from 'fs';
 
-const browserify = require('browserify');
-const tsify = require('tsify');
-const sourceStream = require('vinyl-source-stream');
+import autoprefixer from 'gulp-autoprefixer';
 
-const yargs = require('yargs/yargs');
-const { hideBin } = require('yargs/helpers');
+import gulpEsbuild from 'gulp-esbuild';
+
+import { exec } from 'gulp-execa';
+
+import yargs from 'yargs/yargs';
+import { hideBin } from 'yargs/helpers';
 const debug = yargs(hideBin(process.argv)).argv.debug === 'true';
 
 const CONFIGURATION = {
@@ -59,15 +61,15 @@ const sources = {
 	scripts: [
 		{
 			glob: `${CONFIGURATION.DIRECTORIES.SOURCE}/popup/popup.ts`,
-			outFile: 'popup/popup.js',
+			outDir: 'popup',
 		},
 		{
 			glob: `${CONFIGURATION.DIRECTORIES.SOURCE}/popup/parse.ts`,
-			outFile: 'popup/parse.js',
+			outDir: 'popup',
 		},
 		{
 			glob: `${CONFIGURATION.DIRECTORIES.SOURCE}/options/options.ts`,
-			outFile: 'options/options.js',
+			outDir: 'options',
 		},
 	],
 };
@@ -103,28 +105,26 @@ function prefix(vendor, source) {
 	};
 }
 
+function typeCheck() {
+	return exec(`tsc --noEmit -p ${CONFIGURATION.FILES.TSCONFIG}`);
+}
+
 function bundle(vendor, source) {
 	return function bundleGlob() {
-		const tsified = browserify({
-			debug,
-			entries: source.glob,
-		})
-			.plugin(tsify, { project: CONFIGURATION.FILES.TSCONFIG });
-
-		return (
-			(debug)
-				? tsified
-				: tsified
-					.plugin('tinyify')
-		)
-			.bundle()
-			.pipe(sourceStream(`${source?.outFile ?? CONFIGURATION.FILES.BUNDLE}`))
+		return src(source.glob)
+			.pipe(gulpEsbuild({
+				outdir: source?.outDir,
+				bundle: true,
+				minify: !debug,
+				sourcemap: debug,
+				tsconfig: CONFIGURATION.FILES.TSCONFIG,
+			}))
 			.pipe(dest(`${CONFIGURATION.DIRECTORIES.OUT}/${vendor}`));
 	};
 }
 
-function release(vendor) {
-	return function releaseVendor() {
+function releaseVendor(vendor) {
+	return function release() {
 		const { version } = JSON.parse(fs.readFileSync(sources.manifests[vendor].glob, { encoding: 'utf-8' }));
 
 		return src([`${CONFIGURATION.DIRECTORIES.OUT}/${vendor}/**/*`], {
@@ -137,8 +137,9 @@ function release(vendor) {
 	};
 }
 
-exports.default = series(clean,
+export default series(clean,
 	parallel(
+		typeCheck,
 		...Object.entries(sources.manifests).map(([vendor, manifest]) => parallel(
 			copy(vendor, manifest),
 			...sources.markup.map(source => copy(vendor, source)),
@@ -149,6 +150,6 @@ exports.default = series(clean,
 	),
 );
 
-exports.release = parallel(
-	...Object.keys(sources.manifests).map(release),
+export const release = parallel(
+	...Object.keys(sources.manifests).map(releaseVendor),
 );
