@@ -7,9 +7,7 @@ const fs = require('fs');
 
 const autoprefixer = require('gulp-autoprefixer');
 
-const browserify = require('browserify');
-const tsify = require('tsify');
-const sourceStream = require('vinyl-source-stream');
+const gulpEsbuild = require('gulp-esbuild');
 
 const yargs = require('yargs/yargs');
 const { hideBin } = require('yargs/helpers');
@@ -59,15 +57,15 @@ const sources = {
 	scripts: [
 		{
 			glob: `${CONFIGURATION.DIRECTORIES.SOURCE}/popup/popup.ts`,
-			outFile: 'popup/popup.js',
+			outDir: 'popup',
 		},
 		{
 			glob: `${CONFIGURATION.DIRECTORIES.SOURCE}/popup/parse.ts`,
-			outFile: 'popup/parse.js',
+			outDir: 'popup',
 		},
 		{
 			glob: `${CONFIGURATION.DIRECTORIES.SOURCE}/options/options.ts`,
-			outFile: 'options/options.js',
+			outDir: 'options',
 		},
 	],
 };
@@ -105,20 +103,14 @@ function prefix(vendor, source) {
 
 function bundle(vendor, source) {
 	return function bundleGlob() {
-		const tsified = browserify({
-			debug,
-			entries: source.glob,
-		})
-			.plugin(tsify, { project: CONFIGURATION.FILES.TSCONFIG });
-
-		return (
-			(debug)
-				? tsified
-				: tsified
-					.plugin('tinyify')
-		)
-			.bundle()
-			.pipe(sourceStream(`${source?.outFile ?? CONFIGURATION.FILES.BUNDLE}`))
+		return src(source.glob)
+			.pipe(gulpEsbuild({
+				outdir: source?.outDir,
+				bundle: true,
+				minify: !debug,
+				sourcemap: debug,
+				tsconfig: CONFIGURATION.FILES.TSCONFIG,
+			}))
 			.pipe(dest(`${CONFIGURATION.DIRECTORIES.OUT}/${vendor}`));
 	};
 }
