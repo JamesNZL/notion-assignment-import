@@ -11,6 +11,8 @@ import autoprefixer from 'gulp-autoprefixer';
 
 import gulpEsbuild from 'gulp-esbuild';
 
+import { exec } from 'gulp-execa';
+
 import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
 const debug = yargs(hideBin(process.argv)).argv.debug === 'true';
@@ -103,6 +105,10 @@ function prefix(vendor, source) {
 	};
 }
 
+function typeCheck() {
+	return exec(`tsc --noEmit -p ${CONFIGURATION.FILES.TSCONFIG}`);
+}
+
 function bundle(vendor, source) {
 	return function bundleGlob() {
 		return src(source.glob)
@@ -133,6 +139,7 @@ function releaseVendor(vendor) {
 
 export default series(clean,
 	parallel(
+		typeCheck,
 		...Object.entries(sources.manifests).map(([vendor, manifest]) => parallel(
 			copy(vendor, manifest),
 			...sources.markup.map(source => copy(vendor, source)),
