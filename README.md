@@ -288,13 +288,14 @@ Configure `Page Emojis` to the following:
 
 This project uses [`gulp`](https://gulpjs.com/) and [`esbuild`](https://esbuild.github.io/) under-the-bonnet to bundle the compiled JavaScript files to be browser-ready.
 
-1. Clone this repository.
+1. Fork/clone this repository.
 
 2. Run `npm install -D` to install the required dependencies.
 
 3. Run the appropriate build script:
-   1. `npm run debug` to build source-mapped, non-minified `dist` files that are easier to debug.
-   2. `npm run build` for minified `dist` files.
+   1. `npm run watch` to build in watch mode.
+   2. `npm run debug` to build source-mapped, non-minified `dist` files that are easier to debug.
+   3. `npm run build` for minified `dist` files.
 
 4. A `dist/` directory will be created containing a separate extension root folder for each supported vendor.
 
