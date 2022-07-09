@@ -29,6 +29,9 @@ const CONFIGURATION = {
 	},
 };
 
+/**
+ * @type {import('./').Sources}
+ */
 const sources = {
 	manifests: {
 		chromium: {
@@ -78,6 +81,10 @@ function clean() {
 	return del(`${CONFIGURATION.DIRECTORIES.OUT}/**`, { force: true });
 }
 
+/**
+ * @param {string} vendor
+ * @param {import('./').Source} source
+ */
 function copy(vendor, source) {
 	return function copyGlob() {
 		const copied = src(source.glob, { base: source?.base ?? '.' });
@@ -91,6 +98,10 @@ function copy(vendor, source) {
 	};
 }
 
+/**
+ * @param {string} vendor
+ * @param {import('./').Source} source
+ */
 function prefix(vendor, source) {
 	return function prefixGlob() {
 		const prefixed = src(source.glob, { base: source?.base ?? '.' })
@@ -109,6 +120,10 @@ function typeCheck() {
 	return exec(`tsc --noEmit -p ${CONFIGURATION.FILES.TSCONFIG}`);
 }
 
+/**
+ * @param {string} vendor
+ * @param {import('./').Source} source
+ */
 function bundle(vendor, source) {
 	return function bundleGlob() {
 		return src(source.glob)
@@ -123,6 +138,9 @@ function bundle(vendor, source) {
 	};
 }
 
+/**
+ * @param {string} vendor
+ */
 function releaseVendor(vendor) {
 	return function release() {
 		const { version } = JSON.parse(fs.readFileSync(sources.manifests[vendor].glob, { encoding: 'utf-8' }));
