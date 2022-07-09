@@ -21,4 +21,4 @@ jobs:
 
     - name: Build
       run: npm ci
-    - run: gulp
+    - run: npm run build
