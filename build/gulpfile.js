@@ -65,14 +65,17 @@ const sources = {
 		{
 			glob: `${CONFIGURATION.DIRECTORIES.SOURCE}/popup/popup.ts`,
 			outDir: 'popup',
+			outFile: 'popup.js',
 		},
 		{
 			glob: `${CONFIGURATION.DIRECTORIES.SOURCE}/popup/parse.ts`,
 			outDir: 'popup',
+			outFile: 'parse.js',
 		},
 		{
 			glob: `${CONFIGURATION.DIRECTORIES.SOURCE}/options/options.ts`,
 			outDir: 'options',
+			outFile: 'options.js',
 		},
 	],
 };
@@ -128,13 +131,13 @@ function bundle(vendor, source) {
 	return function bundleGlob() {
 		return src(source.glob)
 			.pipe(gulpEsbuild({
-				outdir: source?.outDir,
+				outfile: source?.outFile,
 				bundle: true,
 				minify: !debug,
 				sourcemap: debug,
 				tsconfig: CONFIGURATION.FILES.TSCONFIG,
 			}))
-			.pipe(dest(`${CONFIGURATION.DIRECTORIES.OUT}/${vendor}`));
+			.pipe(dest(`${CONFIGURATION.DIRECTORIES.OUT}/${vendor}/${source.outDir ?? ''}`));
 	};
 }
 
