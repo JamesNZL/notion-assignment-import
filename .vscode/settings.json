@@ -27,6 +27,7 @@
 		"notion",
 		"safari",
 		"eslint",
-		"scopes"
+		"scopes",
+		"build"
 	]
 }

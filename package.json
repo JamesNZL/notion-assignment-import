@@ -29,8 +29,8 @@
     "chrono-node": "^2.3.8"
   },
   "scripts": {
-    "debug": "gulp --debug=true",
-    "build": "gulp --debug=false",
+    "debug": "gulp --debug=true --gulpfile build/gulpfile.js --cwd .",
+    "build": "gulp --debug=false --gulpfile build/gulpfile.js --cwd .",
     "release": "standard-version --sign --commit-all",
     "publish": "git push --follow-tags origin main"
   },
