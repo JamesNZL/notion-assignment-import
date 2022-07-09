@@ -1,5 +1,5 @@
 import gulp from 'gulp';
-const { src, dest, series, parallel } = gulp;
+const { src, dest, series, parallel, watch: watchGlob } = gulp;
 
 import del from 'del';
 import rename from 'gulp-rename';
@@ -9,7 +9,8 @@ import fs from 'fs';
 
 import autoprefixer from 'gulp-autoprefixer';
 
-import gulpEsbuild from 'gulp-esbuild';
+import { default as gulpEsbuild, createGulpEsbuild } from 'gulp-esbuild';
+const incrementalGulpEsbuild = createGulpEsbuild({ incremental: true });
 
 import { exec } from 'gulp-execa';
 
@@ -119,18 +120,24 @@ function prefix(vendor, source) {
 	};
 }
 
-function typeCheck() {
-	return exec(`tsc --noEmit -p ${CONFIGURATION.FILES.TSCONFIG}`);
+/**
+ * @param {{ options?: string }} options
+ */
+function tsc({ options } = {}) {
+	return function typeCheck() {
+		return exec(`tsc --noEmit -p ${CONFIGURATION.FILES.TSCONFIG} ${options ?? ''}`);
+	};
 }
 
 /**
+ * @param {typeof gulpEsbuild} bundler
  * @param {string} vendor
  * @param {import('./').Source} source
  */
-function bundle(vendor, source) {
+function bundle(bundler, vendor, source) {
 	return function bundleGlob() {
 		return src(source.glob)
-			.pipe(gulpEsbuild({
+			.pipe(bundler({
 				outfile: source?.outFile,
 				bundle: true,
 				minify: !debug,
@@ -160,16 +167,27 @@ function releaseVendor(vendor) {
 
 export default series(clean,
 	parallel(
-		typeCheck,
+		tsc(),
 		...Object.entries(sources.manifests).map(([vendor, manifest]) => parallel(
 			copy(vendor, manifest),
 			...sources.markup.map(source => copy(vendor, source)),
 			...sources.style.map(source => prefix(vendor, source)),
 			...sources.assets.map(source => copy(vendor, source)),
-			...sources.scripts.map(source => bundle(vendor, source)),
+			...sources.scripts.map(source => bundle(gulpEsbuild, vendor, source)),
 		)),
 	),
 );
+
+export function watch() {
+	tsc({ options: '--watch --preserveWatchOutput' })();
+
+	Object.entries(sources.manifests).forEach(([vendor]) => {
+		sources.markup.forEach(source => watchGlob(source.glob, copy(vendor, source)));
+		sources.style.forEach(source => watchGlob(source.glob, prefix(vendor, source)));
+		sources.assets.forEach(source => watchGlob(source.glob, copy(vendor, source)));
+		sources.scripts.forEach(source => watchGlob(source.glob, bundle(incrementalGulpEsbuild, vendor, source)));
+	});
+}
 
 export const release = parallel(
 	...Object.keys(sources.manifests).map(releaseVendor),
