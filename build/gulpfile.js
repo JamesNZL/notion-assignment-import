@@ -129,13 +129,14 @@ function tsc({ options } = {}) {
 }
 
 /**
+ * @param {typeof gulpEsbuild} bundler
  * @param {string} vendor
  * @param {import('./').Source} source
  */
-function bundle(vendor, source) {
+function bundle(bundler, vendor, source) {
 	return function bundleGlob() {
 		return src(source.glob)
-			.pipe(gulpEsbuild({
+			.pipe(bundler({
 				outfile: source?.outFile,
 				bundle: true,
 				minify: !debug,
@@ -171,7 +172,7 @@ export default series(clean,
 			...sources.markup.map(source => copy(vendor, source)),
 			...sources.style.map(source => prefix(vendor, source)),
 			...sources.assets.map(source => copy(vendor, source)),
-			...sources.scripts.map(source => bundle(vendor, source)),
+			...sources.scripts.map(source => bundle(gulpEsbuild, vendor, source)),
 		)),
 	),
 );
