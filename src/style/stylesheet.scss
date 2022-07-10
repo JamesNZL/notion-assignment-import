@@ -144,43 +144,75 @@ a {
 	height: 16px;
 }
 
-@mixin coloured-button($text, $background, $text-hover, $background-hover, $shadow, $text-active, $background-active) {
-	color: $text;
-	background-color: $background;
+/*
+(
+	'text'
+	'background'
+	'text-hover'
+	'background-hover'
+	'shadow'
+	'text-active'
+	'background-active'
+)
+*/
+@mixin coloured-button($options) {
+	color: map-get($options, 'text');
+	background-color: map-get($options, 'background');
 	border: variables.$border-width solid rgba(0, 0, 0, 0.125);
 
 	&:hover,
 	&:focus-visible {
 		outline: none;
-		color: $text-hover;
-		background-color: $background-hover;
-		box-shadow: 0 0 0 0.2rem $shadow;
+		color: map-get($options, 'text-hover');
+		background-color: map-get($options, 'background-hover');
+		box-shadow: 0 0 0 0.2rem map-get($options, 'shadow');
 	}
 
 	&:active {
-		color: $text-active;
-		background-color: $background-active;
+		color: map-get($options, 'text-active');
+		background-color: map-get($options, 'background-active');
 	}
 }
 
-@mixin coloured-button-group($text, $background, $text-hover, $background-hover, $shadow, $text-active, $background-active) {
-	@include coloured-button($text, $background, $text-hover, $background-hover, $shadow, $text-active, $background-active);
+@mixin coloured-button-group($options) {
+	@include coloured-button($options);
 
 	&.hover {
-		@include coloured-button(variables.$text-colour, variables.$darker-grey, $text-hover, $background-hover, $shadow, $text-active, $background-active);
+		@include coloured-button(('text': variables.$text-colour,
+				'background': variables.$darker-grey,
+				'text-hover': map-get($options, 'text-hover'),
+				'background-hover': map-get($options, 'background-hover'),
+				'shadow': map-get($options, 'shadow'),
+				'text-active': map-get($options, 'text-active'),
+				'background-active': map-get($options, 'background-active'),
+			));
 
 		&.emphasis {
-			@include coloured-button($background, variables.$darker-grey, $text-hover, $background-hover, $shadow, $text-active, $background-active);
+			@include coloured-button(('text': map-get($options, 'background'),
+					'background': variables.$darker-grey,
+					'text-hover': map-get($options, 'text-hover'),
+					'background-hover': map-get($options, 'background-hover'),
+					'shadow': map-get($options, 'shadow'),
+					'text-active': map-get($options, 'text-active'),
+					'background-active': map-get($options, 'background-active'),
+				));
 
-			border-color: $background;
+			border-color: map-get($options, 'background');
 		}
 	}
 
 	&.outline {
-		@include coloured-button($background, unset, $text-hover, $background-hover, $shadow, $text-active, $background-active);
+		@include coloured-button(('text': map-get($options, 'background'),
+				'background': unset,
+				'text-hover': map-get($options, 'text-hover'),
+				'background-hover': map-get($options, 'background-hover'),
+				'shadow': map-get($options, 'shadow'),
+				'text-active': map-get($options, 'text-active'),
+				'background-active': map-get($options, 'background-active'),
+			));
 
 		padding: calc(variables.$button-padding + variables.$border-width);
-		border-color: $background;
+		border-color: map-get($options, 'background');
 		font-weight: 600;
 	}
 
@@ -192,7 +224,14 @@ a {
 }
 
 .button {
-	@include coloured-button-group(variables.$text-colour, variables.$darker-grey, variables.$text-colour, variables.$darkest-grey, rgb(20 20 20 / 50%), variables.$text-colour, variables.$grey-active);
+	@include coloured-button-group(('text': variables.$text-colour,
+			'background': variables.$darker-grey,
+			'text-hover': variables.$text-colour,
+			'background-hover': variables.$darkest-grey,
+			'shadow': rgb(20 20 20 / 50%),
+			'text-active': variables.$text-colour,
+			'background-active': variables.$grey-active,
+		));
 
 	position: relative;
 	cursor: pointer;
@@ -216,15 +255,36 @@ a {
 	}
 
 	&.accent {
-		@include coloured-button-group(white, variables.$accent, white, variables.$accent-complement, rgb(229 60 46 / 17.5%), white, variables.$accent);
+		@include coloured-button-group(('text': white,
+				'background': variables.$accent,
+				'text-hover': white,
+				'background-hover': variables.$accent-complement,
+				'shadow': rgb(229 60 46 / 17.5%),
+				'text-active': white,
+				'background-active': variables.$accent,
+			));
 	}
 
 	&.red {
-		@include coloured-button-group(white, variables.$red, white, variables.$red-hover, rgb(255 0 0 / 15%), white, variables.$red-active);
+		@include coloured-button-group(('text': white,
+				'background': variables.$red,
+				'text-hover': white,
+				'background-hover': variables.$red-hover,
+				'shadow': rgb(255 0 0 / 15%),
+				'text-active': white,
+				'background-active': variables.$red-active,
+			));
 	}
 
 	&.green {
-		@include coloured-button-group(black, variables.$green, black, variables.$green-hover, rgb(0 184 0 / 27.5%), black, variables.$green-active);
+		@include coloured-button-group(('text': black,
+				'background': variables.$green,
+				'text-hover': black,
+				'background-hover': variables.$green-hover,
+				'shadow': rgb(0 184 0 / 27.5%),
+				'text-active': black,
+				'background-active': variables.$green-active,
+			));
 
 		font-weight: 600;
 	}
