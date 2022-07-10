@@ -144,8 +144,50 @@ a {
 	height: 16px;
 }
 
-// TODO: use mixins
+@mixin coloured-button($text, $background, $text-hover, $background-hover, $shadow, $text-active, $background-active) {
+	color: $text;
+	background-color: $background;
+	border: variables.$border-width solid rgba(0, 0, 0, 0.125);
+
+	&:hover,
+	&:focus-visible {
+		outline: none;
+		color: $text-hover;
+		background-color: $background-hover;
+		box-shadow: 0 0 0 0.2rem $shadow;
+	}
+
+	&:active {
+		color: $text-active;
+		background-color: $background-active;
+	}
+
+	&.outline {
+		padding: calc(variables.$button-padding + variables.$border-width);
+		color: $background;
+		border-color: $background;
+		background-color: unset;
+		font-weight: 600;
+
+		&:hover,
+		&:focus-visible {
+			outline: none;
+			border-color: rgba(0, 0, 0, 0.125);
+			background-color: $background-hover;
+			color: $text-hover;
+		}
+
+		&:active {
+			color: $text-active;
+			border-color: rgba(0, 0, 0, 0.125);
+			background-color: $background-active;
+		}
+	}
+}
+
 .button {
+	@include coloured-button(variables.$text-colour, variables.$darker-grey, variables.$text-colour, variables.$darkest-grey, rgb(20 20 20 / 50%), variables.$text-colour, variables.$grey-active);
+
 	position: relative;
 	cursor: pointer;
 	user-select: none;
@@ -153,13 +195,10 @@ a {
 	padding: variables.$button-padding;
 	display: inline-block;
 	text-align: center;
-	background-color: variables.$darker-grey;
-	color: variables.$text-colour;
 	font-family: inherit;
 	font-size: 0.825rem;
 	text-decoration: none;
 	border-radius: variables.$border-radius;
-	border: variables.$border-width solid rgba(0, 0, 0, 0.125);
 	box-sizing: border-box;
 	transition: color 0.15s ease-in-out,
 		background-color 0.15s ease-in-out,
@@ -170,128 +209,33 @@ a {
 		cursor: pointer;
 	}
 
-	&:hover,
-	&:focus-visible {
-		outline: none;
-		background-color: variables.$darkest-grey  !important;
-		box-shadow: 0 0 0 0.2rem rgb(20 20 20 / 50%);
-	}
-
-	&:active {
-		background-color: variables.$grey-active  !important;
-	}
-
 	&.accent {
-		color: variables.$accent  !important;
-
-		&:hover,
-		&:focus-visible {
-			outline: none;
-			background-color: variables.$accent-complement  !important;
-			color: white !important;
-			box-shadow: 0 0 0 0.2rem rgb(229 60 46 / 17.5%);
-		}
-
-		&:active {
-			color: white !important;
-			background-color: variables.$accent  !important;
-		}
+		@include coloured-button(variables.$accent, variables.$darker-grey, white, variables.$accent-complement, rgb(229 60 46 / 17.5%), white, variables.$accent);
 
 		&.emphasis {
 			border-color: variables.$accent  !important;
 			margin: calc(0.0625em + variables.$margin) 0;
-
-			&:hover,
-			&:focus-visible {
-				outline: none;
-				border-color: variables.$accent-complement  !important;
-			}
 		}
 	}
 
+	// TODO: .hover class
 	&.red-hover {
-
-		&:hover,
-		&:focus-visible {
-			outline: none;
-			background-color: variables.$red-hover  !important;
-			color: white !important;
-			box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 15%);
-		}
-
-		&:active {
-			color: white !important;
-			background-color: variables.$red-active  !important;
-		}
+		@include coloured-button(variables.$text-colour, variables.$darker-grey, white, variables.$red-hover, rgb(255 0 0 / 15%), white, variables.$red-active);
 	}
 
 	&.red {
-		background-color: variables.$red  !important;
-		color: white !important;
-
-		&:hover,
-		&:focus-visible {
-			outline: none;
-			background-color: variables.$red-hover  !important;
-			color: white !important;
-			box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 15%);
-		}
-
-		&:active {
-			color: white !important;
-			background-color: variables.$red-active  !important;
-		}
+		@include coloured-button(white, variables.$red, white, variables.$red-hover, rgb(255 0 0 / 15%), white, variables.$red-active);
 	}
 
+	// TODO: .hover class
 	&.green-hover {
-
-		&:hover,
-		&:focus-visible {
-			outline: none;
-			background-color: variables.$green-hover  !important;
-			color: black !important;
-			box-shadow: 0 0 0 0.2rem rgb(0 184 0 / 27.5%);
-		}
-
-		&:active {
-			color: black !important;
-			background-color: variables.$green-active  !important;
-		}
+		@include coloured-button(variables.$text-colour, variables.$darker-grey, black, variables.$green-hover, rgb(0 184 0 / 27.5%), black, variables.$green-active);
 	}
 
 	&.green {
-		background-color: variables.$green  !important;
-		color: black !important;
-		font-weight: 600 !important;
+		@include coloured-button(black, variables.$green, black, variables.$green-hover, rgb(0 184 0 / 27.5%), black, variables.$green-active);
 
-		&:hover,
-		&:focus-visible {
-			outline: none;
-			background-color: variables.$green-hover  !important;
-			color: black !important;
-			box-shadow: 0 0 0 0.2rem rgb(0 184 0 / 27.5%);
-		}
-
-		&.outline {
-			padding: calc(variables.$button-padding + variables.$border-width);
-			color: variables.$green  !important;
-			border-color: variables.$green  !important;
-			background-color: unset !important;
-
-			&:hover,
-			&:focus-visible {
-				outline: none;
-				border-color: transparent !important;
-				background-color: variables.$green-hover  !important;
-				color: black !important;
-			}
-		}
-
-		&:active,
-		&.outline:active {
-			color: black !important;
-			background-color: variables.$green-active  !important;
-		}
+		font-weight: 600;
 	}
 
 	&.emphasis {
