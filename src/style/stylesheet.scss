@@ -1,0 +1,486 @@
+@use '_variables';
+@use '_popup';
+@use '_options';
+
+::-webkit-scrollbar {
+	width: 0.85rem;
+	height: 0.85rem;
+}
+
+::-webkit-scrollbar-button {
+	display: none;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: variables.$darker-grey;
+	border-radius: 10px;
+	cursor: pointer;
+	border: 3px solid transparent;
+	background-clip: content-box;
+	min-height: 40%;
+	max-height: 60%;
+
+	&:hover {
+		background-color: variables.$darkest-grey;
+	}
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-corner {
+	background: transparent;
+}
+
+.hidden {
+	display: none !important;
+}
+
+html {
+	background-color: variables.$background;
+	color: variables.$text-colour;
+	font-family: ui-sans-serif,
+		system-ui,
+		-apple-system,
+		BlinkMacSystemFont,
+		'Segoe UI',
+		'Roboto',
+		'Oxygen',
+		'Ubuntu',
+		'Cantarell',
+		'Fira Sans',
+		'Droid Sans',
+		'Helvetica Neue',
+		'Noto Sans',
+		sans-serif;
+	overflow: overlay;
+
+	body {
+		margin: 2rem 1.5rem;
+		font-size: 12px;
+	}
+}
+
+h2 {
+	font-size: 1.45em;
+	letter-spacing: 0.025em;
+	padding-inline-start: calc(0.125 * variables.$border-radius);
+}
+
+h3 {
+	color: variables.$grey-text-colour;
+	font-size: 1.15em;
+	margin-block-start: 0.83em;
+	margin-block-end: 0.23rem;
+	letter-spacing: 0.05em;
+	padding-inline-start: calc(0.125 * variables.$border-radius);
+}
+
+h2,
+h3 {
+	text-transform: uppercase;
+}
+
+a {
+	color: rgba(255, 255, 255, 0.5);
+	text-decoration: none;
+
+	&:hover {
+		color: rgba(255, 255, 255, 0.75);
+	}
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	gap: calc(2 * variables.$margin);
+	width: 100%;
+
+	&>* {
+		width: 100%;
+	}
+
+	&>.row-half {
+		flex-basis: 50%;
+	}
+}
+
+.tile {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	gap: calc(3 * variables.$margin);
+	background-color: variables.$dark-grey;
+	border-radius: variables.$border-radius;
+	margin: variables.$margin 0;
+	padding: calc(4 * variables.$margin);
+
+	&>* {
+		height: 100%;
+	}
+
+	.row>* {
+		margin: 0;
+	}
+
+	.button {
+		background-color: variables.$darker-grey;
+
+		&:hover {
+			background-color: variables.$darkest-grey;
+		}
+	}
+}
+
+.button-icon {
+	width: fit-content;
+	position: absolute;
+	left: 24px;
+	vertical-align: middle;
+	fill: variables.$light-grey-text-colour;
+	width: 16px;
+	height: 16px;
+}
+
+/*
+(
+	'text'
+	'background'
+	'text-hover'
+	'background-hover'
+	'shadow'
+	'text-active'
+	'background-active'
+)
+*/
+@mixin coloured-button($options) {
+	color: map-get($options, 'text');
+	background-color: map-get($options, 'background');
+	border: variables.$border-width solid rgba(0, 0, 0, 0.125);
+
+	&:hover,
+	&:focus-visible {
+		outline: none;
+		color: map-get($options, 'text-hover');
+		background-color: map-get($options, 'background-hover');
+		box-shadow: 0 0 0 0.2rem map-get($options, 'shadow');
+	}
+
+	&:active {
+		color: map-get($options, 'text-active');
+		background-color: map-get($options, 'background-active');
+	}
+}
+
+@mixin coloured-button-group($options) {
+	@include coloured-button($options);
+
+	&.hover {
+		@include coloured-button(('text': variables.$text-colour,
+				'background': variables.$darker-grey,
+				'text-hover': map-get($options, 'text-hover'),
+				'background-hover': map-get($options, 'background-hover'),
+				'shadow': map-get($options, 'shadow'),
+				'text-active': map-get($options, 'text-active'),
+				'background-active': map-get($options, 'background-active'),
+			));
+
+		&.emphasis {
+			@include coloured-button(('text': map-get($options, 'background'),
+					'background': variables.$darker-grey,
+					'text-hover': map-get($options, 'text-hover'),
+					'background-hover': map-get($options, 'background-hover'),
+					'shadow': map-get($options, 'shadow'),
+					'text-active': map-get($options, 'text-active'),
+					'background-active': map-get($options, 'background-active'),
+				));
+
+			border-color: map-get($options, 'background');
+		}
+	}
+
+	&.outline {
+		@include coloured-button(('text': map-get($options, 'background'),
+				'background': unset,
+				'text-hover': map-get($options, 'text-hover'),
+				'background-hover': map-get($options, 'background-hover'),
+				'shadow': map-get($options, 'shadow'),
+				'text-active': map-get($options, 'text-active'),
+				'background-active': map-get($options, 'background-active'),
+			));
+
+		padding: calc(variables.$button-padding + variables.$border-width);
+		border-color: map-get($options, 'background');
+		font-weight: 600;
+	}
+
+	&.emphasis {
+		font-weight: 700;
+		padding: 10px;
+		margin: calc(0.0625em + variables.$margin) 0;
+	}
+}
+
+.button {
+	@include coloured-button-group(('text': variables.$text-colour,
+			'background': variables.$darker-grey,
+			'text-hover': variables.$text-colour,
+			'background-hover': variables.$darkest-grey,
+			'shadow': rgb(20 20 20 / 50%),
+			'text-active': variables.$text-colour,
+			'background-active': variables.$grey-active,
+		));
+
+	position: relative;
+	cursor: pointer;
+	user-select: none;
+	margin: variables.$margin 0;
+	padding: variables.$button-padding;
+	display: inline-block;
+	text-align: center;
+	font-family: inherit;
+	font-size: 0.825rem;
+	text-decoration: none;
+	border-radius: variables.$border-radius;
+	box-sizing: border-box;
+	transition: color 0.15s ease-in-out,
+		background-color 0.15s ease-in-out,
+		border-color 0.15s ease-in-out,
+		box-shadow 0.15s ease-in-out;
+
+	label {
+		cursor: pointer;
+	}
+
+	&.accent {
+		@include coloured-button-group(('text': white,
+				'background': variables.$accent,
+				'text-hover': white,
+				'background-hover': variables.$accent-complement,
+				'shadow': rgb(229 60 46 / 17.5%),
+				'text-active': white,
+				'background-active': variables.$accent,
+			));
+	}
+
+	&.red {
+		@include coloured-button-group(('text': white,
+				'background': variables.$red,
+				'text-hover': white,
+				'background-hover': variables.$red-hover,
+				'shadow': rgb(255 0 0 / 15%),
+				'text-active': white,
+				'background-active': variables.$red-active,
+			));
+	}
+
+	&.green {
+		@include coloured-button-group(('text': black,
+				'background': variables.$green,
+				'text-hover': black,
+				'background-hover': variables.$green-hover,
+				'shadow': rgb(0 184 0 / 27.5%),
+				'text-active': black,
+				'background-active': variables.$green-active,
+			));
+
+		font-weight: 600;
+	}
+
+	&:disabled {
+		cursor: not-allowed !important;
+	}
+}
+
+label:not(.button label, .segmented-control label) {
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: variables.$light-grey-text-colour;
+	font-weight: 500;
+	margin-inline-start: 20px;
+	font-size: 0.75rem;
+}
+
+label.required {
+	position: relative;
+}
+
+label.required:before {
+	content: '*';
+	color: red;
+	position: absolute;
+	top: 0;
+	right: 100%;
+}
+
+.tile {
+
+	input,
+	textarea,
+	select {
+		margin-bottom: 0;
+	}
+
+	.row {
+
+		&>input,
+		&>textarea,
+		&>select {
+			margin-top: calc(2 * variables.$margin);
+		}
+	}
+
+	.segmented-control-wrapper {
+		padding-bottom: 0;
+	}
+}
+
+input,
+textarea,
+select {
+	margin-top: calc(2 * variables.$margin);
+	margin-bottom: calc(5 * variables.$margin);
+	padding: 8px 20px;
+	align-items: center;
+	font-family: monospace;
+	font-size: 0.75rem;
+	background-color: variables.$darker-grey;
+	color: variables.$light-grey-text-colour;
+	border-radius: variables.$border-radius;
+	border: variables.$border-width solid rgba(0, 0, 0, 0.125);
+	box-sizing: border-box;
+	transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+	&::-webkit-scrollbar-thumb {
+		background-color: variables.$dark-grey;
+
+		&:hover {
+			background-color: variables.$light-grey;
+		}
+	}
+
+	&:focus {
+		box-shadow: 0 0 0 0.2rem rgb(20 20 20 / 50%);
+		background-color: variables.$darkest-grey;
+	}
+
+	&:focus-visible {
+		outline: none;
+	}
+
+	&.invalid-input {
+		box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 27.5%);
+
+		&:focus {
+			box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 15%);
+		}
+	}
+}
+
+textarea {
+	min-height: 75px;
+	min-width: 100%;
+	max-width: 100%;
+	border-radius: variables.$border-radius;
+	text-align: center;
+}
+
+.invalid-input-error,
+.validating-input-status {
+	display: block;
+	margin-block-start: calc(1.5 * variables.$margin);
+	margin-block-end: 0.125em;
+	margin-inline-start: 20px;
+}
+
+.invalid-input-error {
+	color: rgb(255, 25, 25);
+}
+
+.validating-input-status {
+	color: rgb(25, 255, 25);
+}
+
+.segmented-control-wrapper {
+	padding-top: calc(2.5 * variables.$margin);
+	padding-bottom: calc(4 * variables.$margin);
+
+	.segmented-control {
+		display: flex;
+		width: 100%;
+		position: relative;
+		user-select: none;
+		z-index: 1;
+		border: 0;
+		border-radius: variables.$border-radius;
+		background-color: variables.$darker-grey;
+		color: variables.$text-colour;
+
+		&>input {
+			display: none;
+
+			&:checked+label {
+				color: variables.$accent-complement;
+				font-weight: 700;
+			}
+
+			&:hover+label {
+				font-weight: 700;
+			}
+
+			&:nth-of-type(1) {
+				&:checked~label:last-of-type:before {
+					transform: translateX(calc(-1 * variables.$border-width));
+				}
+
+				&:active~label:last-of-type:before {
+					transform: translateX(calc(-1 * variables.$border-width));
+				}
+			}
+
+			&:nth-of-type(2) {
+				&:checked~label:last-of-type:before {
+					transform: translateX(calc(100% - 3 * variables.$border-width));
+				}
+
+				&:active~label:last-of-type:before {
+					transform: translateX(calc(100% - 3 * variables.$border-width));
+				}
+			}
+		}
+
+		label {
+			flex: 1;
+			text-align: center;
+			text-overflow: ellipsis;
+			color: variables.$light-grey-text-colour;
+			white-space: nowrap;
+			overflow: hidden;
+			cursor: pointer;
+			padding: calc(variables.$button-padding + variables.$border-width);
+			border-radius: variables.$border-radius;
+
+			&:last-of-type:before {
+				content: '';
+				display: block;
+				max-width: calc(50%);
+				margin: 0;
+				position: absolute;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				z-index: -1;
+				transform: translateX(0);
+			}
+
+			&:before {
+				transition: all 250ms cubic-bezier(0, 0.95, 0.38, 0.98);
+				border-radius: variables.$border-radius;
+				border: variables.$border-width solid variables.$accent
+			}
+		}
+	}
+}

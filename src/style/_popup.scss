@@ -1,0 +1,104 @@
+@use '_variables';
+
+html#popup {
+	max-height: 600px;
+	display: flex;
+
+	body {
+		width: 360px;
+		flex: 0 auto;
+		display: flex;
+		flex-direction: column;
+
+		&>#saved-assignments {
+			flex: 1 auto;
+		}
+	}
+
+	h1 {
+		margin-block-start: -0.14rem;
+	}
+
+	#options-icon {
+		width: fit-content;
+		height: fit-content;
+		margin-inline-end: calc(0.125 * variables.$border-radius);
+		margin-top: 0.36rem;
+		cursor: pointer;
+
+		svg {
+			fill: variables.$accent;
+			width: 18px;
+			height: 18px;
+		}
+
+		&:hover svg {
+			fill: variables.$accent-complement;
+		}
+	}
+
+	#saved-assignments {
+		display: flex;
+		flex-direction: column;
+		min-height: 0;
+
+		&>.tile {
+			flex: 1 auto;
+			min-height: 0;
+
+			&>*:not(#saved-courses-list) {
+				flex: 0 auto;
+				height: auto;
+			}
+		}
+
+		.row {
+			width: 90%;
+			margin: auto;
+		}
+
+		#saved-courses-list {
+			flex: 1 auto;
+			color: variables.$light-grey-text-colour;
+			min-height: 0;
+			overflow-y: scroll;
+			margin: 0;
+			margin-bottom: min(calc(1.75 * variables.$margin), 0.5rem);
+
+			&::-webkit-scrollbar-thumb {
+				background-color: variables.$darker-grey;
+
+				&:hover {
+					background-color: variables.$darkest-grey;
+				}
+			}
+
+			p {
+				margin: 1em calc(1em + variables.$margin);
+				word-break: break-word;
+				color: #bbb;
+			}
+
+			ol {
+				margin-block-start: 0;
+				margin-block-end: 0;
+
+				&>li {
+					font-size: 14px;
+					margin-block: calc(0.5 * variables.$margin);
+				}
+
+				ul {
+					padding-inline-start: 21px;
+					margin-block: calc(2.5 * variables.$margin);
+					list-style: '-   ';
+				}
+			}
+
+			strong {
+				color: variables.$grey-text-colour;
+				font-weight: 600;
+			}
+		}
+	}
+}

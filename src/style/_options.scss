@@ -1,0 +1,75 @@
+@use '_variables';
+
+html#options {
+	margin: auto;
+	width: min(600px, 100vw);
+
+	body {
+		position: relative;
+		top: variables.$navbar-height;
+		padding-bottom: 2.75rem;
+	}
+
+	nav {
+		position: fixed;
+		display: flex;
+		align-items: center;
+		height: variables.$navbar-height;
+		background-color: variables.$dark-grey;
+		top: 0;
+		left: 0;
+		right: 0;
+		padding: 0 2vw;
+		justify-content: space-between;
+		z-index: 1000;
+
+		&>div {
+			display: inline-flex;
+			flex-direction: row;
+			align-items: center;
+			gap: 1em;
+		}
+
+		h1 {
+			margin: 0;
+		}
+
+		&>#navbar {
+			gap: 1.75em;
+			margin-right: 0.4rem;
+
+			a {
+				font-weight: 500;
+				font-size: 1.2em;
+			}
+		}
+	}
+
+	strong,
+	p {
+		margin-inline-start: 20px;
+	}
+
+	code {
+		text-transform: none;
+	}
+
+	.code {
+		text-align: center;
+		margin-inline-start: 0;
+	}
+
+	.tile {
+		gap: calc(5 * variables.$margin);
+		padding-bottom: calc(4 * variables.$margin + 0.25rem);
+
+		&:not(.hidden)+.button {
+			margin-top: calc(5 * variables.$margin);
+		}
+	}
+
+	label+.button,
+	div>.button {
+		margin-top: calc(2 * variables.$margin);
+	}
+}
