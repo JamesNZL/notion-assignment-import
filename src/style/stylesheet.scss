@@ -294,25 +294,27 @@ a {
 	}
 }
 
-label:not(.button label, .segmented-control label) {
-	text-transform: uppercase;
-	letter-spacing: 0.06em;
-	color: variables.$light-grey-text-colour;
-	font-weight: 500;
-	margin-inline-start: 20px;
-	font-size: 0.75rem;
-}
+label {
+	&:not(.button label, .segmented-control label) {
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: variables.$light-grey-text-colour;
+		font-weight: 500;
+		margin-inline-start: 20px;
+		font-size: 0.75rem;
+	}
 
-label.required {
-	position: relative;
-}
+	&.required {
+		position: relative;
 
-label.required:before {
-	content: '*';
-	color: red;
-	position: absolute;
-	top: 0;
-	right: 100%;
+		&:before {
+			content: '*';
+			color: red;
+			position: absolute;
+			top: 0;
+			right: 100%;
+		}
+	}
 }
 
 .tile {
