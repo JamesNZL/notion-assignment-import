@@ -309,28 +309,6 @@ label {
 	}
 }
 
-.tile {
-
-	input,
-	textarea,
-	select {
-		margin-bottom: 0;
-	}
-
-	.row {
-
-		&>input,
-		&>textarea,
-		&>select {
-			margin-top: calc(2 * variables.$margin);
-		}
-	}
-
-	.segmented-control-wrapper {
-		padding-bottom: 0;
-	}
-}
-
 input,
 textarea,
 select {
@@ -346,6 +324,14 @@ select {
 	border: variables.$border-width solid rgba(0, 0, 0, 0.125);
 	box-sizing: border-box;
 	transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+	.tile & {
+		margin-bottom: 0;
+	}
+
+	.tile .row>& {
+		margin-top: calc(2 * variables.$margin);
+	}
 
 	&::-webkit-scrollbar-thumb {
 		background-color: variables.$dark-grey;
@@ -400,6 +386,10 @@ textarea {
 .segmented-control-wrapper {
 	padding-top: calc(2.5 * variables.$margin);
 	padding-bottom: calc(4 * variables.$margin);
+
+	.tile & {
+		padding-bottom: 0;
+	}
 
 	.segmented-control {
 		display: flex;
