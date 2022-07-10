@@ -124,14 +124,6 @@ a {
 	.row>* {
 		margin: 0;
 	}
-
-	.button {
-		background-color: variables.$element;
-
-		&:hover {
-			background-color: variables.$element-hover;
-		}
-	}
 }
 
 .button-icon {
