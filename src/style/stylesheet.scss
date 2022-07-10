@@ -33,6 +33,10 @@
 	background: transparent;
 }
 
+.hidden {
+	display: none !important;
+}
+
 html {
 	background-color: variables.$background;
 	color: variables.$text-colour;
@@ -76,6 +80,15 @@ h3 {
 h2,
 h3 {
 	text-transform: uppercase;
+}
+
+a {
+	color: rgba(255, 255, 255, 0.5);
+	text-decoration: none;
+
+	&:hover {
+		color: rgba(255, 255, 255, 0.75);
+	}
 }
 
 .row {
@@ -288,19 +301,6 @@ h3 {
 
 	&:disabled {
 		cursor: not-allowed !important;
-	}
-}
-
-.hidden {
-	display: none !important;
-}
-
-a {
-	color: rgba(255, 255, 255, 0.5);
-	text-decoration: none;
-
-	&:hover {
-		color: rgba(255, 255, 255, 0.75);
 	}
 }
 
