@@ -168,6 +168,12 @@ a {
 
 	&.hover {
 		@include coloured-button(variables.$text-colour, variables.$darker-grey, $text-hover, $background-hover, $shadow, $text-active, $background-active);
+
+		&.emphasis {
+			@include coloured-button($background, variables.$darker-grey, $text-hover, $background-hover, $shadow, $text-active, $background-active);
+
+			border-color: $background;
+		}
 	}
 
 	&.outline {
@@ -176,6 +182,12 @@ a {
 		padding: calc(variables.$button-padding + variables.$border-width);
 		border-color: $background;
 		font-weight: 600;
+	}
+
+	&.emphasis {
+		font-weight: 700;
+		padding: 10px;
+		margin: calc(0.0625em + variables.$margin) 0;
 	}
 }
 
@@ -204,12 +216,7 @@ a {
 	}
 
 	&.accent {
-		@include coloured-button-group(variables.$accent, variables.$darker-grey, white, variables.$accent-complement, rgb(229 60 46 / 17.5%), white, variables.$accent);
-
-		&.emphasis {
-			border-color: variables.$accent  !important;
-			margin: calc(0.0625em + variables.$margin) 0;
-		}
+		@include coloured-button-group(white, variables.$accent, white, variables.$accent-complement, rgb(229 60 46 / 17.5%), white, variables.$accent);
 	}
 
 	&.red {
@@ -220,11 +227,6 @@ a {
 		@include coloured-button-group(black, variables.$green, black, variables.$green-hover, rgb(0 184 0 / 27.5%), black, variables.$green-active);
 
 		font-weight: 600;
-	}
-
-	&.emphasis {
-		font-weight: 700 !important;
-		padding: 10px !important;
 	}
 
 	&:disabled {
