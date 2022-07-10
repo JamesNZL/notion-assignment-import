@@ -28,6 +28,7 @@
 		"safari",
 		"eslint",
 		"scopes",
-		"build"
+		"build",
+		"sass"
 	]
 }

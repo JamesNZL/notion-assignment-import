@@ -1,25 +1,6 @@
-$accent: #e72429;
-$accent-complement: #e53c2e;
-$light-grey: #444444;
-$background: #282828;
-$dark-grey: #1e1e1e;
-$darker-grey: #141414;
-$darkest-grey: #060606;
-$grey-active: #0d0d0d;
-$green: #00b800;
-$green-hover: #4dff4d;
-$green-active: #25da25;
-$red: #a80e0e;
-$red-hover: #8b0000;
-$red-active: #780000;
-$text-colour: #ffffff;
-$grey-text-colour: #d6d6d6;
-$light-grey-text-colour: #cccccc;
-$margin: 0.25em;
-$border-radius: 1rem;
-$border-width: 1px;
-$button-padding: 6px;
-$navbar-height: 66px;
+@use '_variables';
+@use '_popup';
+@use '_options';
 
 ::-webkit-scrollbar {
 	width: 0.85rem;
@@ -31,17 +12,17 @@ $navbar-height: 66px;
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: $darker-grey;
+	background-color: variables.$darker-grey;
 	border-radius: 10px;
 	cursor: pointer;
 	border: 3px solid transparent;
 	background-clip: content-box;
 	min-height: 40%;
 	max-height: 60%;
-}
 
-::-webkit-scrollbar-thumb:hover {
-	background-color: $darkest-grey;
+	&:hover {
+		background-color: variables.$darkest-grey;
+	}
 }
 
 ::-webkit-scrollbar-track {
@@ -53,8 +34,8 @@ $navbar-height: 66px;
 }
 
 html {
-	background-color: $background;
-	color: $text-colour;
+	background-color: variables.$background;
+	color: variables.$text-colour;
 	font-family: ui-sans-serif,
 		system-ui,
 		-apple-system,
@@ -70,92 +51,26 @@ html {
 		'Noto Sans',
 		sans-serif;
 	overflow: overlay;
-}
 
-#popup {
-	max-height: 600px;
-	display: flex;
-}
-
-#options {
-	margin: auto;
-	width: min(600px, 100vw);
-}
-
-body {
-	margin: 2rem 1.5rem;
-	font-size: 12px;
-}
-
-#popup body {
-	width: 360px;
-	flex: 0 auto;
-	display: flex;
-	flex-direction: column;
-}
-
-#popup body>#saved-assignments {
-	flex: 1 auto;
-}
-
-#options body {
-	position: relative;
-	top: $navbar-height;
-	padding-bottom: 2.75rem;
-}
-
-#options nav {
-	position: fixed;
-	display: flex;
-	align-items: center;
-	height: $navbar-height;
-	background-color: $dark-grey;
-	top: 0;
-	left: 0;
-	right: 0;
-	padding: 0 2vw;
-	justify-content: space-between;
-	z-index: 1000;
-}
-
-#options nav>div {
-	display: inline-flex;
-	flex-direction: row;
-	align-items: center;
-	gap: 1em;
-}
-
-#options nav h1 {
-	margin: 0;
-}
-
-#options nav>#navbar {
-	gap: 1.75em;
-	margin-right: 0.4rem;
-}
-
-#options nav>#navbar a {
-	font-weight: 500;
-	font-size: 1.2em;
-}
-
-#popup h1 {
-	margin-block-start: -0.14rem;
+	body {
+		margin: 2rem 1.5rem;
+		font-size: 12px;
+	}
 }
 
 h2 {
 	font-size: 1.45em;
 	letter-spacing: 0.025em;
-	padding-inline-start: calc(0.125 * $border-radius);
+	padding-inline-start: calc(0.125 * variables.$border-radius);
 }
 
 h3 {
-	color: $grey-text-colour;
+	color: variables.$grey-text-colour;
 	font-size: 1.15em;
 	margin-block-start: 0.83em;
 	margin-block-end: 0.23rem;
 	letter-spacing: 0.05em;
-	padding-inline-start: calc(0.125 * $border-radius);
+	padding-inline-start: calc(0.125 * variables.$border-radius);
 }
 
 h2,
@@ -167,126 +82,43 @@ h3 {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
-	gap: calc(2 * $margin);
+	gap: calc(2 * variables.$margin);
 	width: 100%;
-}
 
-.row>* {
-	width: 100%;
-}
+	&>* {
+		width: 100%;
+	}
 
-.row>.row-half {
-	flex-basis: 50%;
-}
-
-#options-icon {
-	width: fit-content;
-	height: fit-content;
-	margin-inline-end: calc(0.125 * $border-radius);
-	margin-top: 0.36rem;
-	cursor: pointer;
-}
-
-#options-icon svg {
-	fill: $accent;
-	width: 18px;
-	height: 18px;
-}
-
-#options-icon:hover svg {
-	fill: $accent-complement;
+	&>.row-half {
+		flex-basis: 50%;
+	}
 }
 
 .tile {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-	gap: calc(3 * $margin);
-	background-color: $dark-grey;
-	border-radius: $border-radius;
-	margin: $margin 0;
-	padding: calc(4 * $margin);
-}
+	gap: calc(3 * variables.$margin);
+	background-color: variables.$dark-grey;
+	border-radius: variables.$border-radius;
+	margin: variables.$margin 0;
+	padding: calc(4 * variables.$margin);
 
-.tile>* {
-	height: 100%;
-}
+	&>* {
+		height: 100%;
+	}
 
-.tile .row>* {
-	margin: 0;
-}
+	.row>* {
+		margin: 0;
+	}
 
-.tile .button {
-	background-color: $darker-grey;
-}
+	.button {
+		background-color: variables.$darker-grey;
 
-.tile .button:hover {
-	background-color: $darkest-grey;
-}
-
-#saved-assignments {
-	display: flex;
-	flex-direction: column;
-	min-height: 0;
-}
-
-#saved-assignments>.tile {
-	flex: 1 auto;
-	min-height: 0;
-}
-
-#saved-assignments>.tile>*:not(#saved-courses-list) {
-	flex: 0 auto;
-	height: auto;
-}
-
-#saved-assignments .row {
-	width: 90%;
-	margin: auto;
-}
-
-#saved-courses-list {
-	flex: 1 auto;
-	color: $light-grey-text-colour;
-	min-height: 0;
-	overflow-y: scroll;
-	margin: 0;
-	margin-bottom: min(calc(1.75 * $margin), 0.5rem);
-}
-
-#saved-courses-list::-webkit-scrollbar-thumb {
-	background-color: $darker-grey;
-}
-
-#saved-courses-list::-webkit-scrollbar-thumb:hover {
-	background-color: $darkest-grey;
-}
-
-#saved-courses-list p {
-	margin: 1em calc(1em + $margin);
-	word-break: break-word;
-	color: #bbb;
-}
-
-#saved-courses-list ol {
-	margin-block-start: 0;
-	margin-block-end: 0;
-}
-
-#saved-courses-list ol>li {
-	font-size: 14px;
-	margin-block: calc(0.5 * $margin);
-}
-
-#saved-courses-list strong {
-	color: $grey-text-colour;
-	font-weight: 600;
-}
-
-#saved-courses-list ol ul {
-	padding-inline-start: 21px;
-	margin-block: calc(2.5 * $margin);
-	list-style: '-   ';
+		&:hover {
+			background-color: variables.$darkest-grey;
+		}
+	}
 }
 
 .button-icon {
@@ -294,200 +126,191 @@ h3 {
 	position: absolute;
 	left: 24px;
 	vertical-align: middle;
-	fill: $light-grey-text-colour;
+	fill: variables.$light-grey-text-colour;
 	width: 16px;
 	height: 16px;
 }
 
-.button label {
-	cursor: pointer;
-}
-
+// TODO: use mixins
 .button {
 	position: relative;
 	cursor: pointer;
 	user-select: none;
-	margin: $margin 0;
-	padding: $button-padding;
+	margin: variables.$margin 0;
+	padding: variables.$button-padding;
 	display: inline-block;
 	text-align: center;
-	background-color: $darker-grey;
-	color: $text-colour;
+	background-color: variables.$darker-grey;
+	color: variables.$text-colour;
 	font-family: inherit;
 	font-size: 0.825rem;
 	text-decoration: none;
-	border-radius: $border-radius;
-	border: $border-width solid rgba(0, 0, 0, 0.125);
+	border-radius: variables.$border-radius;
+	border: variables.$border-width solid rgba(0, 0, 0, 0.125);
 	box-sizing: border-box;
 	transition: color 0.15s ease-in-out,
 		background-color 0.15s ease-in-out,
 		border-color 0.15s ease-in-out,
 		box-shadow 0.15s ease-in-out;
-}
 
-.button:hover,
-.button:focus-visible {
-	outline: none;
-	background-color: $darkest-grey  !important;
-	box-shadow: 0 0 0 0.2rem rgb(20 20 20 / 50%);
-}
+	label {
+		cursor: pointer;
+	}
 
-.button:active {
-	background-color: $grey-active  !important;
-}
+	&:hover,
+	&:focus-visible {
+		outline: none;
+		background-color: variables.$darkest-grey  !important;
+		box-shadow: 0 0 0 0.2rem rgb(20 20 20 / 50%);
+	}
 
-.button.accent {
-	color: $accent  !important;
-}
+	&:active {
+		background-color: variables.$grey-active  !important;
+	}
 
-.button.accent:hover,
-.button.accent:focus-visible {
-	outline: none;
-	background-color: $accent-complement  !important;
-	color: white !important;
-	box-shadow: 0 0 0 0.2rem rgb(229 60 46 / 17.5%);
-}
+	&.accent {
+		color: variables.$accent  !important;
 
-.button.accent:active {
-	color: white !important;
-	background-color: $accent  !important;
-}
+		&:hover,
+		&:focus-visible {
+			outline: none;
+			background-color: variables.$accent-complement  !important;
+			color: white !important;
+			box-shadow: 0 0 0 0.2rem rgb(229 60 46 / 17.5%);
+		}
 
-.button.accent.emphasis {
-	border-color: $accent  !important;
-	margin: calc(0.0625em + $margin) 0;
-}
+		&:active {
+			color: white !important;
+			background-color: variables.$accent  !important;
+		}
 
-.button.accent.emphasis:hover,
-.button.accent.emphasis:focus-visible {
-	outline: none;
-	border-color: $accent-complement  !important;
-}
+		&.emphasis {
+			border-color: variables.$accent  !important;
+			margin: calc(0.0625em + variables.$margin) 0;
 
-.button.red-hover:hover,
-.button.red-hover:focus-visible {
-	outline: none;
-	background-color: $red-hover  !important;
-	color: white !important;
-	box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 15%);
-}
+			&:hover,
+			&:focus-visible {
+				outline: none;
+				border-color: variables.$accent-complement  !important;
+			}
+		}
+	}
 
-.button.red-hover:active {
-	color: white !important;
-	background-color: $red-active  !important;
-}
+	&.red-hover {
 
-.button.red {
-	background-color: $red  !important;
-	color: white !important;
-}
+		&:hover,
+		&:focus-visible {
+			outline: none;
+			background-color: variables.$red-hover  !important;
+			color: white !important;
+			box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 15%);
+		}
 
-.button.red:hover,
-.button.red:focus-visible {
-	outline: none;
-	background-color: $red-hover  !important;
-	color: white !important;
-	box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 15%);
-}
+		&:active {
+			color: white !important;
+			background-color: variables.$red-active  !important;
+		}
+	}
 
-.button.red:active {
-	color: white !important;
-	background-color: $red-active  !important;
-}
+	&.red {
+		background-color: variables.$red  !important;
+		color: white !important;
 
-.button.green-hover:hover,
-.button.green-hover:focus-visible {
-	outline: none;
-	background-color: $green-hover  !important;
-	color: black !important;
-	box-shadow: 0 0 0 0.2rem rgb(0 184 0 / 27.5%);
-}
+		&:hover,
+		&:focus-visible {
+			outline: none;
+			background-color: variables.$red-hover  !important;
+			color: white !important;
+			box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 15%);
+		}
 
-.button.green-hover:active {
-	color: black !important;
-	background-color: $green-active  !important;
-}
+		&:active {
+			color: white !important;
+			background-color: variables.$red-active  !important;
+		}
+	}
 
-.button.green {
-	background-color: $green  !important;
-	color: black !important;
-	font-weight: 600 !important;
-}
+	&.green-hover {
 
-.button.green:hover,
-.button.green:focus-visible {
-	outline: none;
-	background-color: $green-hover  !important;
-	color: black !important;
-	box-shadow: 0 0 0 0.2rem rgb(0 184 0 / 27.5%);
-}
+		&:hover,
+		&:focus-visible {
+			outline: none;
+			background-color: variables.$green-hover  !important;
+			color: black !important;
+			box-shadow: 0 0 0 0.2rem rgb(0 184 0 / 27.5%);
+		}
 
-.button.outline.green {
-	padding: calc($button-padding + $border-width);
-	color: $green  !important;
-	border-color: $green  !important;
-	background-color: unset !important;
-}
+		&:active {
+			color: black !important;
+			background-color: variables.$green-active  !important;
+		}
+	}
 
-.button.outline.green:hover,
-.button.outline.green:focus-visible {
-	outline: none;
-	border-color: transparent !important;
-	background-color: $green-hover  !important;
-	color: black !important;
-}
+	&.green {
+		background-color: variables.$green  !important;
+		color: black !important;
+		font-weight: 600 !important;
 
-.button.green:active,
-.button.outline.green:active {
-	color: black !important;
-	background-color: $green-active  !important;
-}
+		&:hover,
+		&:focus-visible {
+			outline: none;
+			background-color: variables.$green-hover  !important;
+			color: black !important;
+			box-shadow: 0 0 0 0.2rem rgb(0 184 0 / 27.5%);
+		}
 
-.button.emphasis {
-	font-weight: 700 !important;
-	padding: 10px !important;
-}
+		&.outline {
+			padding: calc(variables.$button-padding + variables.$border-width);
+			color: variables.$green  !important;
+			border-color: variables.$green  !important;
+			background-color: unset !important;
 
-.button:disabled {
-	cursor: not-allowed !important;
+			&:hover,
+			&:focus-visible {
+				outline: none;
+				border-color: transparent !important;
+				background-color: variables.$green-hover  !important;
+				color: black !important;
+			}
+		}
+
+		&:active,
+		&.outline:active {
+			color: black !important;
+			background-color: variables.$green-active  !important;
+		}
+	}
+
+	&.emphasis {
+		font-weight: 700 !important;
+		padding: 10px !important;
+	}
+
+	&:disabled {
+		cursor: not-allowed !important;
+	}
 }
 
 .hidden {
 	display: none !important;
 }
 
-#options a,
-#saved-courses-list a {
+a {
 	color: rgba(255, 255, 255, 0.5);
 	text-decoration: none;
-}
 
-#options a:hover,
-#saved-courses-list a:hover {
-	color: rgba(255, 255, 255, 0.75);
+	&:hover {
+		color: rgba(255, 255, 255, 0.75);
+	}
 }
 
 label:not(.button label, .segmented-control label) {
 	text-transform: uppercase;
 	letter-spacing: 0.06em;
-	color: $light-grey-text-colour;
+	color: variables.$light-grey-text-colour;
 	font-weight: 500;
 	margin-inline-start: 20px;
 	font-size: 0.75rem;
-}
-
-#options strong,
-#options p {
-	margin-inline-start: 20px;
-}
-
-#options code {
-	text-transform: none;
-}
-
-#options .code {
-	text-align: center;
-	margin-inline-start: 0;
 }
 
 label.required {
@@ -502,82 +325,82 @@ label.required:before {
 	right: 100%;
 }
 
-#options .tile,
-#options .tile {
-	gap: calc(5 * $margin);
-	padding-bottom: calc(4 * $margin + 0.25rem);
-}
+.tile {
 
-#options label+.button,
-#options div>button {
-	margin-top: calc(2 * $margin);
-}
+	input,
+	textarea,
+	select {
+		margin-bottom: 0;
+	}
 
-#options .tile:not(.hidden)+.button {
-	margin-top: calc(5 * $margin);
-}
+	.row {
 
-.tile input,
-.tile textarea,
-.tile select {
-	margin-bottom: 0;
-}
+		&>input,
+		&>textarea,
+		&>select {
+			margin-top: calc(2 * variables.$margin);
+		}
+	}
 
-.tile .row>input,
-.tile .row>textarea,
-.tile .row>select {
-	margin-top: calc(2 * $margin);
-}
-
-.tile .segmented-control-wrapper {
-	padding-bottom: 0;
+	.segmented-control-wrapper {
+		padding-bottom: 0;
+	}
 }
 
 input,
 textarea,
 select {
-	margin-top: calc(2 * $margin);
-	margin-bottom: calc(5 * $margin);
+	margin-top: calc(2 * variables.$margin);
+	margin-bottom: calc(5 * variables.$margin);
 	padding: 8px 20px;
 	align-items: center;
 	font-family: monospace;
 	font-size: 0.75rem;
-	background-color: $darker-grey;
-	color: $light-grey-text-colour;
-	border-radius: $border-radius;
-	border: $border-width solid rgba(0, 0, 0, 0.125);
+	background-color: variables.$darker-grey;
+	color: variables.$light-grey-text-colour;
+	border-radius: variables.$border-radius;
+	border: variables.$border-width solid rgba(0, 0, 0, 0.125);
 	box-sizing: border-box;
 	transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+	&::-webkit-scrollbar-thumb {
+		background-color: variables.$dark-grey;
+
+		&:hover {
+			background-color: variables.$light-grey;
+		}
+	}
+
+	&:focus {
+		box-shadow: 0 0 0 0.2rem rgb(20 20 20 / 50%);
+		background-color: variables.$darkest-grey;
+	}
+
+	&:focus-visible {
+		outline: none;
+	}
+
+	&.invalid-input {
+		box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 27.5%);
+
+		&:focus {
+			box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 15%);
+		}
+	}
 }
 
-input::-webkit-scrollbar-thumb,
-textarea::-webkit-scrollbar-thumb,
-select::-webkit-scrollbar-thumb {
-	background-color: $dark-grey;
-}
-
-input::-webkit-scrollbar-thumb:hover,
-textarea::-webkit-scrollbar-thumb:hover,
-select::-webkit-scrollbar-thumb:hover {
-	background-color: $light-grey;
-}
-
-input.invalid-input,
-textarea.invalid-input,
-select.invalid-input {
-	box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 27.5%);
-}
-
-input.invalid-input:focus,
-textarea.invalid-input:focus,
-select.invalid-input:focus {
-	box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 15%);
+textarea {
+	min-height: 75px;
+	min-width: 100%;
+	max-width: 100%;
+	border-radius: variables.$border-radius;
+	text-align: center;
 }
 
 .invalid-input-error,
 .validating-input-status {
 	display: block;
-	margin-block-start: calc(1.5 * $margin);
+	margin-block-start: calc(1.5 * variables.$margin);
 	margin-block-end: 0.125em;
 	margin-inline-start: 20px;
 }
@@ -590,101 +413,84 @@ select.invalid-input:focus {
 	color: rgb(25, 255, 25);
 }
 
-textarea {
-	min-height: 75px;
-	min-width: 100%;
-	max-width: 100%;
-	border-radius: $border-radius;
-	text-align: center;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-	box-shadow: 0 0 0 0.2rem rgb(20 20 20 / 50%);
-	background-color: $darkest-grey;
-}
-
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible {
-	outline: none;
-}
-
 .segmented-control-wrapper {
-	padding-top: calc(2.5 * $margin);
-	padding-bottom: calc(4 * $margin);
-}
+	padding-top: calc(2.5 * variables.$margin);
+	padding-bottom: calc(4 * variables.$margin);
 
-.segmented-control {
-	display: flex;
-	width: 100%;
-	position: relative;
-	user-select: none;
-	z-index: 1;
-	border: 0;
-	border-radius: $border-radius;
-	background-color: $darker-grey;
-	color: $text-colour;
-}
+	.segmented-control {
+		display: flex;
+		width: 100%;
+		position: relative;
+		user-select: none;
+		z-index: 1;
+		border: 0;
+		border-radius: variables.$border-radius;
+		background-color: variables.$darker-grey;
+		color: variables.$text-colour;
 
-.segmented-control>input {
-	display: none;
-}
+		&>input {
+			display: none;
 
-.segmented-control>input:checked+label {
-	color: $accent-complement;
-	font-weight: 700;
-}
+			&:checked+label {
+				color: variables.$accent-complement;
+				font-weight: 700;
+			}
 
-.segmented-control>input:nth-of-type(1):checked~label:last-of-type:before {
-	transform: translateX(calc(-1 * $border-width));
-}
+			&:hover+label {
+				font-weight: 700;
+			}
 
-.segmented-control>input:nth-of-type(2):checked~label:last-of-type:before {
-	transform: translateX(calc(100% - 3 * $border-width));
-}
+			&:nth-of-type(1) {
+				&:checked~label:last-of-type:before {
+					transform: translateX(calc(-1 * variables.$border-width));
+				}
 
-.segmented-control label {
-	flex: 1;
-	text-align: center;
-	text-overflow: ellipsis;
-	color: $light-grey-text-colour;
-	white-space: nowrap;
-	overflow: hidden;
-	cursor: pointer;
-	padding: calc($button-padding + $border-width);
-	border-radius: $border-radius;
-}
+				&:active~label:last-of-type:before {
+					transform: translateX(calc(-1 * variables.$border-width));
+				}
+			}
 
-.segmented-control label:last-of-type:before {
-	content: '';
-	display: block;
-	max-width: calc(50%);
-	margin: 0;
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	z-index: -1;
-	transform: translateX(0);
-}
+			&:nth-of-type(2) {
+				&:checked~label:last-of-type:before {
+					transform: translateX(calc(100% - 3 * variables.$border-width));
+				}
 
-.segmented-control label:before {
-	transition: all 250ms cubic-bezier(0, 0.95, 0.38, 0.98);
-	border-radius: $border-radius;
-	border: $border-width solid $accent
-}
+				&:active~label:last-of-type:before {
+					transform: translateX(calc(100% - 3 * variables.$border-width));
+				}
+			}
+		}
 
-.segmented-control>input:hover+label {
-	font-weight: 700;
-}
+		label {
+			flex: 1;
+			text-align: center;
+			text-overflow: ellipsis;
+			color: variables.$light-grey-text-colour;
+			white-space: nowrap;
+			overflow: hidden;
+			cursor: pointer;
+			padding: calc(variables.$button-padding + variables.$border-width);
+			border-radius: variables.$border-radius;
 
-.segmented-control>input:nth-of-type(1):active~label:last-of-type:before {
-	transform: translateX(calc(-1 * $border-width));
-}
+			&:last-of-type:before {
+				content: '';
+				display: block;
+				max-width: calc(50%);
+				margin: 0;
+				position: absolute;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				z-index: -1;
+				transform: translateX(0);
+			}
 
-.segmented-control>input:nth-of-type(2):active~label:last-of-type:before {
-	transform: translateX(calc(100% - 3 * $border-width));
+			&:before {
+				transition: all 250ms cubic-bezier(0, 0.95, 0.38, 0.98);
+				border-radius: variables.$border-radius;
+				border: variables.$border-width solid variables.$accent
+			}
+		}
+	}
 }
