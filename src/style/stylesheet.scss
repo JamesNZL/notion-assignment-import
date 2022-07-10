@@ -161,50 +161,26 @@ a {
 		color: $text-active;
 		background-color: $background-active;
 	}
+}
+
+@mixin coloured-button-group($text, $background, $text-hover, $background-hover, $shadow, $text-active, $background-active) {
+	@include coloured-button($text, $background, $text-hover, $background-hover, $shadow, $text-active, $background-active);
 
 	&.hover {
-		color: variables.$text-colour;
-		background-color: variables.$darker-grey;
-
-		&:hover,
-		&:focus-visible {
-			outline: none;
-			color: $text-hover;
-			background-color: $background-hover;
-			box-shadow: 0 0 0 0.2rem $shadow;
-		}
-
-		&:active {
-			color: $text-active;
-			background-color: $background-active;
-		}
+		@include coloured-button(variables.$text-colour, variables.$darker-grey, $text-hover, $background-hover, $shadow, $text-active, $background-active);
 	}
 
 	&.outline {
+		@include coloured-button($background, unset, $text-hover, $background-hover, $shadow, $text-active, $background-active);
+
 		padding: calc(variables.$button-padding + variables.$border-width);
-		color: $background;
 		border-color: $background;
-		background-color: unset;
 		font-weight: 600;
-
-		&:hover,
-		&:focus-visible {
-			outline: none;
-			border-color: rgba(0, 0, 0, 0.125);
-			background-color: $background-hover;
-			color: $text-hover;
-		}
-
-		&:active {
-			color: $text-active;
-			border-color: rgba(0, 0, 0, 0.125);
-			background-color: $background-active;
-		}
 	}
 }
 
 .button {
-	@include coloured-button(variables.$text-colour, variables.$darker-grey, variables.$text-colour, variables.$darkest-grey, rgb(20 20 20 / 50%), variables.$text-colour, variables.$grey-active);
+	@include coloured-button-group(variables.$text-colour, variables.$darker-grey, variables.$text-colour, variables.$darkest-grey, rgb(20 20 20 / 50%), variables.$text-colour, variables.$grey-active);
 
 	position: relative;
 	cursor: pointer;
@@ -228,7 +204,7 @@ a {
 	}
 
 	&.accent {
-		@include coloured-button(variables.$accent, variables.$darker-grey, white, variables.$accent-complement, rgb(229 60 46 / 17.5%), white, variables.$accent);
+		@include coloured-button-group(variables.$accent, variables.$darker-grey, white, variables.$accent-complement, rgb(229 60 46 / 17.5%), white, variables.$accent);
 
 		&.emphasis {
 			border-color: variables.$accent  !important;
@@ -237,11 +213,11 @@ a {
 	}
 
 	&.red {
-		@include coloured-button(white, variables.$red, white, variables.$red-hover, rgb(255 0 0 / 15%), white, variables.$red-active);
+		@include coloured-button-group(white, variables.$red, white, variables.$red-hover, rgb(255 0 0 / 15%), white, variables.$red-active);
 	}
 
 	&.green {
-		@include coloured-button(black, variables.$green, black, variables.$green-hover, rgb(0 184 0 / 27.5%), black, variables.$green-active);
+		@include coloured-button-group(black, variables.$green, black, variables.$green-hover, rgb(0 184 0 / 27.5%), black, variables.$green-active);
 
 		font-weight: 600;
 	}
