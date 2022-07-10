@@ -185,7 +185,7 @@ export function watch() {
 		sources.markup.forEach(source => watchGlob(source.glob, copy(vendor, source)));
 		sources.style.forEach(source => watchGlob(source.glob, prefix(vendor, source)));
 		sources.assets.forEach(source => watchGlob(source.glob, copy(vendor, source)));
-		sources.scripts.forEach(source => watchGlob(source.glob, bundle(incrementalGulpEsbuild, vendor, source)));
+		sources.scripts.forEach(source => watchGlob(`${CONFIGURATION.DIRECTORIES.SOURCE}/**/*.ts`, bundle(incrementalGulpEsbuild, vendor, source)));
 	});
 }
 
