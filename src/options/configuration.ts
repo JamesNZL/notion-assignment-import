@@ -252,7 +252,6 @@ export const CONFIGURATION: {
 					'notion-property-available',
 					'notion-property-due',
 					'notion-property-span',
-					'notion-category-canvas',
 				],
 			},
 			propertyNames: {
