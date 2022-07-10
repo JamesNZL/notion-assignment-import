@@ -246,7 +246,8 @@ buttons.clearStorage.addEventListener('click', () => {
 	}
 
 	buttons.clearStorage.addClass('green');
-	buttons.clearStorage.removeClass('red-hover');
+	buttons.clearStorage.removeClass('red');
+	buttons.clearStorage.removeClass('hover');
 
 	buttons.clearStorage.setButtonLabel(undoPrompt);
 

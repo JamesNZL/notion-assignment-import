@@ -162,6 +162,24 @@ a {
 		background-color: $background-active;
 	}
 
+	&.hover {
+		color: variables.$text-colour;
+		background-color: variables.$darker-grey;
+
+		&:hover,
+		&:focus-visible {
+			outline: none;
+			color: $text-hover;
+			background-color: $background-hover;
+			box-shadow: 0 0 0 0.2rem $shadow;
+		}
+
+		&:active {
+			color: $text-active;
+			background-color: $background-active;
+		}
+	}
+
 	&.outline {
 		padding: calc(variables.$button-padding + variables.$border-width);
 		color: $background;
@@ -218,18 +236,8 @@ a {
 		}
 	}
 
-	// TODO: .hover class
-	&.red-hover {
-		@include coloured-button(variables.$text-colour, variables.$darker-grey, white, variables.$red-hover, rgb(255 0 0 / 15%), white, variables.$red-active);
-	}
-
 	&.red {
 		@include coloured-button(white, variables.$red, white, variables.$red-hover, rgb(255 0 0 / 15%), white, variables.$red-active);
-	}
-
-	// TODO: .hover class
-	&.green-hover {
-		@include coloured-button(variables.$text-colour, variables.$darker-grey, black, variables.$green-hover, rgb(0 184 0 / 27.5%), black, variables.$green-active);
 	}
 
 	&.green {
