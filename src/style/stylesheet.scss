@@ -83,11 +83,11 @@ h3 {
 }
 
 a {
-	color: rgba(255, 255, 255, 0.5);
+	color: rgba(variables.$text-colour, 0.5);
 	text-decoration: none;
 
 	&:hover {
-		color: rgba(255, 255, 255, 0.75);
+		color: rgba(variables.$text-colour, 0.75);
 	}
 }
 
@@ -158,7 +158,7 @@ a {
 @mixin coloured-button($options) {
 	color: map-get($options, 'text');
 	background-color: map-get($options, 'background');
-	border: variables.$border-width solid rgba(0, 0, 0, 0.125);
+	border: variables.$border-width solid variables.$element-border-colour;
 
 	&:hover,
 	&:focus-visible {
@@ -228,7 +228,7 @@ a {
 			'background': variables.$element,
 			'text-hover': variables.$text-colour,
 			'background-hover': variables.$element-hover,
-			'shadow': rgb(20 20 20 / 50%),
+			'shadow': rgba(variables.$element, 0.5),
 			'text-active': variables.$text-colour,
 			'background-active': variables.$element-active,
 		));
@@ -259,7 +259,7 @@ a {
 				'background': variables.$accent,
 				'text-hover': white,
 				'background-hover': variables.$accent-complement,
-				'shadow': rgb(229 60 46 / 17.5%),
+				'shadow': rgba(variables.$accent-complement, 0.175),
 				'text-active': white,
 				'background-active': variables.$accent,
 			));
@@ -270,7 +270,7 @@ a {
 				'background': variables.$red,
 				'text-hover': white,
 				'background-hover': variables.$red-hover,
-				'shadow': rgb(255 0 0 / 15%),
+				'shadow': rgba(red, 0.15),
 				'text-active': white,
 				'background-active': variables.$red-active,
 			));
@@ -281,7 +281,7 @@ a {
 				'background': variables.$green,
 				'text-hover': black,
 				'background-hover': variables.$green-hover,
-				'shadow': rgb(0 184 0 / 27.5%),
+				'shadow': rgb(variables.$green, 0.275),
 				'text-active': black,
 				'background-active': variables.$green-active,
 			));
@@ -349,7 +349,7 @@ select {
 	background-color: variables.$element;
 	color: variables.$subdued-text-colour;
 	border-radius: variables.$border-radius;
-	border: variables.$border-width solid rgba(0, 0, 0, 0.125);
+	border: variables.$border-width solid variables.$element-border-colour;
 	box-sizing: border-box;
 	transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
@@ -362,7 +362,7 @@ select {
 	}
 
 	&:focus {
-		box-shadow: 0 0 0 0.2rem rgb(20 20 20 / 50%);
+		box-shadow: 0 0 0 0.2rem rgba(variables.$element, 0.5);
 		background-color: variables.$element-hover;
 	}
 
@@ -371,10 +371,10 @@ select {
 	}
 
 	&.invalid-input {
-		box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 27.5%);
+		box-shadow: 0 0 0 0.2rem rgba(red, 0.275);
 
 		&:focus {
-			box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 15%);
+			box-shadow: 0 0 0 0.2rem rgba(red, 0.15);
 		}
 	}
 }
