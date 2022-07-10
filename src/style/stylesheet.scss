@@ -124,14 +124,6 @@ a {
 	.row>* {
 		margin: 0;
 	}
-
-	.button {
-		background-color: variables.$darker-grey;
-
-		&:hover {
-			background-color: variables.$darkest-grey;
-		}
-	}
 }
 
 .button-icon {
