@@ -12,7 +12,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: variables.$darker-grey;
+	background-color: variables.$element;
 	border-radius: 10px;
 	cursor: pointer;
 	border: 3px solid transparent;
@@ -21,7 +21,7 @@
 	max-height: 60%;
 
 	&:hover {
-		background-color: variables.$darkest-grey;
+		background-color: variables.$element-hover;
 	}
 }
 
@@ -69,7 +69,7 @@ h2 {
 }
 
 h3 {
-	color: variables.$grey-text-colour;
+	color: variables.$subdued-heading-colour;
 	font-size: 1.15em;
 	margin-block-start: 0.83em;
 	margin-block-end: 0.23rem;
@@ -112,7 +112,7 @@ a {
 	flex-direction: column;
 	justify-content: space-around;
 	gap: calc(3 * variables.$margin);
-	background-color: variables.$dark-grey;
+	background-color: variables.$surface;
 	border-radius: variables.$border-radius;
 	margin: variables.$margin 0;
 	padding: calc(4 * variables.$margin);
@@ -126,10 +126,10 @@ a {
 	}
 
 	.button {
-		background-color: variables.$darker-grey;
+		background-color: variables.$element;
 
 		&:hover {
-			background-color: variables.$darkest-grey;
+			background-color: variables.$element-hover;
 		}
 	}
 }
@@ -139,7 +139,7 @@ a {
 	position: absolute;
 	left: 24px;
 	vertical-align: middle;
-	fill: variables.$light-grey-text-colour;
+	fill: variables.$subdued-text-colour;
 	width: 16px;
 	height: 16px;
 }
@@ -179,7 +179,7 @@ a {
 
 	&.hover {
 		@include coloured-button(('text': variables.$text-colour,
-				'background': variables.$darker-grey,
+				'background': variables.$element,
 				'text-hover': map-get($options, 'text-hover'),
 				'background-hover': map-get($options, 'background-hover'),
 				'shadow': map-get($options, 'shadow'),
@@ -189,7 +189,7 @@ a {
 
 		&.emphasis {
 			@include coloured-button(('text': map-get($options, 'background'),
-					'background': variables.$darker-grey,
+					'background': variables.$element,
 					'text-hover': map-get($options, 'text-hover'),
 					'background-hover': map-get($options, 'background-hover'),
 					'shadow': map-get($options, 'shadow'),
@@ -225,12 +225,12 @@ a {
 
 .button {
 	@include coloured-button-group(('text': variables.$text-colour,
-			'background': variables.$darker-grey,
+			'background': variables.$element,
 			'text-hover': variables.$text-colour,
-			'background-hover': variables.$darkest-grey,
+			'background-hover': variables.$element-hover,
 			'shadow': rgb(20 20 20 / 50%),
 			'text-active': variables.$text-colour,
-			'background-active': variables.$grey-active,
+			'background-active': variables.$element-active,
 		));
 
 	position: relative;
@@ -297,7 +297,7 @@ a {
 label:not(.button label, .segmented-control label) {
 	text-transform: uppercase;
 	letter-spacing: 0.06em;
-	color: variables.$light-grey-text-colour;
+	color: variables.$subdued-text-colour;
 	font-weight: 500;
 	margin-inline-start: 20px;
 	font-size: 0.75rem;
@@ -346,24 +346,24 @@ select {
 	align-items: center;
 	font-family: monospace;
 	font-size: 0.75rem;
-	background-color: variables.$darker-grey;
-	color: variables.$light-grey-text-colour;
+	background-color: variables.$element;
+	color: variables.$subdued-text-colour;
 	border-radius: variables.$border-radius;
 	border: variables.$border-width solid rgba(0, 0, 0, 0.125);
 	box-sizing: border-box;
 	transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
 	&::-webkit-scrollbar-thumb {
-		background-color: variables.$dark-grey;
+		background-color: variables.$surface;
 
 		&:hover {
-			background-color: variables.$light-grey;
+			background-color: variables.$element-scrollbar;
 		}
 	}
 
 	&:focus {
 		box-shadow: 0 0 0 0.2rem rgb(20 20 20 / 50%);
-		background-color: variables.$darkest-grey;
+		background-color: variables.$element-hover;
 	}
 
 	&:focus-visible {
@@ -415,7 +415,7 @@ textarea {
 		z-index: 1;
 		border: 0;
 		border-radius: variables.$border-radius;
-		background-color: variables.$darker-grey;
+		background-color: variables.$element;
 		color: variables.$text-colour;
 
 		&>input {
@@ -455,7 +455,7 @@ textarea {
 			flex: 1;
 			text-align: center;
 			text-overflow: ellipsis;
-			color: variables.$light-grey-text-colour;
+			color: variables.$subdued-text-colour;
 			white-space: nowrap;
 			overflow: hidden;
 			cursor: pointer;

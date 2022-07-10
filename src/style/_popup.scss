@@ -59,17 +59,17 @@ html#popup {
 
 		#saved-courses-list {
 			flex: 1 auto;
-			color: variables.$light-grey-text-colour;
+			color: variables.$subdued-text-colour;
 			min-height: 0;
 			overflow-y: scroll;
 			margin: 0;
 			margin-bottom: min(calc(1.75 * variables.$margin), 0.5rem);
 
 			&::-webkit-scrollbar-thumb {
-				background-color: variables.$darker-grey;
+				background-color: variables.$element;
 
 				&:hover {
-					background-color: variables.$darkest-grey;
+					background-color: variables.$element-hover;
 				}
 			}
 
@@ -96,7 +96,7 @@ html#popup {
 			}
 
 			strong {
-				color: variables.$grey-text-colour;
+				color: variables.$subdued-heading-colour;
 				font-weight: 600;
 			}
 		}
