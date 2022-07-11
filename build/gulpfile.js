@@ -10,7 +10,10 @@ import fs from 'fs';
 import dartSass from 'sass';
 import gulpSass from 'gulp-sass';
 const sass = gulpSass(dartSass);
-import autoprefixer from 'gulp-autoprefixer';
+
+import postcss from 'gulp-postcss';
+import autoprefixer from 'autoprefixer';
+import cssnano from 'cssnano';
 
 import { default as gulpEsbuild, createGulpEsbuild } from 'gulp-esbuild';
 const incrementalGulpEsbuild = createGulpEsbuild({ incremental: true });
@@ -112,7 +115,11 @@ function render(vendor, source) {
 	return function renderGlob() {
 		const rendered = src(source.glob, { base: source?.base ?? '.' })
 			.pipe(sass.sync())
-			.pipe(autoprefixer());
+			.pipe(postcss(
+				(debug)
+					? [autoprefixer]
+					: [autoprefixer, cssnano],
+			));
 		return (
 			(!source.outFile)
 				? rendered
