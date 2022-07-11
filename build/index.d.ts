@@ -10,5 +10,5 @@ export type Sources = {
 		[vendor: string]: Source;
 	};
 } & {
-	[type: string]: Source;
+	[type: string]: Source[];
 };
