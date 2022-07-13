@@ -220,7 +220,7 @@ a {
 			'background': variables.$element,
 			'text-hover': variables.$text-colour,
 			'background-hover': variables.$element-hover,
-			'shadow': rgba(variables.$element, 0.5),
+			'shadow': rgba(variables.$element, calc(variables.$shadow-multiplier * 0.5)),
 			'text-active': variables.$text-colour,
 			'background-active': variables.$element-active,
 		));
@@ -251,7 +251,7 @@ a {
 				'background': variables.$accent,
 				'text-hover': white,
 				'background-hover': variables.$accent-complement,
-				'shadow': rgba(variables.$accent-complement, 0.175),
+				'shadow': rgba(variables.$accent-complement, calc(variables.$shadow-multiplier * 0.175)),
 				'text-active': white,
 				'background-active': variables.$accent,
 			));
@@ -262,7 +262,7 @@ a {
 				'background': variables.$red,
 				'text-hover': white,
 				'background-hover': variables.$red-hover,
-				'shadow': rgba(red, 0.15),
+				'shadow': rgba(red, calc(variables.$shadow-multiplier * 0.15)),
 				'text-active': white,
 				'background-active': variables.$red-active,
 			));
@@ -273,7 +273,7 @@ a {
 				'background': variables.$green,
 				'text-hover': black,
 				'background-hover': variables.$green-hover,
-				'shadow': rgb(variables.$green, 0.275),
+				'shadow': rgb(variables.$green, calc(variables.$shadow-multiplier * 0.275)),
 				'text-active': black,
 				'background-active': variables.$green-active,
 			));
@@ -356,7 +356,7 @@ select {
 	}
 
 	&:focus {
-		box-shadow: 0 0 0 0.2rem rgba(variables.$element, 0.5);
+		box-shadow: 0 0 0 0.2rem rgba(variables.$element, calc(variables.$shadow-multiplier * 0.5));
 		background-color: variables.$element-hover;
 	}
 
@@ -365,10 +365,10 @@ select {
 	}
 
 	&.invalid-input {
-		box-shadow: 0 0 0 0.2rem rgba(red, 0.275);
+		box-shadow: 0 0 0 0.2rem rgba(red, calc(variables.$shadow-multiplier * 0.275));
 
 		&:focus {
-			box-shadow: 0 0 0 0.2rem rgba(red, 0.15);
+			box-shadow: 0 0 0 0.2rem rgba(red, calc(variables.$shadow-multiplier * 0.15));
 		}
 	}
 }
