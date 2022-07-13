@@ -12,7 +12,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: variables.$element;
+	background-color: variables.$scrollbar;
 	border-radius: 10px;
 	cursor: pointer;
 	border: 3px solid transparent;
@@ -21,7 +21,7 @@
 	max-height: 60%;
 
 	&:hover {
-		background-color: variables.$element-hover;
+		background-color: variables.$scrollbar-hover;
 	}
 }
 
@@ -348,10 +348,10 @@ select {
 	transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
 	&::-webkit-scrollbar-thumb {
-		background-color: variables.$surface;
+		background-color: variables.$element-scrollbar;
 
 		&:hover {
-			background-color: variables.$element-scrollbar;
+			background-color: variables.$element-scrollbar-hover;
 		}
 	}
 

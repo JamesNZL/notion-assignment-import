@@ -66,10 +66,10 @@ html#popup {
 			margin-bottom: min(calc(1.75 * variables.$margin), 0.5rem);
 
 			&::-webkit-scrollbar-thumb {
-				background-color: variables.$element;
+				background-color: variables.$surface-scrollbar;
 
 				&:hover {
-					background-color: variables.$element-hover;
+					background-color: variables.$surface-scrollbar-hover;
 				}
 			}
 
