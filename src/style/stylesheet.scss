@@ -247,34 +247,34 @@ a {
 	}
 
 	&.accent {
-		@include coloured-button-group(('text': white,
+		@include coloured-button-group(('text': variables.$accent-text-colour,
 				'background': variables.$accent,
-				'text-hover': white,
+				'text-hover': variables.$accent-text-colour,
 				'background-hover': variables.$accent-complement,
 				'shadow': rgba(variables.$accent-complement, calc(variables.$shadow-multiplier * 0.175)),
-				'text-active': white,
+				'text-active': variables.$accent-text-colour,
 				'background-active': variables.$accent,
 			));
 	}
 
 	&.red {
-		@include coloured-button-group(('text': white,
+		@include coloured-button-group(('text': variables.$red-text-colour,
 				'background': variables.$red,
-				'text-hover': white,
+				'text-hover': variables.$red-text-colour,
 				'background-hover': variables.$red-hover,
 				'shadow': rgba(red, calc(variables.$shadow-multiplier * 0.15)),
-				'text-active': white,
+				'text-active': variables.$red-text-colour,
 				'background-active': variables.$red-active,
 			));
 	}
 
 	&.green {
-		@include coloured-button-group(('text': black,
+		@include coloured-button-group(('text': variables.$green-text-colour,
 				'background': variables.$green,
-				'text-hover': black,
+				'text-hover': variables.$green-text-colour,
 				'background-hover': variables.$green-hover,
 				'shadow': rgb(variables.$green, calc(variables.$shadow-multiplier * 0.275)),
-				'text-active': black,
+				'text-active': variables.$green-text-colour,
 				'background-active': variables.$green-active,
 			));
 
