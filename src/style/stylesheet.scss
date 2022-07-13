@@ -257,17 +257,6 @@ a {
 			));
 	}
 
-	&.red {
-		@include coloured-button-group(('text': variables.$red-text-colour,
-				'background': variables.$red,
-				'text-hover': variables.$red-text-colour,
-				'background-hover': variables.$red-hover,
-				'shadow': rgba(red, calc(variables.$shadow-multiplier * 0.15)),
-				'text-active': variables.$red-text-colour,
-				'background-active': variables.$red-active,
-			));
-	}
-
 	&.green {
 		@include coloured-button-group(('text': variables.$green-text-colour,
 				'background': variables.$green,
@@ -279,6 +268,17 @@ a {
 			));
 
 		font-weight: 600;
+	}
+
+	&.red {
+		@include coloured-button-group(('text': variables.$red-text-colour,
+				'background': variables.$red,
+				'text-hover': variables.$red-text-colour,
+				'background-hover': variables.$red-hover,
+				'shadow': rgba(red, calc(variables.$shadow-multiplier * 0.15)),
+				'text-active': variables.$red-text-colour,
+				'background-active': variables.$red-active,
+			));
 	}
 
 	&:disabled {
