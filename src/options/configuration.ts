@@ -1,4 +1,4 @@
-import { Input, KeyValueGroup } from '../elements';
+import { Input, KeyValueGroup, SegmentedControl } from '../elements';
 
 import { NullIfEmpty, SavedFields, SavedOptions } from './';
 import {
@@ -12,7 +12,6 @@ import {
 } from './validator';
 
 import { valueof } from '../types/utils';
-import { SegmentedControl } from '../elements/SegmentedControl';
 
 export type SupportedTypes = NullIfEmpty<string> | boolean;
 
@@ -69,8 +68,15 @@ type IncompleteFieldKey<K extends string> = K extends keyof SavedFields
 interface InputElements {
 	'timeZone': 'timezone';
 	'extension.displayTheme': 'display-theme';
-	'popup.displayJSONButton': 'show-json-button';
-	'options.displayAdvanced': 'show-advanced-options';
+	displaySystemMode: 'display-system-mode';
+	displayLightMode: 'display-light-mode';
+	displayDarkMode: 'display-dark-mode';
+	'popup.displayJSONButton': 'display-json-button';
+	hideJSONButton: 'hide-json-button';
+	showJSONButton: 'show-json-button';
+	'options.displayAdvanced': 'display-advanced-options';
+	hideAdvancedOptions: 'hide-advanced-options';
+	showAdvancedOptions: 'show-advanced-options';
 	'canvas.classNames.breadcrumbs': 'breadcrumbs';
 	'canvas.classNames.assignment': 'assignment-class';
 	'canvas.classNames.title': 'assignment-title';
@@ -137,7 +143,21 @@ export const CONFIGURATION: {
 				defaultValue: 'SYSTEM',
 				get input() {
 					delete (<Partial<typeof this>>this).input;
-					return this.input = SegmentedControl.getInstance<InputElementId>('display-theme', 'input');
+					return this.input = SegmentedControl.getInstance<InputElementId, typeof this.defaultValue>('display-theme', 'segmented control', [
+						{
+							id: 'display-system-mode',
+							value: 'SYSTEM',
+							default: true,
+						},
+						{
+							id: 'display-light-mode',
+							value: 'LIGHT',
+						},
+						{
+							id: 'display-dark-mode',
+							value: 'DARK',
+						},
+					]);
 				},
 			},
 		},
@@ -146,7 +166,18 @@ export const CONFIGURATION: {
 				defaultValue: false,
 				get input() {
 					delete (<Partial<typeof this>>this).input;
-					return this.input = Input.getInstance<InputElementId>('show-json-button', 'input');
+					return this.input = SegmentedControl.getInstance<InputElementId, typeof this.defaultValue>('display-json-button', 'segmented control', [
+						{
+							id: 'hide-json-button',
+							value: false,
+							default: true,
+						},
+						{
+							id: 'show-json-button',
+							value: true,
+							showDependents: true,
+						},
+					]);
 				},
 			},
 		},
@@ -155,7 +186,18 @@ export const CONFIGURATION: {
 				defaultValue: false,
 				get input() {
 					delete (<Partial<typeof this>>this).input;
-					return this.input = Input.getInstance<InputElementId>('show-advanced-options', 'input');
+					return this.input = SegmentedControl.getInstance<InputElementId, typeof this.defaultValue>('display-advanced-options', 'segmented control', [
+						{
+							id: 'hide-advanced-options',
+							value: false,
+							default: true,
+						},
+						{
+							id: 'show-advanced-options',
+							value: true,
+							showDependents: true,
+						},
+					]);
 				},
 			},
 		},
