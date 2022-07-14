@@ -59,7 +59,7 @@ export class SegmentedControl extends Element {
 
 		if (!segmentToCheck) throw new Error(`Failed to set unexpected value ${value} of type ${typeof value} on segmented control ${this.id}`);
 
-		segmentToCheck.input.setValue(true);
+		segmentToCheck.input.setValue(true, false);
 
 		if (!dispatchEvent) return;
 		this.dispatchInputEvent();
