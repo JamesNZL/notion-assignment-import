@@ -42,7 +42,7 @@ interface HasPlaceholder {
 	setPlaceholder(placeholder: unknown): void;
 }
 
-interface OptionConfiguration<T> {
+export interface OptionConfiguration<T> {
 	readonly defaultValue: T;
 	input: Readable & Settable & Displayable & Dependable & Subscribable & Partial<HasPlaceholder>;
 	// default to 'input' if undefined
