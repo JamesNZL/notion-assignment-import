@@ -278,7 +278,7 @@ a {
 				'background': light-mode.$red,
 				'text-hover': light-mode.$red-text-colour,
 				'background-hover': light-mode.$red-hover,
-				'shadow': rgba(red, calc(light-mode.$shadow-multiplier * 0.15)),
+				'shadow': rgba(light-mode.$red, calc(light-mode.$shadow-multiplier * 0.175)),
 				'text-active': light-mode.$red-text-colour,
 				'background-active': light-mode.$red-active,
 			));
