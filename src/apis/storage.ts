@@ -159,6 +159,9 @@ export const Storage = <const>{
 
 		return {
 			timeZone: savedFields['timeZone'],
+			extension: {
+				displayTheme: savedFields['extension.displayTheme'],
+			},
 			popup: {
 				displayJSONButton: savedFields['popup.displayJSONButton'],
 			},

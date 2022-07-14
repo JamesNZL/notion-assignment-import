@@ -217,7 +217,8 @@ buttons.listAssignments.addEventListener('click', SavedCoursesList.listAssignmen
 
 buttons.listCourses.addEventListener('click', () => SavedCoursesList.listCourses());
 
-Storage.getOptions().then(({ popup: { displayJSONButton } }) => {
+Storage.getOptions().then(({ extension: { displayTheme }, popup: { displayJSONButton } }) => {
+	if (displayTheme) document.documentElement.classList.add(`${displayTheme}-mode`);
 	if (displayJSONButton) buttons.copyJSON.show();
 });
 

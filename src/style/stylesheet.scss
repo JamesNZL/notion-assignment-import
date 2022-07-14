@@ -1,4 +1,6 @@
-@use '_variables';
+@use '_configuration';
+@use '_theme';
+
 @use '_popup';
 @use '_options';
 
@@ -12,7 +14,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: variables.$darker-grey;
+	background-color: var(--scrollbar);
 	border-radius: 10px;
 	cursor: pointer;
 	border: 3px solid transparent;
@@ -21,7 +23,7 @@
 	max-height: 60%;
 
 	&:hover {
-		background-color: variables.$darkest-grey;
+		background-color: var(--scrollbar-hover);
 	}
 }
 
@@ -38,8 +40,8 @@
 }
 
 html {
-	background-color: variables.$background;
-	color: variables.$text-colour;
+	background-color: var(--background);
+	color: var(--text-colour);
 	font-family: ui-sans-serif,
 		system-ui,
 		-apple-system,
@@ -65,16 +67,16 @@ html {
 h2 {
 	font-size: 1.45em;
 	letter-spacing: 0.025em;
-	padding-inline-start: calc(0.125 * variables.$border-radius);
+	padding-inline-start: calc(0.125 * configuration.$border-radius);
 }
 
 h3 {
-	color: variables.$grey-text-colour;
+	color: var(--subdued-heading-colour);
 	font-size: 1.15em;
 	margin-block-start: 0.83em;
 	margin-block-end: 0.23rem;
 	letter-spacing: 0.05em;
-	padding-inline-start: calc(0.125 * variables.$border-radius);
+	padding-inline-start: calc(0.125 * configuration.$border-radius);
 }
 
 h2,
@@ -83,11 +85,11 @@ h3 {
 }
 
 a {
-	color: rgba(255, 255, 255, 0.5);
+	color: var(--link-text-colour);
 	text-decoration: none;
 
 	&:hover {
-		color: rgba(255, 255, 255, 0.75);
+		color: var(--link-text-hover-colour);
 	}
 }
 
@@ -95,7 +97,7 @@ a {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
-	gap: calc(2 * variables.$margin);
+	gap: calc(2 * configuration.$margin);
 	width: 100%;
 
 	&>* {
@@ -111,11 +113,11 @@ a {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-	gap: calc(3 * variables.$margin);
-	background-color: variables.$dark-grey;
-	border-radius: variables.$border-radius;
-	margin: variables.$margin 0;
-	padding: calc(4 * variables.$margin);
+	gap: calc(3 * configuration.$margin);
+	background-color: var(--surface);
+	border-radius: configuration.$border-radius;
+	margin: configuration.$margin 0;
+	padding: calc(4 * configuration.$margin);
 
 	&>* {
 		height: 100%;
@@ -131,7 +133,7 @@ a {
 	position: absolute;
 	left: 24px;
 	vertical-align: middle;
-	fill: variables.$light-grey-text-colour;
+	fill: var(--subdued-text-colour);
 	width: 16px;
 	height: 16px;
 }
@@ -150,7 +152,7 @@ a {
 @mixin coloured-button($options) {
 	color: map-get($options, 'text');
 	background-color: map-get($options, 'background');
-	border: variables.$border-width solid rgba(0, 0, 0, 0.125);
+	border: configuration.$border-width solid var(--element-border-colour);
 
 	&:hover,
 	&:focus-visible {
@@ -170,8 +172,8 @@ a {
 	@include coloured-button($options);
 
 	&.hover {
-		@include coloured-button(('text': variables.$text-colour,
-				'background': variables.$darker-grey,
+		@include coloured-button(('text': var(--text-colour),
+				'background': var(--element),
 				'text-hover': map-get($options, 'text-hover'),
 				'background-hover': map-get($options, 'background-hover'),
 				'shadow': map-get($options, 'shadow'),
@@ -181,7 +183,7 @@ a {
 
 		&.emphasis {
 			@include coloured-button(('text': map-get($options, 'background'),
-					'background': variables.$darker-grey,
+					'background': var(--element),
 					'text-hover': map-get($options, 'text-hover'),
 					'background-hover': map-get($options, 'background-hover'),
 					'shadow': map-get($options, 'shadow'),
@@ -203,7 +205,7 @@ a {
 				'background-active': map-get($options, 'background-active'),
 			));
 
-		padding: calc(variables.$button-padding + variables.$border-width);
+		padding: calc(configuration.$button-padding + configuration.$border-width);
 		border-color: map-get($options, 'background');
 		font-weight: 600;
 	}
@@ -211,31 +213,31 @@ a {
 	&.emphasis {
 		font-weight: 700;
 		padding: 10px;
-		margin: calc(0.0625em + variables.$margin) 0;
+		margin: calc(0.0625em + configuration.$margin) 0;
 	}
 }
 
 .button {
-	@include coloured-button-group(('text': variables.$text-colour,
-			'background': variables.$darker-grey,
-			'text-hover': variables.$text-colour,
-			'background-hover': variables.$darkest-grey,
-			'shadow': rgb(20 20 20 / 50%),
-			'text-active': variables.$text-colour,
-			'background-active': variables.$grey-active,
+	@include coloured-button-group(('text': var(--text-colour),
+			'background': var(--element),
+			'text-hover': var(--text-colour),
+			'background-hover': var(--element-hover),
+			'shadow': var(--element-shadow),
+			'text-active': var(--text-colour),
+			'background-active': var(--element-active),
 		));
 
 	position: relative;
 	cursor: pointer;
 	user-select: none;
-	margin: variables.$margin 0;
-	padding: variables.$button-padding;
+	margin: configuration.$margin 0;
+	padding: configuration.$button-padding;
 	display: inline-block;
 	text-align: center;
 	font-family: inherit;
 	font-size: 0.825rem;
 	text-decoration: none;
-	border-radius: variables.$border-radius;
+	border-radius: configuration.$border-radius;
 	box-sizing: border-box;
 	transition: color 0.15s ease-in-out,
 		background-color 0.15s ease-in-out,
@@ -247,38 +249,38 @@ a {
 	}
 
 	&.accent {
-		@include coloured-button-group(('text': white,
-				'background': variables.$accent,
-				'text-hover': white,
-				'background-hover': variables.$accent-complement,
-				'shadow': rgb(229 60 46 / 17.5%),
-				'text-active': white,
-				'background-active': variables.$accent,
-			));
-	}
-
-	&.red {
-		@include coloured-button-group(('text': white,
-				'background': variables.$red,
-				'text-hover': white,
-				'background-hover': variables.$red-hover,
-				'shadow': rgb(255 0 0 / 15%),
-				'text-active': white,
-				'background-active': variables.$red-active,
+		@include coloured-button-group(('text': configuration.$accent-text-colour,
+				'background': configuration.$accent,
+				'text-hover': configuration.$accent-text-colour,
+				'background-hover': configuration.$accent-complement,
+				'shadow': rgba(configuration.$accent-complement, calc(var(--shadow-multiplier) * 0.175)),
+				'text-active': configuration.$accent-text-colour,
+				'background-active': configuration.$accent,
 			));
 	}
 
 	&.green {
-		@include coloured-button-group(('text': black,
-				'background': variables.$green,
-				'text-hover': black,
-				'background-hover': variables.$green-hover,
-				'shadow': rgb(0 184 0 / 27.5%),
-				'text-active': black,
-				'background-active': variables.$green-active,
+		@include coloured-button-group(('text': var(--green-text-colour),
+				'background': var(--green),
+				'text-hover': var(--green-text-colour),
+				'background-hover': var(--green-hover),
+				'shadow': var(--green-shadow),
+				'text-active': var(--green-text-colour),
+				'background-active': var(--green-active),
 			));
 
 		font-weight: 600;
+	}
+
+	&.red {
+		@include coloured-button-group(('text': var(--red-text-colour),
+				'background': var(--red),
+				'text-hover': var(--red-text-colour),
+				'background-hover': var(--red-hover),
+				'shadow': var(--red-shadow),
+				'text-active': var(--red-text-colour),
+				'background-active': var(--red-active),
+			));
 	}
 
 	&:disabled {
@@ -290,7 +292,7 @@ label {
 	&:not(.button label, .segmented-control label) {
 		text-transform: uppercase;
 		letter-spacing: 0.06em;
-		color: variables.$light-grey-text-colour;
+		color: var(--subdued-text-colour);
 		font-weight: 500;
 		margin-inline-start: 20px;
 		font-size: 0.75rem;
@@ -312,16 +314,16 @@ label {
 input,
 textarea,
 select {
-	margin-top: calc(2 * variables.$margin);
-	margin-bottom: calc(5 * variables.$margin);
+	margin-top: calc(2 * configuration.$margin);
+	margin-bottom: calc(5 * configuration.$margin);
 	padding: 8px 20px;
 	align-items: center;
 	font-family: monospace;
 	font-size: 0.75rem;
-	background-color: variables.$darker-grey;
-	color: variables.$light-grey-text-colour;
-	border-radius: variables.$border-radius;
-	border: variables.$border-width solid rgba(0, 0, 0, 0.125);
+	background-color: var(--element);
+	color: var(--subdued-text-colour);
+	border-radius: configuration.$border-radius;
+	border: configuration.$border-width solid var(--element-border-colour);
 	box-sizing: border-box;
 	transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
@@ -330,20 +332,20 @@ select {
 	}
 
 	.tile .row>& {
-		margin-top: calc(2 * variables.$margin);
+		margin-top: calc(2 * configuration.$margin);
 	}
 
 	&::-webkit-scrollbar-thumb {
-		background-color: variables.$dark-grey;
+		background-color: var(--element-scrollbar);
 
 		&:hover {
-			background-color: variables.$light-grey;
+			background-color: var(--element-scrollbar-hover);
 		}
 	}
 
 	&:focus {
-		box-shadow: 0 0 0 0.2rem rgb(20 20 20 / 50%);
-		background-color: variables.$darkest-grey;
+		box-shadow: 0 0 0 0.2rem var(--element-shadow);
+		background-color: var(--element-hover);
 	}
 
 	&:focus-visible {
@@ -351,10 +353,10 @@ select {
 	}
 
 	&.invalid-input {
-		box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 27.5%);
+		box-shadow: 0 0 0 0.2rem rgba(red, calc(var(--shadow-multiplier) * 0.275));
 
 		&:focus {
-			box-shadow: 0 0 0 0.2rem rgb(255 0 0 / 15%);
+			box-shadow: 0 0 0 0.2rem rgba(red, calc(var(--shadow-multiplier) * 0.15));
 		}
 	}
 }
@@ -363,14 +365,14 @@ textarea {
 	min-height: 75px;
 	min-width: 100%;
 	max-width: 100%;
-	border-radius: variables.$border-radius;
+	border-radius: configuration.$border-radius;
 	text-align: center;
 }
 
 .invalid-input-error,
 .validating-input-status {
 	display: block;
-	margin-block-start: calc(1.5 * variables.$margin);
+	margin-block-start: calc(1.5 * configuration.$margin);
 	margin-block-end: 0.125em;
 	margin-inline-start: 20px;
 }
@@ -384,8 +386,8 @@ textarea {
 }
 
 .segmented-control-wrapper {
-	padding-top: calc(2.5 * variables.$margin);
-	padding-bottom: calc(4 * variables.$margin);
+	padding-top: calc(2.5 * configuration.$margin);
+	padding-bottom: calc(4 * configuration.$margin);
 
 	.tile & {
 		padding-bottom: 0;
@@ -398,15 +400,15 @@ textarea {
 		user-select: none;
 		z-index: 1;
 		border: 0;
-		border-radius: variables.$border-radius;
-		background-color: variables.$darker-grey;
-		color: variables.$text-colour;
+		border-radius: configuration.$border-radius;
+		background-color: var(--element);
+		color: var(--text-colour);
 
 		&>input {
 			display: none;
 
 			&:checked+label {
-				color: variables.$accent-complement;
+				color: configuration.$accent-complement;
 				font-weight: 700;
 			}
 
@@ -416,21 +418,21 @@ textarea {
 
 			&:nth-of-type(1) {
 				&:checked~label:last-of-type:before {
-					transform: translateX(calc(-1 * variables.$border-width));
+					transform: translateX(calc(-1 * configuration.$border-width));
 				}
 
 				&:active~label:last-of-type:before {
-					transform: translateX(calc(-1 * variables.$border-width));
+					transform: translateX(calc(-1 * configuration.$border-width));
 				}
 			}
 
 			&:nth-of-type(2) {
 				&:checked~label:last-of-type:before {
-					transform: translateX(calc(100% - 3 * variables.$border-width));
+					transform: translateX(calc(100% - 3 * configuration.$border-width));
 				}
 
 				&:active~label:last-of-type:before {
-					transform: translateX(calc(100% - 3 * variables.$border-width));
+					transform: translateX(calc(100% - 3 * configuration.$border-width));
 				}
 			}
 		}
@@ -439,17 +441,17 @@ textarea {
 			flex: 1;
 			text-align: center;
 			text-overflow: ellipsis;
-			color: variables.$light-grey-text-colour;
+			color: var(--subdued-text-colour);
 			white-space: nowrap;
 			overflow: hidden;
 			cursor: pointer;
-			padding: calc(variables.$button-padding + variables.$border-width);
-			border-radius: variables.$border-radius;
+			padding: calc(configuration.$button-padding + configuration.$border-width);
+			border-radius: configuration.$border-radius;
 
 			&:last-of-type:before {
 				content: '';
 				display: block;
-				max-width: calc(50%);
+				max-width: 50%;
 				margin: 0;
 				position: absolute;
 				top: 0;
@@ -462,8 +464,40 @@ textarea {
 
 			&:before {
 				transition: all 250ms cubic-bezier(0, 0.95, 0.38, 0.98);
-				border-radius: variables.$border-radius;
-				border: variables.$border-width solid variables.$accent
+				border-radius: configuration.$border-radius;
+				border: configuration.$border-width solid configuration.$accent
+			}
+		}
+	}
+
+	.segmented-control-triple {
+		@extend .segmented-control;
+
+		&>input {
+			&:nth-of-type(2) {
+				&:checked~label:last-of-type:before {
+					transform: translateX(calc(100% - 3 * configuration.$border-width));
+				}
+
+				&:active~label:last-of-type:before {
+					transform: translateX(calc(100% - 3 * configuration.$border-width));
+				}
+			}
+
+			&:nth-of-type(3) {
+				&:checked~label:last-of-type:before {
+					transform: translateX(calc(200% - 5 * configuration.$border-width));
+				}
+
+				&:active~label:last-of-type:before {
+					transform: translateX(calc(200% - 5 * configuration.$border-width));
+				}
+			}
+		}
+
+		label {
+			&:last-of-type:before {
+				width: calc(100% / 3);
 			}
 		}
 	}

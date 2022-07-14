@@ -6,6 +6,7 @@ type NeverEmpty<T extends string> = T extends '' ? never : T;
 type NullIfEmpty<T extends string | null> = (T extends '' ? null : T) | null;
 
 interface RequiredFields {
+	'extension.displayTheme': null | 'light' | 'dark';
 	'popup.displayJSONButton': boolean;
 	'options.displayAdvanced': boolean;
 	'canvas.classNames.breadcrumbs': NeverEmpty<string>;
@@ -46,6 +47,9 @@ export type SavedFields = RequiredFields & OptionalFields;
  */
 export type SavedOptions = {
 	timeZone: OptionalFields['timeZone'];
+	extension: {
+		displayTheme: RequiredFields['extension.displayTheme'];
+	};
 	popup: {
 		displayJSONButton: RequiredFields['popup.displayJSONButton'];
 	};

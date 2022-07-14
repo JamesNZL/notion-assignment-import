@@ -58,7 +58,7 @@ const sources = {
 	],
 	style: [
 		{
-			glob: `${CONFIGURATION.DIRECTORIES.SOURCE}/style/*.scss`,
+			glob: `${CONFIGURATION.DIRECTORIES.SOURCE}/style/**/*.scss`,
 			base: `${CONFIGURATION.DIRECTORIES.SOURCE}/style`,
 		},
 	],

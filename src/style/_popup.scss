@@ -1,4 +1,5 @@
-@use '_variables';
+@use '_configuration';
+@use '_theme';
 
 html#popup {
 	max-height: 600px;
@@ -22,18 +23,18 @@ html#popup {
 	#options-icon {
 		width: fit-content;
 		height: fit-content;
-		margin-inline-end: calc(0.125 * variables.$border-radius);
+		margin-inline-end: calc(0.125 * configuration.$border-radius);
 		margin-top: 0.36rem;
 		cursor: pointer;
 
 		svg {
-			fill: variables.$accent;
+			fill: configuration.$accent;
 			width: 18px;
 			height: 18px;
 		}
 
 		&:hover svg {
-			fill: variables.$accent-complement;
+			fill: configuration.$accent-complement;
 		}
 	}
 
@@ -59,24 +60,24 @@ html#popup {
 
 		#saved-courses-list {
 			flex: 1 auto;
-			color: variables.$light-grey-text-colour;
+			color: var(--subdued-text-colour);
 			min-height: 0;
 			overflow-y: scroll;
 			margin: 0;
-			margin-bottom: min(calc(1.75 * variables.$margin), 0.5rem);
+			margin-bottom: min(calc(1.75 * configuration.$margin), 0.5rem);
 
 			&::-webkit-scrollbar-thumb {
-				background-color: variables.$darker-grey;
+				background-color: var(--surface-scrollbar);
 
 				&:hover {
-					background-color: variables.$darkest-grey;
+					background-color: var(--surface-scrollbar-hover);
 				}
 			}
 
 			p.code {
-				margin: calc(0.5 * variables.$margin) calc(1em + variables.$margin);
+				margin: calc(0.5 * configuration.$margin) calc(1em + configuration.$margin);
 				word-break: break-word;
-				color: #bbb;
+				color: var(--code-text-colour);
 			}
 
 			ol {
@@ -85,18 +86,18 @@ html#popup {
 
 				&>li {
 					font-size: 14px;
-					margin-block: calc(0.5 * variables.$margin);
+					margin-block: calc(0.5 * configuration.$margin);
 				}
 
 				ul {
 					padding-inline-start: 21px;
-					margin-block: calc(2.5 * variables.$margin);
+					margin-block: calc(2.5 * configuration.$margin);
 					list-style: '-   ';
 				}
 			}
 
 			strong {
-				color: variables.$grey-text-colour;
+				color: var(--subdued-heading-colour);
 				font-weight: 600;
 			}
 		}
