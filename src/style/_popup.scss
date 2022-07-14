@@ -1,6 +1,6 @@
 @use '_configuration';
 // TODO: custom properties
-@use '_light-mode';
+@use '_theme';
 
 html#popup {
 	max-height: 600px;
@@ -61,24 +61,24 @@ html#popup {
 
 		#saved-courses-list {
 			flex: 1 auto;
-			color: light-mode.$subdued-text-colour;
+			color: theme.$subdued-text-colour;
 			min-height: 0;
 			overflow-y: scroll;
 			margin: 0;
 			margin-bottom: min(calc(1.75 * configuration.$margin), 0.5rem);
 
 			&::-webkit-scrollbar-thumb {
-				background-color: light-mode.$surface-scrollbar;
+				background-color: theme.$surface-scrollbar;
 
 				&:hover {
-					background-color: light-mode.$surface-scrollbar-hover;
+					background-color: theme.$surface-scrollbar-hover;
 				}
 			}
 
 			p.code {
 				margin: calc(0.5 * configuration.$margin) calc(1em + configuration.$margin);
 				word-break: break-word;
-				color: light-mode.$code-text-colour;
+				color: theme.$code-text-colour;
 			}
 
 			ol {
@@ -98,7 +98,7 @@ html#popup {
 			}
 
 			strong {
-				color: light-mode.$subdued-heading-colour;
+				color: theme.$subdued-heading-colour;
 				font-weight: 600;
 			}
 		}

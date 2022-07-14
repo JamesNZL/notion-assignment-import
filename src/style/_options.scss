@@ -1,6 +1,6 @@
 @use '_configuration';
 // TODO: custom properties
-@use '_light-mode';
+@use '_theme';
 
 html#options {
 	margin: auto;
@@ -17,7 +17,7 @@ html#options {
 		display: flex;
 		align-items: center;
 		height: configuration.$navbar-height;
-		background-color: light-mode.$surface;
+		background-color: theme.$surface;
 		top: 0;
 		left: 0;
 		right: 0;
