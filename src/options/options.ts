@@ -45,13 +45,7 @@ interface OptionsElements {
 	elements: {
 		advancedOptions: 'advanced-options';
 		courseCodesGroup: 'course-code-overrides-group';
-		courseCodesCanvas: 'course-code-overrides-canvas';
-		courseCodesNotion: 'course-code-overrides-notion';
-		courseCodesValue: 'course-code-overrides';
 		courseEmojisGroup: 'course-emojis-group';
-		courseEmojisCodes: 'course-emojis-codes';
-		courseEmojisEmojis: 'course-emojis-emojis';
-		courseEmojisValue: 'course-emojis';
 	};
 }
 
@@ -80,7 +74,7 @@ class RestoreDefaultsButton extends Button {
 	}
 
 	public static override getInstance<T extends string>(id: T, restoreKeys?: (keyof SavedFields)[]): RestoreDefaultsButton {
-		if (!restoreKeys) throw new Error('Argument restoreKeys must be defined for class Restore(Defauts|Saved)Button!');
+		if (!restoreKeys) throw new Error('Argument restoreKeys must be defined for class Restore(Defaults|Saved)Button!');
 
 		return RestoreDefaultsButton.instances[id] = (RestoreDefaultsButton.instances[id] instanceof RestoreDefaultsButton)
 			? RestoreDefaultsButton.instances[id]
@@ -481,13 +475,13 @@ Storage.getNotionAuthorisation().then(async ({ accessToken }) => {
  */
 
 document.addEventListener('DOMContentLoaded', async () => {
-	KeyValueGroup.getInstance<OptionsElementId>('course-code-overrides-group', 'course-code-overrides-canvas', 'course-code-overrides-notion')
+	KeyValueGroup.getInstance<OptionsElementId>('course-code-overrides-group')
 		.setPlaceholders({
 			key: '121 UoA',
 			value: 'COURSE 121',
 		});
 
-	KeyValueGroup.getInstance<OptionsElementId>('course-emojis-group', 'course-emojis-codes', 'course-emojis-emojis')
+	KeyValueGroup.getInstance<OptionsElementId>('course-emojis-group')
 		.setPlaceholders({
 			key: 'COURSE 121',
 			value: '👨‍💻',

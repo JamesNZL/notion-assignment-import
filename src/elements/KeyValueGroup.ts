@@ -29,20 +29,26 @@ export class KeyValueGroup extends Element {
 
 	private validatePromises?: [Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT>, Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT>];
 
-	private constructor(id: string, keyGroupId: string, valueGroupId: string) {
+	private constructor(id: string) {
 		super(id, 'key-value group');
 
-		this.keyGroup = Element.getInstance(keyGroupId, 'key group');
-		this.valueGroup = Element.getInstance(valueGroupId, 'value group');
+		const [keyGroupClass, valueGroupClass] = ['key-value-group-key', 'key-value-group-value'];
+
+		const keyGroups = this.element.getElementsByClassName(keyGroupClass);
+		const valueGroups = this.element.getElementsByClassName(valueGroupClass);
+
+		if (keyGroups.length !== 1) throw new Error(`KeyValueGroup ${id} must have ${(keyGroups.length > 1) ? 'only one' : 'a'} unique key group with the class ${keyGroupClass}!`);
+
+		if (valueGroups.length !== 1) throw new Error(`KeyValueGroup ${id} must have ${(valueGroups.length > 1) ? 'only one' : 'a'} unique value group with the class ${valueGroupClass}!`);
+
+		this.keyGroup = Element.getInstance(keyGroups[0].id, 'key group');
+		this.valueGroup = Element.getInstance(valueGroups[0].id, 'value group');
 	}
 
-	public static override getInstance<T extends string>(id: T, keyGroupId?: T, valueGroupId?: T): KeyValueGroup {
-		if (!keyGroupId) throw new Error('Argument keyGroupId must be defined for class KeyValueGroup!');
-		if (!valueGroupId) throw new Error('Argument valueGroupId must be defined for class KeyValueGroup!');
-
+	public static override getInstance<T extends string>(id: T): KeyValueGroup {
 		return KeyValueGroup.instances[id] = (KeyValueGroup.instances[id] instanceof KeyValueGroup)
 			? <KeyValueGroup>KeyValueGroup.instances[id]
-			: new KeyValueGroup(id, keyGroupId, valueGroupId);
+			: new KeyValueGroup(id);
 	}
 
 	public get isValidating() {

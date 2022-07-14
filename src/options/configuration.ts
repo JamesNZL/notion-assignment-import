@@ -87,8 +87,6 @@ interface InputElements {
 	'canvas.classValues.courseCodeN': 'course-code-n';
 	'canvas.classValues.notAvailable': 'status-not-available';
 	'canvas.courseCodeOverrides': 'course-code-overrides-group';
-	courseCodesCanvas: 'course-code-overrides-canvas';
-	courseCodesNotion: 'course-code-overrides-notion';
 	'notion.accessToken': 'notion-token';
 	'notion.databaseId': 'database-id';
 	refreshDatabaseSelect: 'refresh-database-select';
@@ -101,8 +99,6 @@ interface InputElements {
 	'notion.propertyNames.span': 'notion-property-span';
 	'notion.propertyValues.categoryCanvas': 'notion-category-canvas';
 	'notion.courseEmojis': 'course-emojis-group';
-	courseEmojisCodes: 'course-emojis-codes';
-	courseEmojisEmojis: 'course-emojis-emojis';
 }
 
 type InputElementId = valueof<InputElements>;
@@ -273,7 +269,7 @@ export const CONFIGURATION: {
 				defaultValue: '{}',
 				get input() {
 					delete (<Partial<typeof this>>this).input;
-					return this.input = KeyValueGroup.getInstance<InputElementId>('course-code-overrides-group', 'course-code-overrides-canvas', 'course-code-overrides-notion');
+					return this.input = KeyValueGroup.getInstance<InputElementId>('course-code-overrides-group');
 				},
 			},
 		},
@@ -372,7 +368,7 @@ export const CONFIGURATION: {
 				defaultValue: '{}',
 				get input() {
 					delete (<Partial<typeof this>>this).input;
-					return this.input = KeyValueGroup.getInstance<InputElementId>('course-emojis-group', 'course-emojis-codes', 'course-emojis-emojis');
+					return this.input = KeyValueGroup.getInstance<InputElementId>('course-emojis-group');
 				},
 			},
 		},
