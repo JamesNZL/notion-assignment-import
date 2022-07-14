@@ -1,17 +1,13 @@
 @use 'themes/_light-mode';
 
 :root {
-	// Shadow multiplier
-	--shadow-multiplier: #{light-mode.$shadow-multiplier};
-
 	// Main palette
 	--background: #{light-mode.$background};
 	--surface: #{light-mode.$surface};
 	--element: #{light-mode.$element};
 	--element-hover: #{light-mode.$element-hover};
 	--element-active: #{light-mode.$element-active};
-	// TODO: calculate @ custom property declaration
-	--element-shadow: #{light-mode.$element-shadow};
+	--element-shadow: rgba(#{light-mode.$element}, calc(#{light-mode.$shadow-multiplier} * 0.5));
 
 	// Scrollbars
 	--scrollbar: #{light-mode.$scrollbar};
@@ -23,20 +19,19 @@
 
 	// Borders and shadows
 	--element-border-colour: #{light-mode.$element-border-colour};
+	--shadow-multiplier: #{light-mode.$shadow-multiplier};
 
 	// Coloured buttons
 	--green: #{light-mode.$green};
 	--green-hover: #{light-mode.$green-hover};
 	--green-active: #{light-mode.$green-active};
-	// TODO: calculate @ custom property declaration
-	--green-shadow: #{light-mode.$green-shadow};
+	--green-shadow: rgba(#{light-mode.$green}, calc(#{light-mode.$shadow-multiplier} * 0.275));
 	--green-text-colour: #{light-mode.$green-text-colour};
 
 	--red: #{light-mode.$red};
 	--red-hover: #{light-mode.$red-hover};
 	--red-active: #{light-mode.$red-active};
-	// TODO: calculate @ custom property declaration
-	--red-shadow: #{light-mode.$red-shadow};
+	--red-shadow: rgba(#{light-mode.$red}, calc(#{light-mode.$shadow-multiplier} * 0.175));
 	--red-text-colour: #{light-mode.$red-text-colour};
 
 	// Text
