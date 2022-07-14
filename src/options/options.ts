@@ -428,17 +428,35 @@ const buttons: {
 	},
 };
 
+/*
+ *
+ * Initial Load
+ *
+ */
+
+/*
+ * Display Theme
+ */
+
 // set display theme
 Storage.getOptions().then(({ extension: { displayTheme } }) => {
 	if (!displayTheme) return;
 	document.documentElement.classList.add(`${displayTheme}-mode`);
 });
 
+/*
+ * Toggle Dependents
+ */
+
 // toggle dependents if appropriate
 Object.values(CONFIGURATION.FIELDS).forEach(({ input, dependents }) => {
 	if (!dependents) return;
 	input.toggleDependents(dependents);
 });
+
+/*
+ * OAuth
+ */
 
 if (!OAuth2.isIdentitySupported) {
 	buttons.oauth.hide();
@@ -457,6 +475,10 @@ Storage.getNotionAuthorisation().then(async ({ accessToken }) => {
 	DatabaseSelect.populate();
 	DatabaseSelect.show();
 });
+
+/*
+ * DOMContentLoaded
+ */
 
 document.addEventListener('DOMContentLoaded', async () => {
 	KeyValueGroup.getInstance<OptionsElementId>('course-code-overrides-group', 'course-code-overrides-canvas', 'course-code-overrides-notion')
@@ -480,6 +502,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 	// show advanced options if appropriate
 	AdvancedOptions.toggle();
 });
+
+/*
+ * Input Listeners
+ */
 
 // add event listener to advanced options toggle
 AdvancedOptions.control?.addEventListener('input', AdvancedOptions.toggle.bind(AdvancedOptions));
@@ -551,6 +577,10 @@ document.addEventListener('keydown', keyEvent => {
 	keyEvent.preventDefault();
 	OptionsPage.saveOptions();
 });
+
+/*
+ * Konami
+ */
 
 const Konami = {
 	pattern: <const>['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'],
