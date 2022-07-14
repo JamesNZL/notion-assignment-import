@@ -1,4 +1,4 @@
-import { Input, KeyValueGroup } from '../elements';
+import { Input, KeyValueGroup, SegmentedControl } from '../elements';
 
 import { NullIfEmpty, SavedFields, SavedOptions } from './';
 import {
@@ -12,7 +12,6 @@ import {
 } from './validator';
 
 import { valueof } from '../types/utils';
-import { SegmentedControl } from '../elements/SegmentedControl';
 
 export type SupportedTypes = NullIfEmpty<string> | boolean;
 
