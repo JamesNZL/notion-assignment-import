@@ -9,10 +9,21 @@
 	}
 }
 
-:root.dark-mode {
-	@include generate-variables(dark-mode.$theme);
+:root {
+	@include generate-variables(light-mode.$theme);
 }
 
-:root.light-mode {
-	@include generate-variables(light-mode.$theme);
+@media (prefers-color-scheme: dark) {
+	:root {
+		@include generate-variables(dark-mode.$theme);
+	}
+}
+
+@each $mode,
+$theme in ('dark': dark-mode.$theme,
+	'light': light-mode.$theme,
+) {
+	:root.#{$mode}-mode {
+		@include generate-variables($theme);
+	}
 }
