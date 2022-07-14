@@ -44,8 +44,6 @@ interface OptionsElements {
 	};
 	elements: {
 		advancedOptions: 'advanced-options';
-		advancedOptionsSegmentedControl: 'display-advanced-options';
-		advancedOptionsHide: 'hide-advanced-options';
 		courseCodesGroup: 'course-code-overrides-group';
 		courseCodesCanvas: 'course-code-overrides-canvas';
 		courseCodesNotion: 'course-code-overrides-notion';
@@ -171,27 +169,24 @@ const OptionsPage = <const>{
 
 const AdvancedOptions = <const>{
 	element: Element.getInstance<OptionsElementId>('advanced-options', 'advanced options'),
-	control: Element.getInstance<OptionsElementId>('display-advanced-options', 'advanced options control'),
-	showInput: CONFIGURATION.FIELDS['options.displayAdvanced'].input,
-	hideInput: Input.getInstance<OptionsElementId>('hide-advanced-options'),
+	control: CONFIGURATION.FIELDS['options.displayAdvanced'].input,
 
 	show() {
-		this.element.removeClass('hidden');
+		this.element.show();
 	},
 
 	hide() {
-		this.element.addClass('hidden');
-		this.hideInput.setValue(true, false);
+		this.element.hide();
 	},
 
-	toggle(display: boolean) {
-		(display)
+	toggle() {
+		(this.control.getValue())
 			? this.show()
 			: this.hide();
 	},
 
 	dispatchInputEvent() {
-		this.control.dispatchEvent(new Event('input', { bubbles: true }));
+		this.control.dispatchInputEvent();
 	},
 };
 
@@ -433,9 +428,6 @@ const buttons: {
 	},
 };
 
-// show advanced options if appropriate
-Storage.getOptions().then(({ options: { displayAdvanced } }) => AdvancedOptions.toggle(displayAdvanced));
-
 // toggle dependents if appropriate
 Object.values(CONFIGURATION.FIELDS).forEach(({ input, dependents }) => {
 	if (!dependents) return;
@@ -478,15 +470,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 	await OptionsPage.restoreOptions();
 
 	Object.values(buttons.restore).forEach(button => button.toggle());
+
+	// show advanced options if appropriate
+	AdvancedOptions.toggle();
 });
 
 // add event listener to advanced options toggle
-AdvancedOptions.control?.addEventListener('input', () => {
-	AdvancedOptions.toggle(Boolean(AdvancedOptions.showInput.getValue()));
-
-	AdvancedOptions.showInput.dispatchInputEvent(false);
-	AdvancedOptions.hideInput.dispatchInputEvent(false);
-});
+AdvancedOptions.control?.addEventListener('input', AdvancedOptions.toggle.bind(AdvancedOptions));
 
 // validate fields on input
 Object.values(CONFIGURATION.FIELDS)
@@ -567,10 +557,10 @@ const Konami = {
 
 		this.currentIndex++;
 
-		if (this.currentIndex !== this.pattern.length || !AdvancedOptions.control) return;
+		if (this.currentIndex !== this.pattern.length) return;
 
 		this.currentIndex = 0;
-		AdvancedOptions.showInput.setValue(true);
+		AdvancedOptions.control.setValue(true);
 	},
 };
 
