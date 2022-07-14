@@ -1,0 +1,110 @@
+/* 
+ * Theme Map
+ */
+
+@function generate-map($_background,
+	$_surface,
+	$_element,
+	$_element-hover,
+	$_element-active,
+	$_scrollbar,
+	$_surface-scrollbar,
+	$_element-scrollbar,
+	$_scrollbar-hover,
+	$_surface-scrollbar-hover,
+	$_element-scrollbar-hover,
+	$_element-border-colour,
+	$_shadow-multiplier,
+	$_green,
+	$_green-hover,
+	$_green-active,
+	$_green-text-colour,
+	$_red,
+	$_red-hover,
+	$_red-active,
+	$_red-text-colour,
+	$_text-colour,
+	$_subdued-heading-colour,
+	$_subdued-text-colour,
+	$_code-text-colour,
+	$_link-text-colour,
+	$_link-text-hover-colour,
+) {
+	@return ( // Main palette
+		'background': $_background,
+		'surface': $_surface,
+		'element': $_element,
+		'element-hover': $_element-hover,
+		'element-active': $_element-active,
+		'element-shadow': rgba($_element, calc($_shadow-multiplier * 0.5)),
+
+		// Scrollbars
+		'scrollbar': $_scrollbar,
+		'surface-scrollbar': $_surface-scrollbar,
+		'element-scrollbar': $_element-scrollbar,
+		'scrollbar-hover': $_scrollbar-hover,
+		'surface-scrollbar-hover': $_surface-scrollbar-hover,
+		'element-scrollbar-hover': $_element-scrollbar-hover,
+
+		// Borders and shadows
+		'element-border-colour': $_element-border-colour,
+		'shadow-multiplier': $_shadow-multiplier,
+
+		// Coloured buttons
+		'green': $_green,
+		'green-hover': $_green-hover,
+		'green-active': $_green-active,
+		'green-shadow': rgba($_green, calc($_shadow-multiplier * 0.275)),
+		'green-text-colour': $_green-text-colour,
+
+		'red': $_red,
+		'red-hover': $_red-hover,
+		'red-active': $_red-active,
+		'red-shadow': rgba($_red, calc($_shadow-multiplier * 0.175)),
+		'red-text-colour': $_red-text-colour,
+
+		// Text
+		'text-colour': $_text-colour,
+		'subdued-heading-colour': $_subdued-heading-colour,
+		'subdued-text-colour': $_subdued-text-colour,
+		'code-text-colour': $_code-text-colour,
+		'link-text-colour': $_link-text-colour,
+		'link-text-hover-colour': $_link-text-hover-colour,
+	);
+}
+
+/* 
+ * Usage
+ *
+@use '_theme-map';
+
+$theme: theme-map.generate-map($_background: $_background,
+		$_surface: $_surface,
+		$_element: $_element,
+		$_element-hover: $_element-hover,
+		$_element-active: $_element-active,
+		$_scrollbar: $_scrollbar,
+		$_surface-scrollbar: $_surface-scrollbar,
+		$_element-scrollbar: $_element-scrollbar,
+		$_scrollbar-hover: $_scrollbar-hover,
+		$_surface-scrollbar-hover: $_surface-scrollbar-hover,
+		$_element-scrollbar-hover: $_element-scrollbar-hover,
+		$_element-border-colour: $_element-border-colour,
+		$_shadow-multiplier: $_shadow-multiplier,
+		$_green: $_green,
+		$_green-hover: $_green-hover,
+		$_green-active: $_green-active,
+		$_green-text-colour: $_green-text-colour,
+		$_red: $_red,
+		$_red-hover: $_red-hover,
+		$_red-active: $_red-active,
+		$_red-text-colour: $_red-text-colour,
+		$_text-colour: $_text-colour,
+		$_subdued-heading-colour: $_subdued-heading-colour,
+		$_subdued-text-colour: $_subdued-text-colour,
+		$_code-text-colour: $_code-text-colour,
+		$_link-text-colour: $_link-text-colour,
+		$_link-text-hover-colour: $_link-text-hover-colour,
+	);
+ *
+ */

@@ -1,0 +1,72 @@
+/* 
+ * Light Mode Theme
+ */
+
+// Main palette
+$_background: hsl(0, 0%, 98%);
+$_surface: hsl(0, 0%, 94%);
+$_element: hsl(0, 0%, 97.5%);
+$_element-hover: hsl(0, 0%, 100%);
+$_element-active: hsl(0, 0%, 90%);
+
+// Scrollbars
+$_scrollbar: darken($_background, 20%);
+$_surface-scrollbar: darken($_surface, 10%);
+$_element-scrollbar: darken($_element, 10%);
+$_scrollbar-hover: darken($_scrollbar, 10%);
+$_surface-scrollbar-hover: darken($_surface-scrollbar, 7.5%);
+$_element-scrollbar-hover: darken($_element-scrollbar, 7.5%);
+
+// Borders and shadows
+$_element-border-colour: rgba(#000000, 0.0625);
+$_shadow-multiplier: 0.475;
+
+// Coloured buttons
+$_green: hsl(92.5, 60%, 40%);
+$_green-hover: hsl(92.5, 72%, 32%);
+$_green-active: hsl(92.5, 74%, 28%);
+$_green-text-colour: white;
+
+$_red: hsl(0, 100%, 38%);
+$_red-hover: hsl(0, 100%, 32%);
+$_red-active: hsl(0, 75%, 29%);
+$_red-text-colour: white;
+
+// Text
+$_text-colour: #000000;
+$_subdued-heading-colour: #282828;
+$_subdued-text-colour: #000000;
+$_code-text-colour: rgba($_subdued-text-colour, 0.7);
+$_link-text-colour: rgba($_text-colour, 0.5);
+$_link-text-hover-colour: rgba($_text-colour, 0.75);
+
+@use '_theme-map';
+
+$theme: theme-map.generate-map($_background: $_background,
+		$_surface: $_surface,
+		$_element: $_element,
+		$_element-hover: $_element-hover,
+		$_element-active: $_element-active,
+		$_scrollbar: $_scrollbar,
+		$_surface-scrollbar: $_surface-scrollbar,
+		$_element-scrollbar: $_element-scrollbar,
+		$_scrollbar-hover: $_scrollbar-hover,
+		$_surface-scrollbar-hover: $_surface-scrollbar-hover,
+		$_element-scrollbar-hover: $_element-scrollbar-hover,
+		$_element-border-colour: $_element-border-colour,
+		$_shadow-multiplier: $_shadow-multiplier,
+		$_green: $_green,
+		$_green-hover: $_green-hover,
+		$_green-active: $_green-active,
+		$_green-text-colour: $_green-text-colour,
+		$_red: $_red,
+		$_red-hover: $_red-hover,
+		$_red-active: $_red-active,
+		$_red-text-colour: $_red-text-colour,
+		$_text-colour: $_text-colour,
+		$_subdued-heading-colour: $_subdued-heading-colour,
+		$_subdued-text-colour: $_subdued-text-colour,
+		$_code-text-colour: $_code-text-colour,
+		$_link-text-colour: $_link-text-colour,
+		$_link-text-hover-colour: $_link-text-hover-colour,
+	);

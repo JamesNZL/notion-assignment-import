@@ -24,6 +24,25 @@
 	<div>
 		<h1>Extension Options</h1>
 
+		<h3>Appearance</h3>
+		<div class='tile'>
+			<div>
+				<label class='required' for='display-theme'>Theme</label>
+				<div class='segmented-control-wrapper'>
+					<div class='segmented-control-triple row' id='display-theme'>
+						<input checked type='radio' name='display-theme' value='display-system-mode' id='display-system-mode'>
+						<label for='display-system-mode'>System</label>
+
+						<input type='radio' name='display-theme' value='display-light-mode' id='display-light-mode'>
+						<label for='display-light-mode'>Light</label>
+
+						<input type='radio' name='display-theme' value='display-dark-mode' id='display-dark-mode'>
+						<label for='display-dark-mode'>Dark</label>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<h3>Options Page</h3>
 		<div class='tile'>
 			<div>
@@ -52,7 +71,7 @@
 	</div>
 
 	<div id='advanced-options' class='hidden'>
-		<h3>Popup</h3>
+		<h3>Extension Popup</h3>
 		<div class='tile'>
 			<div>
 				<label class='required' for='display-json-button'>Display 'Copy <code>JSON</code>' button</label>
