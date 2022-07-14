@@ -12,6 +12,7 @@ import {
 } from './validator';
 
 import { valueof } from '../types/utils';
+import { SegmentedControl } from '../elements/SegmentedControl';
 
 export type SupportedTypes = NullIfEmpty<string> | boolean;
 
@@ -36,7 +37,6 @@ interface Dependable {
 interface Subscribable {
 	addEventListener(...args: Parameters<typeof HTMLElement.prototype.addEventListener>): void;
 	dispatchInputEvent(bubbles?: boolean): void;
-
 }
 
 interface HasPlaceholder {
@@ -68,6 +68,7 @@ type IncompleteFieldKey<K extends string> = K extends keyof SavedFields
 
 interface InputElements {
 	'timeZone': 'timezone';
+	'extension.displayTheme': 'display-theme';
 	'popup.displayJSONButton': 'show-json-button';
 	'options.displayAdvanced': 'show-advanced-options';
 	'canvas.classNames.breadcrumbs': 'breadcrumbs';
@@ -129,6 +130,15 @@ export const CONFIGURATION: {
 			get input() {
 				delete (<Partial<typeof this>>this).input;
 				return this.input = Input.getInstance<InputElementId>('timezone', 'input', TimeZoneField);
+			},
+		},
+		extension: {
+			displayTheme: {
+				defaultValue: 'SYSTEM',
+				get input() {
+					delete (<Partial<typeof this>>this).input;
+					return this.input = SegmentedControl.getInstance<InputElementId>('display-theme', 'input');
+				},
 			},
 		},
 		popup: {
