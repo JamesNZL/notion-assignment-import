@@ -1,4 +1,7 @@
-@use '_variables';
+@use '_configuration';
+// TODO: custom properties
+@use '_light-mode';
+
 @use '_popup';
 @use '_options';
 
@@ -12,7 +15,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: variables.$scrollbar;
+	background-color: light-mode.$scrollbar;
 	border-radius: 10px;
 	cursor: pointer;
 	border: 3px solid transparent;
@@ -21,7 +24,7 @@
 	max-height: 60%;
 
 	&:hover {
-		background-color: variables.$scrollbar-hover;
+		background-color: light-mode.$scrollbar-hover;
 	}
 }
 
@@ -38,8 +41,8 @@
 }
 
 html {
-	background-color: variables.$background;
-	color: variables.$text-colour;
+	background-color: light-mode.$background;
+	color: light-mode.$text-colour;
 	font-family: ui-sans-serif,
 		system-ui,
 		-apple-system,
@@ -65,16 +68,16 @@ html {
 h2 {
 	font-size: 1.45em;
 	letter-spacing: 0.025em;
-	padding-inline-start: calc(0.125 * variables.$border-radius);
+	padding-inline-start: calc(0.125 * configuration.$border-radius);
 }
 
 h3 {
-	color: variables.$subdued-heading-colour;
+	color: light-mode.$subdued-heading-colour;
 	font-size: 1.15em;
 	margin-block-start: 0.83em;
 	margin-block-end: 0.23rem;
 	letter-spacing: 0.05em;
-	padding-inline-start: calc(0.125 * variables.$border-radius);
+	padding-inline-start: calc(0.125 * configuration.$border-radius);
 }
 
 h2,
@@ -83,11 +86,11 @@ h3 {
 }
 
 a {
-	color: rgba(variables.$text-colour, 0.5);
+	color: rgba(light-mode.$text-colour, 0.5);
 	text-decoration: none;
 
 	&:hover {
-		color: rgba(variables.$text-colour, 0.75);
+		color: rgba(light-mode.$text-colour, 0.75);
 	}
 }
 
@@ -95,7 +98,7 @@ a {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
-	gap: calc(2 * variables.$margin);
+	gap: calc(2 * configuration.$margin);
 	width: 100%;
 
 	&>* {
@@ -111,11 +114,11 @@ a {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
-	gap: calc(3 * variables.$margin);
-	background-color: variables.$surface;
-	border-radius: variables.$border-radius;
-	margin: variables.$margin 0;
-	padding: calc(4 * variables.$margin);
+	gap: calc(3 * configuration.$margin);
+	background-color: light-mode.$surface;
+	border-radius: configuration.$border-radius;
+	margin: configuration.$margin 0;
+	padding: calc(4 * configuration.$margin);
 
 	&>* {
 		height: 100%;
@@ -131,7 +134,7 @@ a {
 	position: absolute;
 	left: 24px;
 	vertical-align: middle;
-	fill: variables.$subdued-text-colour;
+	fill: light-mode.$subdued-text-colour;
 	width: 16px;
 	height: 16px;
 }
@@ -150,7 +153,7 @@ a {
 @mixin coloured-button($options) {
 	color: map-get($options, 'text');
 	background-color: map-get($options, 'background');
-	border: variables.$border-width solid variables.$element-border-colour;
+	border: configuration.$border-width solid light-mode.$element-border-colour;
 
 	&:hover,
 	&:focus-visible {
@@ -170,8 +173,8 @@ a {
 	@include coloured-button($options);
 
 	&.hover {
-		@include coloured-button(('text': variables.$text-colour,
-				'background': variables.$element,
+		@include coloured-button(('text': light-mode.$text-colour,
+				'background': light-mode.$element,
 				'text-hover': map-get($options, 'text-hover'),
 				'background-hover': map-get($options, 'background-hover'),
 				'shadow': map-get($options, 'shadow'),
@@ -181,7 +184,7 @@ a {
 
 		&.emphasis {
 			@include coloured-button(('text': map-get($options, 'background'),
-					'background': variables.$element,
+					'background': light-mode.$element,
 					'text-hover': map-get($options, 'text-hover'),
 					'background-hover': map-get($options, 'background-hover'),
 					'shadow': map-get($options, 'shadow'),
@@ -203,7 +206,7 @@ a {
 				'background-active': map-get($options, 'background-active'),
 			));
 
-		padding: calc(variables.$button-padding + variables.$border-width);
+		padding: calc(configuration.$button-padding + configuration.$border-width);
 		border-color: map-get($options, 'background');
 		font-weight: 600;
 	}
@@ -211,31 +214,31 @@ a {
 	&.emphasis {
 		font-weight: 700;
 		padding: 10px;
-		margin: calc(0.0625em + variables.$margin) 0;
+		margin: calc(0.0625em + configuration.$margin) 0;
 	}
 }
 
 .button {
-	@include coloured-button-group(('text': variables.$text-colour,
-			'background': variables.$element,
-			'text-hover': variables.$text-colour,
-			'background-hover': variables.$element-hover,
-			'shadow': rgba(variables.$element, calc(variables.$shadow-multiplier * 0.5)),
-			'text-active': variables.$text-colour,
-			'background-active': variables.$element-active,
+	@include coloured-button-group(('text': light-mode.$text-colour,
+			'background': light-mode.$element,
+			'text-hover': light-mode.$text-colour,
+			'background-hover': light-mode.$element-hover,
+			'shadow': rgba(light-mode.$element, calc(light-mode.$shadow-multiplier * 0.5)),
+			'text-active': light-mode.$text-colour,
+			'background-active': light-mode.$element-active,
 		));
 
 	position: relative;
 	cursor: pointer;
 	user-select: none;
-	margin: variables.$margin 0;
-	padding: variables.$button-padding;
+	margin: configuration.$margin 0;
+	padding: configuration.$button-padding;
 	display: inline-block;
 	text-align: center;
 	font-family: inherit;
 	font-size: 0.825rem;
 	text-decoration: none;
-	border-radius: variables.$border-radius;
+	border-radius: configuration.$border-radius;
 	box-sizing: border-box;
 	transition: color 0.15s ease-in-out,
 		background-color 0.15s ease-in-out,
@@ -247,37 +250,37 @@ a {
 	}
 
 	&.accent {
-		@include coloured-button-group(('text': variables.$accent-text-colour,
-				'background': variables.$accent,
-				'text-hover': variables.$accent-text-colour,
-				'background-hover': variables.$accent-complement,
-				'shadow': rgba(variables.$accent-complement, calc(variables.$shadow-multiplier * 0.175)),
-				'text-active': variables.$accent-text-colour,
-				'background-active': variables.$accent,
+		@include coloured-button-group(('text': configuration.$accent-text-colour,
+				'background': configuration.$accent,
+				'text-hover': configuration.$accent-text-colour,
+				'background-hover': configuration.$accent-complement,
+				'shadow': rgba(configuration.$accent-complement, calc(light-mode.$shadow-multiplier * 0.175)),
+				'text-active': configuration.$accent-text-colour,
+				'background-active': configuration.$accent,
 			));
 	}
 
 	&.green {
-		@include coloured-button-group(('text': variables.$green-text-colour,
-				'background': variables.$green,
-				'text-hover': variables.$green-text-colour,
-				'background-hover': variables.$green-hover,
-				'shadow': rgb(variables.$green, calc(variables.$shadow-multiplier * 0.275)),
-				'text-active': variables.$green-text-colour,
-				'background-active': variables.$green-active,
+		@include coloured-button-group(('text': light-mode.$green-text-colour,
+				'background': light-mode.$green,
+				'text-hover': light-mode.$green-text-colour,
+				'background-hover': light-mode.$green-hover,
+				'shadow': rgb(light-mode.$green, calc(light-mode.$shadow-multiplier * 0.275)),
+				'text-active': light-mode.$green-text-colour,
+				'background-active': light-mode.$green-active,
 			));
 
 		font-weight: 600;
 	}
 
 	&.red {
-		@include coloured-button-group(('text': variables.$red-text-colour,
-				'background': variables.$red,
-				'text-hover': variables.$red-text-colour,
-				'background-hover': variables.$red-hover,
-				'shadow': rgba(red, calc(variables.$shadow-multiplier * 0.15)),
-				'text-active': variables.$red-text-colour,
-				'background-active': variables.$red-active,
+		@include coloured-button-group(('text': light-mode.$red-text-colour,
+				'background': light-mode.$red,
+				'text-hover': light-mode.$red-text-colour,
+				'background-hover': light-mode.$red-hover,
+				'shadow': rgba(red, calc(light-mode.$shadow-multiplier * 0.15)),
+				'text-active': light-mode.$red-text-colour,
+				'background-active': light-mode.$red-active,
 			));
 	}
 
@@ -290,7 +293,7 @@ label {
 	&:not(.button label, .segmented-control label) {
 		text-transform: uppercase;
 		letter-spacing: 0.06em;
-		color: variables.$subdued-text-colour;
+		color: light-mode.$subdued-text-colour;
 		font-weight: 500;
 		margin-inline-start: 20px;
 		font-size: 0.75rem;
@@ -322,7 +325,7 @@ label {
 		&>input,
 		&>textarea,
 		&>select {
-			margin-top: calc(2 * variables.$margin);
+			margin-top: calc(2 * configuration.$margin);
 		}
 	}
 
@@ -334,30 +337,30 @@ label {
 input,
 textarea,
 select {
-	margin-top: calc(2 * variables.$margin);
-	margin-bottom: calc(5 * variables.$margin);
+	margin-top: calc(2 * configuration.$margin);
+	margin-bottom: calc(5 * configuration.$margin);
 	padding: 8px 20px;
 	align-items: center;
 	font-family: monospace;
 	font-size: 0.75rem;
-	background-color: variables.$element;
-	color: variables.$subdued-text-colour;
-	border-radius: variables.$border-radius;
-	border: variables.$border-width solid variables.$element-border-colour;
+	background-color: light-mode.$element;
+	color: light-mode.$subdued-text-colour;
+	border-radius: configuration.$border-radius;
+	border: configuration.$border-width solid light-mode.$element-border-colour;
 	box-sizing: border-box;
 	transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
 	&::-webkit-scrollbar-thumb {
-		background-color: variables.$element-scrollbar;
+		background-color: light-mode.$element-scrollbar;
 
 		&:hover {
-			background-color: variables.$element-scrollbar-hover;
+			background-color: light-mode.$element-scrollbar-hover;
 		}
 	}
 
 	&:focus {
-		box-shadow: 0 0 0 0.2rem rgba(variables.$element, calc(variables.$shadow-multiplier * 0.5));
-		background-color: variables.$element-hover;
+		box-shadow: 0 0 0 0.2rem rgba(light-mode.$element, calc(light-mode.$shadow-multiplier * 0.5));
+		background-color: light-mode.$element-hover;
 	}
 
 	&:focus-visible {
@@ -365,10 +368,10 @@ select {
 	}
 
 	&.invalid-input {
-		box-shadow: 0 0 0 0.2rem rgba(red, calc(variables.$shadow-multiplier * 0.275));
+		box-shadow: 0 0 0 0.2rem rgba(red, calc(light-mode.$shadow-multiplier * 0.275));
 
 		&:focus {
-			box-shadow: 0 0 0 0.2rem rgba(red, calc(variables.$shadow-multiplier * 0.15));
+			box-shadow: 0 0 0 0.2rem rgba(red, calc(light-mode.$shadow-multiplier * 0.15));
 		}
 	}
 }
@@ -377,14 +380,14 @@ textarea {
 	min-height: 75px;
 	min-width: 100%;
 	max-width: 100%;
-	border-radius: variables.$border-radius;
+	border-radius: configuration.$border-radius;
 	text-align: center;
 }
 
 .invalid-input-error,
 .validating-input-status {
 	display: block;
-	margin-block-start: calc(1.5 * variables.$margin);
+	margin-block-start: calc(1.5 * configuration.$margin);
 	margin-block-end: 0.125em;
 	margin-inline-start: 20px;
 }
@@ -398,8 +401,8 @@ textarea {
 }
 
 .segmented-control-wrapper {
-	padding-top: calc(2.5 * variables.$margin);
-	padding-bottom: calc(4 * variables.$margin);
+	padding-top: calc(2.5 * configuration.$margin);
+	padding-bottom: calc(4 * configuration.$margin);
 
 	.segmented-control {
 		display: flex;
@@ -408,15 +411,15 @@ textarea {
 		user-select: none;
 		z-index: 1;
 		border: 0;
-		border-radius: variables.$border-radius;
-		background-color: variables.$element;
-		color: variables.$text-colour;
+		border-radius: configuration.$border-radius;
+		background-color: light-mode.$element;
+		color: light-mode.$text-colour;
 
 		&>input {
 			display: none;
 
 			&:checked+label {
-				color: variables.$accent-complement;
+				color: configuration.$accent-complement;
 				font-weight: 700;
 			}
 
@@ -426,21 +429,21 @@ textarea {
 
 			&:nth-of-type(1) {
 				&:checked~label:last-of-type:before {
-					transform: translateX(calc(-1 * variables.$border-width));
+					transform: translateX(calc(-1 * configuration.$border-width));
 				}
 
 				&:active~label:last-of-type:before {
-					transform: translateX(calc(-1 * variables.$border-width));
+					transform: translateX(calc(-1 * configuration.$border-width));
 				}
 			}
 
 			&:nth-of-type(2) {
 				&:checked~label:last-of-type:before {
-					transform: translateX(calc(100% - 3 * variables.$border-width));
+					transform: translateX(calc(100% - 3 * configuration.$border-width));
 				}
 
 				&:active~label:last-of-type:before {
-					transform: translateX(calc(100% - 3 * variables.$border-width));
+					transform: translateX(calc(100% - 3 * configuration.$border-width));
 				}
 			}
 		}
@@ -449,12 +452,12 @@ textarea {
 			flex: 1;
 			text-align: center;
 			text-overflow: ellipsis;
-			color: variables.$subdued-text-colour;
+			color: light-mode.$subdued-text-colour;
 			white-space: nowrap;
 			overflow: hidden;
 			cursor: pointer;
-			padding: calc(variables.$button-padding + variables.$border-width);
-			border-radius: variables.$border-radius;
+			padding: calc(configuration.$button-padding + configuration.$border-width);
+			border-radius: configuration.$border-radius;
 
 			&:last-of-type:before {
 				content: '';
@@ -472,8 +475,8 @@ textarea {
 
 			&:before {
 				transition: all 250ms cubic-bezier(0, 0.95, 0.38, 0.98);
-				border-radius: variables.$border-radius;
-				border: variables.$border-width solid variables.$accent
+				border-radius: configuration.$border-radius;
+				border: configuration.$border-width solid configuration.$accent
 			}
 		}
 	}

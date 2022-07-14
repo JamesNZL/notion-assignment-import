@@ -1,4 +1,6 @@
-@use '_variables';
+@use '_configuration';
+// TODO: custom properties
+@use '_light-mode';
 
 html#popup {
 	max-height: 600px;
@@ -22,18 +24,18 @@ html#popup {
 	#options-icon {
 		width: fit-content;
 		height: fit-content;
-		margin-inline-end: calc(0.125 * variables.$border-radius);
+		margin-inline-end: calc(0.125 * configuration.$border-radius);
 		margin-top: 0.36rem;
 		cursor: pointer;
 
 		svg {
-			fill: variables.$accent;
+			fill: configuration.$accent;
 			width: 18px;
 			height: 18px;
 		}
 
 		&:hover svg {
-			fill: variables.$accent-complement;
+			fill: configuration.$accent-complement;
 		}
 	}
 
@@ -59,24 +61,24 @@ html#popup {
 
 		#saved-courses-list {
 			flex: 1 auto;
-			color: variables.$subdued-text-colour;
+			color: light-mode.$subdued-text-colour;
 			min-height: 0;
 			overflow-y: scroll;
 			margin: 0;
-			margin-bottom: min(calc(1.75 * variables.$margin), 0.5rem);
+			margin-bottom: min(calc(1.75 * configuration.$margin), 0.5rem);
 
 			&::-webkit-scrollbar-thumb {
-				background-color: variables.$surface-scrollbar;
+				background-color: light-mode.$surface-scrollbar;
 
 				&:hover {
-					background-color: variables.$surface-scrollbar-hover;
+					background-color: light-mode.$surface-scrollbar-hover;
 				}
 			}
 
 			p.code {
-				margin: calc(0.5 * variables.$margin) calc(1em + variables.$margin);
+				margin: calc(0.5 * configuration.$margin) calc(1em + configuration.$margin);
 				word-break: break-word;
-				color: rgba(variables.$subdued-text-colour, 0.6);
+				color: rgba(light-mode.$subdued-text-colour, 0.6);
 			}
 
 			ol {
@@ -85,18 +87,18 @@ html#popup {
 
 				&>li {
 					font-size: 14px;
-					margin-block: calc(0.5 * variables.$margin);
+					margin-block: calc(0.5 * configuration.$margin);
 				}
 
 				ul {
 					padding-inline-start: 21px;
-					margin-block: calc(2.5 * variables.$margin);
+					margin-block: calc(2.5 * configuration.$margin);
 					list-style: '-   ';
 				}
 			}
 
 			strong {
-				color: variables.$subdued-heading-colour;
+				color: light-mode.$subdued-heading-colour;
 				font-weight: 600;
 			}
 		}

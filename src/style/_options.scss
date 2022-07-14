@@ -1,4 +1,6 @@
-@use '_variables';
+@use '_configuration';
+// TODO: custom properties
+@use '_light-mode';
 
 html#options {
 	margin: auto;
@@ -6,7 +8,7 @@ html#options {
 
 	body {
 		position: relative;
-		top: variables.$navbar-height;
+		top: configuration.$navbar-height;
 		padding-bottom: 2.75rem;
 	}
 
@@ -14,8 +16,8 @@ html#options {
 		position: fixed;
 		display: flex;
 		align-items: center;
-		height: variables.$navbar-height;
-		background-color: variables.$surface;
+		height: configuration.$navbar-height;
+		background-color: light-mode.$surface;
 		top: 0;
 		left: 0;
 		right: 0;
@@ -60,16 +62,16 @@ html#options {
 	}
 
 	.tile {
-		gap: calc(5 * variables.$margin);
-		padding-bottom: calc(4 * variables.$margin + 0.25rem);
+		gap: calc(5 * configuration.$margin);
+		padding-bottom: calc(4 * configuration.$margin + 0.25rem);
 
 		&:not(.hidden)+.button {
-			margin-top: calc(5 * variables.$margin);
+			margin-top: calc(5 * configuration.$margin);
 		}
 	}
 
 	label+.button,
 	div>.button {
-		margin-top: calc(2 * variables.$margin);
+		margin-top: calc(2 * configuration.$margin);
 	}
 }
