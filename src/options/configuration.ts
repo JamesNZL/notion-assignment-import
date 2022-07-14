@@ -140,22 +140,22 @@ export const CONFIGURATION: {
 		},
 		extension: {
 			displayTheme: {
-				defaultValue: 'SYSTEM',
+				defaultValue: null,
 				get input() {
 					delete (<Partial<typeof this>>this).input;
 					return this.input = SegmentedControl.getInstance<InputElementId, typeof this.defaultValue>('display-theme', 'segmented control', [
 						{
 							id: 'display-system-mode',
-							value: 'SYSTEM',
+							value: null,
 							default: true,
 						},
 						{
 							id: 'display-light-mode',
-							value: 'LIGHT',
+							value: 'light',
 						},
 						{
 							id: 'display-dark-mode',
-							value: 'DARK',
+							value: 'dark',
 						},
 					]);
 				},

@@ -6,7 +6,7 @@ type NeverEmpty<T extends string> = T extends '' ? never : T;
 type NullIfEmpty<T extends string | null> = (T extends '' ? null : T) | null;
 
 interface RequiredFields {
-	'extension.displayTheme': NeverEmpty<'SYSTEM' | 'LIGHT' | 'DARK'>;
+	'extension.displayTheme': null | 'light' | 'dark';
 	'popup.displayJSONButton': boolean;
 	'options.displayAdvanced': boolean;
 	'canvas.classNames.breadcrumbs': NeverEmpty<string>;
