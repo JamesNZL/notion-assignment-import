@@ -146,7 +146,7 @@ export const CONFIGURATION: {
 				defaultValue: false,
 				get input() {
 					delete (<Partial<typeof this>>this).input;
-					return this.input = Input.getInstance<InputElementId>('show-json-button', 'input');
+					return this.input = SegmentedControl.getInstance<InputElementId>('show-json-button', 'input');
 				},
 			},
 		},
@@ -155,7 +155,7 @@ export const CONFIGURATION: {
 				defaultValue: false,
 				get input() {
 					delete (<Partial<typeof this>>this).input;
-					return this.input = Input.getInstance<InputElementId>('show-advanced-options', 'input');
+					return this.input = SegmentedControl.getInstance<InputElementId>('show-advanced-options', 'input');
 				},
 			},
 		},
