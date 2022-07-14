@@ -2,12 +2,17 @@
  * Light Mode Theme
  */
 
+// Shadow multiplier
+$shadow-multiplier: 0.4;
+
 // Main palette
 $background: hsl(0, 0%, 98%);
 $surface: hsl(0, 0%, 94%);
 $element: hsl(0, 0%, 97.5%);
 $element-hover: hsl(0, 0%, 100%);
 $element-active: hsl(0, 0%, 90%);
+// TODO: calculate @ custom property declaration
+$element-shadow: rgba($element, calc($shadow-multiplier * 0.5));
 
 // Scrollbars
 $scrollbar: darken($background, 20%);
@@ -19,19 +24,26 @@ $element-scrollbar-hover: darken($element-scrollbar, 7.5%);
 
 // Borders and shadows
 $element-border-colour: rgba(#000000, 0.0625);
-$shadow-multiplier: 0.4;
 
 // Coloured buttons
 $green: hsl(120, 100%, 36%);
 $green-hover: hsl(120, 100%, 39%);
 $green-active: hsl(120, 100%, 42%);
+// TODO: calculate @ custom property declaration
+$green-shadow: rgba($green, calc($shadow-multiplier * 0.275));
 $green-text-colour: white;
+
 $red: #c40000;
 $red-hover: #9e1d1d;
 $red-active: #780000;
+// TODO: calculate @ custom property declaration
+$red-shadow: rgba($red, calc($shadow-multiplier * 0.175));
 $red-text-colour: white;
 
 // Text
 $text-colour: #000000;
 $subdued-heading-colour: #282828;
 $subdued-text-colour: #000000;
+$code-text-colour: rgba($subdued-text-colour, 0.6);
+$link-text-colour: rgba($text-colour, 0.5);
+$link-text-hover-colour: rgba($text-colour, 0.75);

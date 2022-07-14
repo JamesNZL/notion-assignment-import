@@ -78,7 +78,7 @@ html#popup {
 			p.code {
 				margin: calc(0.5 * configuration.$margin) calc(1em + configuration.$margin);
 				word-break: break-word;
-				color: rgba(light-mode.$subdued-text-colour, 0.6);
+				color: light-mode.$code-text-colour;
 			}
 
 			ol {

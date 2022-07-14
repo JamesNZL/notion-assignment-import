@@ -86,11 +86,11 @@ h3 {
 }
 
 a {
-	color: rgba(light-mode.$text-colour, 0.5);
+	color: light-mode.$link-text-colour;
 	text-decoration: none;
 
 	&:hover {
-		color: rgba(light-mode.$text-colour, 0.75);
+		color: light-mode.$link-text-hover-colour;
 	}
 }
 
@@ -223,7 +223,7 @@ a {
 			'background': light-mode.$element,
 			'text-hover': light-mode.$text-colour,
 			'background-hover': light-mode.$element-hover,
-			'shadow': rgba(light-mode.$element, calc(light-mode.$shadow-multiplier * 0.5)),
+			'shadow': light-mode.$element-shadow,
 			'text-active': light-mode.$text-colour,
 			'background-active': light-mode.$element-active,
 		));
@@ -265,7 +265,7 @@ a {
 				'background': light-mode.$green,
 				'text-hover': light-mode.$green-text-colour,
 				'background-hover': light-mode.$green-hover,
-				'shadow': rgb(light-mode.$green, calc(light-mode.$shadow-multiplier * 0.275)),
+				'shadow': light-mode.$green-shadow,
 				'text-active': light-mode.$green-text-colour,
 				'background-active': light-mode.$green-active,
 			));
@@ -278,7 +278,7 @@ a {
 				'background': light-mode.$red,
 				'text-hover': light-mode.$red-text-colour,
 				'background-hover': light-mode.$red-hover,
-				'shadow': rgba(light-mode.$red, calc(light-mode.$shadow-multiplier * 0.175)),
+				'shadow': light-mode.$red-shadow,
 				'text-active': light-mode.$red-text-colour,
 				'background-active': light-mode.$red-active,
 			));
@@ -359,7 +359,7 @@ select {
 	}
 
 	&:focus {
-		box-shadow: 0 0 0 0.2rem rgba(light-mode.$element, calc(light-mode.$shadow-multiplier * 0.5));
+		box-shadow: 0 0 0 0.2rem light-mode.$element-shadow;
 		background-color: light-mode.$element-hover;
 	}
 
