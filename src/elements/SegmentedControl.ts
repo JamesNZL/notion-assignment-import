@@ -3,24 +3,24 @@ import { Input } from './Input';
 
 import { SupportedTypes } from '../options/configuration';
 
-interface Segment {
-	id: string;
+interface Segment<T> {
+	id: T;
 	// TODO: am i able to make this a generic class, and make getInstance play nicely?
 	value: SupportedTypes;
 	default: boolean;
 	showDependents: boolean;
 }
 
-type Segments = (
-	Segment & {
+type Segments<T> = (
+	Segment<T> & {
 		input: Input;
 	}
 )[];
 
 export class SegmentedControl extends Element {
-	private segments: Segments;
+	private segments: Segments<string>;
 
-	private constructor(id: string, type = 'segmented control', segments: Segment[]) {
+	private constructor(id: string, type = 'segmented control', segments: Segment<string>[]) {
 		super(id, type);
 
 		this.segments = segments.map(segment => ({
@@ -29,7 +29,7 @@ export class SegmentedControl extends Element {
 		}));
 	}
 
-	public static override getInstance<T extends string>(id: T, type = 'segmented control', segments?: Segment[]): SegmentedControl {
+	public static override getInstance<T extends string>(id: T, type = 'segmented control', segments?: Segment<T>[]): SegmentedControl {
 		if (!segments) throw new Error(`You must declare the segments for this SegmentedControl ${id}!`);
 
 		return SegmentedControl.instances[id] = (SegmentedControl.instances[id] instanceof SegmentedControl)
