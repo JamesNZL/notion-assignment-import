@@ -76,7 +76,7 @@ class RestoreDefaultsButton extends Button {
 	}
 
 	public static override getInstance<T extends string>(id: T, restoreKeys?: (keyof SavedFields)[]): RestoreDefaultsButton {
-		if (!restoreKeys) throw new Error('Argument restoreKeys must be defined for class Restore(Defauts|Saved)Button!');
+		if (!restoreKeys) throw new Error('Argument restoreKeys must be defined for class Restore(Defaults|Saved)Button!');
 
 		return RestoreDefaultsButton.instances[id] = (RestoreDefaultsButton.instances[id] instanceof RestoreDefaultsButton)
 			? RestoreDefaultsButton.instances[id]
