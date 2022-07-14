@@ -19,17 +19,17 @@ $_element-scrollbar-hover: darken($_element-scrollbar, 7.5%);
 
 // Borders and shadows
 $_element-border-colour: rgba(#000000, 0.0625);
-$_shadow-multiplier: 0.4;
+$_shadow-multiplier: 0.475;
 
 // Coloured buttons
-$_green: hsl(120, 100%, 36%);
-$_green-hover: hsl(120, 100%, 39%);
-$_green-active: hsl(120, 100%, 42%);
+$_green: hsl(92.5, 60%, 40%);
+$_green-hover: hsl(92.5, 72%, 32%);
+$_green-active: hsl(92.5, 74%, 28%);
 $_green-text-colour: white;
 
-$_red: #c40000;
-$_red-hover: #9e1d1d;
-$_red-active: #780000;
+$_red: hsl(0, 100%, 38%);
+$_red-hover: hsl(0, 100%, 32%);
+$_red-active: hsl(0, 75%, 29%);
 $_red-text-colour: white;
 
 // Text
