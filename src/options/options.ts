@@ -428,6 +428,12 @@ const buttons: {
 	},
 };
 
+// set display theme
+Storage.getOptions().then(({ extension: { displayTheme } }) => {
+	if (!displayTheme) return;
+	document.documentElement.classList.add(`${displayTheme}-mode`);
+});
+
 // toggle dependents if appropriate
 Object.values(CONFIGURATION.FIELDS).forEach(({ input, dependents }) => {
 	if (!dependents) return;
