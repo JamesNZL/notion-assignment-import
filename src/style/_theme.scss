@@ -1,3 +1,4 @@
+@use 'themes/_dark-mode';
 @use 'themes/_light-mode';
 
 @mixin generate-variables($theme) {
@@ -12,6 +13,10 @@
 	--red-shadow: rgba(#{map-get($theme, 'red')}, calc(#{map-get($theme, 'shadow-multiplier')} * 0.175));
 }
 
-:root {
+:root.dark-mode {
+	@include generate-variables(dark-mode.$theme);
+}
+
+:root.light-mode {
 	@include generate-variables(light-mode.$theme);
 }
