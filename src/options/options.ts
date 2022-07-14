@@ -173,8 +173,8 @@ const AdvancedOptions = <const>{
 		this.element.hide();
 	},
 
-	toggle() {
-		(this.control.getValue())
+	toggle(display?: boolean) {
+		(display ?? this.control.getValue())
 			? this.show()
 			: this.hide();
 	},
@@ -432,10 +432,12 @@ const buttons: {
  * Display Theme
  */
 
-// set display theme
-Storage.getOptions().then(({ extension: { displayTheme } }) => {
-	if (!displayTheme) return;
-	document.documentElement.classList.add(`${displayTheme}-mode`);
+Storage.getOptions().then(({ extension: { displayTheme }, options: { displayAdvanced } }) => {
+	// set display theme
+	if (displayTheme) document.documentElement.classList.add(`${displayTheme}-mode`);
+
+	// show advanced options if appropriate
+	AdvancedOptions.toggle(displayAdvanced);
 });
 
 /*
@@ -492,9 +494,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 	await OptionsPage.restoreOptions();
 
 	Object.values(buttons.restore).forEach(button => button.toggle());
-
-	// show advanced options if appropriate
-	AdvancedOptions.toggle();
 });
 
 /*
@@ -516,7 +515,7 @@ CONFIGURATION.FIELDS['extension.displayTheme'].input.addEventListener('input', (
 });
 
 // add event listener to advanced options toggle
-AdvancedOptions.control?.addEventListener('input', AdvancedOptions.toggle.bind(AdvancedOptions));
+AdvancedOptions.control?.addEventListener('input', () => AdvancedOptions.toggle());
 
 // validate fields on input
 Object.values(CONFIGURATION.FIELDS)
