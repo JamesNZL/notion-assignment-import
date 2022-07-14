@@ -36,6 +36,7 @@
 		'element': $_element,
 		'element-hover': $_element-hover,
 		'element-active': $_element-active,
+		'element-shadow': rgba($_element, calc($_shadow-multiplier * 0.5)),
 
 		// Scrollbars
 		'scrollbar': $_scrollbar,
@@ -53,11 +54,13 @@
 		'green': $_green,
 		'green-hover': $_green-hover,
 		'green-active': $_green-active,
+		'green-shadow': rgba($_green, calc($_shadow-multiplier * 0.275)),
 		'green-text-colour': $_green-text-colour,
 
 		'red': $_red,
 		'red-hover': $_red-hover,
 		'red-active': $_red-active,
+		'red-shadow': rgba($_red, calc($_shadow-multiplier * 0.175)),
 		'red-text-colour': $_red-text-colour,
 
 		// Text
