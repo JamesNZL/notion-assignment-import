@@ -1,13 +1,17 @@
 @use 'themes/_light-mode';
 
-:root {
+@mixin generate-variables($theme) {
 
 	@each $name,
-	$value in light-mode.$theme {
+	$value in $theme {
 		--#{$name}: #{$value};
 	}
 
-	--element-shadow: rgba(#{map-get(light-mode.$theme, 'element')}, calc(#{map-get(light-mode.$theme, 'shadow-multiplier')} * 0.5));
-	--green-shadow: rgba(#{map-get(light-mode.$theme, 'green')}, calc(#{map-get(light-mode.$theme, 'shadow-multiplier')} * 0.275));
-	--red-shadow: rgba(#{map-get(light-mode.$theme, 'red')}, calc(#{map-get(light-mode.$theme, 'shadow-multiplier')} * 0.175));
+	--element-shadow: rgba(#{map-get($theme, 'element')}, calc(#{map-get($theme, 'shadow-multiplier')} * 0.5));
+	--green-shadow: rgba(#{map-get($theme, 'green')}, calc(#{map-get($theme, 'shadow-multiplier')} * 0.275));
+	--red-shadow: rgba(#{map-get($theme, 'red')}, calc(#{map-get($theme, 'shadow-multiplier')} * 0.175));
+}
+
+:root {
+	@include generate-variables(light-mode.$theme);
 }
