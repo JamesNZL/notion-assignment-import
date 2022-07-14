@@ -2,114 +2,106 @@
  * Theme Map
  */
 
-// Main palette
-$_background: null !default;
-$_surface: null !default;
-$_element: null !default;
-$_element-hover: null !default;
-$_element-active: null !default;
+@function generate-map($_background,
+	$_surface,
+	$_element,
+	$_element-hover,
+	$_element-active,
+	$_scrollbar,
+	$_surface-scrollbar,
+	$_element-scrollbar,
+	$_scrollbar-hover,
+	$_surface-scrollbar-hover,
+	$_element-scrollbar-hover,
+	$_element-border-colour,
+	$_shadow-multiplier,
+	$_green,
+	$_green-hover,
+	$_green-active,
+	$_green-text-colour,
+	$_red,
+	$_red-hover,
+	$_red-active,
+	$_red-text-colour,
+	$_text-colour,
+	$_subdued-heading-colour,
+	$_subdued-text-colour,
+	$_code-text-colour,
+	$_link-text-colour,
+	$_link-text-hover-colour,
+) {
+	@return ( // Main palette
+		'background': $_background,
+		'surface': $_surface,
+		'element': $_element,
+		'element-hover': $_element-hover,
+		'element-active': $_element-active,
 
-// Scrollbars
-$_scrollbar: null !default;
-$_surface-scrollbar: null !default;
-$_element-scrollbar: null !default;
-$_scrollbar-hover: null !default;
-$_surface-scrollbar-hover: null !default;
-$_element-scrollbar-hover: null !default;
+		// Scrollbars
+		'scrollbar': $_scrollbar,
+		'surface-scrollbar': $_surface-scrollbar,
+		'element-scrollbar': $_element-scrollbar,
+		'scrollbar-hover': $_scrollbar-hover,
+		'surface-scrollbar-hover': $_surface-scrollbar-hover,
+		'element-scrollbar-hover': $_element-scrollbar-hover,
 
-// Borders and shadows
-$_element-border-colour: null !default;
-$_shadow-multiplier: null !default;
+		// Borders and shadows
+		'element-border-colour': $_element-border-colour,
+		'shadow-multiplier': $_shadow-multiplier,
 
-// Coloured buttons
-$_green: null !default;
-$_green-hover: null !default;
-$_green-active: null !default;
-$_green-text-colour: null !default;
+		// Coloured buttons
+		'green': $_green,
+		'green-hover': $_green-hover,
+		'green-active': $_green-active,
+		'green-text-colour': $_green-text-colour,
 
-$_red: null !default;
-$_red-hover: null !default;
-$_red-active: null !default;
-$_red-text-colour: null !default;
+		'red': $_red,
+		'red-hover': $_red-hover,
+		'red-active': $_red-active,
+		'red-text-colour': $_red-text-colour,
 
-// Text
-$_text-colour: null !default;
-$_subdued-heading-colour: null !default;
-$_subdued-text-colour: null !default;
-$_code-text-colour: null !default;
-$_link-text-colour: null !default;
-$_link-text-hover-colour: null !default;
-
-$theme: (
-	// Main palette
-	'background': $_background,
-	'surface': $_surface,
-	'element': $_element,
-	'element-hover': $_element-hover,
-	'element-active': $_element-active,
-
-	// Scrollbars
-	'scrollbar': $_scrollbar,
-	'surface-scrollbar': $_surface-scrollbar,
-	'element-scrollbar': $_element-scrollbar,
-	'scrollbar-hover': $_scrollbar-hover,
-	'surface-scrollbar-hover': $_surface-scrollbar-hover,
-	'element-scrollbar-hover': $_element-scrollbar-hover,
-
-	// Borders and shadows
-	'element-border-colour': $_element-border-colour,
-	'shadow-multiplier': $_shadow-multiplier,
-
-	// Coloured buttons
-	'green': $_green,
-	'green-hover': $_green-hover,
-	'green-active': $_green-active,
-	'green-text-colour': $_green-text-colour,
-
-	'red': $_red,
-	'red-hover': $_red-hover,
-	'red-active': $_red-active,
-	'red-text-colour': $_red-text-colour,
-
-	// Text
-	'text-colour': $_text-colour,
-	'subdued-heading-colour': $_subdued-heading-colour,
-	'subdued-text-colour': $_subdued-text-colour,
-	'code-text-colour': $_code-text-colour,
-	'link-text-colour': $_link-text-colour,
-	'link-text-hover-colour': $_link-text-hover-colour,
-);
+		// Text
+		'text-colour': $_text-colour,
+		'subdued-heading-colour': $_subdued-heading-colour,
+		'subdued-text-colour': $_subdued-text-colour,
+		'code-text-colour': $_code-text-colour,
+		'link-text-colour': $_link-text-colour,
+		'link-text-hover-colour': $_link-text-hover-colour,
+	);
+}
 
 /* 
  * Usage
  *
-@forward '_theme-map' with ($_background: $_background,
-	$_surface: $_surface,
-	$_element: $_element,
-	$_element-hover: $_element-hover,
-	$_element-active: $_element-active,
-	$_scrollbar: $_scrollbar,
-	$_surface-scrollbar: $_surface-scrollbar,
-	$_element-scrollbar: $_element-scrollbar,
-	$_scrollbar-hover: $_scrollbar-hover,
-	$_surface-scrollbar-hover: $_surface-scrollbar-hover,
-	$_element-scrollbar-hover: $_element-scrollbar-hover,
-	$_element-border-colour: $_element-border-colour,
-	$_shadow-multiplier: $_shadow-multiplier,
-	$_green: $_green,
-	$_green-hover: $_green-hover,
-	$_green-active: $_green-active,
-	$_green-text-colour: $_green-text-colour,
-	$_red: $_red,
-	$_red-hover: $_red-hover,
-	$_red-active: $_red-active,
-	$_red-text-colour: $_red-text-colour,
-	$_text-colour: $_text-colour,
-	$_subdued-heading-colour: $_subdued-heading-colour,
-	$_subdued-text-colour: $_subdued-text-colour,
-	$_code-text-colour: $_code-text-colour,
-	$_link-text-colour: $_link-text-colour,
-	$_link-text-hover-colour: $_link-text-hover-colour,
-);
+@use '_theme-map';
+
+$theme: theme-map.generate-map($_background: $_background,
+		$_surface: $_surface,
+		$_element: $_element,
+		$_element-hover: $_element-hover,
+		$_element-active: $_element-active,
+		$_scrollbar: $_scrollbar,
+		$_surface-scrollbar: $_surface-scrollbar,
+		$_element-scrollbar: $_element-scrollbar,
+		$_scrollbar-hover: $_scrollbar-hover,
+		$_surface-scrollbar-hover: $_surface-scrollbar-hover,
+		$_element-scrollbar-hover: $_element-scrollbar-hover,
+		$_element-border-colour: $_element-border-colour,
+		$_shadow-multiplier: $_shadow-multiplier,
+		$_green: $_green,
+		$_green-hover: $_green-hover,
+		$_green-active: $_green-active,
+		$_green-text-colour: $_green-text-colour,
+		$_red: $_red,
+		$_red-hover: $_red-hover,
+		$_red-active: $_red-active,
+		$_red-text-colour: $_red-text-colour,
+		$_text-colour: $_text-colour,
+		$_subdued-heading-colour: $_subdued-heading-colour,
+		$_subdued-text-colour: $_subdued-text-colour,
+		$_code-text-colour: $_code-text-colour,
+		$_link-text-colour: $_link-text-colour,
+		$_link-text-hover-colour: $_link-text-hover-colour,
+	);
  *
  */
