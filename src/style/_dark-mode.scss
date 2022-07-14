@@ -1,0 +1,37 @@
+/* 
+ * Dark Mode Theme
+ */
+
+// Main palette
+$background: hsl(0, 0%, 15.75%);
+$surface: hsl(0, 0%, 11.75%);
+$element: hsl(0, 0%, 8%);
+$element-hover: hsl(0, 0%, 2.5%);
+$element-active: hsl(0, 0%, 5%);
+
+// Scrollbars
+$scrollbar: darken($background, 8%);
+$surface-scrollbar: darken($surface, 4%);
+$element-scrollbar: lighten($element, 6%);
+$scrollbar-hover: darken($scrollbar, 4%);
+$surface-scrollbar-hover: darken($surface-scrollbar, 6%);
+$element-scrollbar-hover: lighten($element-scrollbar, 6%);
+
+// Borders and shadows
+$element-border-colour: rgba(#000000, 0.125);
+$shadow-multiplier: 1;
+
+// Coloured buttons
+$green: #00b800;
+$green-hover: #4dff4d;
+$green-active: #25da25;
+$green-text-colour: black;
+$red: #a80e0e;
+$red-hover: #8b0000;
+$red-active: #780000;
+$red-text-colour: white;
+
+// Text
+$text-colour: #ffffff;
+$subdued-heading-colour: #d6d6d6;
+$subdued-text-colour: #cccccc;
