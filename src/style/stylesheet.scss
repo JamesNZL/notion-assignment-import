@@ -296,6 +296,7 @@ label {
 		font-weight: 500;
 		margin-inline-start: 20px;
 		font-size: 0.75rem;
+		display: block;
 	}
 
 	&.required {
@@ -307,6 +308,20 @@ label {
 			position: absolute;
 			top: 0;
 			right: 100%;
+		}
+	}
+
+	&.unsaved {
+		position: relative;
+
+		&::after {
+			content: '⬤';
+			font-size: 0.875em;
+			color: orange;
+			position: absolute;
+			top: 0.0625em;
+			right: 0;
+			margin-inline-end: 10px;
 		}
 	}
 }

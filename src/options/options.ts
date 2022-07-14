@@ -109,7 +109,20 @@ class RestoreSavedButton extends RestoreDefaultsButton {
 	public override async toggle() {
 		const savedFields = await Storage.getSavedFields();
 
-		(Object.entries(this.inputs).some(([key, input]) => !input.isHidden() && input.getValue() !== savedFields[<keyof SavedFields>key]))
+		const anyUnsavedInputs = Object.entries(this.inputs)
+			.reduce((hasUnsaved, [key, input]) => {
+				const modifiedInput = !input.isHidden() && input.getValue() !== savedFields[<keyof SavedFields>key];
+
+				input.getLabels()?.forEach(label => {
+					(modifiedInput)
+						? label.classList.add('unsaved')
+						: label.classList.remove('unsaved');
+				});
+
+				return hasUnsaved || modifiedInput;
+			}, false);
+
+		(anyUnsavedInputs)
 			? this.show()
 			: this.hide();
 	}
