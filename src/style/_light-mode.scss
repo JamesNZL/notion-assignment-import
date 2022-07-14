@@ -12,10 +12,10 @@ $element-active: hsl(0, 0%, 90%);
 // Scrollbars
 $scrollbar: darken($background, 20%);
 $surface-scrollbar: darken($surface, 10%);
-$element-scrollbar: darken($element, 20%);
+$element-scrollbar: darken($element, 10%);
 $scrollbar-hover: darken($scrollbar, 10%);
 $surface-scrollbar-hover: darken($surface-scrollbar, 7.5%);
-$element-scrollbar-hover: darken($element-scrollbar, 10%);
+$element-scrollbar-hover: darken($element-scrollbar, 7.5%);
 
 // Borders and shadows
 $element-border-colour: rgba(#000000, 0.0625);
