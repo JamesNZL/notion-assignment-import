@@ -507,6 +507,20 @@ document.addEventListener('DOMContentLoaded', async () => {
  * Input Listeners
  */
 
+// add event listener to display theme toggle
+CONFIGURATION.FIELDS['extension.displayTheme'].input.addEventListener('input', () => {
+	const displayTheme = CONFIGURATION.FIELDS['extension.displayTheme'].input.getValue();
+
+	document.documentElement.classList.forEach(token => {
+		if (!/-mode/.test(token)) return;
+		document.documentElement.classList.remove(token);
+	});
+
+	if (!displayTheme) return;
+
+	document.documentElement.classList.add(`${displayTheme}-mode`);
+});
+
 // add event listener to advanced options toggle
 AdvancedOptions.control?.addEventListener('input', AdvancedOptions.toggle.bind(AdvancedOptions));
 
