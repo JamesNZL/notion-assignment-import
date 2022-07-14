@@ -7,8 +7,8 @@ interface Segment<T> {
 	id: T;
 	// TODO: am i able to make this a generic class, and make getInstance play nicely?
 	value: SupportedTypes;
-	default: boolean;
-	showDependents: boolean;
+	default?: boolean;
+	showDependents?: boolean;
 }
 
 type Segments<T> = (
