@@ -1,5 +1,4 @@
 @use '_configuration';
-// TODO: custom properties
 @use '_theme';
 
 html#options {
@@ -17,7 +16,7 @@ html#options {
 		display: flex;
 		align-items: center;
 		height: configuration.$navbar-height;
-		background-color: theme.$surface;
+		background-color: var(--surface);
 		top: 0;
 		left: 0;
 		right: 0;

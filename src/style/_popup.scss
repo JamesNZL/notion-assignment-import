@@ -1,5 +1,4 @@
 @use '_configuration';
-// TODO: custom properties
 @use '_theme';
 
 html#popup {
@@ -61,24 +60,24 @@ html#popup {
 
 		#saved-courses-list {
 			flex: 1 auto;
-			color: theme.$subdued-text-colour;
+			color: var(--subdued-text-colour);
 			min-height: 0;
 			overflow-y: scroll;
 			margin: 0;
 			margin-bottom: min(calc(1.75 * configuration.$margin), 0.5rem);
 
 			&::-webkit-scrollbar-thumb {
-				background-color: theme.$surface-scrollbar;
+				background-color: var(--surface-scrollbar);
 
 				&:hover {
-					background-color: theme.$surface-scrollbar-hover;
+					background-color: var(--surface-scrollbar-hover);
 				}
 			}
 
 			p.code {
 				margin: calc(0.5 * configuration.$margin) calc(1em + configuration.$margin);
 				word-break: break-word;
-				color: theme.$code-text-colour;
+				color: var(--code-text-colour);
 			}
 
 			ol {
@@ -98,7 +97,7 @@ html#popup {
 			}
 
 			strong {
-				color: theme.$subdued-heading-colour;
+				color: var(--subdued-heading-colour);
 				font-weight: 600;
 			}
 		}

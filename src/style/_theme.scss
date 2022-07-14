@@ -1,1 +1,49 @@
-@forward 'themes/_light-mode';
+@use 'themes/_light-mode';
+
+:root {
+	// Shadow multiplier
+	--shadow-multiplier: #{light-mode.$shadow-multiplier};
+
+	// Main palette
+	--background: #{light-mode.$background};
+	--surface: #{light-mode.$surface};
+	--element: #{light-mode.$element};
+	--element-hover: #{light-mode.$element-hover};
+	--element-active: #{light-mode.$element-active};
+	// TODO: calculate @ custom property declaration
+	--element-shadow: #{light-mode.$element-shadow};
+
+	// Scrollbars
+	--scrollbar: #{light-mode.$scrollbar};
+	--surface-scrollbar: #{light-mode.$surface-scrollbar};
+	--element-scrollbar: #{light-mode.$element-scrollbar};
+	--scrollbar-hover: #{light-mode.$scrollbar-hover};
+	--surface-scrollbar-hover: #{light-mode.$surface-scrollbar-hover};
+	--element-scrollbar-hover: #{light-mode.$element-scrollbar-hover};
+
+	// Borders and shadows
+	--element-border-colour: #{light-mode.$element-border-colour};
+
+	// Coloured buttons
+	--green: #{light-mode.$green};
+	--green-hover: #{light-mode.$green-hover};
+	--green-active: #{light-mode.$green-active};
+	// TODO: calculate @ custom property declaration
+	--green-shadow: #{light-mode.$green-shadow};
+	--green-text-colour: #{light-mode.$green-text-colour};
+
+	--red: #{light-mode.$red};
+	--red-hover: #{light-mode.$red-hover};
+	--red-active: #{light-mode.$red-active};
+	// TODO: calculate @ custom property declaration
+	--red-shadow: #{light-mode.$red-shadow};
+	--red-text-colour: #{light-mode.$red-text-colour};
+
+	// Text
+	--text-colour: #{light-mode.$text-colour};
+	--subdued-heading-colour: #{light-mode.$subdued-heading-colour};
+	--subdued-text-colour: #{light-mode.$subdued-text-colour};
+	--code-text-colour: #{light-mode.$code-text-colour};
+	--link-text-colour: #{light-mode.$link-text-colour};
+	--link-text-hover-colour: #{light-mode.$link-text-hover-colour};
+}
