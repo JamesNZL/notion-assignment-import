@@ -47,13 +47,7 @@ interface OptionsElements {
 		advancedOptionsSegmentedControl: 'display-advanced-options';
 		advancedOptionsHide: 'hide-advanced-options';
 		courseCodesGroup: 'course-code-overrides-group';
-		courseCodesCanvas: 'course-code-overrides-canvas';
-		courseCodesNotion: 'course-code-overrides-notion';
-		courseCodesValue: 'course-code-overrides';
 		courseEmojisGroup: 'course-emojis-group';
-		courseEmojisCodes: 'course-emojis-codes';
-		courseEmojisEmojis: 'course-emojis-emojis';
-		courseEmojisValue: 'course-emojis';
 	};
 }
 
@@ -461,13 +455,13 @@ Storage.getNotionAuthorisation().then(async ({ accessToken }) => {
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
-	KeyValueGroup.getInstance<OptionsElementId>('course-code-overrides-group', 'course-code-overrides-canvas', 'course-code-overrides-notion')
+	KeyValueGroup.getInstance<OptionsElementId>('course-code-overrides-group')
 		.setPlaceholders({
 			key: '121 UoA',
 			value: 'COURSE 121',
 		});
 
-	KeyValueGroup.getInstance<OptionsElementId>('course-emojis-group', 'course-emojis-codes', 'course-emojis-emojis')
+	KeyValueGroup.getInstance<OptionsElementId>('course-emojis-group')
 		.setPlaceholders({
 			key: 'COURSE 121',
 			value: '👨‍💻',
