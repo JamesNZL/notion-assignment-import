@@ -143,7 +143,7 @@ export const CONFIGURATION: {
 				defaultValue: 'SYSTEM',
 				get input() {
 					delete (<Partial<typeof this>>this).input;
-					return this.input = SegmentedControl.getInstance<InputElementId>('display-theme', 'segmented control', [
+					return this.input = SegmentedControl.getInstance<InputElementId, typeof this.defaultValue>('display-theme', 'segmented control', [
 						{
 							id: 'display-system-mode',
 							value: 'SYSTEM',
@@ -166,7 +166,7 @@ export const CONFIGURATION: {
 				defaultValue: false,
 				get input() {
 					delete (<Partial<typeof this>>this).input;
-					return this.input = SegmentedControl.getInstance<InputElementId>('display-json-button', 'segmented control', [
+					return this.input = SegmentedControl.getInstance<InputElementId, typeof this.defaultValue>('display-json-button', 'segmented control', [
 						{
 							id: 'hide-json-button',
 							value: false,
@@ -186,7 +186,7 @@ export const CONFIGURATION: {
 				defaultValue: false,
 				get input() {
 					delete (<Partial<typeof this>>this).input;
-					return this.input = SegmentedControl.getInstance<InputElementId>('display-advanced-options', 'segmented control', [
+					return this.input = SegmentedControl.getInstance<InputElementId, typeof this.defaultValue>('display-advanced-options', 'segmented control', [
 						{
 							id: 'hide-advanced-options',
 							value: false,

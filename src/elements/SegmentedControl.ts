@@ -3,24 +3,23 @@ import { Input } from './Input';
 
 import { SupportedTypes } from '../options/configuration';
 
-interface Segment<T> {
+interface Segment<T, V> {
 	id: T;
-	// TODO: am i able to make this a generic class, and make getInstance play nicely?
-	value: SupportedTypes;
+	value: V;
 	default?: boolean;
 	showDependents?: boolean;
 }
 
-type Segments<T> = (
-	Segment<T> & {
+type Segments<T, V> = (
+	Segment<T, V> & {
 		input: Input;
 	}
 )[];
 
 export class SegmentedControl extends Element {
-	private segments: Segments<string>;
+	private segments: Segments<string, SupportedTypes>;
 
-	private constructor(id: string, type = 'segmented control', segments: Segment<string>[]) {
+	private constructor(id: string, type = 'segmented control', segments: Segment<string, SupportedTypes>[]) {
 		super(id, type);
 
 		this.segments = segments.map(segment => ({
@@ -29,7 +28,7 @@ export class SegmentedControl extends Element {
 		}));
 	}
 
-	public static override getInstance<T extends string>(id: T, type = 'segmented control', segments?: Segment<T>[]): SegmentedControl {
+	public static override getInstance<T extends string, V extends SupportedTypes>(id: T, type = 'segmented control', segments?: Segment<T, V>[]): SegmentedControl {
 		if (!segments) throw new Error(`You must declare the segments for this SegmentedControl ${id}!`);
 
 		return SegmentedControl.instances[id] = (SegmentedControl.instances[id] instanceof SegmentedControl)
@@ -53,7 +52,6 @@ export class SegmentedControl extends Element {
 		return this.segments.find(({ id }) => id === checkedSegment.id)?.value ?? null;
 	}
 
-	// TODO: see generics above
 	public setValue(value: SupportedTypes, dispatchEvent = true) {
 		const segmentToCheck = this.segments.find(segment => segment.value === value);
 
