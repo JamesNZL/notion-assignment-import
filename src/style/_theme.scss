@@ -1,44 +1,13 @@
 @use 'themes/_light-mode';
 
 :root {
-	// Main palette
-	--background: #{light-mode.$background};
-	--surface: #{light-mode.$surface};
-	--element: #{light-mode.$element};
-	--element-hover: #{light-mode.$element-hover};
-	--element-active: #{light-mode.$element-active};
-	--element-shadow: rgba(#{light-mode.$element}, calc(#{light-mode.$shadow-multiplier} * 0.5));
 
-	// Scrollbars
-	--scrollbar: #{light-mode.$scrollbar};
-	--surface-scrollbar: #{light-mode.$surface-scrollbar};
-	--element-scrollbar: #{light-mode.$element-scrollbar};
-	--scrollbar-hover: #{light-mode.$scrollbar-hover};
-	--surface-scrollbar-hover: #{light-mode.$surface-scrollbar-hover};
-	--element-scrollbar-hover: #{light-mode.$element-scrollbar-hover};
+	@each $name,
+	$value in light-mode.$theme {
+		--#{$name}: #{$value};
+	}
 
-	// Borders and shadows
-	--element-border-colour: #{light-mode.$element-border-colour};
-	--shadow-multiplier: #{light-mode.$shadow-multiplier};
-
-	// Coloured buttons
-	--green: #{light-mode.$green};
-	--green-hover: #{light-mode.$green-hover};
-	--green-active: #{light-mode.$green-active};
-	--green-shadow: rgba(#{light-mode.$green}, calc(#{light-mode.$shadow-multiplier} * 0.275));
-	--green-text-colour: #{light-mode.$green-text-colour};
-
-	--red: #{light-mode.$red};
-	--red-hover: #{light-mode.$red-hover};
-	--red-active: #{light-mode.$red-active};
-	--red-shadow: rgba(#{light-mode.$red}, calc(#{light-mode.$shadow-multiplier} * 0.175));
-	--red-text-colour: #{light-mode.$red-text-colour};
-
-	// Text
-	--text-colour: #{light-mode.$text-colour};
-	--subdued-heading-colour: #{light-mode.$subdued-heading-colour};
-	--subdued-text-colour: #{light-mode.$subdued-text-colour};
-	--code-text-colour: #{light-mode.$code-text-colour};
-	--link-text-colour: #{light-mode.$link-text-colour};
-	--link-text-hover-colour: #{light-mode.$link-text-hover-colour};
+	--element-shadow: rgba(#{map-get(light-mode.$theme, 'element')}, calc(#{map-get(light-mode.$theme, 'shadow-multiplier')} * 0.5));
+	--green-shadow: rgba(#{map-get(light-mode.$theme, 'green')}, calc(#{map-get(light-mode.$theme, 'shadow-multiplier')} * 0.275));
+	--red-shadow: rgba(#{map-get(light-mode.$theme, 'red')}, calc(#{map-get(light-mode.$theme, 'shadow-multiplier')} * 0.175));
 }

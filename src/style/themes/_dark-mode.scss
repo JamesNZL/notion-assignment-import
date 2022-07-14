@@ -3,39 +3,68 @@
  */
 
 // Main palette
-$background: hsl(0, 0%, 15.75%);
-$surface: hsl(0, 0%, 11.75%);
-$element: hsl(0, 0%, 8%);
-$element-hover: hsl(0, 0%, 2.5%);
-$element-active: hsl(0, 0%, 5%);
+$_background: hsl(0, 0%, 15.75%);
+$_surface: hsl(0, 0%, 11.75%);
+$_element: hsl(0, 0%, 8%);
+$_element-hover: hsl(0, 0%, 2.5%);
+$_element-active: hsl(0, 0%, 5%);
 
 // Scrollbars
-$scrollbar: darken($background, 8%);
-$surface-scrollbar: darken($surface, 4%);
-$element-scrollbar: lighten($element, 6%);
-$scrollbar-hover: darken($scrollbar, 4%);
-$surface-scrollbar-hover: darken($surface-scrollbar, 6%);
-$element-scrollbar-hover: lighten($element-scrollbar, 6%);
+$_scrollbar: darken($_background, 8%);
+$_surface-scrollbar: darken($_surface, 4%);
+$_element-scrollbar: lighten($_element, 6%);
+$_scrollbar-hover: darken($_scrollbar, 4%);
+$_surface-scrollbar-hover: darken($_surface-scrollbar, 6%);
+$_element-scrollbar-hover: lighten($_element-scrollbar, 6%);
 
 // Borders and shadows
-$element-border-colour: rgba(#000000, 0.125);
-$shadow-multiplier: 1;
+$_element-border-colour: rgba(#000000, 0.125);
+$_shadow-multiplier: 1;
 
 // Coloured buttons
-$green: #00b800;
-$green-hover: #4dff4d;
-$green-active: #25da25;
-$green-text-colour: black;
+$_green: #00b800;
+$_green-hover: #4dff4d;
+$_green-active: #25da25;
+$_green-text-colour: black;
 
-$red: #a80e0e;
-$red-hover: #8b0000;
-$red-active: #780000;
-$red-text-colour: white;
+$_red: #a80e0e;
+$_red-hover: #8b0000;
+$_red-active: #780000;
+$_red-text-colour: white;
 
 // Text
-$text-colour: #ffffff;
-$subdued-heading-colour: #d6d6d6;
-$subdued-text-colour: #cccccc;
-$code-text-colour: rgba($subdued-text-colour, 0.6);
-$link-text-colour: rgba($text-colour, 0.5);
-$link-text-hover-colour: rgba($text-colour, 0.75);
+$_text-colour: #ffffff;
+$_subdued-heading-colour: #d6d6d6;
+$_subdued-text-colour: #cccccc;
+$_code-text-colour: rgba($_subdued-text-colour, 0.6);
+$_link-text-colour: rgba($_text-colour, 0.5);
+$_link-text-hover-colour: rgba($_text-colour, 0.75);
+
+@forward '_theme-map' with ($_background: $_background,
+	$_surface: $_surface,
+	$_element: $_element,
+	$_element-hover: $_element-hover,
+	$_element-active: $_element-active,
+	$_scrollbar: $_scrollbar,
+	$_surface-scrollbar: $_surface-scrollbar,
+	$_element-scrollbar: $_element-scrollbar,
+	$_scrollbar-hover: $_scrollbar-hover,
+	$_surface-scrollbar-hover: $_surface-scrollbar-hover,
+	$_element-scrollbar-hover: $_element-scrollbar-hover,
+	$_element-border-colour: $_element-border-colour,
+	$_shadow-multiplier: $_shadow-multiplier,
+	$_green: $_green,
+	$_green-hover: $_green-hover,
+	$_green-active: $_green-active,
+	$_green-text-colour: $_green-text-colour,
+	$_red: $_red,
+	$_red-hover: $_red-hover,
+	$_red-active: $_red-active,
+	$_red-text-colour: $_red-text-colour,
+	$_text-colour: $_text-colour,
+	$_subdued-heading-colour: $_subdued-heading-colour,
+	$_subdued-text-colour: $_subdued-text-colour,
+	$_code-text-colour: $_code-text-colour,
+	$_link-text-colour: $_link-text-colour,
+	$_link-text-hover-colour: $_link-text-hover-colour,
+);

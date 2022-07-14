@@ -3,39 +3,68 @@
  */
 
 // Main palette
-$background: hsl(0, 0%, 98%);
-$surface: hsl(0, 0%, 94%);
-$element: hsl(0, 0%, 97.5%);
-$element-hover: hsl(0, 0%, 100%);
-$element-active: hsl(0, 0%, 90%);
+$_background: hsl(0, 0%, 98%);
+$_surface: hsl(0, 0%, 94%);
+$_element: hsl(0, 0%, 97.5%);
+$_element-hover: hsl(0, 0%, 100%);
+$_element-active: hsl(0, 0%, 90%);
 
 // Scrollbars
-$scrollbar: darken($background, 20%);
-$surface-scrollbar: darken($surface, 10%);
-$element-scrollbar: darken($element, 10%);
-$scrollbar-hover: darken($scrollbar, 10%);
-$surface-scrollbar-hover: darken($surface-scrollbar, 7.5%);
-$element-scrollbar-hover: darken($element-scrollbar, 7.5%);
+$_scrollbar: darken($_background, 20%);
+$_surface-scrollbar: darken($_surface, 10%);
+$_element-scrollbar: darken($_element, 10%);
+$_scrollbar-hover: darken($_scrollbar, 10%);
+$_surface-scrollbar-hover: darken($_surface-scrollbar, 7.5%);
+$_element-scrollbar-hover: darken($_element-scrollbar, 7.5%);
 
 // Borders and shadows
-$element-border-colour: rgba(#000000, 0.0625);
-$shadow-multiplier: 0.4;
+$_element-border-colour: rgba(#000000, 0.0625);
+$_shadow-multiplier: 0.4;
 
 // Coloured buttons
-$green: hsl(120, 100%, 36%);
-$green-hover: hsl(120, 100%, 39%);
-$green-active: hsl(120, 100%, 42%);
-$green-text-colour: white;
+$_green: hsl(120, 100%, 36%);
+$_green-hover: hsl(120, 100%, 39%);
+$_green-active: hsl(120, 100%, 42%);
+$_green-text-colour: white;
 
-$red: #c40000;
-$red-hover: #9e1d1d;
-$red-active: #780000;
-$red-text-colour: white;
+$_red: #c40000;
+$_red-hover: #9e1d1d;
+$_red-active: #780000;
+$_red-text-colour: white;
 
 // Text
-$text-colour: #000000;
-$subdued-heading-colour: #282828;
-$subdued-text-colour: #000000;
-$code-text-colour: rgba($subdued-text-colour, 0.7);
-$link-text-colour: rgba($text-colour, 0.5);
-$link-text-hover-colour: rgba($text-colour, 0.75);
+$_text-colour: #000000;
+$_subdued-heading-colour: #282828;
+$_subdued-text-colour: #000000;
+$_code-text-colour: rgba($_subdued-text-colour, 0.7);
+$_link-text-colour: rgba($_text-colour, 0.5);
+$_link-text-hover-colour: rgba($_text-colour, 0.75);
+
+@forward '_theme-map' with ($_background: $_background,
+	$_surface: $_surface,
+	$_element: $_element,
+	$_element-hover: $_element-hover,
+	$_element-active: $_element-active,
+	$_scrollbar: $_scrollbar,
+	$_surface-scrollbar: $_surface-scrollbar,
+	$_element-scrollbar: $_element-scrollbar,
+	$_scrollbar-hover: $_scrollbar-hover,
+	$_surface-scrollbar-hover: $_surface-scrollbar-hover,
+	$_element-scrollbar-hover: $_element-scrollbar-hover,
+	$_element-border-colour: $_element-border-colour,
+	$_shadow-multiplier: $_shadow-multiplier,
+	$_green: $_green,
+	$_green-hover: $_green-hover,
+	$_green-active: $_green-active,
+	$_green-text-colour: $_green-text-colour,
+	$_red: $_red,
+	$_red-hover: $_red-hover,
+	$_red-active: $_red-active,
+	$_red-text-colour: $_red-text-colour,
+	$_text-colour: $_text-colour,
+	$_subdued-heading-colour: $_subdued-heading-colour,
+	$_subdued-text-colour: $_subdued-text-colour,
+	$_code-text-colour: $_code-text-colour,
+	$_link-text-colour: $_link-text-colour,
+	$_link-text-hover-colour: $_link-text-hover-colour,
+);
