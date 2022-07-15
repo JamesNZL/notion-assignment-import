@@ -86,7 +86,12 @@ export class KeyValueGroup extends Element {
 	}
 
 	public markModified(comparand: SupportedTypes) {
-		const isModified = (!this.isHidden() && this.getValue() !== comparand);
+		if (typeof comparand !== 'string') throw new Error(`Invalid comparand value ${comparand} of type ${typeof comparand} on KeyValueGroup ${this.id}`);
+
+		const currentValue = this.getValue();
+		if (typeof currentValue !== 'string') throw new Error(`Invalid currentValue value ${currentValue} of type ${typeof currentValue} on KeyValueGroup ${this.id}`);
+
+		const isModified = (!this.isHidden() && currentValue !== comparand);
 
 		if (!isModified) {
 			this.getLabels().forEach(label => label.classList.remove('unsaved'));
@@ -94,9 +99,22 @@ export class KeyValueGroup extends Element {
 			return false;
 		}
 
-		// TODO: detect whether is key or value
+		const currentObject = JSON.parse(currentValue);
+		const comparandObject = JSON.parse(comparand);
 
-		this.getLabels().forEach(label => label.classList.add('unsaved'));
+		const keysMatch = JSON.stringify(Object.keys(currentObject)) === JSON.stringify(Object.keys(comparandObject));
+		const valuesMatch = JSON.stringify(Object.values(currentObject)) === JSON.stringify(Object.values(comparandObject));
+
+		this.keyGroup.getLabels().forEach(keyLabel => {
+			(!keysMatch)
+				? keyLabel.classList.add('unsaved')
+				: keyLabel.classList.remove('unsaved');
+		});
+		this.valueGroup.getLabels().forEach(valueLabel => {
+			(!valuesMatch)
+				? valueLabel.classList.add('unsaved')
+				: valueLabel.classList.remove('unsaved');
+		});
 
 		return true;
 	}
