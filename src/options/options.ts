@@ -509,11 +509,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 window.addEventListener('beforeunload', event => {
 	event.preventDefault();
-	event.returnValue = 'Changes you made may not be saved.';
 
 	return (buttons.restore.undo.isHidden())
 		? null
-		: event.returnValue;
+		: event.returnValue = 'Changes you made may not be saved.';
 });
 
 /*
