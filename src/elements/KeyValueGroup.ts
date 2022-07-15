@@ -266,6 +266,10 @@ export class KeyValueGroup extends Element {
 		this.removeRow(this.rows.indexOf(emptyRows[1]));
 	}
 
+	public override getLabels() {
+		return [...this.keyGroup.getLabels(), ...this.valueGroup.getLabels()];
+	}
+
 	public dispatchInputEvent(bubbles = true) {
 		this.dispatchEvent(new Event('input', { bubbles }));
 	}
