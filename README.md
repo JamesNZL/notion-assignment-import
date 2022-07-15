@@ -205,8 +205,8 @@ chmod +x /Users/YOUR_USERNAME/Downloads/Notion\ Canvas\ Assignment\ Import/Conte
 
 | Option                                         | Purpose/Remarks                                                                                                                      |
 | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `Theme`                                        | Whether to use `Light`/`Dark` mode, or use the browser's default (`System`).                                                         |
-| `Show Advanced Options`                        | Whether to `Show`/`Hide` the **Advanced Options**.                                                                                   |
+| `Theme`                                        | Whether to use `Light`/`Dark` mode, or use the browser's default (`System`)                                                          |
+| `Show Advanced Options`                        | Whether to `Show`/`Hide` the **Advanced Options**                                                                                    |
 | `Timezone`                                     | The `TZ` timezone in which to parse and set all dates                                                                                |
 | `Internal Integration Token` (**Safari only**) | The `Internal Integration Token` of your Notion integration                                                                          |
 | `Database`                                     | The target Notion database                                                                                                           |
