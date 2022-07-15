@@ -74,6 +74,18 @@ export class Input extends Element {
 		throw new Error(`Failed to set unexpected value ${value} of type ${typeof value} on element ${this.id}`);
 	}
 
+	public markModified(comparand: SupportedTypes) {
+		const isModified = (!this.isHidden() && this.getValue() !== comparand);
+
+		this.getLabels().forEach(label => {
+			(isModified)
+				? label.classList.add('unsaved')
+				: label.classList.remove('unsaved');
+		});
+
+		return isModified;
+	}
+
 	public setPlaceholder(placeholder: SupportedTypes) {
 		if (!(this.element instanceof HTMLInputElement) && !(this.element instanceof HTMLTextAreaElement)) return;
 

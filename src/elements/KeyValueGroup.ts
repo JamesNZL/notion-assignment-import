@@ -85,6 +85,22 @@ export class KeyValueGroup extends Element {
 		return this;
 	}
 
+	public markModified(comparand: SupportedTypes) {
+		const isModified = (!this.isHidden() && this.getValue() !== comparand);
+
+		if (!isModified) {
+			this.getLabels().forEach(label => label.classList.remove('unsaved'));
+
+			return false;
+		}
+
+		// TODO: detect whether is key or value
+
+		this.getLabels().forEach(label => label.classList.add('unsaved'));
+
+		return true;
+	}
+
 	public async validate(force = false) {
 		if (!force) {
 			return (this.isValid)

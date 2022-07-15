@@ -16,12 +16,13 @@ import { valueof } from '../types/utils';
 export type SupportedTypes = NullIfEmpty<string> | boolean;
 
 interface Readable {
-	getValue(): SupportedTypes;
 	validate(force?: boolean): Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT>;
+	getValue(): SupportedTypes;
 }
 
 interface Settable {
 	setValue(value: SupportedTypes, dispatchEvent?: boolean): void;
+	markModified(comparand: SupportedTypes): boolean;
 }
 
 interface Displayable {

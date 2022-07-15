@@ -111,15 +111,9 @@ class RestoreSavedButton extends RestoreDefaultsButton {
 
 		const anyUnsavedInputs = Object.entries(this.inputs)
 			.reduce((hasUnsaved, [key, input]) => {
-				const modifiedInput = !input.isHidden() && input.getValue() !== savedFields[<keyof SavedFields>key];
+				const isUnsaved = input.markModified(savedFields[<keyof SavedFields>key]);
 
-				input.getLabels().forEach(label => {
-					(modifiedInput)
-						? label.classList.add('unsaved')
-						: label.classList.remove('unsaved');
-				});
-
-				return hasUnsaved || modifiedInput;
+				return hasUnsaved || isUnsaved;
 			}, false);
 
 		(anyUnsavedInputs)
