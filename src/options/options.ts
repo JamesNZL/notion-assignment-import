@@ -504,6 +504,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 /*
+ * Warn If Unsaved Changes on Exit
+ */
+
+window.addEventListener('beforeunload', event => {
+	event.preventDefault();
+	event.returnValue = 'Changes you made may not be saved.';
+
+	return (buttons.restore.undo.isHidden())
+		? null
+		: event.returnValue;
+});
+
+/*
  * Input Listeners
  */
 
