@@ -15,8 +15,7 @@ import postcss from 'gulp-postcss';
 import autoprefixer from 'autoprefixer';
 import cssnano from 'cssnano';
 
-import { default as gulpEsbuild, createGulpEsbuild } from 'gulp-esbuild';
-const incrementalGulpEsbuild = createGulpEsbuild({ incremental: true });
+import gulpEsbuild from 'gulp-esbuild';
 
 import { exec } from 'gulp-execa';
 
@@ -195,7 +194,7 @@ export function watch() {
 		sources.markup.forEach(source => watchGlob(source.glob, copy(vendor, source)));
 		sources.style.forEach(source => watchGlob(source.glob, render(vendor, source)));
 		sources.assets.forEach(source => watchGlob(source.glob, copy(vendor, source)));
-		sources.scripts.forEach(source => watchGlob(`${CONFIGURATION.DIRECTORIES.SOURCE}/**/*.ts`, bundle(incrementalGulpEsbuild, vendor, source)));
+		sources.scripts.forEach(source => watchGlob(`${CONFIGURATION.DIRECTORIES.SOURCE}/**/*.ts`, bundle(gulpEsbuild, vendor, source)));
 	});
 }
 
