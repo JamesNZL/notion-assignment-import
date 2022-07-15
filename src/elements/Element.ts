@@ -90,7 +90,7 @@ export class Element {
 
 	public show() {
 		this.removeClass('hidden');
-		this.getLabels()?.forEach(label => label.classList.remove('hidden'));
+		this.getLabels().forEach(label => label.classList.remove('hidden'));
 
 		if (!this.element.parentElement) return;
 
@@ -117,7 +117,7 @@ export class Element {
 
 	public hide() {
 		this.addClass('hidden');
-		this.getLabels()?.forEach(label => label.classList.add('hidden'));
+		this.getLabels().forEach(label => label.classList.add('hidden'));
 
 		if (!this.element.parentElement) return;
 
@@ -143,9 +143,11 @@ export class Element {
 	}
 
 	public getLabels() {
-		return (this.element instanceof HTMLInputElement)
+		const nodeList = (this.element instanceof HTMLInputElement)
 			? this.element.labels
 			: document.querySelectorAll(`label[for='${this.element.id}']`);
+
+		return Array.from(nodeList ?? []);
 	}
 
 	public safelySetInnerHTML(html: string) {
