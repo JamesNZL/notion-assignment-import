@@ -25,6 +25,7 @@ interface Settable {
 }
 
 interface Displayable {
+	isHidden(): boolean;
 	show(): void;
 	hide(): void;
 }
@@ -38,13 +39,17 @@ interface Subscribable {
 	dispatchInputEvent(bubbles?: boolean): void;
 }
 
+interface HasLabels {
+	getLabels(): globalThis.Element[];
+}
+
 interface HasPlaceholder {
 	setPlaceholder(placeholder: unknown): void;
 }
 
 export interface OptionConfiguration<T> {
 	readonly defaultValue: T;
-	input: Readable & Settable & Displayable & Dependable & Subscribable & Partial<HasPlaceholder>;
+	input: Readable & Settable & Displayable & Dependable & Subscribable & HasLabels & Partial<HasPlaceholder>;
 	// default to 'input' if undefined
 	readonly validateOn?: 'input' | 'change';
 	readonly dependents?: readonly InputElementId[];
