@@ -106,9 +106,9 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
 ![Notion calendar example](./assets/screenshots/calendar.png)
 
 ## Extension Options
-![Options page part 1](./assets/screenshots/options1.png)
-![Options page part 2](./assets/screenshots/options2.png)
-![Options page part 3](./assets/screenshots/options3.png)
+![Options page part 1](./assets/screenshots/options-1.png)
+![Options page part 2](./assets/screenshots/options-2.png)
+![Options page part 3](./assets/screenshots/options-3.png)
 
 # Discord Server
 
