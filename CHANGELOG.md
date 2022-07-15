@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.0](https://github.com/JamesNZL/notion-assignment-import/compare/v4.1.1...v4.2.0) (2022-07-15)
+
+
+### Features
+
+* **interface:** :children_crossing: add indicator for unsaved changes ([#53](https://github.com/JamesNZL/notion-assignment-import/issues/53)) ([7a8166d](https://github.com/JamesNZL/notion-assignment-import/commit/7a8166d621d224b177a2c35493052f36a6141a2b))
+* **interface:** :lipstick: darken dark mode hover state ([8fac4e7](https://github.com/JamesNZL/notion-assignment-import/commit/8fac4e7d80d086fe365dcc6ffeba50341603e832))
+* **interface:** :sparkles: add light mode ([#52](https://github.com/JamesNZL/notion-assignment-import/issues/52)) ([2404a1a](https://github.com/JamesNZL/notion-assignment-import/commit/2404a1a77b25a294ea23f1cccc81ded45470f25e)), closes [#51](https://github.com/JamesNZL/notion-assignment-import/issues/51) [#49](https://github.com/JamesNZL/notion-assignment-import/issues/49)
+* **options:** :children_crossing: add unsaved exit confirmation dialogue ([77ac7f8](https://github.com/JamesNZL/notion-assignment-import/commit/77ac7f8ffe5339ad877fea0d463ea0f46a23b5e8))
+
+
+### Bug Fixes
+
+* **eslint:** :rotating_light: fix eslint for gulpfile ([6b0b449](https://github.com/JamesNZL/notion-assignment-import/commit/6b0b449ca45b10177c6aa733586497637afce1ab))
+* **interface:** :bug: fix premature toggle of property value inputs ([49f7551](https://github.com/JamesNZL/notion-assignment-import/commit/49f7551ebf4dc77e0c6dbab298d7c519c7645213))
+* **interface:** :lipstick: fix popup codeblock margin ([9818545](https://github.com/JamesNZL/notion-assignment-import/commit/9818545be5e8ef5500b7ada875ccc04019b68442))
+* **options:** :bug: fix unsaved exit confirmation ([0e55d27](https://github.com/JamesNZL/notion-assignment-import/commit/0e55d275b4f703b08adb9abb55945071e076b76e))
+* **options:** :pencil2: fix typo ([909e8ab](https://github.com/JamesNZL/notion-assignment-import/commit/909e8ab3bd3fafd6c1f0f18147c5967a17d077a5))
+* **validator:** :bug: fix markup of html validator errors ([d6733ee](https://github.com/JamesNZL/notion-assignment-import/commit/d6733ee610b10eb0968c07f8d60be048089c678f))
+
 ### [4.1.1](https://github.com/JamesNZL/notion-assignment-import/compare/v4.1.0...v4.1.1) (2022-07-03)
 
 
