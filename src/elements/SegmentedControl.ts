@@ -63,6 +63,18 @@ export class SegmentedControl extends Element {
 		this.dispatchInputEvent();
 	}
 
+	public markModified(comparand: SupportedTypes) {
+		const isModified = (!this.isHidden() && this.getValue() !== comparand);
+
+		this.getLabels().forEach(label => {
+			(isModified)
+				? label.classList.add('unsaved')
+				: label.classList.remove('unsaved');
+		});
+
+		return isModified;
+	}
+
 	public override show() {
 		super.show();
 		this.dispatchInputEvent();

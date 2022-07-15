@@ -85,6 +85,40 @@ export class KeyValueGroup extends Element {
 		return this;
 	}
 
+	public markModified(comparand: SupportedTypes) {
+		if (typeof comparand !== 'string') throw new Error(`Invalid comparand value ${comparand} of type ${typeof comparand} on KeyValueGroup ${this.id}`);
+
+		const currentValue = this.getValue();
+		if (typeof currentValue !== 'string') throw new Error(`Invalid currentValue value ${currentValue} of type ${typeof currentValue} on KeyValueGroup ${this.id}`);
+
+		const isModified = (!this.isHidden() && currentValue !== comparand);
+
+		if (!isModified) {
+			this.getLabels().forEach(label => label.classList.remove('unsaved'));
+
+			return false;
+		}
+
+		const currentObject = JSON.parse(currentValue);
+		const comparandObject = JSON.parse(comparand);
+
+		const keysMatch = JSON.stringify(Object.keys(currentObject)) === JSON.stringify(Object.keys(comparandObject));
+		const valuesMatch = JSON.stringify(Object.values(currentObject)) === JSON.stringify(Object.values(comparandObject));
+
+		this.keyGroup.getLabels().forEach(keyLabel => {
+			(!keysMatch)
+				? keyLabel.classList.add('unsaved')
+				: keyLabel.classList.remove('unsaved');
+		});
+		this.valueGroup.getLabels().forEach(valueLabel => {
+			(!valuesMatch)
+				? valueLabel.classList.add('unsaved')
+				: valueLabel.classList.remove('unsaved');
+		});
+
+		return true;
+	}
+
 	public async validate(force = false) {
 		if (!force) {
 			return (this.isValid)
@@ -264,6 +298,10 @@ export class KeyValueGroup extends Element {
 
 		// remove the 'other' empty row so cursor focus isn't disrupted
 		this.removeRow(this.rows.indexOf(emptyRows[1]));
+	}
+
+	public override getLabels() {
+		return [...this.keyGroup.getLabels(), ...this.valueGroup.getLabels()];
 	}
 
 	public dispatchInputEvent(bubbles = true) {

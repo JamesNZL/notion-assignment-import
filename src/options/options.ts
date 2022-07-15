@@ -6,9 +6,9 @@ import { OAuth2 } from '../apis/oauth';
 
 import { SavedFields } from './';
 import { EmojiField, InputFieldValidator } from './validator';
-import { CONFIGURATION, SupportedTypes } from './configuration';
+import { CONFIGURATION, OptionConfiguration, SupportedTypes } from './configuration';
 
-import { Element, Button, Input, Select, KeyValueGroup } from '../elements';
+import { Element, Button, Select, KeyValueGroup } from '../elements';
 
 import { valueof } from '../types/utils';
 
@@ -60,7 +60,7 @@ class RestoreDefaultsButton extends Button {
 	protected static override instances: Record<string, RestoreDefaultsButton> = {};
 
 	protected restoreKeys: (keyof SavedFields)[];
-	protected inputs: Partial<Record<keyof SavedFields, Input>>;
+	protected inputs: Partial<Record<keyof SavedFields, OptionConfiguration<SupportedTypes>['input']>>;
 
 	protected constructor(id: string, restoreKeys: (keyof SavedFields)[]) {
 		super(id);
@@ -109,7 +109,14 @@ class RestoreSavedButton extends RestoreDefaultsButton {
 	public override async toggle() {
 		const savedFields = await Storage.getSavedFields();
 
-		(Object.entries(this.inputs).some(([key, input]) => !input.isHidden() && input.getValue() !== savedFields[<keyof SavedFields>key]))
+		const anyUnsavedInputs = Object.entries(this.inputs)
+			.reduce((hasUnsaved, [key, input]) => {
+				const isUnsaved = input.markModified(savedFields[<keyof SavedFields>key]);
+
+				return hasUnsaved || isUnsaved;
+			}, false);
+
+		(anyUnsavedInputs)
 			? this.show()
 			: this.hide();
 	}
