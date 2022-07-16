@@ -1,14 +1,14 @@
-import { GetDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
-
 import { NotionClient } from '../apis/notion';
 import { Storage } from '../apis/storage';
 import { OAuth2 } from '../apis/oauth';
 
 import { SavedFields } from './';
 import { EmojiField, InputFieldValidator } from './validator';
-import { CONFIGURATION, OptionConfiguration, SupportedTypes } from './configuration';
+import { CONFIGURATION, SupportedTypes } from './configuration';
 
 import { Element, Button, Select, KeyValueGroup } from '../elements';
+import { RestoreDefaultsButton, RestoreSavedButton } from './RestoreButtons';
+import { PropertySelect, SelectPropertyValueSelect } from './PropertySelects';
 
 import { valueof } from '../types/utils';
 
@@ -55,78 +55,6 @@ type OptionsButtonName = keyof OptionsElements['buttons'];
 type OptionsButtonId = valueof<OptionsElements['buttons']>;
 type OptionsSelectId = valueof<OptionsElements['selects']>;
 type OptionsElementId = OptionsRestoreButtonId | OptionsButtonId | OptionsSelectId | valueof<OptionsElements['elements']>;
-
-class RestoreDefaultsButton extends Button {
-	protected restoreKeys: (keyof SavedFields)[];
-	protected inputs: Map<keyof SavedFields, OptionConfiguration<SupportedTypes>['input']>;
-
-	protected constructor(id: string, restoreKeys: (keyof SavedFields)[]) {
-		super(id);
-
-		this.restoreKeys = restoreKeys;
-		this.inputs = new Map(
-			this.restoreKeys.map(key => [key, CONFIGURATION.FIELDS[key].input]),
-		);
-
-		[...this.inputs.values()].forEach(input => input.addEventListener('input', this.toggle.bind(this)));
-	}
-
-	public static override getInstance<T extends string>(id: T, restoreKeys?: (keyof SavedFields)[]): RestoreDefaultsButton {
-		if (!restoreKeys) throw new Error('Argument restoreKeys must be defined for class Restore(Defaults|Saved)Button!');
-
-		if (!(RestoreDefaultsButton.instances.get(id) instanceof RestoreDefaultsButton)) {
-			RestoreDefaultsButton.instances.set(id, new this(id, restoreKeys));
-		}
-
-		return <RestoreDefaultsButton>RestoreDefaultsButton.instances.get(id);
-	}
-
-	public toggle() {
-		([...this.inputs].some(([key, input]) => !input.isHidden() && input.getValue() !== CONFIGURATION.FIELDS[<keyof SavedFields>key].defaultValue))
-			? this.show()
-			: this.hide();
-	}
-
-	protected async restoreInputs() {
-		[...this.inputs].forEach(([key, input]) => {
-			const { defaultValue } = CONFIGURATION.FIELDS[<keyof SavedFields>key];
-			input.setValue(defaultValue);
-		});
-	}
-
-	public async restore() {
-		await this.restoreInputs();
-
-		this.toggle();
-
-		if (this.restoreKeys.includes('options.displayAdvanced')) {
-			AdvancedOptions.dispatchInputEvent();
-		}
-	}
-}
-
-class RestoreSavedButton extends RestoreDefaultsButton {
-	public override async toggle() {
-		const savedFields = await Storage.getSavedFields();
-
-		const anyUnsavedInputs = [...this.inputs]
-			.reduce((hasUnsaved, [key, input]) => {
-				const isUnsaved = input.markModified(savedFields[<keyof SavedFields>key]);
-
-				return hasUnsaved || isUnsaved;
-			}, false);
-
-		(anyUnsavedInputs)
-			? this.show()
-			: this.hide();
-	}
-
-	protected override async restoreInputs() {
-		await OptionsPage.restoreOptions();
-
-		[...this.inputs.values()].forEach(input => input.dispatchInputEvent());
-	}
-}
 
 const OptionsPage = <const>{
 	async restoreOptions() {
@@ -191,123 +119,6 @@ const AdvancedOptions = <const>{
 	},
 };
 
-class PropertySelect extends Select {
-	private type: valueof<GetDatabaseResponse['properties']>['type'];
-	protected fieldKey: keyof SavedFields;
-
-	protected constructor(id: string, type: PropertySelect['type'], fieldKey: PropertySelect['fieldKey']) {
-		super(id);
-
-		this.type = type;
-		this.fieldKey = fieldKey;
-	}
-
-	public static override getInstance<T extends string>(id: T, type?: PropertySelect['type'], fieldKey?: PropertySelect['fieldKey']): PropertySelect {
-		if (!type) throw new Error('Argument type must be defined for class PropertySelect!');
-		if (!fieldKey) throw new Error('Argument fieldKey must be defined for class PropertySelect!');
-
-		if (!(PropertySelect.instances.get(id) instanceof PropertySelect)) {
-			PropertySelect.instances.set(id, new PropertySelect(id, type, fieldKey));
-		}
-
-		return <PropertySelect>PropertySelect.instances.get(id);
-	}
-
-	public async populate(databasePromise: Promise<void | GetDatabaseResponse>, placeholder = 'Loading') {
-		this.setInnerHTML(`<option selected disabled hidden>${placeholder}...</option>`);
-
-		const database = await databasePromise;
-		if (!database) return;
-
-		const configured = (await Storage.getSavedFields())[this.fieldKey];
-
-		const selectOptions = Object.values(database.properties)
-			.filter(({ type }) => type === this.type)
-			.reduce((html: string, { name }) => html + `
-			<option value='${name}' ${(configured === name) ? 'selected' : ''}>
-				${name}
-			</option>
-			`, (!(this.element instanceof HTMLSelectElement) || !this.element.required)
-				? `
-				<option value=''>❌ Exclude</option>
-				`
-				: '',
-			);
-
-		this.setInnerHTML(selectOptions ?? '');
-
-		this.dispatchInputEvent();
-	}
-}
-
-class SelectPropertyValueSelect extends PropertySelect {
-	private propertySelect: PropertySelect;
-
-	protected constructor(id: string, type: PropertySelect['type'], fieldKey: PropertySelect['fieldKey'], propertySelect: PropertySelect) {
-		super(id, type, fieldKey);
-
-		this.propertySelect = propertySelect;
-
-		this.propertySelect.addEventListener('input', async () => {
-			const databaseId = DatabaseSelect.element.getValue();
-			if (typeof databaseId !== 'string') return;
-
-			const accessToken = (await Storage.getNotionAuthorisation()).accessToken ?? await CONFIGURATION.FIELDS['notion.accessToken'].input.validate(true);
-
-			if (!accessToken || typeof accessToken !== 'string') return;
-
-			const databasePromise = NotionClient.getInstance({ auth: accessToken }).retrieveDatabase(databaseId);
-
-			this.populate(databasePromise);
-		});
-	}
-
-	public static override getInstance<T extends string>(id: T, type?: PropertySelect['type'], fieldKey?: PropertySelect['fieldKey'], propertySelect?: PropertySelect): PropertySelect {
-		if (!type) throw new Error('Argument type must be defined for class SelectPropertyValueSelect!');
-		if (!fieldKey) throw new Error('Argument fieldKey must be defined for class SelectPropertyValueSelect!');
-		if (!propertySelect) throw new Error('Argument propertySelect must be defined for class SelectPropertyValueSelect!');
-
-		if (!(SelectPropertyValueSelect.instances.get(id) instanceof SelectPropertyValueSelect)) {
-			SelectPropertyValueSelect.instances.set(id, new SelectPropertyValueSelect(id, type, fieldKey, propertySelect));
-		}
-
-		return <SelectPropertyValueSelect>SelectPropertyValueSelect.instances.get(id);
-	}
-
-	public override async populate(databasePromise: Promise<void | GetDatabaseResponse>, placeholder = 'Loading') {
-		this.setInnerHTML(`<option selected disabled hidden>${placeholder}...</option>`);
-
-		const database = await databasePromise;
-		if (!database) return;
-
-		const propertyName = this.propertySelect.getValue();
-
-		if (typeof propertyName !== 'string') return;
-
-		const configured = (await Storage.getSavedFields())[this.fieldKey];
-
-		const property = Object.values(database.properties)
-			.find(({ name, type }) => name === propertyName && type === 'select');
-
-		if (!property || !('select' in property)) return;
-
-		const selectOptions = property.select.options.reduce((html: string, { name }) => html + `
-			<option value='${name}' ${(configured === name) ? 'selected' : ''}>
-				${name}
-			</option>
-			`, (!(this.element instanceof HTMLSelectElement) || !this.element.required)
-			? `
-				<option value=''>❌ Exclude</option>
-				`
-			: '',
-		);
-
-		this.setInnerHTML(selectOptions ?? '');
-
-		this.dispatchInputEvent();
-	}
-}
-
 const DatabaseSelect = <const>{
 	element: Select.getInstance<OptionsSelectId>('database-id'),
 	refreshButton: Button.getInstance<OptionsButtonId>('refresh-database-select'),
@@ -322,7 +133,7 @@ const DatabaseSelect = <const>{
 	},
 	propertyValueSelects: {
 		get categoryCanvas() {
-			return SelectPropertyValueSelect.getInstance<OptionsSelectId>('notion-category-canvas', 'select', 'notion.propertyValues.categoryCanvas', DatabaseSelect.propertySelects.category);
+			return SelectPropertyValueSelect.getInstance<OptionsSelectId>('notion-category-canvas', 'select', 'notion.propertyValues.categoryCanvas', DatabaseSelect.element.getValue, DatabaseSelect.propertySelects.category);
 		},
 	},
 
@@ -429,6 +240,7 @@ const buttons: {
 		),
 		undo: RestoreSavedButton.getInstance<OptionsRestoreButtonId>('options-undo-all',
 			<(keyof SavedFields)[]>Object.keys(CONFIGURATION.FIELDS),
+			OptionsPage.restoreOptions,
 		),
 	},
 };
