@@ -6,9 +6,11 @@ export class Select extends Input {
 	}
 
 	public static override getInstance<T extends string>(id: T): Select {
-		return Select.instances[id] = (Select.instances[id] instanceof Select)
-			? <Select>Select.instances[id]
-			: new Select(id);
+		if (!(Select.instances.get(id) instanceof Select)) {
+			Select.instances.set(id, new Select(id));
+		}
+
+		return <Select>Select.instances.get(id);
 	}
 
 	public setInnerHTML(html: string) {

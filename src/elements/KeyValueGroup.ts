@@ -46,9 +46,11 @@ export class KeyValueGroup extends Element {
 	}
 
 	public static override getInstance<T extends string>(id: T): KeyValueGroup {
-		return KeyValueGroup.instances[id] = (KeyValueGroup.instances[id] instanceof KeyValueGroup)
-			? <KeyValueGroup>KeyValueGroup.instances[id]
-			: new KeyValueGroup(id);
+		if (!(KeyValueGroup.instances.get(id) instanceof KeyValueGroup)) {
+			KeyValueGroup.instances.set(id, new KeyValueGroup(id));
+		}
+
+		return <KeyValueGroup>KeyValueGroup.instances.get(id);
 	}
 
 	public get isValidating() {
