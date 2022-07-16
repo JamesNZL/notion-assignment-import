@@ -321,7 +321,7 @@ label {
 			position: absolute;
 			top: 0.0625em;
 			right: 0;
-			margin-inline-end: 10px;
+			margin-inline-end: 20px;
 		}
 	}
 }
@@ -382,6 +382,13 @@ textarea {
 	max-width: 100%;
 	border-radius: configuration.$border-radius;
 	text-align: center;
+}
+
+select {
+	appearance: none;
+	background-image: var(--select-dropdown-arrow);
+	background-repeat: no-repeat;
+	background-position: right 20px center;
 }
 
 .invalid-input-error,

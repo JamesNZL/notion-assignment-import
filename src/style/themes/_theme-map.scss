@@ -70,6 +70,9 @@
 		'code-text-colour': $_code-text-colour,
 		'link-text-colour': $_link-text-colour,
 		'link-text-hover-colour': $_link-text-hover-colour,
+
+		// Other
+		'select-dropdown-arrow': url('data:image/svg+xml, <svg width="0.5em" height="0.5em" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg" fill="rgb(#{red($_text-colour)} #{green($_text-colour)} #{blue($_text-colour)})"><path d="m5.22538,9.17326l-4.93857,-5.11715c-0.58283,-0.60207 -0.10915,-1.54765 0.77538,-1.54765l9.87715,0a1.02973,0.93345 0 0 1 0.77538,1.54859l-4.93857,5.11528a1.02973,0.93345 0 0 1 -1.55077,0l0,0.00093z" /></svg>'),
 	);
 }
 
