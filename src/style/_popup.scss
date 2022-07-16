@@ -74,9 +74,12 @@ html#popup {
 				}
 			}
 
-			p.code {
+			p {
 				margin: calc(0.5 * configuration.$margin) calc(1em + configuration.$margin);
 				word-break: break-word;
+			}
+
+			p.code {
 				color: var(--code-text-colour);
 			}
 
