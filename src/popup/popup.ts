@@ -215,7 +215,7 @@ buttons.export.addEventListener('click', async () => {
 
 buttons.listAssignments.addEventListener('click', SavedCoursesList.listAssignments.bind(SavedCoursesList));
 
-buttons.listCourses.addEventListener('click', () => SavedCoursesList.listCourses());
+buttons.listCourses.addEventListener('click', SavedCoursesList.listCourses.bind(SavedCoursesList, undefined));
 
 Storage.getOptions().then(({ extension: { displayTheme }, popup: { displayJSONButton } }) => {
 	if (displayTheme) document.documentElement.classList.add(`${displayTheme}-mode`);

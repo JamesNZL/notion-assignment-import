@@ -350,16 +350,16 @@ CONFIGURATION.FIELDS['extension.displayTheme'].input.addEventListener('input', (
 });
 
 // add event listener to advanced options toggle
-AdvancedOptions.control?.addEventListener('input', () => AdvancedOptions.toggle());
+AdvancedOptions.control?.addEventListener('input', AdvancedOptions.toggle.bind(AdvancedOptions, undefined));
 
 // validate fields on input
 Object.values(CONFIGURATION.FIELDS)
 	.forEach(({ input, validateOn = 'input', dependents = [] }) => {
-		input.addEventListener(validateOn, () => input.validate());
+		input.addEventListener(validateOn, input.validate.bind(input, undefined));
 
 		if (!dependents.length) return;
 
-		input.addEventListener('input', () => input.toggleDependents(dependents));
+		input.addEventListener('input', input.toggleDependents.bind(input, dependents));
 	});
 
 Object.values(buttons.restore).forEach(button => button.addEventListener('click', button.restore.bind(button)));
