@@ -133,7 +133,7 @@ const DatabaseSelect = <const>{
 	},
 	propertyValueSelects: {
 		get categoryCanvas() {
-			return SelectPropertyValueSelect.getInstance<OptionsSelectId>('notion-category-canvas', 'select', 'notion.propertyValues.categoryCanvas', DatabaseSelect.element.getValue, DatabaseSelect.propertySelects.category);
+			return SelectPropertyValueSelect.getInstance<OptionsSelectId>('notion-category-canvas', 'select', 'notion.propertyValues.categoryCanvas', DatabaseSelect.element.getValue.bind(DatabaseSelect.element), DatabaseSelect.propertySelects.category);
 		},
 	},
 
@@ -240,7 +240,7 @@ const buttons: {
 		),
 		undo: RestoreSavedButton.getInstance<OptionsRestoreButtonId>('options-undo-all',
 			<(keyof SavedFields)[]>Object.keys(CONFIGURATION.FIELDS),
-			OptionsPage.restoreOptions,
+			OptionsPage.restoreOptions.bind(OptionsPage),
 		),
 	},
 };
