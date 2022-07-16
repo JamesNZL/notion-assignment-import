@@ -31,9 +31,11 @@ export class SegmentedControl extends Element {
 	public static override getInstance<T extends string, V extends SupportedTypes>(id: T, type = 'segmented control', segments?: Segment<T, V>[]): SegmentedControl {
 		if (!segments) throw new Error(`You must declare the segments for this SegmentedControl ${id}!`);
 
-		return SegmentedControl.instances[id] = (SegmentedControl.instances[id] instanceof SegmentedControl)
-			? <SegmentedControl>SegmentedControl.instances[id]
-			: new SegmentedControl(id, type, segments);
+		if (!(SegmentedControl.instances.get(id) instanceof SegmentedControl)) {
+			SegmentedControl.instances.set(id, new SegmentedControl(id, type, segments));
+		}
+
+		return <SegmentedControl>SegmentedControl.instances.get(id);
 	}
 
 	public async validate() {

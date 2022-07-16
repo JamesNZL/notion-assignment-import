@@ -57,38 +57,38 @@ type OptionsSelectId = valueof<OptionsElements['selects']>;
 type OptionsElementId = OptionsRestoreButtonId | OptionsButtonId | OptionsSelectId | valueof<OptionsElements['elements']>;
 
 class RestoreDefaultsButton extends Button {
-	protected static override instances: Record<string, RestoreDefaultsButton> = {};
-
 	protected restoreKeys: (keyof SavedFields)[];
-	protected inputs: Partial<Record<keyof SavedFields, OptionConfiguration<SupportedTypes>['input']>>;
+	protected inputs: Map<keyof SavedFields, OptionConfiguration<SupportedTypes>['input']>;
 
 	protected constructor(id: string, restoreKeys: (keyof SavedFields)[]) {
 		super(id);
 
 		this.restoreKeys = restoreKeys;
-		this.inputs = Object.fromEntries(
+		this.inputs = new Map(
 			this.restoreKeys.map(key => [key, CONFIGURATION.FIELDS[key].input]),
 		);
 
-		Object.values(this.inputs).forEach(input => input.addEventListener('input', this.toggle.bind(this)));
+		[...this.inputs.values()].forEach(input => input.addEventListener('input', this.toggle.bind(this)));
 	}
 
 	public static override getInstance<T extends string>(id: T, restoreKeys?: (keyof SavedFields)[]): RestoreDefaultsButton {
 		if (!restoreKeys) throw new Error('Argument restoreKeys must be defined for class Restore(Defaults|Saved)Button!');
 
-		return RestoreDefaultsButton.instances[id] = (RestoreDefaultsButton.instances[id] instanceof RestoreDefaultsButton)
-			? RestoreDefaultsButton.instances[id]
-			: new this(id, restoreKeys);
+		if (!(RestoreDefaultsButton.instances.get(id) instanceof RestoreDefaultsButton)) {
+			RestoreDefaultsButton.instances.set(id, new this(id, restoreKeys));
+		}
+
+		return <RestoreDefaultsButton>RestoreDefaultsButton.instances.get(id);
 	}
 
 	public toggle() {
-		(Object.entries(this.inputs).some(([key, input]) => !input.isHidden() && input.getValue() !== CONFIGURATION.FIELDS[<keyof SavedFields>key].defaultValue))
+		([...this.inputs].some(([key, input]) => !input.isHidden() && input.getValue() !== CONFIGURATION.FIELDS[<keyof SavedFields>key].defaultValue))
 			? this.show()
 			: this.hide();
 	}
 
 	protected async restoreInputs() {
-		Object.entries(this.inputs).forEach(([key, input]) => {
+		[...this.inputs].forEach(([key, input]) => {
 			const { defaultValue } = CONFIGURATION.FIELDS[<keyof SavedFields>key];
 			input.setValue(defaultValue);
 		});
@@ -109,7 +109,7 @@ class RestoreSavedButton extends RestoreDefaultsButton {
 	public override async toggle() {
 		const savedFields = await Storage.getSavedFields();
 
-		const anyUnsavedInputs = Object.entries(this.inputs)
+		const anyUnsavedInputs = [...this.inputs]
 			.reduce((hasUnsaved, [key, input]) => {
 				const isUnsaved = input.markModified(savedFields[<keyof SavedFields>key]);
 
@@ -124,7 +124,7 @@ class RestoreSavedButton extends RestoreDefaultsButton {
 	protected override async restoreInputs() {
 		await OptionsPage.restoreOptions();
 
-		Object.values(this.inputs).forEach(input => input.dispatchInputEvent());
+		[...this.inputs.values()].forEach(input => input.dispatchInputEvent());
 	}
 }
 
@@ -206,9 +206,11 @@ class PropertySelect extends Select {
 		if (!type) throw new Error('Argument type must be defined for class PropertySelect!');
 		if (!fieldKey) throw new Error('Argument fieldKey must be defined for class PropertySelect!');
 
-		return PropertySelect.instances[id] = (PropertySelect.instances[id] instanceof PropertySelect)
-			? <PropertySelect>PropertySelect.instances[id]
-			: new PropertySelect(id, type, fieldKey);
+		if (!(PropertySelect.instances.get(id) instanceof PropertySelect)) {
+			PropertySelect.instances.set(id, new PropertySelect(id, type, fieldKey));
+		}
+
+		return <PropertySelect>PropertySelect.instances.get(id);
 	}
 
 	public async populate(databasePromise: Promise<void | GetDatabaseResponse>, placeholder = 'Loading') {
@@ -265,9 +267,11 @@ class SelectPropertyValueSelect extends PropertySelect {
 		if (!fieldKey) throw new Error('Argument fieldKey must be defined for class SelectPropertyValueSelect!');
 		if (!propertySelect) throw new Error('Argument propertySelect must be defined for class SelectPropertyValueSelect!');
 
-		return SelectPropertyValueSelect.instances[id] = (SelectPropertyValueSelect.instances[id] instanceof SelectPropertyValueSelect)
-			? <SelectPropertyValueSelect>SelectPropertyValueSelect.instances[id]
-			: new SelectPropertyValueSelect(id, type, fieldKey, propertySelect);
+		if (!(SelectPropertyValueSelect.instances.get(id) instanceof SelectPropertyValueSelect)) {
+			SelectPropertyValueSelect.instances.set(id, new SelectPropertyValueSelect(id, type, fieldKey, propertySelect));
+		}
+
+		return <SelectPropertyValueSelect>SelectPropertyValueSelect.instances.get(id);
 	}
 
 	public override async populate(databasePromise: Promise<void | GetDatabaseResponse>, placeholder = 'Loading') {

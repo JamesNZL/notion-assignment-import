@@ -1,8 +1,8 @@
 export class Element {
-	protected static instances: Record<string, Element> = {};
+	protected static instances = new Map<string, Element>();
 
 	protected element: HTMLElement;
-	private timeouts: Record<string, ReturnType<typeof setTimeout>> = {};
+	private timeouts = new Map<string, ReturnType<typeof setTimeout>>();
 
 	private tile?: HTMLElement | false;
 	private parentHeading?: HTMLHeadingElement | false;
@@ -15,7 +15,11 @@ export class Element {
 	}
 
 	public static getInstance<T extends string>(id: T, type: string): Element {
-		return Element.instances[id] ??= new Element(id, type);
+		if (!Element.instances.has(id)) {
+			Element.instances.set(id, new Element(id, type));
+		}
+
+		return <Element>Element.instances.get(id);
 	}
 
 	public get id() {
@@ -28,7 +32,7 @@ export class Element {
 
 	public remove() {
 		this.element.remove();
-		delete Element.instances[this.id];
+		Element.instances.delete(this.id);
 	}
 
 	public addClass(className: string) {
@@ -170,12 +174,12 @@ export class Element {
 	}
 
 	public setTimeout(name: string, timeout: () => void, delay: number) {
-		clearTimeout(this.timeouts[name]);
-		this.timeouts[name] = setTimeout(timeout, delay);
+		clearTimeout(this.timeouts.get(name));
+		this.timeouts.set(name, setTimeout(timeout, delay));
 	}
 
 	public clearTimeout(name: string) {
-		clearTimeout(this.timeouts[name]);
+		clearTimeout(this.timeouts.get(name));
 	}
 
 	public dispatchEvent(event: Event) {

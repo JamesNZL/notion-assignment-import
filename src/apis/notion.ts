@@ -37,20 +37,14 @@ interface HandlerClientOptions extends ClientOptions {
 
 export class NotionClient extends Client {
 	private static instances = new Map<string, NotionClient>();
-
-	private static validTokens: {
-		[auth: string]: boolean;
-	} = {};
-
+	private static validTokens = new Map<string, boolean>();
 	// rate limits are stored in static field by auth as multiple instances may exist that use the same auth
 	// this ensures a different secret is not affected if another is rate limited, while ensuring different instances
 	// of the same secret cannot make new requests while rate limited
-	private static rateLimits: {
-		[auth: string]: {
-			isRateLimited: boolean;
-			retryAfterPromise: Promise<void> | null;
-		};
-	} = {};
+	private static rateLimits = new Map<string, {
+		isRateLimited: boolean,
+		retryAfterPromise: Promise<void> | null;
+	}>();
 
 	private auth: string;
 	private requestCache = new Map<string, unknown>();
@@ -59,36 +53,48 @@ export class NotionClient extends Client {
 		super(options);
 		this.auth = options.auth;
 
-		NotionClient.rateLimits[options.auth] = {
+		NotionClient.rateLimits.set(options.auth, {
 			isRateLimited: false,
 			retryAfterPromise: null,
-		};
+		});
 	}
 
 	public static getInstance(options: HandlerClientOptions): NotionClient {
-		if (!NotionClient.instances.has(JSON.stringify(options))) NotionClient.instances.set(JSON.stringify(options), new NotionClient(options));
+		if (!NotionClient.instances.has(JSON.stringify(options))) {
+			NotionClient.instances.set(JSON.stringify(options), new NotionClient(options));
+		}
 
 		return <NotionClient>NotionClient.instances.get(JSON.stringify(options));
 	}
 
 	public async validateToken() {
-		return NotionClient.validTokens[this.auth] ??= Boolean(await this.retrieveMe());
+		if (!NotionClient.validTokens.has(this.auth)) {
+			NotionClient.validTokens.set(this.auth, Boolean(await this.retrieveMe()));
+		}
+
+		return NotionClient.validTokens.get(this.auth);
 	}
 
 	private get isRateLimited() {
-		return NotionClient.rateLimits[this.auth]?.isRateLimited ?? false;
-	}
-
-	private set isRateLimited(isRateLimited: boolean) {
-		NotionClient.rateLimits[this.auth].isRateLimited = isRateLimited;
+		return NotionClient.rateLimits.get(this.auth)?.isRateLimited ?? false;
 	}
 
 	private get retryAfterPromise() {
-		return NotionClient.rateLimits[this.auth]?.retryAfterPromise ?? null;
+		return NotionClient.rateLimits.get(this.auth)?.retryAfterPromise ?? null;
 	}
 
-	private set retryAfterPromise(promise: Promise<void> | null) {
-		NotionClient.rateLimits[this.auth].retryAfterPromise = promise;
+	private setRateLimit(retryAfterPromise: Promise<void>) {
+		NotionClient.rateLimits.set(this.auth, {
+			isRateLimited: true,
+			retryAfterPromise,
+		});
+	}
+
+	private clearRateLimit() {
+		NotionClient.rateLimits.set(this.auth, {
+			isRateLimited: false,
+			retryAfterPromise: null,
+		});
 	}
 
 	private static alertRateLimited() {
@@ -141,14 +147,12 @@ export class NotionClient extends Client {
 					const retryAfter = Number(error.headers.get('Retry-After'));
 
 					// pause for Retry-After seconds
-					this.isRateLimited = true;
-					this.retryAfterPromise = NotionClient.sleep(retryAfter * 1000);
+					this.setRateLimit(NotionClient.sleep(retryAfter * 1000));
 					NotionClient.alertRateLimited();
 					await this.retryAfterPromise;
 
 					// reset rate-limit state
-					this.isRateLimited = false;
-					this.retryAfterPromise = null;
+					this.clearRateLimit();
 
 					// make the request again
 					return await this.makeRequest(method, cacheKey, parameters, { cache, force });

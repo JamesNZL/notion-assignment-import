@@ -22,9 +22,11 @@ export class Input extends Element {
 	}
 
 	public static override getInstance<T extends string>(id: T, type = 'input', Validator?: ValidatorConstructor): Input {
-		return Input.instances[id] = (Input.instances[id] instanceof Input)
-			? <Input>Input.instances[id]
-			: new Input(id, type, Validator);
+		if (!(Input.instances.get(id) instanceof Input)) {
+			Input.instances.set(id, new Input(id, type, Validator));
+		}
+
+		return <Input>Input.instances.get(id);
 	}
 
 	private static isValid(element: HTMLElement | null): element is HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement {

@@ -16,9 +16,11 @@ export class Button extends Element {
 	}
 
 	public static override getInstance<T extends string>(id: T): Button {
-		return Button.instances[id] = (Button.instances[id] instanceof Button)
-			? <Button>Button.instances[id]
-			: new Button(id);
+		if (!(Button.instances.get(id) instanceof Button)) {
+			Button.instances.set(id, new Button(id));
+		}
+
+		return <Button>Button.instances.get(id);
 	}
 
 	public setDefaultLabel(html: string) {
