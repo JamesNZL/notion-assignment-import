@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.2.1](https://github.com/JamesNZL/notion-assignment-import/compare/v4.2.0...v4.2.1) (2022-07-16)
+
+
+### Bug Fixes
+
+* **interface:** :lipstick: fix select dropdown arrow ([be24484](https://github.com/JamesNZL/notion-assignment-import/commit/be244845f708254d6501bf2faf0b1544bef7427c))
+* **interface:** :lipstick: lighten light mode active state ([04b1cee](https://github.com/JamesNZL/notion-assignment-import/commit/04b1ceea5058bd4c33cb8a6bbc5a8a3c453cd3c7))
+* **options:** :bug: fix `this` bindings ([2899320](https://github.com/JamesNZL/notion-assignment-import/commit/2899320f013e8f4b5fc26c544ac36ae97cd89edb))
+* **popup:** :lipstick: fix margin of `No saved ...` text ([651beb4](https://github.com/JamesNZL/notion-assignment-import/commit/651beb42552b4b1d0443beda8955b3e41324c08b))
+
 ## [4.2.0](https://github.com/JamesNZL/notion-assignment-import/compare/v4.1.1...v4.2.0) (2022-07-15)
 
 
