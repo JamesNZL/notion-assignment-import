@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.2.2](https://github.com/JamesNZL/notion-assignment-import/compare/v4.2.1...v4.2.2) (2022-07-16)
+
+
+### Bug Fixes
+
+* :rotating_light: fix html markup and accessibility issues ([b38a96b](https://github.com/JamesNZL/notion-assignment-import/commit/b38a96b058f1b035b71c0c823b8ec3c1cd92c578))
+* **firefox:** :bug: fix unsaved confirmation dialogue display ([847ca95](https://github.com/JamesNZL/notion-assignment-import/commit/847ca9549e9d838a82b8a4e21d23e6dd13aa58a0))
+* **interface:** :wheelchair: make options icon tabbable ([79a498b](https://github.com/JamesNZL/notion-assignment-import/commit/79a498b6425a97d7c4140d66ada412965a224192))
+* **interface:** :wheelchair: make segmented controls tabbable ([a7129e8](https://github.com/JamesNZL/notion-assignment-import/commit/a7129e84ffb67ffbb1517d4b649a0231bc1e052e))
+
 ### [4.2.1](https://github.com/JamesNZL/notion-assignment-import/compare/v4.2.0...v4.2.1) (2022-07-16)
 
 
