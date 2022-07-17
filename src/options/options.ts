@@ -354,6 +354,28 @@ CONFIGURATION.FIELDS['extension.displayTheme'].input.addEventListener('input', (
 // add event listener to advanced options toggle
 AdvancedOptions.control?.addEventListener('input', AdvancedOptions.toggle.bind(AdvancedOptions, undefined));
 
+// add event listener to bind accessToken input field to authorisation button
+CONFIGURATION.FIELDS['notion.accessToken'].input.addEventListener('input', async () => {
+	const validatedInput = await CONFIGURATION.FIELDS['notion.accessToken'].input.validate();
+
+	if (validatedInput === InputFieldValidator.INVALID_INPUT) {
+		buttons.oauth.setDefaultLabel('Authorise with Notion');
+		return buttons.oauth.resetHTML();
+	}
+
+	DatabaseSelect.populate();
+
+	buttons.oauth.setDefaultLabel('Reauthorise with Notion');
+
+	// TODO: don't hardcode these authorisation strings
+	if (buttons.oauth.getButtonLabel() !== 'Authorising with Notion...') {
+		return buttons.oauth.resetHTML();
+	}
+
+	buttons.oauth.setButtonLabel('Authorised!');
+	buttons.oauth.resetHTML(1325);
+});
+
 // validate fields on input
 Object.values(CONFIGURATION.FIELDS)
 	.forEach(({ input, validateOn = 'input', dependents = [] }) => {
@@ -392,13 +414,8 @@ buttons.oauth.addEventListener('click', async () => {
 
 	if (!success) return buttons.oauth.resetHTML();
 
-	buttons.oauth.setButtonLabel('Authorised!');
-	buttons.oauth.setDefaultLabel('Reauthorise with Notion');
-	buttons.oauth.resetHTML(1325);
-
+	// TODO: remove this
 	Storage.clearDatabaseId();
-	DatabaseSelect.populate();
-	DatabaseSelect.show();
 
 	const { accessToken } = await Storage.getNotionAuthorisation();
 	CONFIGURATION.FIELDS['notion.accessToken'].input.setValue(accessToken ?? null);
