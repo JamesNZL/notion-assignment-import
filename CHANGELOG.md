@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.2.5](https://github.com/JamesNZL/notion-assignment-import/compare/v4.2.4...v4.2.5) (2022-07-17)
+
+
+### Bug Fixes
+
+* **elements:** :bug: fix `defaultHTML` not being label html ([09e9ceb](https://github.com/JamesNZL/notion-assignment-import/commit/09e9cebaaecd758d19ae3f492bf6f037a6570dc5))
+* **elements:** :bug: validate `databaseId` before retrieving database ([85618aa](https://github.com/JamesNZL/notion-assignment-import/commit/85618aaf42719813b4f8c32c45a9b20457256cb3))
+* **interface:** :bug: hide validator span if input is hidden ([f937c75](https://github.com/JamesNZL/notion-assignment-import/commit/f937c7509ba302e09d11b8a2120965ab0a6ef337))
+* **interface:** :bug: pair oauth button label to token input ([59f4265](https://github.com/JamesNZL/notion-assignment-import/commit/59f426553a2f44731384e425e9ca9a2f3357b8ed))
+* **options:** :ambulance: fix select validators ([cf053b4](https://github.com/JamesNZL/notion-assignment-import/commit/cf053b4873af2774b69779992a7b155b9a94ff77))
+* **options:** :children_crossing: don't clear `databaseId` on authorisation ([060dbe0](https://github.com/JamesNZL/notion-assignment-import/commit/060dbe0837e4eb7a5557abdff9e6871cb22f995a))
+* **validator:** :bug: implement proper fix for 85618aa ([efaed22](https://github.com/JamesNZL/notion-assignment-import/commit/efaed22f6b3abb10f6d263de5423f0052f926a8f))
+
 ### [4.2.4](https://github.com/JamesNZL/notion-assignment-import/compare/v4.2.3...v4.2.4) (2022-07-17)
 
 
