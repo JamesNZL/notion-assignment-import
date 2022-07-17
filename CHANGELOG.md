@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.2.4](https://github.com/JamesNZL/notion-assignment-import/compare/v4.2.3...v4.2.4) (2022-07-17)
+
+
+### Bug Fixes
+
+* **interface:** :bug: fix refresh database button sometimes not appearing ([21b694b](https://github.com/JamesNZL/notion-assignment-import/commit/21b694bcf0e5c761d119232c7745927f5f66611d))
+
 ### [4.2.3](https://github.com/JamesNZL/notion-assignment-import/compare/v4.2.2...v4.2.3) (2022-07-17)
 
 
