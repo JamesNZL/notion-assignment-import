@@ -36,23 +36,26 @@ const SaveButton: {
 	updateState(update: SaveButtonUpdates): void {
 		if (!this.button) return;
 		switch (update) {
-			case SaveButtonUpdates.Pending:
+			case (SaveButtonUpdates.Pending): {
 				this.button.setButtonLabel(`Validating ${InputFieldValidator.countValidatingFields()} input${(InputFieldValidator.countValidatingFields() > 1) ? 's' : ''}...`);
 				this.button.disable();
 				break;
-			case SaveButtonUpdates.Disable:
+			}
+			case (SaveButtonUpdates.Disable): {
 				this.button.setButtonLabel(`${InputFieldValidator.countInvalidFields()} invalid input${(InputFieldValidator.countInvalidFields() > 1) ? 's' : ''}!`);
 				this.button.disable();
 				this.button.addClass('red');
 				this.button.removeClass('green');
 				break;
-			case SaveButtonUpdates.Restore:
+			}
+			case (SaveButtonUpdates.Restore): {
 				if (InputFieldValidator.countInvalidFields() > 0) return this.updateState(SaveButtonUpdates.Disable);
 				else if (InputFieldValidator.countValidatingFields() > 0) return this.updateState(SaveButtonUpdates.Pending);
 
 				this.button.resetHTML();
 				this.button.enable();
 				break;
+			}
 		}
 	},
 };
