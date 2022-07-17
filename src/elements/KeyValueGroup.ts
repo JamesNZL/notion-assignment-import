@@ -29,8 +29,11 @@ export class KeyValueGroup extends Element {
 
 	private validatePromises?: [Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT>, Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT>];
 
-	private constructor(id: string) {
-		super(id, 'key-value group');
+	private constructor({ id, type }: {
+		id: string,
+		type: string;
+	}) {
+		super({ id, type });
 
 		const [keyGroupClass, valueGroupClass] = ['key-value-group-key', 'key-value-group-value'];
 
@@ -41,13 +44,22 @@ export class KeyValueGroup extends Element {
 
 		if (valueGroups.length !== 1) throw new Error(`KeyValueGroup ${id} must have ${(valueGroups.length > 1) ? 'only one' : 'a'} unique value group with the class ${valueGroupClass}!`);
 
-		this.keyGroup = Element.getInstance(keyGroups[0].id, 'key group');
-		this.valueGroup = Element.getInstance(valueGroups[0].id, 'value group');
+		this.keyGroup = Element.getInstance({
+			id: keyGroups[0].id,
+			type: 'key group',
+		});
+		this.valueGroup = Element.getInstance({
+			id: valueGroups[0].id,
+			type: 'value group',
+		});
 	}
 
-	public static override getInstance<T extends string>(id: T): KeyValueGroup {
+	public static override getInstance<T extends string>({ id, type = 'key-value group' }: {
+		id: T,
+		type?: string;
+	}): KeyValueGroup {
 		if (!(KeyValueGroup.instances.get(id) instanceof KeyValueGroup)) {
-			KeyValueGroup.instances.set(id, new KeyValueGroup(id));
+			KeyValueGroup.instances.set(id, new KeyValueGroup({ id, type }));
 		}
 
 		return <KeyValueGroup>KeyValueGroup.instances.get(id);
@@ -236,8 +248,14 @@ export class KeyValueGroup extends Element {
 		this.keyGroup.insertAdjacentElement('beforeend', this.getKeyElement(keyId));
 		this.valueGroup.insertAdjacentElement('beforeend', this.getValueElement(valueId));
 
-		const keyInput = Input.getInstance(keyId, 'input', this.KeyValidator);
-		const valueInput = Input.getInstance(valueId, 'input', this.ValueValidator);
+		const keyInput = Input.getInstance({
+			id: keyId,
+			Validator: this.KeyValidator,
+		});
+		const valueInput = Input.getInstance({
+			id: valueId,
+			Validator: this.ValueValidator,
+		});
 
 		if (!keyInput || !valueInput) return;
 
@@ -315,7 +333,10 @@ export class KeyValueGroup extends Element {
 
 		if (!this.isValid || this.isHidden || this.getValue() === '{}') {
 			dependents.forEach(dependentId => {
-				const dependent = Element.getInstance(dependentId, 'dependent');
+				const dependent = Element.getInstance({
+					id: dependentId,
+					type: 'dependent',
+				});
 				dependent.hide();
 				dependent.dispatchEvent(new Event('input', { bubbles: false }));
 			});
@@ -324,7 +345,10 @@ export class KeyValueGroup extends Element {
 		}
 
 		dependents.forEach(dependentId => {
-			const dependent = Element.getInstance(dependentId, 'dependent');
+			const dependent = Element.getInstance({
+				id: dependentId,
+				type: 'dependent',
+			});
 			dependent.show();
 			dependent.dispatchEvent(new Event('input', { bubbles: false }));
 		});

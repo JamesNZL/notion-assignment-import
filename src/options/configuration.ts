@@ -137,7 +137,10 @@ export const CONFIGURATION: {
 			defaultValue: 'Pacific/Auckland',
 			get input() {
 				delete (<Partial<typeof this>>this).input;
-				return this.input = Input.getInstance<InputElementId>('timezone', 'input', TimeZoneField);
+				return this.input = Input.getInstance<InputElementId>({
+					id: 'timezone',
+					Validator: TimeZoneField,
+				});
 			},
 		},
 		extension: {
@@ -145,21 +148,24 @@ export const CONFIGURATION: {
 				defaultValue: null,
 				get input() {
 					delete (<Partial<typeof this>>this).input;
-					return this.input = SegmentedControl.getInstance<InputElementId, typeof this.defaultValue>('display-theme', 'segmented control', [
-						{
-							id: 'display-system-mode',
-							value: null,
-							default: true,
-						},
-						{
-							id: 'display-light-mode',
-							value: 'light',
-						},
-						{
-							id: 'display-dark-mode',
-							value: 'dark',
-						},
-					]);
+					return this.input = SegmentedControl.getInstance<InputElementId, typeof this.defaultValue>({
+						id: 'display-theme',
+						segments: [
+							{
+								id: 'display-system-mode',
+								value: null,
+								default: true,
+							},
+							{
+								id: 'display-light-mode',
+								value: 'light',
+							},
+							{
+								id: 'display-dark-mode',
+								value: 'dark',
+							},
+						],
+					});
 				},
 			},
 		},
@@ -168,18 +174,21 @@ export const CONFIGURATION: {
 				defaultValue: false,
 				get input() {
 					delete (<Partial<typeof this>>this).input;
-					return this.input = SegmentedControl.getInstance<InputElementId, typeof this.defaultValue>('display-json-button', 'segmented control', [
-						{
-							id: 'hide-json-button',
-							value: false,
-							default: true,
-						},
-						{
-							id: 'show-json-button',
-							value: true,
-							showDependents: true,
-						},
-					]);
+					return this.input = SegmentedControl.getInstance<InputElementId, typeof this.defaultValue>({
+						id: 'display-json-button',
+						segments: [
+							{
+								id: 'hide-json-button',
+								value: false,
+								default: true,
+							},
+							{
+								id: 'show-json-button',
+								value: true,
+								showDependents: true,
+							},
+						],
+					});
 				},
 			},
 		},
@@ -188,18 +197,21 @@ export const CONFIGURATION: {
 				defaultValue: false,
 				get input() {
 					delete (<Partial<typeof this>>this).input;
-					return this.input = SegmentedControl.getInstance<InputElementId, typeof this.defaultValue>('display-advanced-options', 'segmented control', [
-						{
-							id: 'hide-advanced-options',
-							value: false,
-							default: true,
-						},
-						{
-							id: 'show-advanced-options',
-							value: true,
-							showDependents: true,
-						},
-					]);
+					return this.input = SegmentedControl.getInstance<InputElementId, typeof this.defaultValue>({
+						id: 'display-advanced-options',
+						segments: [
+							{
+								id: 'hide-advanced-options',
+								value: false,
+								default: true,
+							},
+							{
+								id: 'show-advanced-options',
+								value: true,
+								showDependents: true,
+							},
+						],
+					});
 				},
 			},
 		},
@@ -209,49 +221,70 @@ export const CONFIGURATION: {
 					defaultValue: 'ic-app-crumbs',
 					get input() {
 						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>('breadcrumbs', 'input', RequiredStringField);
+						return this.input = Input.getInstance<InputElementId>({
+							id: 'breadcrumbs',
+							Validator: RequiredStringField,
+						});
 					},
 				},
 				assignment: {
 					defaultValue: 'assignment',
 					get input() {
 						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>('assignment-class', 'input', RequiredStringField);
+						return this.input = Input.getInstance<InputElementId>({
+							id: 'assignment-class',
+							Validator: RequiredStringField,
+						});
 					},
 				},
 				title: {
 					defaultValue: 'ig-title',
 					get input() {
 						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>('assignment-title', 'input', RequiredStringField);
+						return this.input = Input.getInstance<InputElementId>({
+							id: 'assignment-title',
+							Validator: RequiredStringField,
+						});
 					},
 				},
 				availableDate: {
 					defaultValue: 'assignment-date-available',
 					get input() {
 						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>('available-date', 'input', RequiredStringField);
+						return this.input = Input.getInstance<InputElementId>({
+							id: 'available-date',
+							Validator: RequiredStringField,
+						});
 					},
 				},
 				availableStatus: {
 					defaultValue: 'status-description',
 					get input() {
 						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>('available-status', 'input', RequiredStringField);
+						return this.input = Input.getInstance<InputElementId>({
+							id: 'available-status',
+							Validator: RequiredStringField,
+						});
 					},
 				},
 				dueDate: {
 					defaultValue: 'assignment-date-due',
 					get input() {
 						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>('due-date', 'input', RequiredStringField);
+						return this.input = Input.getInstance<InputElementId>({
+							id: 'due-date',
+							Validator: RequiredStringField,
+						});
 					},
 				},
 				dateElement: {
 					defaultValue: 'screenreader-only',
 					get input() {
 						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>('date-element', 'input', RequiredStringField);
+						return this.input = Input.getInstance<InputElementId>({
+							id: 'date-element',
+							Validator: RequiredStringField,
+						});
 					},
 				},
 			},
@@ -260,14 +293,20 @@ export const CONFIGURATION: {
 					defaultValue: '2',
 					get input() {
 						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>('course-code-n', 'input', RequiredNumberAsStringField);
+						return this.input = Input.getInstance<InputElementId>({
+							id: 'course-code-n',
+							Validator: RequiredNumberAsStringField,
+						});
 					},
 				},
 				notAvailable: {
 					defaultValue: 'Not available until',
 					get input() {
 						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>('status-not-available', 'input', RequiredStringField);
+						return this.input = Input.getInstance<InputElementId>({
+							id: 'status-not-available',
+							Validator: RequiredStringField,
+						});
 					},
 				},
 			},
@@ -275,7 +314,9 @@ export const CONFIGURATION: {
 				defaultValue: '{}',
 				get input() {
 					delete (<Partial<typeof this>>this).input;
-					return this.input = KeyValueGroup.getInstance<InputElementId>('course-code-overrides-group');
+					return this.input = KeyValueGroup.getInstance<InputElementId>({
+						id: 'course-code-overrides-group',
+					});
 				},
 			},
 		},
@@ -284,7 +325,10 @@ export const CONFIGURATION: {
 				defaultValue: null,
 				get input() {
 					delete (<Partial<typeof this>>this).input;
-					return this.input = Input.getInstance<InputElementId>('notion-token', 'input', RequiredNotionTokenField);
+					return this.input = Input.getInstance<InputElementId>({
+						id: 'notion-token',
+						Validator: RequiredNotionTokenField,
+					});
 				},
 				dependents: [
 					'database-id',
@@ -295,7 +339,10 @@ export const CONFIGURATION: {
 				defaultValue: null,
 				get input() {
 					delete (<Partial<typeof this>>this).input;
-					return this.input = Input.getInstance<InputElementId>('database-id', 'input', RequiredNotionDatabaseIdField);
+					return this.input = Input.getInstance<InputElementId>({
+						id: 'database-id',
+						Validator: RequiredNotionDatabaseIdField,
+					});
 				},
 				dependents: [
 					'notion-property-name',
@@ -312,7 +359,10 @@ export const CONFIGURATION: {
 					defaultValue: 'Name',
 					get input() {
 						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>('notion-property-name', 'input', RequiredStringField);
+						return this.input = Input.getInstance<InputElementId>({
+							id: 'notion-property-name',
+							Validator: RequiredStringField,
+						});
 					},
 					validateOn: 'change',
 				},
@@ -320,7 +370,10 @@ export const CONFIGURATION: {
 					defaultValue: 'Category',
 					get input() {
 						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>('notion-property-category', 'input', StringField);
+						return this.input = Input.getInstance<InputElementId>({
+							id: 'notion-property-category',
+							Validator: StringField,
+						});
 					},
 					dependents: ['notion-category-canvas'],
 				},
@@ -328,35 +381,50 @@ export const CONFIGURATION: {
 					defaultValue: 'Course',
 					get input() {
 						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>('notion-property-course', 'input', StringField);
+						return this.input = Input.getInstance<InputElementId>({
+							id: 'notion-property-course',
+							Validator: StringField,
+						});
 					},
 				},
 				url: {
 					defaultValue: 'URL',
 					get input() {
 						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>('notion-property-url', 'input', StringField);
+						return this.input = Input.getInstance<InputElementId>({
+							id: 'notion-property-url',
+							Validator: StringField,
+						});
 					},
 				},
 				available: {
 					defaultValue: 'Reminder',
 					get input() {
 						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>('notion-property-available', 'input', StringField);
+						return this.input = Input.getInstance<InputElementId>({
+							id: 'notion-property-available',
+							Validator: StringField,
+						});
 					},
 				},
 				due: {
 					defaultValue: 'Due',
 					get input() {
 						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>('notion-property-due', 'input', StringField);
+						return this.input = Input.getInstance<InputElementId>({
+							id: 'notion-property-due',
+							Validator: StringField,
+						});
 					},
 				},
 				span: {
 					defaultValue: 'Date Span',
 					get input() {
 						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>('notion-property-span', 'input', StringField);
+						return this.input = Input.getInstance<InputElementId>({
+							id: 'notion-property-span',
+							Validator: StringField,
+						});
 					},
 				},
 			},
@@ -365,7 +433,10 @@ export const CONFIGURATION: {
 					defaultValue: 'Canvas',
 					get input() {
 						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>('notion-category-canvas', 'input', StringField);
+						return this.input = Input.getInstance<InputElementId>({
+							id: 'notion-category-canvas',
+							Validator: StringField,
+						});
 					},
 				},
 			},
@@ -373,7 +444,9 @@ export const CONFIGURATION: {
 				defaultValue: '{}',
 				get input() {
 					delete (<Partial<typeof this>>this).input;
-					return this.input = KeyValueGroup.getInstance<InputElementId>('course-emojis-group');
+					return this.input = KeyValueGroup.getInstance<InputElementId>({
+						id: 'course-emojis-group',
+					});
 				},
 			},
 		},

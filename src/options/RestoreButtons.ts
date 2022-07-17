@@ -9,8 +9,12 @@ export class RestoreDefaultsButton extends Button {
 	protected restoreKeys: (keyof SavedFields)[];
 	protected inputs: Map<keyof SavedFields, OptionConfiguration<SupportedTypes>['input']>;
 
-	protected constructor(id: string, restoreKeys: (keyof SavedFields)[]) {
-		super(id);
+	protected constructor({ id, type, restoreKeys }: {
+		id: string,
+		type: string,
+		restoreKeys: (keyof SavedFields)[];
+	}) {
+		super({ id, type });
 
 		this.restoreKeys = restoreKeys;
 		this.inputs = new Map(
@@ -20,11 +24,13 @@ export class RestoreDefaultsButton extends Button {
 		[...this.inputs.values()].forEach(input => input.addEventListener('input', this.toggle.bind(this)));
 	}
 
-	public static override getInstance<T extends string>(id: T, restoreKeys?: (keyof SavedFields)[]): RestoreDefaultsButton {
-		if (!restoreKeys) throw new Error('Argument restoreKeys must be defined for class RestoreDefaultsButton!');
-
+	public static override getInstance<T extends string>({ id, type = 'restore defaults button', restoreKeys }: {
+		id: T,
+		type?: string,
+		restoreKeys: (keyof SavedFields)[];
+	}): RestoreDefaultsButton {
 		if (!(RestoreDefaultsButton.instances.get(id) instanceof RestoreDefaultsButton)) {
-			RestoreDefaultsButton.instances.set(id, new this(id, restoreKeys));
+			RestoreDefaultsButton.instances.set(id, new this({ id, type, restoreKeys }));
 		}
 
 		return <RestoreDefaultsButton>RestoreDefaultsButton.instances.get(id);
@@ -52,18 +58,25 @@ export class RestoreDefaultsButton extends Button {
 export class RestoreSavedButton extends RestoreDefaultsButton {
 	private restoreOptions: () => Promise<void>;
 
-	protected constructor(id: string, restoreKeys: (keyof SavedFields)[], restoreOptions: () => Promise<void>) {
-		super(id, restoreKeys);
+	protected constructor({ id, type, restoreKeys, restoreOptions }: {
+		id: string,
+		type: string,
+		restoreKeys: (keyof SavedFields)[],
+		restoreOptions: () => Promise<void>;
+	}) {
+		super({ id, type, restoreKeys });
 
 		this.restoreOptions = restoreOptions;
 	}
 
-	public static override getInstance<T extends string>(id: T, restoreKeys?: (keyof SavedFields)[], restoreOptions?: () => Promise<void>): RestoreDefaultsButton {
-		if (!restoreKeys) throw new Error('Argument restoreKeys must be defined for class RestoreSavedButton!');
-		if (!restoreOptions) throw new Error('Argument restoreOptions must be defined for class RestoreSavedButton!');
-
+	public static override getInstance<T extends string>({ id, type = 'restore saved button', restoreKeys, restoreOptions }: {
+		id: T,
+		type?: string,
+		restoreKeys: (keyof SavedFields)[],
+		restoreOptions: () => Promise<void>;
+	}): RestoreDefaultsButton {
 		if (!(RestoreSavedButton.instances.get(id) instanceof RestoreSavedButton)) {
-			RestoreSavedButton.instances.set(id, new this(id, restoreKeys, restoreOptions));
+			RestoreSavedButton.instances.set(id, new this({ id, type, restoreKeys, restoreOptions }));
 		}
 
 		return <RestoreSavedButton>RestoreSavedButton.instances.get(id);

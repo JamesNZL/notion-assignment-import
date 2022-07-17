@@ -5,19 +5,26 @@ export class Button extends Element {
 	private defaultLabelHTML: string;
 	private defaultClassList: string;
 
-	protected constructor(id: string) {
-		super(id, 'button');
+	protected constructor({ id, type }: {
+		id: string,
+		type: string;
+	}) {
+		super({ id, type });
 
-		this.buttonLabel = Element.getInstance(
-			this.element.querySelector('.button-label')?.id ?? this.element.id, 'button label',
-		);
+		this.buttonLabel = Element.getInstance({
+			id: this.element.querySelector('.button-label')?.id ?? this.element.id,
+			type: 'button label',
+		});
 		this.defaultLabelHTML = this.buttonLabel.innerHTML;
 		this.defaultClassList = this.element.classList.value;
 	}
 
-	public static override getInstance<T extends string>(id: T): Button {
+	public static override getInstance<T extends string>({ id, type = 'button' }: {
+		id: T,
+		type?: string;
+	}): Button {
 		if (!(Button.instances.get(id) instanceof Button)) {
-			Button.instances.set(id, new Button(id));
+			Button.instances.set(id, new Button({ id, type }));
 		}
 
 		return <Button>Button.instances.get(id);

@@ -97,7 +97,10 @@ const OptionsPage = <const>{
 };
 
 const AdvancedOptions = <const>{
-	element: Element.getInstance<OptionsElementId>('advanced-options', 'advanced options'),
+	element: Element.getInstance<OptionsElementId>({
+		id: 'advanced-options',
+		type: 'advanced options',
+	}),
 	control: CONFIGURATION.FIELDS['options.displayAdvanced'].input,
 
 	show() {
@@ -120,7 +123,7 @@ const AdvancedOptions = <const>{
 };
 
 const OAuth2Button = <const>{
-	button: Button.getInstance<OptionsButtonId>('notion-oauth'),
+	button: Button.getInstance<OptionsButtonId>({ id: 'notion-oauth' }),
 	states: {
 		unauthorised: 'Authorise with Notion',
 		reauthorise: 'Reauthorise with Notion',
@@ -130,20 +133,55 @@ const OAuth2Button = <const>{
 };
 
 const DatabaseSelect = <const>{
-	element: Select.getInstance<OptionsSelectId>('database-id'),
-	refreshButton: Button.getInstance<OptionsButtonId>('refresh-database-select'),
+	element: Select.getInstance<OptionsSelectId>({ id: 'database-id' }),
+	refreshButton: Button.getInstance<OptionsButtonId>({ id: 'refresh-database-select' }),
 	propertySelects: {
-		name: PropertySelect.getInstance<OptionsSelectId>('notion-property-name', 'title', 'notion.propertyNames.name'),
-		category: PropertySelect.getInstance<OptionsSelectId>('notion-property-category', 'select', 'notion.propertyNames.category'),
-		course: PropertySelect.getInstance<OptionsSelectId>('notion-property-course', 'select', 'notion.propertyNames.course'),
-		url: PropertySelect.getInstance<OptionsSelectId>('notion-property-url', 'url', 'notion.propertyNames.url'),
-		available: PropertySelect.getInstance<OptionsSelectId>('notion-property-available', 'date', 'notion.propertyNames.available'),
-		due: PropertySelect.getInstance<OptionsSelectId>('notion-property-due', 'date', 'notion.propertyNames.due'),
-		span: PropertySelect.getInstance<OptionsSelectId>('notion-property-span', 'date', 'notion.propertyNames.span'),
+		// TODO: add validators
+		name: PropertySelect.getInstance<OptionsSelectId>({
+			id: 'notion-property-name',
+			type: 'title',
+			fieldKey: 'notion.propertyNames.name',
+		}),
+		category: PropertySelect.getInstance<OptionsSelectId>({
+			id: 'notion-property-category',
+			type: 'select',
+			fieldKey: 'notion.propertyNames.category',
+		}),
+		course: PropertySelect.getInstance<OptionsSelectId>({
+			id: 'notion-property-course',
+			type: 'select',
+			fieldKey: 'notion.propertyNames.course',
+		}),
+		url: PropertySelect.getInstance<OptionsSelectId>({
+			id: 'notion-property-url',
+			type: 'url',
+			fieldKey: 'notion.propertyNames.url',
+		}),
+		available: PropertySelect.getInstance<OptionsSelectId>({
+			id: 'notion-property-available',
+			type: 'date',
+			fieldKey: 'notion.propertyNames.available',
+		}),
+		due: PropertySelect.getInstance<OptionsSelectId>({
+			id: 'notion-property-due',
+			type: 'date',
+			fieldKey: 'notion.propertyNames.due',
+		}),
+		span: PropertySelect.getInstance<OptionsSelectId>({
+			id: 'notion-property-span',
+			type: 'date',
+			fieldKey: 'notion.propertyNames.span',
+		}),
 	},
 	propertyValueSelects: {
 		get categoryCanvas() {
-			return SelectPropertyValueSelect.getInstance<OptionsSelectId>('notion-category-canvas', 'select', 'notion.propertyValues.categoryCanvas', DatabaseSelect.element.validate.bind(DatabaseSelect.element), DatabaseSelect.propertySelects.category);
+			return SelectPropertyValueSelect.getInstance<OptionsSelectId>({
+				id: 'notion-category-canvas',
+				type: 'select',
+				fieldKey: 'notion.propertyValues.categoryCanvas',
+				getDatabaseId: DatabaseSelect.element.validate.bind(DatabaseSelect.element),
+				propertySelect: DatabaseSelect.propertySelects.category,
+			});
 		},
 	},
 
@@ -196,15 +234,17 @@ const buttons: {
 } = <const>{
 	oauth: OAuth2Button.button,
 	refreshDatabaseSelect: DatabaseSelect.refreshButton,
-	save: Button.getInstance<OptionsButtonId>('save-button'),
+	save: Button.getInstance<OptionsButtonId>({ id: 'save-button' }),
 	restore: {
-		timeZone: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>('options-restore-timezone',
-			[
+		timeZone: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>({
+			id: 'options-restore-timezone',
+			restoreKeys: [
 				'timeZone',
 			],
-		),
-		canvasClassNames: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>('options-restore-canvas-class-names',
-			[
+		}),
+		canvasClassNames: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>({
+			id: 'options-restore-canvas-class-names',
+			restoreKeys: [
 				'canvas.classNames.breadcrumbs',
 				'canvas.classNames.assignment',
 				'canvas.classNames.title',
@@ -213,20 +253,23 @@ const buttons: {
 				'canvas.classNames.dueDate',
 				'canvas.classNames.dateElement',
 			],
-		),
-		canvasClassValues: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>('options-restore-canvas-class-values',
-			[
+		}),
+		canvasClassValues: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>({
+			id: 'options-restore-canvas-class-values',
+			restoreKeys: [
 				'canvas.classValues.courseCodeN',
 				'canvas.classValues.notAvailable',
 			],
-		),
-		canvasCourseCodes: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>('options-restore-canvas-course-codes',
-			[
+		}),
+		canvasCourseCodes: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>({
+			id: 'options-restore-canvas-course-codes',
+			restoreKeys: [
 				'canvas.courseCodeOverrides',
 			],
-		),
-		notionPropertyNames: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>('options-restore-notion-property-names',
-			[
+		}),
+		notionPropertyNames: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>({
+			id: 'options-restore-notion-property-names',
+			restoreKeys: [
 				'notion.propertyNames.name',
 				'notion.propertyNames.category',
 				'notion.propertyNames.course',
@@ -235,24 +278,28 @@ const buttons: {
 				'notion.propertyNames.due',
 				'notion.propertyNames.span',
 			],
-		),
-		notionPropertyValues: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>('options-restore-notion-property-values',
-			[
+		}),
+		notionPropertyValues: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>({
+			id: 'options-restore-notion-property-values',
+			restoreKeys: [
 				'notion.propertyValues.categoryCanvas',
 			],
-		),
-		notionEmojis: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>('options-restore-notion-emojis',
-			[
+		}),
+		notionEmojis: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>({
+			id: 'options-restore-notion-emojis',
+			restoreKeys: [
 				'notion.courseEmojis',
 			],
-		),
-		all: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>('options-restore-all',
-			<(keyof SavedFields)[]>Object.keys(CONFIGURATION.FIELDS),
-		),
-		undo: RestoreSavedButton.getInstance<OptionsRestoreButtonId>('options-undo-all',
-			<(keyof SavedFields)[]>Object.keys(CONFIGURATION.FIELDS),
-			OptionsPage.restoreOptions.bind(OptionsPage),
-		),
+		}),
+		all: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>({
+			id: 'options-restore-all',
+			restoreKeys: <(keyof SavedFields)[]>Object.keys(CONFIGURATION.FIELDS),
+		}),
+		undo: RestoreSavedButton.getInstance<OptionsRestoreButtonId>({
+			id: 'options-undo-all',
+			restoreKeys: <(keyof SavedFields)[]>Object.keys(CONFIGURATION.FIELDS),
+			restoreOptions: OptionsPage.restoreOptions.bind(OptionsPage),
+		}),
 	},
 };
 
@@ -311,13 +358,13 @@ Storage.getNotionAuthorisation().then(async ({ accessToken }) => {
  */
 
 document.addEventListener('DOMContentLoaded', async () => {
-	KeyValueGroup.getInstance<OptionsElementId>('course-code-overrides-group')
+	KeyValueGroup.getInstance<OptionsElementId>({ id: 'course-code-overrides-group' })
 		.setPlaceholders({
 			key: '121 UoA',
 			value: 'COURSE 121',
 		});
 
-	KeyValueGroup.getInstance<OptionsElementId>('course-emojis-group')
+	KeyValueGroup.getInstance<OptionsElementId>({ id: 'course-emojis-group' })
 		.setPlaceholders({
 			key: 'COURSE 121',
 			value: '👨‍💻',

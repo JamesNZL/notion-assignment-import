@@ -9,8 +9,12 @@ export class Input extends Element {
 
 	protected element: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
 
-	protected constructor(id: string, type = 'input', Validator?: ValidatorConstructor) {
-		super(id, type);
+	protected constructor({ id, type, Validator }: {
+		id: string,
+		type: string,
+		Validator?: ValidatorConstructor;
+	}) {
+		super({ id, type });
 
 		const element = document.getElementById(id);
 		if (!element) throw new Error(`Invalid ${type} identifier ${id}!`);
@@ -21,9 +25,13 @@ export class Input extends Element {
 		if (Validator) this.validator = new Validator(id);
 	}
 
-	public static override getInstance<T extends string>(id: T, type = 'input', Validator?: ValidatorConstructor): Input {
+	public static override getInstance<T extends string>({ id, type = 'input', Validator }: {
+		id: T,
+		type?: string,
+		Validator?: ValidatorConstructor;
+	}): Input {
 		if (!(Input.instances.get(id) instanceof Input)) {
-			Input.instances.set(id, new Input(id, type, Validator));
+			Input.instances.set(id, new Input({ id, type, Validator }));
 		}
 
 		return <Input>Input.instances.get(id);
@@ -123,7 +131,10 @@ export class Input extends Element {
 
 		if (!this.isValid || this.isHidden || this.getValue() === null) {
 			dependents.forEach(dependentId => {
-				const dependent = Element.getInstance(dependentId, 'dependent');
+				const dependent = Element.getInstance({
+					id: dependentId,
+					type: 'dependent',
+				});
 				dependent.hide();
 				dependent.dispatchEvent(new Event('input', { bubbles: true }));
 			});
@@ -132,7 +143,10 @@ export class Input extends Element {
 		}
 
 		dependents.forEach(dependentId => {
-			const dependent = Element.getInstance(dependentId, 'dependent');
+			const dependent = Element.getInstance({
+				id: dependentId,
+				type: 'dependent',
+			});
 			dependent.show();
 			dependent.dispatchEvent(new Event('input', { bubbles: true }));
 		});

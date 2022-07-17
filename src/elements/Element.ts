@@ -7,16 +7,22 @@ export class Element {
 	private tile?: HTMLElement | false;
 	private parentHeading?: HTMLHeadingElement | false;
 
-	protected constructor(id: string, type: string) {
+	protected constructor({ id, type }: {
+		id: string,
+		type: string;
+	}) {
 		const element = document.getElementById(id);
 		if (!element) throw new Error(`Invalid ${type} identifier ${id}!`);
 
 		this.element = element;
 	}
 
-	public static getInstance<T extends string>(id: T, type: string): Element {
+	public static getInstance<T extends string>({ id, type }: {
+		id: T,
+		type: string;
+	}): Element {
 		if (!Element.instances.has(id)) {
-			Element.instances.set(id, new Element(id, type));
+			Element.instances.set(id, new Element({ id, type }));
 		}
 
 		return <Element>Element.instances.get(id);

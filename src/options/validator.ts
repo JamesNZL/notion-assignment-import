@@ -29,7 +29,7 @@ const SaveButton: {
 	get button() {
 		try {
 			delete this.button;
-			return this.button = Button.getInstance('save-button');
+			return this.button = Button.getInstance({ id: 'save-button' });
 		}
 		catch { null; }
 	},
@@ -72,7 +72,7 @@ export abstract class InputFieldValidator {
 	private coupledValidators: CoupledValidator[] = [];
 
 	public constructor(elementId: string, typeGuard: TypeGuard, typeLabel: string) {
-		this.input = Input.getInstance(elementId);
+		this.input = Input.getInstance({ id: elementId });
 		this.typeGuard = typeGuard.bind(typeGuards);
 		this.typeLabel = typeLabel;
 	}
@@ -148,7 +148,10 @@ export abstract class InputFieldValidator {
 		const status = 'Validating input...';
 
 		try {
-			const statusElement = Element.getInstance(`validating-input-${this.id}`, 'validator label');
+			const statusElement = Element.getInstance({
+				id: `validating-input-${this.id}`,
+				type: 'validator label',
+			});
 
 			statusElement.safelySetInnerHTML(status);
 		}
@@ -160,7 +163,10 @@ export abstract class InputFieldValidator {
 
 			this.input.insertAdjacentElement('beforebegin', statusElement);
 
-			Element.getInstance(`validating-input-${this.id}`, 'validator label')
+			Element.getInstance({
+				id: `validating-input-${this.id}`,
+				type: 'validator label',
+			})
 				.safelySetInnerHTML(status);
 		}
 
@@ -175,7 +181,10 @@ export abstract class InputFieldValidator {
 		InputFieldValidator.validatingFields.delete(this.id);
 
 		try {
-			Element.getInstance(`validating-input-${this.id}`, 'validator label').remove();
+			Element.getInstance({
+				id: `validating-input-${this.id}`,
+				type: 'validator label',
+			}).remove();
 		}
 		catch { null; }
 
@@ -193,7 +202,10 @@ export abstract class InputFieldValidator {
 		}
 
 		try {
-			const errorElement = Element.getInstance(`invalid-input-${this.id}`, 'validator label');
+			const errorElement = Element.getInstance({
+				id: `invalid-input-${this.id}`,
+				type: 'validator label',
+			});
 
 			errorElement.safelySetInnerHTML(error);
 		}
@@ -205,7 +217,10 @@ export abstract class InputFieldValidator {
 
 			this.input.insertAdjacentElement('beforebegin', errorElement);
 
-			Element.getInstance(`invalid-input-${this.id}`, 'validator label')
+			Element.getInstance({
+				id: `invalid-input-${this.id}`,
+				type: 'validator label',
+			})
 				.safelySetInnerHTML(error);
 		}
 
@@ -223,7 +238,10 @@ export abstract class InputFieldValidator {
 		}
 
 		try {
-			Element.getInstance(`invalid-input-${this.id}`, 'validator label').remove();
+			Element.getInstance({
+				id: `invalid-input-${this.id}`,
+				type: 'validator label',
+			}).remove();
 		}
 		catch { null; }
 

@@ -3,7 +3,7 @@ import { NotionClient } from '../apis/notion';
 import { Storage } from '../apis/storage';
 
 import { SavedFields } from '.';
-import { InputFieldValidator } from './validator';
+import { InputFieldValidator, ValidatorConstructor } from './validator';
 import { CONFIGURATION, SupportedTypes } from './configuration';
 
 import { Select } from '../elements';
@@ -14,19 +14,26 @@ export class PropertySelect extends Select {
 	private type: valueof<GetDatabaseResponse['properties']>['type'];
 	protected fieldKey: keyof SavedFields;
 
-	protected constructor(id: string, type: PropertySelect['type'], fieldKey: PropertySelect['fieldKey']) {
-		super(id);
+	protected constructor({ id, type, Validator, fieldKey }: {
+		id: string,
+		type: PropertySelect['type'],
+		Validator?: ValidatorConstructor,
+		fieldKey: PropertySelect['fieldKey'];
+	}) {
+		super({ id, type, Validator });
 
 		this.type = type;
 		this.fieldKey = fieldKey;
 	}
 
-	public static override getInstance<T extends string>(id: T, type?: PropertySelect['type'], fieldKey?: PropertySelect['fieldKey']): PropertySelect {
-		if (!type) throw new Error('Argument type must be defined for class PropertySelect!');
-		if (!fieldKey) throw new Error('Argument fieldKey must be defined for class PropertySelect!');
-
+	public static override getInstance<T extends string>({ id, type, Validator, fieldKey }: {
+		id: T,
+		type: PropertySelect['type'],
+		Validator?: ValidatorConstructor,
+		fieldKey: PropertySelect['fieldKey'];
+	}): PropertySelect {
 		if (!(PropertySelect.instances.get(id) instanceof PropertySelect)) {
-			PropertySelect.instances.set(id, new PropertySelect(id, type, fieldKey));
+			PropertySelect.instances.set(id, new PropertySelect({ id, type, Validator, fieldKey }));
 		}
 
 		return <PropertySelect>PropertySelect.instances.get(id);
@@ -62,8 +69,15 @@ export class PropertySelect extends Select {
 export class SelectPropertyValueSelect extends PropertySelect {
 	private propertySelect: PropertySelect;
 
-	protected constructor(id: string, type: PropertySelect['type'], fieldKey: PropertySelect['fieldKey'], getDatabaseId: () => Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT>, propertySelect: PropertySelect) {
-		super(id, type, fieldKey);
+	protected constructor({ id, type, Validator, fieldKey, getDatabaseId, propertySelect }: {
+		id: string,
+		type: PropertySelect['type'],
+		Validator?: ValidatorConstructor;
+		fieldKey: PropertySelect['fieldKey'],
+		getDatabaseId: () => Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT>,
+		propertySelect: PropertySelect;
+	}) {
+		super({ id, type, Validator, fieldKey });
 
 		this.propertySelect = propertySelect;
 
@@ -81,14 +95,16 @@ export class SelectPropertyValueSelect extends PropertySelect {
 		});
 	}
 
-	public static override getInstance<T extends string>(id: T, type?: PropertySelect['type'], fieldKey?: PropertySelect['fieldKey'], getDatabaseId?: () => Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT>, propertySelect?: PropertySelect): PropertySelect {
-		if (!type) throw new Error('Argument type must be defined for class SelectPropertyValueSelect!');
-		if (!fieldKey) throw new Error('Argument fieldKey must be defined for class SelectPropertyValueSelect!');
-		if (!getDatabaseId) throw new Error('Argument getDatabaseId must be defined for class SelectPropertyValueSelect!');
-		if (!propertySelect) throw new Error('Argument propertySelect must be defined for class SelectPropertyValueSelect!');
-
+	public static override getInstance<T extends string>({ id, type, Validator, fieldKey, getDatabaseId, propertySelect }: {
+		id: T,
+		type: PropertySelect['type'],
+		Validator?: ValidatorConstructor;
+		fieldKey: PropertySelect['fieldKey'],
+		getDatabaseId: () => Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT>,
+		propertySelect: PropertySelect;
+	}): SelectPropertyValueSelect {
 		if (!(SelectPropertyValueSelect.instances.get(id) instanceof SelectPropertyValueSelect)) {
-			SelectPropertyValueSelect.instances.set(id, new SelectPropertyValueSelect(id, type, fieldKey, getDatabaseId, propertySelect));
+			SelectPropertyValueSelect.instances.set(id, new SelectPropertyValueSelect({ id, type, Validator, fieldKey, getDatabaseId, propertySelect }));
 		}
 
 		return <SelectPropertyValueSelect>SelectPropertyValueSelect.instances.get(id);

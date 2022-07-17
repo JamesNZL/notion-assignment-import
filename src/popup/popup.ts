@@ -34,7 +34,10 @@ type PopupButtonId = valueof<PopupElements['buttons']>;
 type PopupElementId = PopupButtonId | valueof<PopupElements['elements']>;
 
 const SavedCoursesList = {
-	element: Element.getInstance<PopupElementId>('saved-courses-list', 'saved courses list'),
+	element: Element.getInstance<PopupElementId>({
+		id: 'saved-courses-list',
+		type: 'saved courses list',
+	}),
 	renderChanges: true,
 
 	disableUpdates() {
@@ -93,15 +96,15 @@ const SavedCoursesList = {
 };
 
 const buttons: Record<PopupButtonName, Button> = <const>{
-	options: Button.getInstance<PopupButtonId>('options-icon'),
-	parse: Button.getInstance<PopupButtonId>('parse-button'),
-	oauth: Button.getInstance<PopupButtonId>('notion-oauth-button'),
-	configureDatabase: Button.getInstance<PopupButtonId>('configure-database-button'),
-	export: Button.getInstance<PopupButtonId>('export-button'),
-	listAssignments: Button.getInstance<PopupButtonId>('list-assignments-button'),
-	listCourses: Button.getInstance<PopupButtonId>('list-courses-button'),
-	copyJSON: Button.getInstance<PopupButtonId>('copy-json-button'),
-	clearStorage: Button.getInstance<PopupButtonId>('clear-storage-button'),
+	options: Button.getInstance<PopupButtonId>({ id: 'options-icon' }),
+	parse: Button.getInstance<PopupButtonId>({ id: 'parse-button' }),
+	oauth: Button.getInstance<PopupButtonId>({ id: 'notion-oauth-button' }),
+	configureDatabase: Button.getInstance<PopupButtonId>({ id: 'configure-database-button' }),
+	export: Button.getInstance<PopupButtonId>({ id: 'export-button' }),
+	listAssignments: Button.getInstance<PopupButtonId>({ id: 'list-assignments-button' }),
+	listCourses: Button.getInstance<PopupButtonId>({ id: 'list-courses-button' }),
+	copyJSON: Button.getInstance<PopupButtonId>({ id: 'copy-json-button' }),
+	clearStorage: Button.getInstance<PopupButtonId>({ id: 'clear-storage-button' }),
 };
 
 buttons.options.addEventListener('click', () => browser.runtime.openOptionsPage());

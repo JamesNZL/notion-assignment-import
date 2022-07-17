@@ -19,20 +19,31 @@ type Segments<T, V> = (
 export class SegmentedControl extends Element {
 	private segments: Segments<string, SupportedTypes>;
 
-	private constructor(id: string, type = 'segmented control', segments: Segment<string, SupportedTypes>[]) {
-		super(id, type);
+	private constructor({ id, type, segments }: {
+		id: string,
+		type: string,
+		segments: Segment<string, SupportedTypes>[];
+	}) {
+		super({ id, type });
 
 		this.segments = segments.map(segment => ({
 			...segment,
-			input: Input.getInstance(segment.id, 'segmented control input'),
+			input: Input.getInstance({
+				id: segment.id,
+				type: 'segmented control input',
+			}),
 		}));
 	}
 
-	public static override getInstance<T extends string, V extends SupportedTypes>(id: T, type = 'segmented control', segments?: Segment<T, V>[]): SegmentedControl {
+	public static override getInstance<T extends string, V extends SupportedTypes>({ id, type = 'segmented control', segments }: {
+		id: T,
+		type?: string,
+		segments?: Segment<T, V>[];
+	}): SegmentedControl {
 		if (!segments) throw new Error(`You must declare the segments for this SegmentedControl ${id}!`);
 
 		if (!(SegmentedControl.instances.get(id) instanceof SegmentedControl)) {
-			SegmentedControl.instances.set(id, new SegmentedControl(id, type, segments));
+			SegmentedControl.instances.set(id, new SegmentedControl({ id, type, segments }));
 		}
 
 		return <SegmentedControl>SegmentedControl.instances.get(id);
@@ -98,7 +109,10 @@ export class SegmentedControl extends Element {
 
 		if (!checkedSegment || this.isHidden || !showDependents) {
 			dependents.forEach(dependentId => {
-				const dependent = Element.getInstance(dependentId, 'dependent');
+				const dependent = Element.getInstance({
+					id: dependentId,
+					type: 'dependent',
+				});
 				dependent.hide();
 				dependent.dispatchEvent(new Event('input', { bubbles: true }));
 			});
@@ -107,7 +121,10 @@ export class SegmentedControl extends Element {
 		}
 
 		dependents.forEach(dependentId => {
-			const dependent = Element.getInstance(dependentId, 'dependent');
+			const dependent = Element.getInstance({
+				id: dependentId,
+				type: 'dependent',
+			});
 			dependent.show();
 			dependent.dispatchEvent(new Event('input', { bubbles: true }));
 		});
