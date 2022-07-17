@@ -104,7 +104,7 @@ a {
 		width: 100%;
 	}
 
-	&>.row-half {
+	&>[data-width="50%"] {
 		flex-basis: 50%;
 	}
 }
@@ -506,7 +506,7 @@ select {
 		}
 	}
 
-	.segmented-control-triple {
+	[data-segments='3'] {
 		@extend .segmented-control;
 
 		&>input {
