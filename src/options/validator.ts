@@ -300,17 +300,17 @@ const typeGuardModifiers = <const>{
 	},
 };
 
-const typeGuards = <const>{
-	isString(value: unknown) {
+export const typeGuards = <const>{
+	isString(value: unknown): value is string {
 		return (typeof value === 'string');
 	},
-	isParsableNumber(value: unknown) {
+	isParsableNumber(value: unknown): value is string {
 		return (typeof value === 'string' && !isNaN(Number(value)));
 	},
-	isEmojiRequest(value: unknown) {
+	isEmojiRequest(value: unknown): value is string {
 		return (typeof value === 'string' && (<string[]>VALID_EMOJIS).includes(value));
 	},
-	isUUIDv4(value: unknown) {
+	isUUIDv4(value: unknown): value is string {
 		// allow hyphens to be optional as the Notion API doesn't require them
 		// also, Notion URLs don't have them, so it wouldn't be very user friendly to require them
 		const hyphensRegex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;

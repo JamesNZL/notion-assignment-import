@@ -3,7 +3,7 @@ import { Storage } from '../apis/storage';
 import { OAuth2 } from '../apis/oauth';
 
 import { SavedFields } from './';
-import { EmojiField, InputFieldValidator, RequiredNotionDatabaseIdField, RequiredStringField, StringField } from './validator';
+import { EmojiField, InputFieldValidator, RequiredNotionDatabaseIdField, RequiredStringField, StringField, typeGuards } from './validator';
 import { CONFIGURATION, SupportedTypes } from './configuration';
 
 import { Element, Button, Select, KeyValueGroup } from '../elements';
@@ -189,7 +189,7 @@ const DatabaseSelect = <const>{
 				type: 'select',
 				Validator: StringField,
 				fieldKey: 'notion.propertyValues.categoryCanvas',
-				getDatabaseId: DatabaseSelect.element.validate.bind(DatabaseSelect.element),
+				getDatabaseId: DatabaseSelect.element.getValue.bind(DatabaseSelect.element),
 				propertySelect: DatabaseSelect.propertySelects.category,
 			});
 		},
@@ -456,7 +456,7 @@ Object.values(buttons.restore).forEach(button => button.addEventListener('click'
 
 DatabaseSelect.element.addEventListener('input', async () => {
 	const databaseId = DatabaseSelect.element.getValue();
-	if (typeof databaseId !== 'string') return;
+	if (!typeGuards.isUUIDv4(databaseId)) return;
 
 	const accessToken = (await Storage.getNotionAuthorisation()).accessToken ?? await CONFIGURATION.FIELDS['notion.accessToken'].input.validate(true);
 

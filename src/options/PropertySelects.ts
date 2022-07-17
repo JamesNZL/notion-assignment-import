@@ -3,7 +3,7 @@ import { NotionClient } from '../apis/notion';
 import { Storage } from '../apis/storage';
 
 import { SavedFields } from '.';
-import { InputFieldValidator, ValidatorConstructor } from './validator';
+import { ValidatorConstructor, typeGuards } from './validator';
 import { CONFIGURATION, SupportedTypes } from './configuration';
 
 import { Select } from '../elements';
@@ -74,7 +74,7 @@ export class SelectPropertyValueSelect extends PropertySelect {
 		type: PropertySelect['type'],
 		Validator?: ValidatorConstructor;
 		fieldKey: PropertySelect['fieldKey'],
-		getDatabaseId: () => Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT>,
+		getDatabaseId: () => SupportedTypes,
 		propertySelect: PropertySelect;
 	}) {
 		super({ id, type, Validator, fieldKey });
@@ -82,8 +82,8 @@ export class SelectPropertyValueSelect extends PropertySelect {
 		this.propertySelect = propertySelect;
 
 		this.propertySelect.addEventListener('input', async () => {
-			const databaseId = await getDatabaseId();
-			if (typeof databaseId !== 'string') return;
+			const databaseId = getDatabaseId();
+			if (!typeGuards.isUUIDv4(databaseId)) return console.log('bye!', { databaseId });
 
 			const accessToken = (await Storage.getNotionAuthorisation()).accessToken ?? await CONFIGURATION.FIELDS['notion.accessToken'].input.validate(true);
 
@@ -100,7 +100,7 @@ export class SelectPropertyValueSelect extends PropertySelect {
 		type: PropertySelect['type'],
 		Validator?: ValidatorConstructor;
 		fieldKey: PropertySelect['fieldKey'],
-		getDatabaseId: () => Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT>,
+		getDatabaseId: () => SupportedTypes,
 		propertySelect: PropertySelect;
 	}): SelectPropertyValueSelect {
 		if (!(SelectPropertyValueSelect.instances.get(id) instanceof SelectPropertyValueSelect)) {
