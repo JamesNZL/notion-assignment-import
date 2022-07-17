@@ -119,6 +119,16 @@ const AdvancedOptions = <const>{
 	},
 };
 
+const OAuth2Button = <const>{
+	button: Button.getInstance<OptionsButtonId>('notion-oauth'),
+	states: {
+		unauthorised: 'Authorise with Notion',
+		reauthorise: 'Reauthorise with Notion',
+		authorising: 'Authorising with Notion...',
+		authorised: 'Authorised!',
+	},
+};
+
 const DatabaseSelect = <const>{
 	element: Select.getInstance<OptionsSelectId>('database-id'),
 	refreshButton: Button.getInstance<OptionsButtonId>('refresh-database-select'),
@@ -184,7 +194,7 @@ const buttons: {
 		[K in OptionsRestoreButtonName]: RestoreDefaultsButton;
 	};
 } = <const>{
-	oauth: Button.getInstance<OptionsButtonId>('notion-oauth'),
+	oauth: OAuth2Button.button,
 	refreshDatabaseSelect: DatabaseSelect.refreshButton,
 	save: Button.getInstance<OptionsButtonId>('save-button'),
 	restore: {
@@ -285,11 +295,11 @@ if (!OAuth2.isIdentitySupported) {
 
 Storage.getNotionAuthorisation().then(async ({ accessToken }) => {
 	if (!accessToken || !await NotionClient.getInstance({ auth: accessToken }).validateToken()) {
-		buttons.oauth.setDefaultLabel('Authorise with Notion');
+		buttons.oauth.setDefaultLabel(OAuth2Button.states.unauthorised);
 		return buttons.oauth.resetHTML();
 	}
 
-	buttons.oauth.setDefaultLabel('Reauthorise with Notion');
+	buttons.oauth.setDefaultLabel(OAuth2Button.states.reauthorise);
 	buttons.oauth.resetHTML();
 
 	DatabaseSelect.populate();
@@ -359,20 +369,19 @@ CONFIGURATION.FIELDS['notion.accessToken'].input.addEventListener('input', async
 	const validatedInput = await CONFIGURATION.FIELDS['notion.accessToken'].input.validate();
 
 	if (validatedInput === InputFieldValidator.INVALID_INPUT) {
-		buttons.oauth.setDefaultLabel('Authorise with Notion');
+		buttons.oauth.setDefaultLabel(OAuth2Button.states.unauthorised);
 		return buttons.oauth.resetHTML();
 	}
 
 	DatabaseSelect.populate();
 
-	buttons.oauth.setDefaultLabel('Reauthorise with Notion');
+	buttons.oauth.setDefaultLabel(OAuth2Button.states.reauthorise);
 
-	// TODO: don't hardcode these authorisation strings
-	if (buttons.oauth.getButtonLabel() !== 'Authorising with Notion...') {
+	if (buttons.oauth.getButtonLabel() !== OAuth2Button.states.authorising) {
 		return buttons.oauth.resetHTML();
 	}
 
-	buttons.oauth.setButtonLabel('Authorised!');
+	buttons.oauth.setButtonLabel(OAuth2Button.states.authorised);
 	buttons.oauth.resetHTML(1325);
 });
 
@@ -408,7 +417,7 @@ DatabaseSelect.element.addEventListener('input', async () => {
 buttons.oauth.addEventListener('click', async () => {
 	if (!OAuth2.isIdentitySupported) return;
 
-	buttons.oauth.setButtonLabel('Authorising with Notion...');
+	buttons.oauth.setButtonLabel(OAuth2Button.states.authorising);
 
 	const success = await OAuth2.authorise();
 
