@@ -93,7 +93,7 @@ export class KeyValueGroup extends Element {
 		const currentValue = this.getValue();
 		if (typeof currentValue !== 'string') throw new Error(`Invalid currentValue value ${currentValue} of type ${typeof currentValue} on KeyValueGroup ${this.id}`);
 
-		const isModified = (!this.isHidden() && currentValue !== comparand);
+		const isModified = (!this.isHidden && currentValue !== comparand);
 
 		if (!isModified) {
 			this.getLabels().forEach(label => label.classList.remove('unsaved'));
@@ -313,7 +313,7 @@ export class KeyValueGroup extends Element {
 	public async toggleDependents(dependents: readonly string[]) {
 		await Promise.all(this.validatePromises ?? []);
 
-		if (!this.isValid || this.isHidden() || this.getValue() === '{}') {
+		if (!this.isValid || this.isHidden || this.getValue() === '{}') {
 			dependents.forEach(dependentId => {
 				const dependent = Element.getInstance(dependentId, 'dependent');
 				dependent.hide();

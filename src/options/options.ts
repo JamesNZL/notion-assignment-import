@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', async () => {
  */
 
 window.addEventListener('beforeunload', event => {
-	if (buttons.restore.undo.isHidden()) return;
+	if (buttons.restore.undo.isHidden) return;
 
 	event.preventDefault();
 	return event.returnValue = 'Changes you made may not be saved.';

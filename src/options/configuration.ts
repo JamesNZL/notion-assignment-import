@@ -26,7 +26,7 @@ interface Settable {
 }
 
 interface Displayable {
-	isHidden(): boolean;
+	isHidden: boolean;
 	show(): void;
 	hide(): void;
 }

@@ -31,7 +31,7 @@ export class RestoreDefaultsButton extends Button {
 	}
 
 	public toggle() {
-		([...this.inputs].some(([key, input]) => !input.isHidden() && input.getValue() !== CONFIGURATION.FIELDS[<keyof SavedFields>key].defaultValue))
+		([...this.inputs].some(([key, input]) => !input.isHidden && input.getValue() !== CONFIGURATION.FIELDS[<keyof SavedFields>key].defaultValue))
 			? this.show()
 			: this.hide();
 	}

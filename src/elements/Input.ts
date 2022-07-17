@@ -77,7 +77,7 @@ export class Input extends Element {
 	}
 
 	public markModified(comparand: SupportedTypes) {
-		const isModified = (!this.isHidden() && this.getValue() !== comparand);
+		const isModified = (!this.isHidden && this.getValue() !== comparand);
 
 		this.getLabels().forEach(label => {
 			(isModified)
@@ -121,7 +121,7 @@ export class Input extends Element {
 	public async toggleDependents(dependents: readonly string[]) {
 		await this.validatePromise;
 
-		if (!this.isValid || this.isHidden() || this.getValue() === null) {
+		if (!this.isValid || this.isHidden || this.getValue() === null) {
 			dependents.forEach(dependentId => {
 				const dependent = Element.getInstance(dependentId, 'dependent');
 				dependent.hide();

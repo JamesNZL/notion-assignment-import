@@ -60,7 +60,7 @@ export class Element {
 			: false;
 	}
 
-	public isHidden() {
+	public get isHidden() {
 		return this.element.classList.contains('hidden');
 	}
 
