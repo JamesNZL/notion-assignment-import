@@ -165,6 +165,7 @@ export abstract class InputFieldValidator {
 		}
 
 		this.statusElement.safelySetInnerHTML(status);
+		if (this.input.isHidden) this.statusElement.hide();
 
 		SaveButton.updateState(SaveButtonUpdates.Pending);
 
@@ -209,6 +210,7 @@ export abstract class InputFieldValidator {
 		}
 
 		this.errorElement.safelySetInnerHTML(error);
+		if (this.input.isHidden) this.errorElement.hide();
 
 		SaveButton.updateState(SaveButtonUpdates.Disable);
 
