@@ -2,286 +2,286 @@
 <html lang='en-GB' id='options'>
 
 <head>
-	<meta charset='utf-8'>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset='utf-8'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<title>Options | Notion Canvas Assignment Import</title>
+  <title>Options | Notion Canvas Assignment Import</title>
 
-	<link rel='stylesheet' href='../stylesheet.css'>
-	<link rel='icon' type='image/x-icon' href='../favicon/favicon.svg'>
+  <link rel='stylesheet' href='../stylesheet.css'>
+  <link rel='icon' type='image/x-icon' href='../favicon/favicon.svg'>
 </head>
 
 <body>
-	<header>
-		<div>
-			<img src='../favicon/favicon.svg' alt='Extension Logo' width='40' height='40'>
-			<h1>Notion Assignment Import</h1>
-		</div>
+  <header>
+    <div>
+      <img src='../favicon/favicon.svg' alt='Extension Logo' width='40' height='40'>
+      <h1>Notion Assignment Import</h1>
+    </div>
 
-		<nav>
-			<a target='_blank' href='https://jamesnzl-sandbox.notion.site/c4d73bebd39c4103b96b2edb8be9e0bd'>Notion Database Template</a>
-			<a target='_blank' href='https://github.com/JamesNZL/notion-assignment-import'>GitHub Repository</a>
-			<a target='_blank' href='https://discord.gg/k2jjmmVPeK'>Discord Server</a>
-		</nav>
-	</header>
+    <nav>
+      <a target='_blank' href='https://jamesnzl-sandbox.notion.site/c4d73bebd39c4103b96b2edb8be9e0bd'>Notion Database Template</a>
+      <a target='_blank' href='https://github.com/JamesNZL/notion-assignment-import'>GitHub Repository</a>
+      <a target='_blank' href='https://discord.gg/k2jjmmVPeK'>Discord Server</a>
+    </nav>
+  </header>
 
-	<section>
-		<h1>Extension Options</h1>
+  <section>
+    <h1>Extension Options</h1>
 
-		<h3>Appearance</h3>
-		<div class='tile'>
-			<div>
-				<label class='required' for='display-theme'>Theme</label>
-				<div class='segmented-control-wrapper'>
-					<div class='segmented-control-triple row' id='display-theme'>
-						<input checked type='radio' name='display-theme' value='display-system-mode' id='display-system-mode'>
-						<label for='display-system-mode'>System</label>
+    <h3>Appearance</h3>
+    <div class='tile'>
+      <div>
+        <label class='required' for='display-theme'>Theme</label>
+        <div class='segmented-control-wrapper'>
+          <div class='segmented-control-triple row' id='display-theme'>
+            <input checked type='radio' name='display-theme' value='display-system-mode' id='display-system-mode'>
+            <label for='display-system-mode'>System</label>
 
-						<input type='radio' name='display-theme' value='display-light-mode' id='display-light-mode'>
-						<label for='display-light-mode'>Light</label>
+            <input type='radio' name='display-theme' value='display-light-mode' id='display-light-mode'>
+            <label for='display-light-mode'>Light</label>
 
-						<input type='radio' name='display-theme' value='display-dark-mode' id='display-dark-mode'>
-						<label for='display-dark-mode'>Dark</label>
-					</div>
-				</div>
-			</div>
-		</div>
+            <input type='radio' name='display-theme' value='display-dark-mode' id='display-dark-mode'>
+            <label for='display-dark-mode'>Dark</label>
+          </div>
+        </div>
+      </div>
+    </div>
 
-		<h3>Options Page</h3>
-		<div class='tile'>
-			<div>
-				<label class='required' for='display-advanced-options'>Show advanced options</label>
-				<div class='segmented-control-wrapper'>
-					<div class='segmented-control row' id='display-advanced-options'>
-						<input checked type='radio' name='display-advanced-options' value='hide-advanced-options' id='hide-advanced-options'>
-						<label for='hide-advanced-options'>Hide</label>
+    <h3>Options Page</h3>
+    <div class='tile'>
+      <div>
+        <label class='required' for='display-advanced-options'>Show advanced options</label>
+        <div class='segmented-control-wrapper'>
+          <div class='segmented-control row' id='display-advanced-options'>
+            <input checked type='radio' name='display-advanced-options' value='hide-advanced-options' id='hide-advanced-options'>
+            <label for='hide-advanced-options'>Hide</label>
 
-						<input type='radio' name='display-advanced-options' value='show-advanced-options' id='show-advanced-options'>
-						<label for='show-advanced-options'>Show</label>
-					</div>
-				</div>
-			</div>
-		</div>
+            <input type='radio' name='display-advanced-options' value='show-advanced-options' id='show-advanced-options'>
+            <label for='show-advanced-options'>Show</label>
+          </div>
+        </div>
+      </div>
+    </div>
 
-		<h3>Timezone</h3>
-		<div class='tile'>
-			<div>
-				<label for='timezone'>Timezone (must be a valid <a target='_blank' href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>TZ database name</a>)</label>
-				<input type='text' id='timezone' name='timezone' class='row'>
-			</div>
+    <h3>Timezone</h3>
+    <div class='tile'>
+      <div>
+        <label for='timezone'>Timezone (must be a valid <a target='_blank' href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>TZ database name</a>)</label>
+        <input type='text' id='timezone' name='timezone' class='row'>
+      </div>
 
-			<button type='reset' id='options-restore-timezone' class='button red hover row hidden'>Restore Default</button>
-		</div>
-	</section>
+      <button type='reset' id='options-restore-timezone' class='button red hover row hidden'>Restore Default</button>
+    </div>
+  </section>
 
-	<section id='advanced-options' class='hidden'>
-		<h3>Extension Popup</h3>
-		<div class='tile'>
-			<div>
-				<label class='required' for='display-json-button'>Display 'Copy <code>JSON</code>' button</label>
-				<div class='segmented-control-wrapper'>
-					<div class='segmented-control row' id='display-json-button'>
-						<input checked type='radio' name='display-json-button' value='hide-json-button' id='hide-json-button'>
-						<label for='hide-json-button'>Hide</label>
+  <section id='advanced-options' class='hidden'>
+    <h3>Extension Popup</h3>
+    <div class='tile'>
+      <div>
+        <label class='required' for='display-json-button'>Display 'Copy <code>JSON</code>' button</label>
+        <div class='segmented-control-wrapper'>
+          <div class='segmented-control row' id='display-json-button'>
+            <input checked type='radio' name='display-json-button' value='hide-json-button' id='hide-json-button'>
+            <label for='hide-json-button'>Hide</label>
 
-						<input type='radio' name='display-json-button' value='show-json-button' id='show-json-button'>
-						<label for='show-json-button'>Show</label>
-					</div>
-				</div>
-			</div>
-		</div>
+            <input type='radio' name='display-json-button' value='show-json-button' id='show-json-button'>
+            <label for='show-json-button'>Show</label>
+          </div>
+        </div>
+      </div>
+    </div>
 
-		<h1>Canvas Configuration</h1>
+    <h1>Canvas Configuration</h1>
 
-		<h2><code>HTML</code> Classes</h2>
-		<h3>Class Names</h3>
-		<div class='tile'>
-			<div>
-				<label class='required' for='breadcrumbs'>Breadcrumbs class</label>
-				<input required type='text' id='breadcrumbs' name='breadcrumbs' class='row'>
-			</div>
+    <h2><code>HTML</code> Classes</h2>
+    <h3>Class Names</h3>
+    <div class='tile'>
+      <div>
+        <label class='required' for='breadcrumbs'>Breadcrumbs class</label>
+        <input required type='text' id='breadcrumbs' name='breadcrumbs' class='row'>
+      </div>
 
-			<div>
-				<label class='required' for='assignment-class'>Assignment class</label>
-				<input required type='text' id='assignment-class' name='assignment-class' class='row'>
-			</div>
+      <div>
+        <label class='required' for='assignment-class'>Assignment class</label>
+        <input required type='text' id='assignment-class' name='assignment-class' class='row'>
+      </div>
 
-			<div>
-				<label class='required' for='assignment-title'>Assignment title class</label>
-				<input required type='text' id='assignment-title' name='assignment-title' class='row'>
-			</div>
+      <div>
+        <label class='required' for='assignment-title'>Assignment title class</label>
+        <input required type='text' id='assignment-title' name='assignment-title' class='row'>
+      </div>
 
-			<div>
-				<label class='required' for='available-date'>Available date class</label>
-				<input required type='text' id='available-date' name='available-date' class='row'>
-			</div>
+      <div>
+        <label class='required' for='available-date'>Available date class</label>
+        <input required type='text' id='available-date' name='available-date' class='row'>
+      </div>
 
-			<div>
-				<label class='required' for='available-status'>Available status class</label>
-				<input required type='text' id='available-status' name='available-status' class='row'>
-			</div>
+      <div>
+        <label class='required' for='available-status'>Available status class</label>
+        <input required type='text' id='available-status' name='available-status' class='row'>
+      </div>
 
-			<div>
-				<label class='required' for='due-date'>Due date class</label>
-				<input required type='text' id='due-date' name='due-date' class='row'>
-			</div>
+      <div>
+        <label class='required' for='due-date'>Due date class</label>
+        <input required type='text' id='due-date' name='due-date' class='row'>
+      </div>
 
-			<div>
-				<label class='required' for='date-element'>Date element class</label>
-				<input required type='text' id='date-element' name='date-element' class='row'>
-			</div>
+      <div>
+        <label class='required' for='date-element'>Date element class</label>
+        <input required type='text' id='date-element' name='date-element' class='row'>
+      </div>
 
-			<button type='reset' id='options-restore-canvas-class-names' class='button red hover row hidden'>Restore Defaults</button>
-		</div>
+      <button type='reset' id='options-restore-canvas-class-names' class='button red hover row hidden'>Restore Defaults</button>
+    </div>
 
-		<h3>Class Values</h3>
-		<div class='tile'>
-			<div>
-				<label class='required' for='course-code-n'>Course code <code>nth li</code></label>
-				<input required type='text' id='course-code-n' name='course-code-n' class='row'>
-			</div>
+    <h3>Class Values</h3>
+    <div class='tile'>
+      <div>
+        <label class='required' for='course-code-n'>Course code <code>nth li</code></label>
+        <input required type='text' id='course-code-n' name='course-code-n' class='row'>
+      </div>
 
-			<div>
-				<label class='required' for='status-not-available'>Not available status</label>
-				<input required type='text' id='status-not-available' name='status-not-available' class='row'>
-			</div>
+      <div>
+        <label class='required' for='status-not-available'>Not available status</label>
+        <input required type='text' id='status-not-available' name='status-not-available' class='row'>
+      </div>
 
-			<button type='reset' id='options-restore-canvas-class-values' class='button red hover row hidden'>Restore Defaults</button>
-		</div>
+      <button type='reset' id='options-restore-canvas-class-values' class='button red hover row hidden'>Restore Defaults</button>
+    </div>
 
-		<h2>Course Code Overrides</h2>
-		<div class='tile'>
-			<div id='course-code-overrides-group' class='row'>
-				<div>
-					<label for='course-code-overrides-canvas'>Canvas course code</label>
-					<div id='course-code-overrides-canvas' class='key-value-group-key'></div>
-				</div>
-				<div>
-					<label for='course-code-overrides-notion'>Notion course code</label>
-					<div id='course-code-overrides-notion' class='key-value-group-value'></div>
-				</div>
-			</div>
+    <h2>Course Code Overrides</h2>
+    <div class='tile'>
+      <div id='course-code-overrides-group' class='row'>
+        <div>
+          <label for='course-code-overrides-canvas'>Canvas course code</label>
+          <div id='course-code-overrides-canvas' class='key-value-group-key'></div>
+        </div>
+        <div>
+          <label for='course-code-overrides-notion'>Notion course code</label>
+          <div id='course-code-overrides-notion' class='key-value-group-value'></div>
+        </div>
+      </div>
 
-			<button type='reset' id='options-restore-canvas-course-codes' class='button red hover row hidden'>Restore Default</button>
-		</div>
-	</section>
+      <button type='reset' id='options-restore-canvas-course-codes' class='button red hover row hidden'>Restore Default</button>
+    </div>
+  </section>
 
-	<section>
-		<h1>Notion Configuration</h1>
+  <section>
+    <h1>Notion Configuration</h1>
 
-		<h2>Integration</h2>
-		<div class='tile'>
-			<div>
-				<label class='required' for='notion-oauth'>Authorisation</label>
-				<button type='button' id='notion-oauth' class='button accent hover emphasis row'>
-					<svg class='button-icon' viewBox='0 0 516 518' width='516' height='518' xmlns='http://www.w3.org/2000/svg' version='1.1'>
-						<path d='m92.84072,518.47521c-20.273,0.05078 -40.016,-6.5039 -56.234,-18.668c-21.254,-15.797 -34.547,-40.086 -36.398,-66.5c-1.8672,-28.719 8.8633,-56.832 29.398,-77l159.37,-158.43c2.2695,-2.4492 3.3008,-5.7969 2.8008,-9.0977c-4.6562,-30.066 -0.60547,-60.832 11.664,-88.668c11.398,-26.605 29.566,-49.762 52.699,-67.16c23.129,-17.398 50.414,-28.434 79.137,-32.008c48.293,-5.2109 96.398,11.344 131.26,45.168s52.859,81.406 49.109,129.83c-2.4414,28.641 -12.34,56.141 -28.715,79.762c-16.379,23.621 -38.656,42.543 -64.621,54.871c-28.738,14.754 -61.375,20.141 -93.332,15.402c-3.2227,-0.42969 -6.4727,0.59766 -8.8672,2.8008l-41.066,41.301l0,-0.00391c-10.918,11.02 -24.801,18.625 -39.961,21.898c-15.164,3.2734 -30.949,2.0703 -45.438,-3.4648l2.5664,19.367c3.2656,25.039 -5.3672,50.16 -23.336,67.902l-14.23,15.164c-17.426,17.527 -41.086,27.43 -65.801,27.535l-0.005,-0.00039zm259.46,-470.87l-12.133,0c-41.723,4.8242 -77.727,31.492 -94.5,70c-8.7539,19.688 -11.668,41.473 -8.3984,62.766c2.7617,18.039 -3.2148,36.316 -16.102,49.234l-158.66,159.6c-10.867,10.617 -16.57,25.438 -15.637,40.598c0.81641,12.906 7.3086,24.785 17.734,32.434c8.9805,6.793 20.117,10.113 31.352,9.3398c11.238,-0.77344 21.812,-5.582 29.781,-13.539l16.566,-15.398c7.457,-7.4766 10.996,-18.008 9.5664,-28.469l-3.0352,-23.332l0.00391,0c-1.4609,-10.48 0.875,-21.137 6.5859,-30.043c5.7109,-8.9102 14.418,-15.48 24.551,-18.531c10.129,-3.0469 21.02,-2.3711 30.695,1.9062c6.1953,2.6562 13.047,3.3867 19.664,2.0938c6.6172,-1.2891 12.691,-4.5391 17.438,-9.3281l41.301,-41.301l0,0.00391c12.746,-11.82 30.164,-17.227 47.363,-14.703c22.465,3.3281 45.41,-0.50781 65.57,-10.965c18.723,-8.9102 34.77,-22.594 46.523,-39.676c11.758,-17.078 18.805,-36.953 20.441,-57.625c2.3359,-32.371 -8.9141,-64.25 -31.055,-87.98c-22.137,-23.73 -53.156,-37.172 -85.613,-37.086l-0.00161,0.00039z' />
-						<path d='m375.64072,164.27521c0,12.887 -10.449,23.332 -23.336,23.332s-23.332,-10.445 -23.332,-23.332s10.445,-23.336 23.332,-23.336s23.336,10.449 23.336,23.336' />
-					</svg>
-					<label class='button-label' id='notion-oauth-label'>Checking authorisation...</label>
-				</button>
-			</div>
+    <h2>Integration</h2>
+    <div class='tile'>
+      <div>
+        <label class='required' for='notion-oauth'>Authorisation</label>
+        <button type='button' id='notion-oauth' class='button accent hover emphasis row'>
+          <svg class='button-icon' viewBox='0 0 516 518' width='516' height='518' xmlns='http://www.w3.org/2000/svg' version='1.1'>
+            <path d='m92.84072,518.47521c-20.273,0.05078 -40.016,-6.5039 -56.234,-18.668c-21.254,-15.797 -34.547,-40.086 -36.398,-66.5c-1.8672,-28.719 8.8633,-56.832 29.398,-77l159.37,-158.43c2.2695,-2.4492 3.3008,-5.7969 2.8008,-9.0977c-4.6562,-30.066 -0.60547,-60.832 11.664,-88.668c11.398,-26.605 29.566,-49.762 52.699,-67.16c23.129,-17.398 50.414,-28.434 79.137,-32.008c48.293,-5.2109 96.398,11.344 131.26,45.168s52.859,81.406 49.109,129.83c-2.4414,28.641 -12.34,56.141 -28.715,79.762c-16.379,23.621 -38.656,42.543 -64.621,54.871c-28.738,14.754 -61.375,20.141 -93.332,15.402c-3.2227,-0.42969 -6.4727,0.59766 -8.8672,2.8008l-41.066,41.301l0,-0.00391c-10.918,11.02 -24.801,18.625 -39.961,21.898c-15.164,3.2734 -30.949,2.0703 -45.438,-3.4648l2.5664,19.367c3.2656,25.039 -5.3672,50.16 -23.336,67.902l-14.23,15.164c-17.426,17.527 -41.086,27.43 -65.801,27.535l-0.005,-0.00039zm259.46,-470.87l-12.133,0c-41.723,4.8242 -77.727,31.492 -94.5,70c-8.7539,19.688 -11.668,41.473 -8.3984,62.766c2.7617,18.039 -3.2148,36.316 -16.102,49.234l-158.66,159.6c-10.867,10.617 -16.57,25.438 -15.637,40.598c0.81641,12.906 7.3086,24.785 17.734,32.434c8.9805,6.793 20.117,10.113 31.352,9.3398c11.238,-0.77344 21.812,-5.582 29.781,-13.539l16.566,-15.398c7.457,-7.4766 10.996,-18.008 9.5664,-28.469l-3.0352,-23.332l0.00391,0c-1.4609,-10.48 0.875,-21.137 6.5859,-30.043c5.7109,-8.9102 14.418,-15.48 24.551,-18.531c10.129,-3.0469 21.02,-2.3711 30.695,1.9062c6.1953,2.6562 13.047,3.3867 19.664,2.0938c6.6172,-1.2891 12.691,-4.5391 17.438,-9.3281l41.301,-41.301l0,0.00391c12.746,-11.82 30.164,-17.227 47.363,-14.703c22.465,3.3281 45.41,-0.50781 65.57,-10.965c18.723,-8.9102 34.77,-22.594 46.523,-39.676c11.758,-17.078 18.805,-36.953 20.441,-57.625c2.3359,-32.371 -8.9141,-64.25 -31.055,-87.98c-22.137,-23.73 -53.156,-37.172 -85.613,-37.086l-0.00161,0.00039z' />
+            <path d='m375.64072,164.27521c0,12.887 -10.449,23.332 -23.336,23.332s-23.332,-10.445 -23.332,-23.332s10.445,-23.336 23.332,-23.336s23.336,10.449 23.336,23.336' />
+          </svg>
+          <label class='button-label' id='notion-oauth-label'>Checking authorisation...</label>
+        </button>
+      </div>
 
-			<div class='hidden'>
-				<label class='required' for='notion-token'>Internal Integration Token (<a target='_blank' href='https://developers.notion.com/docs/getting-started#step-1-create-an-integration'>Guide</a>)</label>
-				<input required type='password' id='notion-token' name='notion-token' class='row'>
-			</div>
+      <div class='hidden'>
+        <label class='required' for='notion-token'>Internal Integration Token (<a target='_blank' href='https://developers.notion.com/docs/getting-started#step-1-create-an-integration'>Guide</a>)</label>
+        <input required type='password' id='notion-token' name='notion-token' class='row'>
+      </div>
 
-			<div class='hidden'>
-				<label class='required' for='database-id'>Database (<a target='_blank' href='https://jamesnzl-sandbox.notion.site/c4d73bebd39c4103b96b2edb8be9e0bd'>Notion Template</a>)</label>
-				<select required id='database-id' name='database-id' class='row'></select>
+      <div class='hidden'>
+        <label class='required' for='database-id'>Database (<a target='_blank' href='https://jamesnzl-sandbox.notion.site/c4d73bebd39c4103b96b2edb8be9e0bd'>Notion Template</a>)</label>
+        <select required id='database-id' name='database-id' class='row'></select>
 
-				<button type='button' id='refresh-database-select' class='button green hover row'>Refresh</button>
-			</div>
-		</div>
+        <button type='button' id='refresh-database-select' class='button green hover row'>Refresh</button>
+      </div>
+    </div>
 
-		<h2 class='hidden'>Database Properties</h2>
-		<h3 class='hidden'>Property Names</h3>
-		<div class='tile hidden'>
-			<div class='hidden'>
-				<label class='required' for='notion-property-name'>Page 'name' property (<a target='_blank' href='https://www.notion.so/help/database-properties'><code>Title</code></a>)</label>
-				<select required id='notion-property-name' name='notion-property-name' class='row'></select>
-			</div>
+    <h2 class='hidden'>Database Properties</h2>
+    <h3 class='hidden'>Property Names</h3>
+    <div class='tile hidden'>
+      <div class='hidden'>
+        <label class='required' for='notion-property-name'>Page 'name' property (<a target='_blank' href='https://www.notion.so/help/database-properties'><code>Title</code></a>)</label>
+        <select required id='notion-property-name' name='notion-property-name' class='row'></select>
+      </div>
 
-			<div class='hidden'>
-				<label for='notion-property-category'>Category property (<a target='_blank' href='https://www.notion.so/help/database-properties'><code>Select</code></a>)</label>
-				<select id='notion-property-category' name='notion-property-category' class='row'></select>
-			</div>
+      <div class='hidden'>
+        <label for='notion-property-category'>Category property (<a target='_blank' href='https://www.notion.so/help/database-properties'><code>Select</code></a>)</label>
+        <select id='notion-property-category' name='notion-property-category' class='row'></select>
+      </div>
 
-			<div class='hidden'>
-				<label for='notion-property-course'>Course property (<a target='_blank' href='https://www.notion.so/help/database-properties'><code>Select</code></a>)</label>
-				<select id='notion-property-course' name='notion-property-course' class='row'></select>
-			</div>
+      <div class='hidden'>
+        <label for='notion-property-course'>Course property (<a target='_blank' href='https://www.notion.so/help/database-properties'><code>Select</code></a>)</label>
+        <select id='notion-property-course' name='notion-property-course' class='row'></select>
+      </div>
 
-			<div class='hidden'>
-				<label for='notion-property-url'>URL property (<a target='_blank' href='https://www.notion.so/help/database-properties'><code>URL</code></a>)</label>
-				<select id='notion-property-url' name='notion-property-url' class='row'></select>
-			</div>
+      <div class='hidden'>
+        <label for='notion-property-url'>URL property (<a target='_blank' href='https://www.notion.so/help/database-properties'><code>URL</code></a>)</label>
+        <select id='notion-property-url' name='notion-property-url' class='row'></select>
+      </div>
 
-			<div class='hidden'>
-				<label for='notion-property-available'>Available date property (<a target='_blank' href='https://www.notion.so/help/database-properties'><code>Date</code></a>)</label>
-				<select id='notion-property-available' name='notion-property-available' class='row'></select>
-			</div>
+      <div class='hidden'>
+        <label for='notion-property-available'>Available date property (<a target='_blank' href='https://www.notion.so/help/database-properties'><code>Date</code></a>)</label>
+        <select id='notion-property-available' name='notion-property-available' class='row'></select>
+      </div>
 
-			<div class='hidden'>
-				<label for='notion-property-due'>Due date property (<a target='_blank' href='https://www.notion.so/help/database-properties'><code>Date</code></a>)</label>
-				<select id='notion-property-due' name='notion-property-due' class='row'></select>
-			</div>
+      <div class='hidden'>
+        <label for='notion-property-due'>Due date property (<a target='_blank' href='https://www.notion.so/help/database-properties'><code>Date</code></a>)</label>
+        <select id='notion-property-due' name='notion-property-due' class='row'></select>
+      </div>
 
-			<div class='hidden'>
-				<label for='notion-property-span'>Date span property (<a target='_blank' href='https://www.notion.so/help/database-properties'><code>Date</code></a>)</label>
-				<select id='notion-property-span' name='notion-property-span' class='row'></select>
-			</div>
+      <div class='hidden'>
+        <label for='notion-property-span'>Date span property (<a target='_blank' href='https://www.notion.so/help/database-properties'><code>Date</code></a>)</label>
+        <select id='notion-property-span' name='notion-property-span' class='row'></select>
+      </div>
 
-			<button type='reset' id='options-restore-notion-property-names' class='button red hover row hidden'>Restore Defaults</button>
-		</div>
+      <button type='reset' id='options-restore-notion-property-names' class='button red hover row hidden'>Restore Defaults</button>
+    </div>
 
-		<h3 class='hidden'>Property Values</h3>
-		<div class='tile hidden'>
-			<div class='hidden'>
-				<label for='notion-category-canvas'>Canvas Category</label>
-				<select id='notion-category-canvas' name='notion-category-canvas' class='row'></select>
-			</div>
+    <h3 class='hidden'>Property Values</h3>
+    <div class='tile hidden'>
+      <div class='hidden'>
+        <label for='notion-category-canvas'>Canvas Category</label>
+        <select id='notion-category-canvas' name='notion-category-canvas' class='row'></select>
+      </div>
 
-			<button type='reset' id='options-restore-notion-property-values' class='button red hover row hidden'>Restore Defaults</button>
-		</div>
+      <button type='reset' id='options-restore-notion-property-values' class='button red hover row hidden'>Restore Defaults</button>
+    </div>
 
-		<h2>Page Emojis</h2>
-		<div class='tile'>
-			<div id='course-emojis-group' class='row'>
-				<div>
-					<label for='course-emojis-codes'>Notion course code</label>
-					<div id='course-emojis-codes' class='key-value-group-key'></div>
-				</div>
-				<div class='row-half'>
-					<label for='course-emojis-emojis'>Emoji</label>
-					<div id='course-emojis-emojis' class='key-value-group-value'></div>
-				</div>
-			</div>
+    <h2>Page Emojis</h2>
+    <div class='tile'>
+      <div id='course-emojis-group' class='row'>
+        <div>
+          <label for='course-emojis-codes'>Notion course code</label>
+          <div id='course-emojis-codes' class='key-value-group-key'></div>
+        </div>
+        <div class='row-half'>
+          <label for='course-emojis-emojis'>Emoji</label>
+          <div id='course-emojis-emojis' class='key-value-group-value'></div>
+        </div>
+      </div>
 
-			<button type='reset' id='options-restore-notion-emojis' class='button red hover row hidden'>Restore Default</button>
-		</div>
-	</section>
+      <button type='reset' id='options-restore-notion-emojis' class='button red hover row hidden'>Restore Default</button>
+    </div>
+  </section>
 
-	<section>
-		<h1 class='hidden'>Actions</h1>
+  <section>
+    <h1 class='hidden'>Actions</h1>
 
-		<div class='tile hidden'>
-			<div>
-				<label for='options-restore-all'>Restore All Defaults</label>
-				<button type='reset' id='options-restore-all' class='button red hover row hidden'>Restore All Defaults</button>
-			</div>
+    <div class='tile hidden'>
+      <div>
+        <label for='options-restore-all'>Restore All Defaults</label>
+        <button type='reset' id='options-restore-all' class='button red hover row hidden'>Restore All Defaults</button>
+      </div>
 
-			<div>
-				<label for='options-undo-all'>Restore Saved Options</label>
-				<button type='reset' id='options-undo-all' class='button red hover row hidden'>Restore Saved Options</button>
-			</div>
-		</div>
+      <div>
+        <label for='options-undo-all'>Restore Saved Options</label>
+        <button type='reset' id='options-undo-all' class='button red hover row hidden'>Restore Saved Options</button>
+      </div>
+    </div>
 
-		<button type='submit' class='button outline green emphasis row' id='save-button'>Validate and Save</button>
-	</section>
+    <button type='submit' class='button outline green emphasis row' id='save-button'>Validate and Save</button>
+  </section>
 
-	<script type='module' src='options.js'></script>
+  <script type='module' src='options.js'></script>
 </body>
 
 </html>
