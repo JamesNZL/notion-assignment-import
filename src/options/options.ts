@@ -3,7 +3,7 @@ import { Storage } from '../apis/storage';
 import { OAuth2 } from '../apis/oauth';
 
 import { SavedFields } from './';
-import { EmojiField, InputFieldValidator } from './validator';
+import { EmojiField, InputFieldValidator, RequiredNotionDatabaseIdField, RequiredStringField, StringField } from './validator';
 import { CONFIGURATION, SupportedTypes } from './configuration';
 
 import { Element, Button, Select, KeyValueGroup } from '../elements';
@@ -133,43 +133,52 @@ const OAuth2Button = <const>{
 };
 
 const DatabaseSelect = <const>{
-	element: Select.getInstance<OptionsSelectId>({ id: 'database-id' }),
+	element: Select.getInstance<OptionsSelectId>({
+		id: 'database-id',
+		Validator: RequiredNotionDatabaseIdField,
+	}),
 	refreshButton: Button.getInstance<OptionsButtonId>({ id: 'refresh-database-select' }),
 	propertySelects: {
-		// TODO: add validators
 		name: PropertySelect.getInstance<OptionsSelectId>({
 			id: 'notion-property-name',
 			type: 'title',
+			Validator: RequiredStringField,
 			fieldKey: 'notion.propertyNames.name',
 		}),
 		category: PropertySelect.getInstance<OptionsSelectId>({
 			id: 'notion-property-category',
 			type: 'select',
+			Validator: StringField,
 			fieldKey: 'notion.propertyNames.category',
 		}),
 		course: PropertySelect.getInstance<OptionsSelectId>({
 			id: 'notion-property-course',
 			type: 'select',
+			Validator: StringField,
 			fieldKey: 'notion.propertyNames.course',
 		}),
 		url: PropertySelect.getInstance<OptionsSelectId>({
 			id: 'notion-property-url',
 			type: 'url',
+			Validator: StringField,
 			fieldKey: 'notion.propertyNames.url',
 		}),
 		available: PropertySelect.getInstance<OptionsSelectId>({
 			id: 'notion-property-available',
 			type: 'date',
+			Validator: StringField,
 			fieldKey: 'notion.propertyNames.available',
 		}),
 		due: PropertySelect.getInstance<OptionsSelectId>({
 			id: 'notion-property-due',
 			type: 'date',
+			Validator: StringField,
 			fieldKey: 'notion.propertyNames.due',
 		}),
 		span: PropertySelect.getInstance<OptionsSelectId>({
 			id: 'notion-property-span',
 			type: 'date',
+			Validator: StringField,
 			fieldKey: 'notion.propertyNames.span',
 		}),
 	},
@@ -178,6 +187,7 @@ const DatabaseSelect = <const>{
 			return SelectPropertyValueSelect.getInstance<OptionsSelectId>({
 				id: 'notion-category-canvas',
 				type: 'select',
+				Validator: StringField,
 				fieldKey: 'notion.propertyValues.categoryCanvas',
 				getDatabaseId: DatabaseSelect.element.validate.bind(DatabaseSelect.element),
 				propertySelect: DatabaseSelect.propertySelects.category,
