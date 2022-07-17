@@ -298,7 +298,6 @@ export const CONFIGURATION: {
 					return this.input = Input.getInstance<InputElementId>('database-id', 'input', RequiredNotionDatabaseIdField);
 				},
 				dependents: [
-					'refresh-database-select',
 					'notion-property-name',
 					'notion-property-category',
 					'notion-property-course',
