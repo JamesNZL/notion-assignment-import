@@ -12,20 +12,20 @@
 </head>
 
 <body>
-	<nav>
+	<header>
 		<div>
 			<img src='../favicon/favicon.svg' alt='Extension Logo' width='40' height='40'>
 			<h1>Notion Assignment Import</h1>
 		</div>
 
-		<div id='navbar'>
+		<nav>
 			<a target='_blank' href='https://jamesnzl-sandbox.notion.site/c4d73bebd39c4103b96b2edb8be9e0bd'>Notion Database Template</a>
 			<a target='_blank' href='https://github.com/JamesNZL/notion-assignment-import'>GitHub Repository</a>
 			<a target='_blank' href='https://discord.gg/k2jjmmVPeK'>Discord Server</a>
-		</div>
-	</nav>
+		</nav>
+	</header>
 
-	<div>
+	<section>
 		<h1>Extension Options</h1>
 
 		<h3>Appearance</h3>
@@ -72,9 +72,9 @@
 
 			<button type='reset' id='options-restore-timezone' class='button red hover row hidden'>Restore Default</button>
 		</div>
-	</div>
+	</section>
 
-	<div id='advanced-options' class='hidden'>
+	<section id='advanced-options' class='hidden'>
 		<h3>Extension Popup</h3>
 		<div class='tile'>
 			<div>
@@ -164,9 +164,9 @@
 
 			<button type='reset' id='options-restore-canvas-course-codes' class='button red hover row hidden'>Restore Default</button>
 		</div>
-	</div>
+	</section>
 
-	<div>
+	<section>
 		<h1>Notion Configuration</h1>
 
 		<h2>Integration</h2>
@@ -261,9 +261,9 @@
 
 			<button type='reset' id='options-restore-notion-emojis' class='button red hover row hidden'>Restore Default</button>
 		</div>
-	</div>
+	</section>
 
-	<div>
+	<section>
 		<h1 class='hidden'>Actions</h1>
 
 		<div class='tile hidden'>
@@ -279,7 +279,7 @@
 		</div>
 
 		<button type='submit' class='button outline green emphasis row' id='save-button'>Validate and Save</button>
-	</div>
+	</section>
 
 	<script type='module' src='options.js'></script>
 </body>

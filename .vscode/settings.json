@@ -29,6 +29,7 @@
 		"eslint",
 		"scopes",
 		"build",
-		"sass"
+		"sass",
+		"markup"
 	]
 }

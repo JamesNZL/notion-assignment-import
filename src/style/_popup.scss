@@ -20,13 +20,16 @@ html#popup {
 		margin-block-start: -0.14rem;
 	}
 
-	#options-icon {
+	nav {
 		width: fit-content;
-		height: fit-content;
-		margin-inline-end: calc(0.125 * configuration.$border-radius);
-		margin-top: 0.36rem;
+	}
+	
+	#options-icon {
 		cursor: pointer;
-
+		position: relative;
+		top: 0.36rem;
+		margin-inline-end: calc(0.125 * configuration.$border-radius);
+		
 		svg {
 			fill: configuration.$accent;
 			width: 18px;
