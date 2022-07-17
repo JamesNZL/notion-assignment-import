@@ -81,6 +81,16 @@ html#options {
 		}
 	}
 
+
+	h1,
+	h2,
+	h3,
+	h4 {
+		&.advanced-options {
+			color: configuration.$accent-complement;
+		}
+	}
+
 	label+.button,
 	div>.button {
 		margin-top: calc(2 * configuration.$margin);
