@@ -2,7 +2,7 @@ import { Element } from './Element';
 
 export class Button extends Element {
 	private buttonLabel: Element;
-	private defaultLabelHtml: string;
+	private defaultLabelHTML: string;
 	private defaultClassList: string;
 
 	protected constructor(id: string) {
@@ -11,7 +11,7 @@ export class Button extends Element {
 		this.buttonLabel = Element.getInstance(
 			this.element.querySelector('.button-label')?.id ?? this.element.id, 'button label',
 		);
-		this.defaultLabelHtml = this.buttonLabel.innerHTML;
+		this.defaultLabelHTML = this.buttonLabel.innerHTML;
 		this.defaultClassList = this.element.classList.value;
 	}
 
@@ -24,7 +24,7 @@ export class Button extends Element {
 	}
 
 	public setDefaultLabel(html: string) {
-		this.defaultLabelHtml = html;
+		this.defaultLabelHTML = html;
 	}
 
 	public getButtonLabel() {
@@ -37,7 +37,7 @@ export class Button extends Element {
 
 	public resetHTML(delay?: number) {
 		const reset = () => {
-			this.setButtonLabel(this.defaultLabelHtml);
+			this.setButtonLabel(this.defaultLabelHTML);
 			this.element.classList.value = this.defaultClassList;
 		};
 
