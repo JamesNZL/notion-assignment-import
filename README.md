@@ -132,13 +132,11 @@ To be notified with updates and changelogs, to get in touch, or just to lurk, jo
 5. Select the desired target database in the `Database` dropdown.
 	> NOTE: Databases that have not been *directly* shared with the integration (ie those which are a child of a shared page) might not immediately appear. Use the `Refresh` button until the desired database appears.
 
-6. Configure the `Property Names` and `Property Values` if necessary.
+6. Configure the `Property Names` and `Property Values` if desired.
 	> If you have duplicated my database template, you do not need to change the applied defaults.
 
-7. Configure the `Timezone`, `Course Code Overrides`, and `Page Emojis` options if necessary.
-   > `Course Code Overrides` can be found under **Advanced Options**.  
-
-   > You should only change the `HTML Class Names` if the extension is not parsing assignments correctly, and you know what you are doing.  
+7. Configure the `Timezone`, `Course Code Overrides`, and `Page Emojis` options if desired.
+   > You should only change the `HTML Class Names` (in **Advanced Options**) if the extension is not parsing assignments correctly, and you know what you are doing.  
    > If you are running into issues, feel free to ask for help on the [Discord server](https://discord.gg/k2jjmmVPeK)!
 
 8. Open the Canvas Assignments page for the course you wish to import.
@@ -208,6 +206,7 @@ chmod +x /Users/YOUR_USERNAME/Downloads/Notion\ Canvas\ Assignment\ Import/Conte
 | `Theme`                                        | Whether to use `Light`/`Dark` mode, or use the browser's default (`System`)                                                          |
 | `Show Advanced Options`                        | Whether to `Show`/`Hide` the **Advanced Options**                                                                                    |
 | `Timezone`                                     | The `TZ` timezone in which to parse and set all dates                                                                                |
+| `Course Code Overrides`                        | Any course code overrides to apply                                                                                                   |
 | `Internal Integration Token` (**Safari only**) | The `Internal Integration Token` of your Notion integration                                                                          |
 | `Database`                                     | The target Notion database                                                                                                           |
 | `Page 'Name' Property`                         | The name of the database `Title` property, used to set the assignment name                                                           |
@@ -234,7 +233,6 @@ chmod +x /Users/YOUR_USERNAME/Downloads/Notion\ Canvas\ Assignment\ Import/Conte
 | `Date Element Class`         | Selects the inner element which directly contains the above dates as `innerHTML`                                        |
 | `Course Code nth li`         | Parses the course code as the `nth li` of the `breadcrumbs` parent element                                              |
 | `Not Available Status`       | The text within `Available Status Class` that specifies that an assignment is not yet available                         |
-| `Course Code Overrides`      | Any course code overrides to apply                                                                                      |
 
 ### What is the difference between `Available Date`, `Due Date`, and `Date Span`?
 
