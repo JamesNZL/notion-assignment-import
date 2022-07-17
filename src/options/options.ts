@@ -97,18 +97,20 @@ const OptionsPage = <const>{
 };
 
 const AdvancedOptions = <const>{
-	element: Element.getInstance<OptionsElementId>({
-		id: 'advanced-options',
-		type: 'advanced options',
-	}),
+	elements: Array.from(document.getElementsByClassName('advanced-options'))
+		.map((element, index) => Element.getInstance({
+			id: `advanced-options-${index}`,
+			type: 'advanced options',
+			element: element,
+		})),
 	control: CONFIGURATION.FIELDS['options.displayAdvanced'].input,
 
 	show() {
-		this.element.show();
+		this.elements.forEach(element => element.show());
 	},
 
 	hide() {
-		this.element.hide();
+		this.elements.forEach(element => element.hide());
 	},
 
 	toggle(display?: boolean) {

@@ -72,13 +72,11 @@
 
       <button type='reset' id='options-restore-timezone' class='button red hover row hidden'>Restore Default</button>
     </div>
-  </section>
 
-  <section id='advanced-options' class='hidden'>
-    <h3>Extension Popup</h3>
-    <div class='tile'>
+    <h3 class='advanced-options hidden'>Extension Popup</h3>
+    <div class='tile advanced-options hidden'>
       <div>
-        <label class='required' for='display-json-button'>Display 'Copy <code>JSON</code>' button</label>
+        <label class=' required' for='display-json-button'>Display 'Copy <code>JSON</code>' button</label>
         <div class='segmented-control-wrapper'>
           <div class='segmented-control row' id='display-json-button'>
             <input checked type='radio' name='display-json-button' value='hide-json-button' id='hide-json-button'>
@@ -90,12 +88,15 @@
         </div>
       </div>
     </div>
+  </section>
 
-    <h1>Canvas Configuration</h1>
 
-    <h2><code>HTML</code> Classes</h2>
-    <h3>Class Names</h3>
-    <div class='tile'>
+  <section>
+    <h1 class='advanced-options hidden'>Canvas Configuration</h1>
+
+    <h2 class='advanced-options hidden'><code>HTML</code> Classes</h2>
+    <h3 class='advanced-options hidden'>Class Names</h3>
+    <div class='tile advanced-options hidden'>
       <div>
         <label class='required' for='breadcrumbs'>Breadcrumbs class</label>
         <input required type='text' id='breadcrumbs' name='breadcrumbs' class='row'>
@@ -134,8 +135,8 @@
       <button type='reset' id='options-restore-canvas-class-names' class='button red hover row hidden'>Restore Defaults</button>
     </div>
 
-    <h3>Class Values</h3>
-    <div class='tile'>
+    <h3 class='advanced-options hidden'>Class Values</h3>
+    <div class='tile advanced-options hidden'>
       <div>
         <label class='required' for='course-code-n'>Course code <code>nth li</code></label>
         <input required type='text' id='course-code-n' name='course-code-n' class='row'>
@@ -149,8 +150,8 @@
       <button type='reset' id='options-restore-canvas-class-values' class='button red hover row hidden'>Restore Defaults</button>
     </div>
 
-    <h2>Course Code Overrides</h2>
-    <div class='tile'>
+    <h2 class='advanced-options hidden'>Course Code Overrides</h2>
+    <div class='tile advanced-options hidden'>
       <div id='course-code-overrides-group' class='row'>
         <div>
           <label for='course-code-overrides-canvas'>Canvas course code</label>
