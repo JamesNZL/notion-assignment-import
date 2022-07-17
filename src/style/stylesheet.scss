@@ -162,6 +162,10 @@ a {
 		box-shadow: 0 0 0 0.2rem map-get($options, 'shadow');
 	}
 
+	&:focus-visible {
+		outline: revert;
+	}
+
 	&:active {
 		color: map-get($options, 'text-active');
 		background-color: map-get($options, 'background-active');
@@ -359,12 +363,9 @@ select {
 	}
 
 	&:focus {
+		outline: none;
 		box-shadow: 0 0 0 0.2rem var(--element-shadow);
 		background-color: var(--element-hover);
-	}
-
-	&:focus-visible {
-		outline: none;
 	}
 
 	&.invalid-input {
@@ -440,10 +441,12 @@ select {
 				font-weight: 700;
 			}
 
-			&:focus {
+			&:focus-visible {
 				&~label:last-of-type::before {
 					box-shadow: 0 0 0 0.2rem var(--element-shadow);
 					background-color: var(--element-hover);
+					outline: 1px auto;
+					outline: -webkit-focus-ring-color auto 1px;
 				}
 			}
 
@@ -451,7 +454,7 @@ select {
 
 				&:checked,
 				&:active,
-				&:focus {
+				&:focus-visible {
 					&~label:last-of-type::before {
 						transform: translateX(calc(-1 * configuration.$border-width));
 					}
@@ -462,7 +465,7 @@ select {
 
 				&:checked,
 				&:active,
-				&:focus {
+				&:focus-visible {
 					&~label:last-of-type::before {
 						transform: translateX(calc(100% - 3 * configuration.$border-width));
 					}
@@ -511,7 +514,7 @@ select {
 
 				&:checked,
 				&:active,
-				&:focus {
+				&:focus-visible {
 					&~label:last-of-type::before {
 						transform: translateX(calc(200% - 5 * configuration.$border-width));
 					}
