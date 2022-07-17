@@ -414,9 +414,6 @@ buttons.oauth.addEventListener('click', async () => {
 
 	if (!success) return buttons.oauth.resetHTML();
 
-	// TODO: remove this
-	Storage.clearDatabaseId();
-
 	const { accessToken } = await Storage.getNotionAuthorisation();
 	CONFIGURATION.FIELDS['notion.accessToken'].input.setValue(accessToken ?? null);
 });
