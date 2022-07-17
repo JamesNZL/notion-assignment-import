@@ -133,7 +133,7 @@ const DatabaseSelect = <const>{
 	},
 	propertyValueSelects: {
 		get categoryCanvas() {
-			return SelectPropertyValueSelect.getInstance<OptionsSelectId>('notion-category-canvas', 'select', 'notion.propertyValues.categoryCanvas', DatabaseSelect.element.getValue.bind(DatabaseSelect.element), DatabaseSelect.propertySelects.category);
+			return SelectPropertyValueSelect.getInstance<OptionsSelectId>('notion-category-canvas', 'select', 'notion.propertyValues.categoryCanvas', DatabaseSelect.element.validate.bind(DatabaseSelect.element), DatabaseSelect.propertySelects.category);
 		},
 	},
 

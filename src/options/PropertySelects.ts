@@ -3,6 +3,7 @@ import { NotionClient } from '../apis/notion';
 import { Storage } from '../apis/storage';
 
 import { SavedFields } from '.';
+import { InputFieldValidator } from './validator';
 import { CONFIGURATION, SupportedTypes } from './configuration';
 
 import { Select } from '../elements';
@@ -61,13 +62,13 @@ export class PropertySelect extends Select {
 export class SelectPropertyValueSelect extends PropertySelect {
 	private propertySelect: PropertySelect;
 
-	protected constructor(id: string, type: PropertySelect['type'], fieldKey: PropertySelect['fieldKey'], getDatabaseId: () => SupportedTypes, propertySelect: PropertySelect) {
+	protected constructor(id: string, type: PropertySelect['type'], fieldKey: PropertySelect['fieldKey'], getDatabaseId: () => Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT>, propertySelect: PropertySelect) {
 		super(id, type, fieldKey);
 
 		this.propertySelect = propertySelect;
 
 		this.propertySelect.addEventListener('input', async () => {
-			const databaseId = getDatabaseId();
+			const databaseId = await getDatabaseId();
 			if (typeof databaseId !== 'string') return;
 
 			const accessToken = (await Storage.getNotionAuthorisation()).accessToken ?? await CONFIGURATION.FIELDS['notion.accessToken'].input.validate(true);
@@ -80,7 +81,7 @@ export class SelectPropertyValueSelect extends PropertySelect {
 		});
 	}
 
-	public static override getInstance<T extends string>(id: T, type?: PropertySelect['type'], fieldKey?: PropertySelect['fieldKey'], getDatabaseId?: () => SupportedTypes, propertySelect?: PropertySelect): PropertySelect {
+	public static override getInstance<T extends string>(id: T, type?: PropertySelect['type'], fieldKey?: PropertySelect['fieldKey'], getDatabaseId?: () => Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT>, propertySelect?: PropertySelect): PropertySelect {
 		if (!type) throw new Error('Argument type must be defined for class SelectPropertyValueSelect!');
 		if (!fieldKey) throw new Error('Argument fieldKey must be defined for class SelectPropertyValueSelect!');
 		if (!getDatabaseId) throw new Error('Argument getDatabaseId must be defined for class SelectPropertyValueSelect!');
