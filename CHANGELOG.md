@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.2.3](https://github.com/JamesNZL/notion-assignment-import/compare/v4.2.2...v4.2.3) (2022-07-17)
+
+
+### Bug Fixes
+
+* **assets:** :bento: update favicon background colour ([df7349b](https://github.com/JamesNZL/notion-assignment-import/commit/df7349b638da13a39017e2405bdbc8688894def2))
+* **interface:** :wheelchair: show outline focus ring on keyboard focus ([956c8c3](https://github.com/JamesNZL/notion-assignment-import/commit/956c8c3471176222895884af0967b03a5e3c5528))
+
 ### [4.2.2](https://github.com/JamesNZL/notion-assignment-import/compare/v4.2.1...v4.2.2) (2022-07-16)
 
 
