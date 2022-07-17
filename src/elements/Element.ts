@@ -1,28 +1,32 @@
 export class Element {
 	protected static instances = new Map<string, Element>();
 
-	protected element: HTMLElement;
+	protected element: globalThis.Element;
 	private timeouts = new Map<string, ReturnType<typeof setTimeout>>();
 
 	private tile?: HTMLElement | false;
 	private parentHeading?: HTMLHeadingElement | false;
 
-	protected constructor({ id, type }: {
+	protected constructor({ id, type, element }: {
 		id: string,
 		type: string;
+		element?: globalThis.Element | null;
 	}) {
-		const element = document.getElementById(id);
+		element ??= document.getElementById(id);
 		if (!element) throw new Error(`Invalid ${type} identifier ${id}!`);
+
+		element.id = id;
 
 		this.element = element;
 	}
 
-	public static getInstance<T extends string>({ id, type }: {
+	public static getInstance<T extends string>({ id, type, element }: {
 		id: T,
 		type: string;
+		element?: globalThis.Element;
 	}): Element {
 		if (!Element.instances.has(id)) {
-			Element.instances.set(id, new Element({ id, type }));
+			Element.instances.set(id, new Element({ id, type, element }));
 		}
 
 		return <Element>Element.instances.get(id);

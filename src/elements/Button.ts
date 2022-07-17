@@ -61,6 +61,7 @@ export class Button extends Element {
 	}
 
 	public click() {
+		if (!(this.element instanceof HTMLElement)) return;
 		this.element.click();
 	}
 }
