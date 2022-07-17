@@ -332,7 +332,9 @@ window.addEventListener('beforeunload', event => {
 });
 
 /*
+ *
  * Input Listeners
+ *
  */
 
 // add event listener to display theme toggle
@@ -421,7 +423,9 @@ document.addEventListener('keydown', keyEvent => {
 });
 
 /*
+ *
  * Konami
+ *
  */
 
 const Konami = {
