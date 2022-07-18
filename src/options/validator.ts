@@ -193,8 +193,6 @@ export abstract class InputFieldValidator {
 			this.input.addClass('invalid-input');
 		}
 
-		console.log(this.errorElement);
-
 		if (!this.errorElement) {
 			const element = document.createElement('span');
 
