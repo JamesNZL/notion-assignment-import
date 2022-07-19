@@ -10,7 +10,6 @@ import { valueof, ArrayElement } from '../types/utils';
 export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 	const { notion: options } = await Storage.getOptions();
 
-	// TODO: patch
 	class ParsedAssignment implements IParsedAssignment {
 		private assignment: IParsedAssignment;
 
@@ -20,6 +19,14 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 
 		public get name(): string {
 			return this.assignment.name;
+		}
+
+		public get description(): string {
+			return this.assignment.description;
+		}
+
+		public get points(): number {
+			return this.assignment.points;
 		}
 
 		public get course(): string {
