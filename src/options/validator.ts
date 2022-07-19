@@ -2,9 +2,10 @@ import { NotionClient, VALID_EMOJIS } from '../apis/notion';
 import { Storage } from '../apis/storage';
 
 import { SupportedTypes, CONFIGURATION } from './configuration';
-import { NullIfEmpty, NeverEmpty } from './';
 
 import { Element, Button, Input } from '../elements';
+
+import { NullIfEmpty, NeverEmpty } from '../types/storage';
 
 type TypeGuard = (value: unknown) => boolean;
 

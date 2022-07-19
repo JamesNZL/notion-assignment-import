@@ -1,46 +1,10 @@
 import browser from 'webextension-polyfill';
 
-import { SavedFields, IOptions } from '../options';
 import { CONFIGURATION, SupportedTypes } from '../options/configuration';
 
 import { SavedAssignments } from '../popup/parse';
 
-// undefined if not set yet
-interface NotionFields {
-	'notion.accessToken'?: string;
-	'notion.botId'?: string;
-	'notion.workspace.id'?: string;
-	'notion.workspace.name'?: string | null;
-	'notion.workspace.icon'?: string | null;
-	'notion.owner.workspace'?: true | null;
-	'notion.owner.type'?: 'user' | null;
-	'notion.owner.user.object'?: 'user' | null;
-	'notion.owner.user.id'?: string | null;
-	'notion.owner.user.type'?: string | null;
-	'notion.owner.user.name'?: string | null;
-	'notion.owner.user.avatarURL'?: string | null;
-}
-
-interface NotionAuthorisation {
-	accessToken?: string;
-	botId?: string;
-	workspace: {
-		id?: string;
-		name?: string | null;
-		icon?: string | null;
-	};
-	owner: {
-		workspace?: true | null;
-		type?: 'user' | null;
-		user: {
-			object?: 'user' | null;
-			id?: string | null;
-			type?: string | null;
-			name?: string | null;
-			avatarURL?: string | null;
-		};
-	};
-}
+import { NotionFields, NotionAuthorisation, SavedFields, IOptions } from '../types/storage';
 
 const KEYS = <const>{
 	course: 'savedCourse',

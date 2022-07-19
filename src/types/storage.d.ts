@@ -1,6 +1,6 @@
 import { EmojiRequest, TimeZoneRequest } from '../apis/notion';
 
-import { ModifyDeep } from '../types/utils';
+import { ModifyDeep } from './utils';
 
 type NeverEmpty<T extends string> = T extends '' ? never : T;
 type NullIfEmpty<T extends string | null> = (T extends '' ? null : T) | null;
@@ -113,3 +113,40 @@ export type IOptions = ModifyDeep<SavedOptions, {
 		courseEmojis: Record<string, EmojiRequest>;
 	};
 }>;
+
+// undefined if not set yet
+export interface NotionFields {
+	'notion.accessToken'?: string;
+	'notion.botId'?: string;
+	'notion.workspace.id'?: string;
+	'notion.workspace.name'?: string | null;
+	'notion.workspace.icon'?: string | null;
+	'notion.owner.workspace'?: true | null;
+	'notion.owner.type'?: 'user' | null;
+	'notion.owner.user.object'?: 'user' | null;
+	'notion.owner.user.id'?: string | null;
+	'notion.owner.user.type'?: string | null;
+	'notion.owner.user.name'?: string | null;
+	'notion.owner.user.avatarURL'?: string | null;
+}
+
+interface NotionAuthorisation {
+	accessToken?: string;
+	botId?: string;
+	workspace: {
+		id?: string;
+		name?: string | null;
+		icon?: string | null;
+	};
+	owner: {
+		workspace?: true | null;
+		type?: 'user' | null;
+		user: {
+			object?: 'user' | null;
+			id?: string | null;
+			type?: string | null;
+			name?: string | null;
+			avatarURL?: string | null;
+		};
+	};
+}

@@ -2,28 +2,7 @@ import browser from 'webextension-polyfill';
 
 import { Storage } from './storage';
 
-interface User {
-	object: 'user';
-	id: string;
-	type?: string;
-	name?: string;
-	avatar_url?: string;
-}
-
-interface Owner {
-	workspace?: true;
-	type?: 'user';
-	user?: User;
-}
-
-interface AuthorisedResponse {
-	access_token: string;
-	workspace_id: string;
-	workspace_name: string | null;
-	workspace_icon: string | null;
-	bot_id: string;
-	owner: Owner;
-}
+import { AuthorisedResponse } from '../types/notion';
 
 export const OAuth2 = <const>{
 	ENDPOINTS: {

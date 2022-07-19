@@ -1,9 +1,10 @@
 import { Storage } from '../apis/storage';
 
-import { SavedFields } from './';
 import { CONFIGURATION, OptionConfiguration, SupportedTypes } from './configuration';
 
 import { Button } from '../elements';
+
+import { SavedFields } from '../types/storage';
 
 export class RestoreDefaultsButton extends Button {
 	protected restoreKeys: (keyof SavedFields)[];

@@ -2,7 +2,6 @@ import { NotionClient } from '../apis/notion';
 import { Storage } from '../apis/storage';
 import { OAuth2 } from '../apis/oauth';
 
-import { SavedFields } from './';
 import { EmojiField, InputFieldValidator, RequiredNotionDatabaseIdField, RequiredStringField, StringField, typeGuards } from './validator';
 import { CONFIGURATION, SupportedTypes } from './configuration';
 
@@ -10,6 +9,7 @@ import { Element, Button, Select, KeyValueGroup } from '../elements';
 import { RestoreDefaultsButton, RestoreSavedButton } from './RestoreButtons';
 import { PropertySelect, SelectPropertyValueSelect } from './PropertySelects';
 
+import { SavedFields } from '../types/storage';
 import { valueof } from '../types/utils';
 
 // if an id ever changes in HTML, it must be updated here

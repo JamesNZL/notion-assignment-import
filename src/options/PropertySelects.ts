@@ -2,12 +2,12 @@ import { GetDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
 import { NotionClient } from '../apis/notion';
 import { Storage } from '../apis/storage';
 
-import { SavedFields } from '.';
 import { ValidatorConstructor, typeGuards } from './validator';
 import { CONFIGURATION, SupportedTypes } from './configuration';
 
 import { Select } from '../elements';
 
+import { SavedFields } from '../types/storage';
 import { valueof } from '../types/utils';
 
 export class PropertySelect extends Select {

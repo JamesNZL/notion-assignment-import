@@ -1,6 +1,5 @@
 import { Input, KeyValueGroup, SegmentedControl } from '../elements';
 
-import { NullIfEmpty, SavedFields, SavedOptions } from './';
 import {
 	InputFieldValidator,
 	StringField,
@@ -11,6 +10,7 @@ import {
 	RequiredNotionDatabaseIdField,
 } from './validator';
 
+import { NullIfEmpty, SavedFields, SavedOptions } from '../types/storage';
 import { valueof } from '../types/utils';
 
 export type SupportedTypes = NullIfEmpty<string> | boolean;

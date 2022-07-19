@@ -1,6 +1,7 @@
 import { parseDate } from 'chrono-node';
-import { EmojiRequest } from '../apis/notion';
 import { Storage } from '../apis/storage';
+
+import { EmojiRequest } from '../types/notion';
 
 export interface IParsedAssignment {
 	name: string;

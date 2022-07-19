@@ -1,9 +1,10 @@
 import { CreatePageParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
-import { EmojiRequest, NotionClient } from '../apis/notion';
+import { NotionClient } from '../apis/notion';
 import { Storage } from '../apis/storage';
 
 import { IParsedAssignment } from './parse';
 
+import { EmojiRequest } from '../types/notion';
 import { valueof, ArrayElement } from '../types/utils';
 
 export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
