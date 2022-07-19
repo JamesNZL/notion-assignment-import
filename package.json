@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "@types/webextension-polyfill": "^0.9.0",
-    "@typescript-eslint/eslint-plugin": "^5.30.6",
+    "@typescript-eslint/eslint-plugin": "^5.30.7",
     "autoprefixer": "^10.4.7",
     "cssnano": "^5.1.12",
     "del": "^6.1.1",
