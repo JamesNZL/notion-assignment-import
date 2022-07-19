@@ -120,10 +120,10 @@ buttons.parse.addEventListener('click', async () => {
 		(browser.scripting)
 			? browser.scripting.executeScript({
 				target: { tabId: tab.id },
-				files: ['popup/parse.js'],
+				files: ['popup/fetch.js'],
 			})
 			: browser.tabs.executeScript(tab.id, {
-				file: '/popup/parse.js',
+				file: '/popup/fetch.js',
 			})
 				.catch((error: Error) => {
 					// Ignore non-structured-clonable error
