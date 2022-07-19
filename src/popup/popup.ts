@@ -4,7 +4,7 @@ import { NotionClient } from '../apis/notion';
 import { Storage } from '../apis/storage';
 import { OAuth2 } from '../apis/oauth';
 
-import { SavedAssignments } from './parse';
+import { SavedAssignments } from './fetch';
 import { exportToNotion } from './import';
 
 import { Element, Button } from '../elements';
@@ -120,20 +120,15 @@ buttons.parse.addEventListener('click', async () => {
 		(browser.scripting)
 			? browser.scripting.executeScript({
 				target: { tabId: tab.id },
-				files: ['popup/parse.js'],
+				files: ['popup/fetch.js'],
 			})
 			: browser.tabs.executeScript(tab.id, {
-				file: '/popup/parse.js',
+				file: '/popup/fetch.js',
 			})
-				.catch((error: Error) => {
-					// Ignore non-structured-clonable error
-					if (error.message.includes('non-structured-clonable')) return true;
-					throw error;
-				})
 	)
 		.catch(console.error);
 
-	if (!result) return alert('An error was encountered whilst attempting to parse assignments.');
+	if (!result) return alert('An error was encountered whilst attempting to fetch assignments.');
 
 	let courseCode: string | null | undefined = undefined;
 	while (courseCode === undefined) {

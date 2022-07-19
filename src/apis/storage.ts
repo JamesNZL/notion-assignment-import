@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill';
 
 import { CONFIGURATION, SupportedTypes } from '../options/configuration';
 
-import { SavedAssignments } from '../popup/parse';
+import { SavedAssignments } from '../popup/fetch';
 
 import { NotionFields, NotionAuthorisation, SavedFields, IOptions } from '../types/storage';
 
@@ -134,25 +134,6 @@ export const Storage = <const>{
 			},
 			canvas: {
 				timeZone: savedFields['timeZone'],
-				classNames: {
-					breadcrumbs: savedFields['canvas.classNames.breadcrumbs'],
-					assignment: savedFields['canvas.classNames.assignment'],
-					title: savedFields['canvas.classNames.title'],
-					availableDate: savedFields['canvas.classNames.availableDate'],
-					availableStatus: savedFields['canvas.classNames.availableStatus'],
-					dueDate: savedFields['canvas.classNames.dueDate'],
-					dateElement: savedFields['canvas.classNames.dateElement'],
-				},
-				classValues: {
-					courseCodeN: Number(savedFields['canvas.classValues.courseCodeN']),
-					notAvailable: savedFields['canvas.classValues.notAvailable'],
-				},
-				selectors: {
-					get courseCode() { return `.${savedFields['canvas.classNames.breadcrumbs']} li:nth-of-type(${savedFields['canvas.classValues.courseCodeN']}) span`; },
-					get availableStatus() { return `.${savedFields['canvas.classNames.availableDate']} .${savedFields['canvas.classNames.availableStatus']}`; },
-					get availableDate() { return `.${savedFields['canvas.classNames.availableDate']} .${savedFields['canvas.classNames.dateElement']}`; },
-					get dueDate() { return `.${savedFields['canvas.classNames.dueDate']} .${savedFields['canvas.classNames.dateElement']}`; },
-				},
 				courseCodeOverrides: JSON.parse(savedFields['canvas.courseCodeOverrides']),
 			},
 			notion: {

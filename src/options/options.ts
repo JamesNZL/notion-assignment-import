@@ -17,8 +17,6 @@ import { valueof } from '../types/utils';
 interface OptionsElements {
 	restore: {
 		timeZone: 'options-restore-timezone';
-		canvasClassNames: 'options-restore-canvas-class-names';
-		canvasClassValues: 'options-restore-canvas-class-values';
 		canvasCourseCodes: 'options-restore-canvas-course-codes';
 		notionPropertyNames: 'options-restore-notion-property-names';
 		notionPropertyValues: 'options-restore-notion-property-values';
@@ -252,25 +250,6 @@ const buttons: {
 			id: 'options-restore-timezone',
 			restoreKeys: [
 				'timeZone',
-			],
-		}),
-		canvasClassNames: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>({
-			id: 'options-restore-canvas-class-names',
-			restoreKeys: [
-				'canvas.classNames.breadcrumbs',
-				'canvas.classNames.assignment',
-				'canvas.classNames.title',
-				'canvas.classNames.availableDate',
-				'canvas.classNames.availableStatus',
-				'canvas.classNames.dueDate',
-				'canvas.classNames.dateElement',
-			],
-		}),
-		canvasClassValues: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>({
-			id: 'options-restore-canvas-class-values',
-			restoreKeys: [
-				'canvas.classValues.courseCodeN',
-				'canvas.classValues.notAvailable',
 			],
 		}),
 		canvasCourseCodes: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>({

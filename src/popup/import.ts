@@ -2,7 +2,7 @@ import { CreatePageParameters, QueryDatabaseResponse } from '@notionhq/client/bu
 import { NotionClient } from '../apis/notion';
 import { Storage } from '../apis/storage';
 
-import { IParsedAssignment } from './parse';
+import { IParsedAssignment } from './fetch';
 
 import { EmojiRequest } from '../types/notion';
 import { valueof, ArrayElement } from '../types/utils';
@@ -19,6 +19,14 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 
 		public get name(): string {
 			return this.assignment.name;
+		}
+
+		public get description(): string | null {
+			return this.assignment.description;
+		}
+
+		public get points(): number {
+			return this.assignment.points;
 		}
 
 		public get course(): string {
