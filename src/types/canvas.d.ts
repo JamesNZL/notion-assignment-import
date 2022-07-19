@@ -52,8 +52,7 @@ export type Assignments = Assignment[];
 
 export interface Assignment {
 	id: number;
-	// TODO: this is nullable
-	description: string;
+	description: string | null;
 	due_at: string;
 	unlock_at?: string;
 	lock_at?: string;

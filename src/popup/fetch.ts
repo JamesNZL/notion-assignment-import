@@ -5,7 +5,7 @@ import { EmojiRequest } from '../types/notion';
 
 export interface IParsedAssignment {
 	name: string;
-	description: string;
+	description: string | null;
 	points: number;
 	course: string;
 	icon: EmojiRequest | null;
@@ -43,7 +43,7 @@ function roundToNextHour(date: Date): Date {
 			throw 'Failed to fetch course.\n\nPlease try again later.\n\nIf this issue persists, please open an Issue on GitHub or report it in the Discord Server.';
 		}
 
-		// TODO: include quizzes etc
+		// TODO(canvas-api): include quizzes etc
 		const assignments = await canvasClient.fetchAssignments();
 
 		if (!assignments) {
@@ -61,9 +61,9 @@ function roundToNextHour(date: Date): Date {
 			.filter(assignment => !assignment.locked_for_user)
 			.map(assignment => ({
 				name: assignment.name,
-				// TODO: html -> markdown
+				// TODO(main): html -> markdown
 				description: assignment.description,
-				// TODO: normalise this as a percentage of total points?
+				// TODO(main): normalise this as a percentage of total points?
 				points: assignment.points_possible,
 				course: courseCode,
 				icon: courseIcon,
@@ -79,7 +79,7 @@ function roundToNextHour(date: Date): Date {
 		await Storage.setSavedAssignments(savedAssignments);
 		await Storage.setSavedCourse(emojiedCourseCode);
 
-		// TODO: do i just return savedAssignments to avoid the no-structured-clonable ff error?
+		// TODO(canvas-api): do i just return savedAssignments to avoid the no-structured-clonable ff error?
 	}
 
 	catch (error) {

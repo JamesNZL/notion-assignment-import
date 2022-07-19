@@ -21,7 +21,7 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 			return this.assignment.name;
 		}
 
-		public get description(): string {
+		public get description(): string | null {
 			return this.assignment.description;
 		}
 
