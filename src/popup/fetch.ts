@@ -43,10 +43,9 @@ function roundToNextHour(date: Date): Date {
 			throw 'Failed to fetch course.\n\nPlease try again later.\n\nIf this issue persists, please open an Issue on GitHub or report it in the Discord Server.';
 		}
 
-		// TODO(canvas-api): include quizzes etc
-		const assignments = await canvasClient.fetchAssignments();
+		const assignmentGroups = await canvasClient.fetchAssignmentGroups();
 
-		if (!assignments) {
+		if (!assignmentGroups) {
 			throw 'Failed to fetch assignments.\n\nPlease try again later.\n\nIf this issue persists, please open an Issue on GitHub or report it in the Discord Server.';
 		}
 
@@ -57,8 +56,7 @@ function roundToNextHour(date: Date): Date {
 
 		const emojiedCourseCode = `${(courseIcon) ? `${courseIcon} ` : ''}${courseCode}`;
 
-		const canvasAssignments = assignments
-			.filter(assignment => !assignment.locked_for_user)
+		const canvasAssignments = assignmentGroups.flatMap(group => group.assignments)
 			.map(assignment => ({
 				name: assignment.name,
 				// TODO(main): html -> markdown

@@ -150,3 +150,14 @@ interface ExternalToolTagAttributes {
 	content_type: string;
 	content_id: number;
 }
+
+export type AssignmentGroups = AssignmentGroup[];
+
+export interface AssignmentGroup {
+	id: number;
+	name: string;
+	position: number;
+	group_weight: number;
+	assignments: Assignment[];
+	any_assignment_in_closed_grading_period: boolean;
+}

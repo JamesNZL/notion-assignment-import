@@ -1,4 +1,4 @@
-import { Course, Assignments } from '../types/canvas';
+import { Course, Assignments, AssignmentGroups } from '../types/canvas';
 
 export class CanvasClient {
 	private origin: string;
@@ -20,6 +20,7 @@ export class CanvasClient {
 		return {
 			course: `${this.baseURL}/courses/${this.courseId}`,
 			assignments: `${this.baseURL}/courses/${this.courseId}/assignments`,
+			assignmentGroups: `${this.baseURL}/courses/${this.courseId}/assignment_groups`,
 		};
 	}
 
@@ -38,5 +39,13 @@ export class CanvasClient {
 
 	public async fetchAssignments() {
 		return await this.makeRequest<Assignments>(this.ENDPOINTS.assignments);
+	}
+
+	public async fetchAssignmentGroups() {
+		return await this.makeRequest<AssignmentGroups>(
+			this.ENDPOINTS.assignmentGroups + '?' + new URLSearchParams({
+				'include[]': 'assignments',
+			}),
+		);
 	}
 }
