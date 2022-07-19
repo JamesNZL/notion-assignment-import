@@ -63,6 +63,7 @@ function roundToNextHour(date: Date): Date {
 				name: assignment.name,
 				// TODO: html -> markdown
 				description: assignment.description,
+				// TODO: normalise this as a percentage of total points?
 				points: assignment.points_possible,
 				course: courseCode,
 				icon: courseIcon,
