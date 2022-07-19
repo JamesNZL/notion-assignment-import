@@ -28,8 +28,7 @@
     "yargs": "^17.5.1"
   },
   "dependencies": {
-    "@notionhq/client": "^1.0.4",
-    "chrono-node": "^2.3.8"
+    "@notionhq/client": "^1.0.4"
   },
   "scripts": {
     "watch": "gulp watch --debug=true --gulpfile build/gulpfile.js --cwd .",
