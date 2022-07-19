@@ -37,16 +37,13 @@ function roundToNextHour(date: Date): Date {
 
 		const canvasClient = new CanvasClient({ origin, courseId });
 
-		const course = await canvasClient.fetchCourse();
+		const [course, assignmentGroups] = await Promise.all([
+			canvasClient.fetchCourse(),
+			canvasClient.fetchAssignmentGroups(),
+		]);
 
-		if (!course) {
-			throw 'Failed to fetch course.\n\nPlease try again later.\n\nIf this issue persists, please open an Issue on GitHub or report it in the Discord Server.';
-		}
-
-		const assignmentGroups = await canvasClient.fetchAssignmentGroups();
-
-		if (!assignmentGroups) {
-			throw 'Failed to fetch assignments.\n\nPlease try again later.\n\nIf this issue persists, please open an Issue on GitHub or report it in the Discord Server.';
+		if (!course || !assignmentGroups) {
+			throw `Failed to fetch ${(!course) ? 'course' : 'assignments'}.\n\nPlease try again later.\n\nIf this issue persists, please open an Issue on GitHub or report it in the Discord Server.`;
 		}
 
 		const options = await Storage.getOptions();
@@ -74,8 +71,10 @@ function roundToNextHour(date: Date): Date {
 
 		savedAssignments[emojiedCourseCode] = canvasAssignments;
 
-		await Storage.setSavedAssignments(savedAssignments);
-		await Storage.setSavedCourse(emojiedCourseCode);
+		await Promise.all([
+			Storage.setSavedAssignments(savedAssignments),
+			Storage.setSavedCourse(emojiedCourseCode),
+		]);
 
 		return savedAssignments;
 	}
