@@ -138,12 +138,12 @@ To be notified with updates and changelogs, to get in touch, or just to lurk, jo
 7. Configure the `Timezone`, `Course Code Overrides`, and `Page Emojis` options if necessary.
    > `Course Code Overrides` can be found under **Advanced Options**.  
 
-   > You should only change the `HTML Class Names` if the extension is not parsing assignments correctly, and you know what you are doing.  
-   > If you are running into issues, feel free to ask for help on the [Discord server](https://discord.gg/k2jjmmVPeK)!
+8. Open the Canvas page for the course you wish to import.
+   > You should be on a URL that looks something like `https://<canvas.auckland.ac.nz>/courses/72763/**/*`.  
+      > `<canvas.auckland.ac.nz>` should be your own institution's Canvas URL.  
+      > `/**/*` means that you can be on the course home page, or any subpage—the important part is `courses/...../`.
 
-8. Open the Canvas Assignments page for the course you wish to import.
-
-9. Click `Copy from Canvas`.
+9.  Click `Copy from Canvas`.
 
 10.  You should see the course appear in the `Saved Assignments` list.  
     1. Click `Expand` to view a list of individual saved assignments.  
@@ -222,19 +222,10 @@ chmod +x /Users/YOUR_USERNAME/Downloads/Notion\ Canvas\ Assignment\ Import/Conte
 
 **Advanced Options**
 
-| Option                       | Purpose/Remarks                                                                                                         |
-| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `Display 'Copy JSON' Button` | Whether to `Show`/`Hide` the `Copy JSON` button in the extension popup                                                  |
-| `Breadcrumbs Class`          | Selects the breadcrumb at the top of the page, containing the course code as the `nth li` child element                 |
-| `Assignment Class`           | Selects each individual assignment on the page                                                                          |
-| `Assignment Title Class`     | Selects the `a` element that contains the assignment URL as the `href` attribute and the assignment name as `innerHTML` |
-| `Available Date Class`       | Selects the element containing the assignment available date                                                            |
-| `Available Status Class`     | Selects the element containing the text that specifies whether the assignment is already available or not               |
-| `Due Date Class`             | Selects the element containing the assignment due date                                                                  |
-| `Date Element Class`         | Selects the inner element which directly contains the above dates as `innerHTML`                                        |
-| `Course Code nth li`         | Parses the course code as the `nth li` of the `breadcrumbs` parent element                                              |
-| `Not Available Status`       | The text within `Available Status Class` that specifies that an assignment is not yet available                         |
-| `Course Code Overrides`      | Any course code overrides to apply                                                                                      |
+| Option                       | Purpose/Remarks                                                        |
+| ---------------------------- | ---------------------------------------------------------------------- |
+| `Display 'Copy JSON' Button` | Whether to `Show`/`Hide` the `Copy JSON` button in the extension popup |
+| `Course Code Overrides`      | Any course code overrides to apply                                     |
 
 ### What is the difference between `Available Date`, `Due Date`, and `Date Span`?
 
@@ -303,27 +294,34 @@ This project uses [`gulp`](https://gulpjs.com/) and [`esbuild`](https://esbuild.
 
 # How It Works
 
-## Assignment Parsing
+## Assignment Fetching
 
-1. Assignments are parsed from the `DOM` using the configured `Assignment Class`.
+1. The [`fetch.ts`](src/popup/fetch.ts) [content script](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts) is injected into the active Canvas tab.
 
-2. Assignments are individually parsed for their name, course, URL, available (from) date, and due date:
-   1. `Course Code Overrides` are applied,
-   2. `Page Emojis` are applied, and
-   3. Assignments without due dates are ignored.
-   > Assignments without 'available date' information (or that are already available), are set to be available from the top of the next hour (relative to parsing time).
+2. [`window.location`](https://developer.mozilla.org/en-US/docs/Web/API/Location) is used to extract the institution's Canvas [`origin`](https://developer.mozilla.org/en-US/docs/Web/API/Location/origin), as well as the specific [`pathname`](https://developer.mozilla.org/en-US/docs/Web/API/Location/pathname) of the active tab.
 
-3. Parsed assignments are saved by course in browser local storage in a `JSON`-serialisable format (see `IParsedAssignment` and `SavedAssignment` in [`parse.ts`](src/popup/parse.ts)).
+3. The `pathname` is matched against a regular expression to extract the Canvas `:course_id`, such as `72763`.
+
+4. A same-host `fetch()` request is made from the active Canvas tab to the following Canvas REST API endpoints, with the logged in user's cookies:
+   1. [`GET /api/v1/courses/:id`](https://canvas.instructure.com/doc/api/courses.html#method.courses.show), to get the course code.
+   2. [`GET /api/v1/courses/:course_id/assignment_groups`](https://canvas.instructure.com/doc/api/assignment_groups.html#method.assignment_groups.index), to get a list of assignments.
+
+5. Relevant information is extracted from each [`Assignment`](https://canvas.instructure.com/doc/api/assignments.html) object, and the following configurations applied:
+   1. `Course Code Overrides`, and
+   2. `Page Emojis`.
+   > Assignments without an [`unlock_at`](https://canvas.instructure.com/doc/api/assignments.html) date (ie are already available) are set to be available from the top of the next hour, relative to the current time.
+
+6. Fetched assignments are saved by course in browser local storage (see `IParsedAssignment` and `SavedAssignment` in [`fetch.ts`](src/popup/fetch.ts)).
 
 ## Notion Import
 
-4. The OAuth2 token is used to authorise with the [Notion API](https://developers.notion.com/).
+7. The OAuth2 token is used to authorise with the [Notion API](https://developers.notion.com/).
 
-5. The saved assignment data is retrieved from local storage.
+8. The saved assignment data is retrieved from local storage.
 
-6. The configured `Database` is queried to avoid import of duplicate assignments (by matching assignment URLs).
+9. The configured `Database` is queried to avoid import of duplicate assignments (by matching assignment URLs).
 
-7. The configured `Database Properties` are used to create a new database page for each assignment with the Notion API.
+10. The configured `Database Properties` are used to create a new database page for each assignment with the Notion API.
 
 # Contributors
 
