@@ -125,11 +125,6 @@ buttons.parse.addEventListener('click', async () => {
 			: browser.tabs.executeScript(tab.id, {
 				file: '/popup/fetch.js',
 			})
-				.catch((error: Error) => {
-					// Ignore non-structured-clonable error
-					if (error.message.includes('non-structured-clonable')) return true;
-					throw error;
-				})
 	)
 		.catch(console.error);
 

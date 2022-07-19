@@ -26,7 +26,7 @@ function roundToNextHour(date: Date): Date {
 	return date;
 }
 
-(async function fetchAssignments(): Promise<void> {
+(async function fetchAssignments(): Promise<SavedAssignments | void> {
 	try {
 		const { origin, pathname } = window.location;
 		const courseId = pathname.match(/\/courses\/([^/]+)\//)?.[1];
@@ -79,7 +79,7 @@ function roundToNextHour(date: Date): Date {
 		await Storage.setSavedAssignments(savedAssignments);
 		await Storage.setSavedCourse(emojiedCourseCode);
 
-		// TODO(canvas-api): do i just return savedAssignments to avoid the no-structured-clonable ff error?
+		return savedAssignments;
 	}
 
 	catch (error) {
