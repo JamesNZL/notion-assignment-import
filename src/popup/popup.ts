@@ -133,7 +133,7 @@ buttons.parse.addEventListener('click', async () => {
 	)
 		.catch(console.error);
 
-	if (!result) return alert('An error was encountered whilst attempting to parse assignments.');
+	if (!result) return alert('An error was encountered whilst attempting to fetch assignments.');
 
 	let courseCode: string | null | undefined = undefined;
 	while (courseCode === undefined) {
