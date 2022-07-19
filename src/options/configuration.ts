@@ -83,15 +83,6 @@ interface InputElements {
 	'options.displayAdvanced': 'display-advanced-options';
 	hideAdvancedOptions: 'hide-advanced-options';
 	showAdvancedOptions: 'show-advanced-options';
-	'canvas.classNames.breadcrumbs': 'breadcrumbs';
-	'canvas.classNames.assignment': 'assignment-class';
-	'canvas.classNames.title': 'assignment-title';
-	'canvas.classNames.availableDate': 'available-date';
-	'canvas.classNames.availableStatus': 'available-status';
-	'canvas.classNames.dueDate': 'due-date';
-	'canvas.classNames.dateElement': 'date-element';
-	'canvas.classValues.courseCodeN': 'course-code-n';
-	'canvas.classValues.notAvailable': 'status-not-available';
 	'canvas.courseCodeOverrides': 'course-code-overrides-group';
 	'notion.accessToken': 'notion-token';
 	'notion.databaseId': 'database-id';
@@ -216,100 +207,6 @@ export const CONFIGURATION: {
 			},
 		},
 		canvas: {
-			classNames: {
-				breadcrumbs: {
-					defaultValue: 'ic-app-crumbs',
-					get input() {
-						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>({
-							id: 'breadcrumbs',
-							Validator: RequiredStringField,
-						});
-					},
-				},
-				assignment: {
-					defaultValue: 'assignment',
-					get input() {
-						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>({
-							id: 'assignment-class',
-							Validator: RequiredStringField,
-						});
-					},
-				},
-				title: {
-					defaultValue: 'ig-title',
-					get input() {
-						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>({
-							id: 'assignment-title',
-							Validator: RequiredStringField,
-						});
-					},
-				},
-				availableDate: {
-					defaultValue: 'assignment-date-available',
-					get input() {
-						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>({
-							id: 'available-date',
-							Validator: RequiredStringField,
-						});
-					},
-				},
-				availableStatus: {
-					defaultValue: 'status-description',
-					get input() {
-						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>({
-							id: 'available-status',
-							Validator: RequiredStringField,
-						});
-					},
-				},
-				dueDate: {
-					defaultValue: 'assignment-date-due',
-					get input() {
-						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>({
-							id: 'due-date',
-							Validator: RequiredStringField,
-						});
-					},
-				},
-				dateElement: {
-					defaultValue: 'screenreader-only',
-					get input() {
-						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>({
-							id: 'date-element',
-							Validator: RequiredStringField,
-						});
-					},
-				},
-			},
-			classValues: {
-				courseCodeN: {
-					defaultValue: '2',
-					get input() {
-						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>({
-							id: 'course-code-n',
-							Validator: RequiredNumberAsStringField,
-						});
-					},
-				},
-				notAvailable: {
-					defaultValue: 'Not available until',
-					get input() {
-						delete (<Partial<typeof this>>this).input;
-						return this.input = Input.getInstance<InputElementId>({
-							id: 'status-not-available',
-							Validator: RequiredStringField,
-						});
-					},
-				},
-			},
 			courseCodeOverrides: {
 				defaultValue: '{}',
 				get input() {

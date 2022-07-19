@@ -9,15 +9,6 @@ interface RequiredFields {
 	'extension.displayTheme': null | 'light' | 'dark';
 	'popup.displayJSONButton': boolean;
 	'options.displayAdvanced': boolean;
-	'canvas.classNames.breadcrumbs': NeverEmpty<string>;
-	'canvas.classNames.assignment': NeverEmpty<string>;
-	'canvas.classNames.title': NeverEmpty<string>;
-	'canvas.classNames.availableDate': NeverEmpty<string>;
-	'canvas.classNames.availableStatus': NeverEmpty<string>;
-	'canvas.classNames.dueDate': NeverEmpty<string>;
-	'canvas.classNames.dateElement': NeverEmpty<string>;
-	'canvas.classValues.courseCodeN': NeverEmpty<string>,
-	'canvas.classValues.notAvailable': NeverEmpty<string>;
 	'notion.accessToken': NullIfEmpty<string>;
 	'notion.databaseId': NullIfEmpty<string>;
 	'notion.propertyNames.name': NeverEmpty<string>;
@@ -57,19 +48,6 @@ export type SavedOptions = {
 		displayAdvanced: RequiredFields['options.displayAdvanced'];
 	};
 	canvas: {
-		classNames: {
-			breadcrumbs: RequiredFields['canvas.classNames.breadcrumbs'];
-			assignment: RequiredFields['canvas.classNames.assignment'];
-			title: RequiredFields['canvas.classNames.title'];
-			availableDate: RequiredFields['canvas.classNames.availableDate'];
-			availableStatus: RequiredFields['canvas.classNames.availableStatus'];
-			dueDate: RequiredFields['canvas.classNames.dueDate'];
-			dateElement: RequiredFields['canvas.classNames.dateElement'];
-		},
-		classValues: {
-			courseCodeN: RequiredFields['canvas.classValues.courseCodeN'];
-			notAvailable: RequiredFields['canvas.classValues.notAvailable'];
-		},
 		courseCodeOverrides: OptionalFields['canvas.courseCodeOverrides'];
 	},
 	notion: {
@@ -97,15 +75,6 @@ export type SavedOptions = {
 export type IOptions = ModifyDeep<SavedOptions, {
 	canvas: {
 		timeZone: OptionalFields['timeZone'];
-		classValues: {
-			courseCodeN: number;
-		};
-		selectors: {
-			courseCode: NeverEmpty<string>;
-			availableStatus: NeverEmpty<string>;
-			availableDate: NeverEmpty<string>;
-			dueDate: NeverEmpty<string>;
-		};
 		courseCodeOverrides: Record<string, string>;
 	};
 	notion: {
