@@ -2,7 +2,7 @@ import browser from 'webextension-polyfill';
 
 import { CONFIGURATION, SupportedTypes } from '../options/configuration';
 
-import { SavedAssignments } from '../popup/parse';
+import { SavedAssignments } from '../popup/fetch';
 
 import { NotionFields, NotionAuthorisation, SavedFields, IOptions } from '../types/storage';
 

@@ -4,7 +4,7 @@ import { NotionClient } from '../apis/notion';
 import { Storage } from '../apis/storage';
 import { OAuth2 } from '../apis/oauth';
 
-import { SavedAssignments } from './parse';
+import { SavedAssignments } from './fetch';
 import { exportToNotion } from './import';
 
 import { Element, Button } from '../elements';

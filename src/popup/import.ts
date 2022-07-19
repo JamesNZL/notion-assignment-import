@@ -2,7 +2,7 @@ import { CreatePageParameters, QueryDatabaseResponse } from '@notionhq/client/bu
 import { NotionClient } from '../apis/notion';
 import { Storage } from '../apis/storage';
 
-import { IParsedAssignment } from './parse';
+import { IParsedAssignment } from './fetch';
 
 import { EmojiRequest } from '../types/notion';
 import { valueof, ArrayElement } from '../types/utils';
@@ -10,6 +10,7 @@ import { valueof, ArrayElement } from '../types/utils';
 export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 	const { notion: options } = await Storage.getOptions();
 
+	// TODO: patch
 	class ParsedAssignment implements IParsedAssignment {
 		private assignment: IParsedAssignment;
 
