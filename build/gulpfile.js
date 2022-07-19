@@ -79,6 +79,11 @@ const sources = {
 			outFile: 'parse.js',
 		},
 		{
+			glob: `${CONFIGURATION.DIRECTORIES.SOURCE}/popup/fetch.ts`,
+			outDir: 'popup',
+			outFile: 'fetch.js',
+		},
+		{
 			glob: `${CONFIGURATION.DIRECTORIES.SOURCE}/options/options.ts`,
 			outDir: 'options',
 			outFile: 'options.js',
