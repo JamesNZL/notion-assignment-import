@@ -141,7 +141,7 @@ To be notified with updates and changelogs, to get in touch, or just to lurk, jo
 8. Open the Canvas page for the course you wish to import.
    > You should be on a URL that looks something like `https://<canvas.auckland.ac.nz>/courses/72763/**/*`.  
       > `<canvas.auckland.ac.nz>` should be your own institution's Canvas URL.  
-      > `/**/*` means that you can be on the course home page, or any subpage—the important part is `courses/...../`.
+      > `/**/*` means that you can be on the course home page, or any subpage—the important part is `/courses/...../`.
 
 9.  Click `Copy from Canvas`.
 
@@ -155,7 +155,8 @@ To be notified with updates and changelogs, to get in touch, or just to lurk, jo
 
 ## Safari Instructions
 
-> **DISCLAIMER:** This is an unsigned extension that is not installed through the Apple App Store.  
+> **Warning**
+> This is an unsigned extension that is not installed through the Apple App Store.  
 > This means that you **will not receive automatic updates**, and you must repeat the below installation steps if you wish to update your extension.  
 > This may change in a future update.  
 > To be notified of new releases, join the [Discord server](https://discord.gg/k2jjmmVPeK).
