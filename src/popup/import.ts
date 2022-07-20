@@ -85,6 +85,9 @@ export async function exportToNotion(): Promise<void | IFetchedAssignment[]> {
 				[options.propertyNames.url ?? EMPTY_PROPERTY]: {
 					url: this.url,
 				},
+				[options.propertyNames.points ?? EMPTY_PROPERTY]: {
+					number: this.points ?? 0,
+				},
 				[options.propertyNames.available ?? EMPTY_PROPERTY]: {
 					date: {
 						start: this.available,
