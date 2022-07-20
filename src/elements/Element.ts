@@ -112,11 +112,11 @@ export class Element {
 
 		if (!this.element.parentElement) return;
 
-		if (Element.isSomeChildShown(this.element.parentElement)) {
+		if (Element.isSomeChildShown(this.element.parentElement) && !this.element.parentElement.classList.contains('advanced-options')) {
 			this.element.parentElement.classList.remove('hidden');
 		}
 
-		if (!this.tile || !Element.isSomeChildShown(this.tile)) return;
+		if (!this.tile || !Element.isSomeChildShown(this.tile) || this.tile.classList.contains('advanced-options')) return;
 
 		this.tile.classList.remove('hidden');
 
