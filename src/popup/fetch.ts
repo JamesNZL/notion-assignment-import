@@ -3,7 +3,7 @@ import { Storage } from '../apis/storage';
 
 import { EmojiRequest } from '../types/notion';
 
-export interface IParsedAssignment {
+export interface IFetchedAssignment {
 	name: string;
 	description: string | null;
 	points: number;
@@ -15,7 +15,7 @@ export interface IParsedAssignment {
 }
 
 export interface SavedAssignments {
-	[course: string]: IParsedAssignment[];
+	[course: string]: IFetchedAssignment[];
 }
 
 function roundToNextHour(date: Date): Date {

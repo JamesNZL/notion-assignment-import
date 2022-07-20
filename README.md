@@ -312,7 +312,7 @@ This project uses [`gulp`](https://gulpjs.com/) and [`esbuild`](https://esbuild.
    2. `Page Emojis`.
    > Assignments without an [`unlock_at`](https://canvas.instructure.com/doc/api/assignments.html) date (ie are already available) are set to be available from the top of the next hour, relative to the current time.
 
-6. Fetched assignments are saved by course in browser local storage (see `IParsedAssignment` and `SavedAssignment` in [`fetch.ts`](src/popup/fetch.ts)).
+6. Fetched assignments are saved by course in browser local storage (see `IFetchedAssignment` and `SavedAssignment` in [`fetch.ts`](src/popup/fetch.ts)).
 
 ## Notion Import
 

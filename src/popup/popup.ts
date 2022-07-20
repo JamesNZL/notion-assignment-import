@@ -15,7 +15,7 @@ import { valueof } from '../types/utils';
 interface PopupElements {
 	buttons: {
 		options: 'options-icon';
-		parse: 'parse-button';
+		fetch: 'fetch-button';
 		oauth: 'notion-oauth-button';
 		configureDatabase: 'configure-database-button';
 		export: 'export-button';
@@ -97,7 +97,7 @@ const SavedCoursesList = {
 
 const buttons: Record<PopupButtonName, Button> = <const>{
 	options: Button.getInstance<PopupButtonId>({ id: 'options-icon' }),
-	parse: Button.getInstance<PopupButtonId>({ id: 'parse-button' }),
+	fetch: Button.getInstance<PopupButtonId>({ id: 'fetch-button' }),
 	oauth: Button.getInstance<PopupButtonId>({ id: 'notion-oauth-button' }),
 	configureDatabase: Button.getInstance<PopupButtonId>({ id: 'configure-database-button' }),
 	export: Button.getInstance<PopupButtonId>({ id: 'export-button' }),
@@ -109,7 +109,7 @@ const buttons: Record<PopupButtonName, Button> = <const>{
 
 buttons.options.addEventListener('click', () => browser.runtime.openOptionsPage());
 
-buttons.parse.addEventListener('click', async () => {
+buttons.fetch.addEventListener('click', async () => {
 	await Storage.clearSavedCourse();
 
 	const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
@@ -139,8 +139,8 @@ buttons.parse.addEventListener('click', async () => {
 
 	if (!courseCode) return;
 
-	buttons.parse.setButtonLabel(`Saved ${courseCode}!`);
-	buttons.parse.resetHTML(1325);
+	buttons.fetch.setButtonLabel(`Saved ${courseCode}!`);
+	buttons.fetch.resetHTML(1325);
 });
 
 if (!OAuth2.isIdentitySupported) {

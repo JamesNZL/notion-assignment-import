@@ -6,19 +6,18 @@ import { markdownToBlocks } from '@tryfabric/martian';
 import { NotionClient } from '../apis/notion';
 import { Storage } from '../apis/storage';
 
-import { IParsedAssignment } from './fetch';
+import { IFetchedAssignment } from './fetch';
 
 import { EmojiRequest } from '../types/notion';
 import { valueof, ArrayElement } from '../types/utils';
 
-export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
+export async function exportToNotion(): Promise<void | IFetchedAssignment[]> {
 	const { notion: options } = await Storage.getOptions();
 
-	// TODO: can this be moved to the outer scope?
-	class ParsedAssignment implements IParsedAssignment {
-		private assignment: IParsedAssignment;
+	class FetchedAssignment implements IFetchedAssignment {
+		private assignment: IFetchedAssignment;
 
-		public constructor(assignment: IParsedAssignment) {
+		public constructor(assignment: IFetchedAssignment) {
 			this.assignment = assignment;
 		}
 
@@ -76,7 +75,7 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 					],
 				},
 				[options.propertyNames.category ?? EMPTY_PROPERTY]: {
-					select: ParsedAssignment.verifySelectValue(options.propertyValues.categoryCanvas),
+					select: FetchedAssignment.verifySelectValue(options.propertyValues.categoryCanvas),
 				},
 				[options.propertyNames.course ?? EMPTY_PROPERTY]: {
 					select: {
@@ -156,13 +155,13 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 		}
 	}
 
-	async function getNewAssignments(databaseId: string): Promise<ParsedAssignment[]> {
-		async function getParsedAssignments(): Promise<ParsedAssignment[]> {
+	async function getNewAssignments(databaseId: string): Promise<FetchedAssignment[]> {
+		async function getFetchedAssignments(): Promise<FetchedAssignment[]> {
 			const savedAssignments = await Storage.getSavedAssignments();
 
 			return Object.values(savedAssignments)
 				.flat()
-				.map(assignment => new ParsedAssignment(assignment))
+				.map(assignment => new FetchedAssignment(assignment))
 				.filter(assignment => Date.parse(assignment.due) > Date.now());
 		}
 
@@ -199,12 +198,12 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 			return notionAssignments?.results.map(assignment => new NotionAssignment(assignment));
 		}
 
-		const parsedAssignments = await getParsedAssignments();
+		const fetchedAssignments = await getFetchedAssignments();
 		const notionAssignments = await queryNotionAssignments();
 
-		if (!notionAssignments?.length) return parsedAssignments;
+		if (!notionAssignments?.length) return fetchedAssignments;
 
-		return parsedAssignments.filter(assignment => !notionAssignments.some(page => page.url === assignment.url));
+		return fetchedAssignments.filter(assignment => !notionAssignments.some(page => page.url === assignment.url));
 	}
 
 	// Set up Notion API handler
