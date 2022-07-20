@@ -125,10 +125,10 @@ const AdvancedOptions = <const>{
 const OAuth2Button = <const>{
 	button: Button.getInstance<OptionsButtonId>({ id: 'notion-oauth' }),
 	states: {
-		unauthorised: 'Authorise with Notion',
-		reauthorise: 'Reauthorise with Notion',
-		authorising: 'Authorising with Notion...',
-		authorised: 'Authorised!',
+		UNAUTHORISED: 'Authorise with Notion',
+		REAUTHORISE: 'Reauthorise with Notion',
+		AUTHORISING: 'Authorising with Notion...',
+		AUTHORISED: 'Authorised!',
 	},
 };
 
@@ -333,11 +333,11 @@ if (!OAuth2.isIdentitySupported) {
 
 Storage.getNotionAuthorisation().then(async ({ accessToken }) => {
 	if (!accessToken || !await NotionClient.getInstance({ auth: accessToken }).validateToken()) {
-		buttons.oauth.setDefaultLabel(OAuth2Button.states.unauthorised);
+		buttons.oauth.setDefaultLabel(OAuth2Button.states.UNAUTHORISED);
 		return buttons.oauth.resetHTML();
 	}
 
-	buttons.oauth.setDefaultLabel(OAuth2Button.states.reauthorise);
+	buttons.oauth.setDefaultLabel(OAuth2Button.states.REAUTHORISE);
 	buttons.oauth.resetHTML();
 
 	DatabaseSelect.populate();
@@ -407,19 +407,19 @@ CONFIGURATION.FIELDS['notion.accessToken'].input.addEventListener('input', async
 	const validatedInput = await CONFIGURATION.FIELDS['notion.accessToken'].input.validate();
 
 	if (validatedInput === InputFieldValidator.INVALID_INPUT) {
-		buttons.oauth.setDefaultLabel(OAuth2Button.states.unauthorised);
+		buttons.oauth.setDefaultLabel(OAuth2Button.states.UNAUTHORISED);
 		return buttons.oauth.resetHTML();
 	}
 
 	DatabaseSelect.populate();
 
-	buttons.oauth.setDefaultLabel(OAuth2Button.states.reauthorise);
+	buttons.oauth.setDefaultLabel(OAuth2Button.states.REAUTHORISE);
 
-	if (buttons.oauth.getButtonLabel() !== OAuth2Button.states.authorising) {
+	if (buttons.oauth.getButtonLabel() !== OAuth2Button.states.AUTHORISING) {
 		return buttons.oauth.resetHTML();
 	}
 
-	buttons.oauth.setButtonLabel(OAuth2Button.states.authorised);
+	buttons.oauth.setButtonLabel(OAuth2Button.states.AUTHORISED);
 	buttons.oauth.resetHTML(1325);
 });
 
@@ -455,7 +455,7 @@ DatabaseSelect.element.addEventListener('input', async () => {
 buttons.oauth.addEventListener('click', async () => {
 	if (!OAuth2.isIdentitySupported) return;
 
-	buttons.oauth.setButtonLabel(OAuth2Button.states.authorising);
+	buttons.oauth.setButtonLabel(OAuth2Button.states.AUTHORISING);
 
 	const success = await OAuth2.authorise();
 
