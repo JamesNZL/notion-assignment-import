@@ -215,9 +215,9 @@ chmod +x /Users/YOUR_USERNAME/Downloads/Notion\ Canvas\ Assignment\ Import/Conte
 | `Category Property`                            | The name of a database Category property, used to allow grouping of all Canvas assignments together if using a single tasks database |
 | `Course Property`                              | The name of a database Course property, used to set the assignment course code                                                       |
 | `URL Property`                                 | The name of a database URL property, used to set the assignment URL                                                                  |
-| `Available Date Property`                      | The name of a database Reminder property, used to set the assignment available date                                                  |
+| `Unlock Date Property`                         | The name of a database Reminder property, used to set the assignment unlock date                                                     |
 | `Due Date Property`                            | The name of a database Due property, used to set the assignment due date                                                             |
-| `Date Span Property`                           | The name of a database Date Span property, used to set the date span of the assignment as `available from date`–`due date`           |
+| `Date Span Property`                           | The name of a database Date Span property, used to set the date span of the assignment as `unlock date`–`due date`                   |
 | `Canvas Category`                              | The value of a database Category property to categorise all Canvas assignments as                                                    |
 | `Page Emojis`                                  | Any Notion page emojis to apply                                                                                                      |
 
@@ -228,24 +228,24 @@ chmod +x /Users/YOUR_USERNAME/Downloads/Notion\ Canvas\ Assignment\ Import/Conte
 | `Display 'Copy JSON' Button` | Whether to `Show`/`Hide` the `Copy JSON` button in the extension popup |
 | `Course Code Overrides`      | Any course code overrides to apply                                     |
 
-### What is the difference between `Available Date`, `Due Date`, and `Date Span`?
+### What is the difference between `Unlock Date`, `Due Date`, and `Date Span`?
 
 Good question—this was ultimately a design decision I made for maximum flexibility.
 
-| Property         | Purpose                                                         |
-| ---------------- | --------------------------------------------------------------- |
-| `Available Date` | Used for the date that an assignment unlocks/becomes available. |
-| `Due Date`       | Used for the date that an assignment is due.                    |
-| `Date Span`      | Used for the date **span** `Available`–`Due`.                   |
+| Property      | Purpose                                                         |
+| ------------- | --------------------------------------------------------------- |
+| `Unlock Date` | Used for the date that an assignment unlocks/becomes available. |
+| `Due Date`    | Used for the date that an assignment is due.                    |
+| `Date Span`   | Used for the date **span** `Unlock`–`Due`.                      |
 
 This enables many possible use-cases, such as:
    1. Timelines to be created by `Date Span`;
    2. Calendars to be set to:
       1. `Date Span`, or
       2. `Due Date` only.
-   3. Reminders to be set independent to the available date;
-   4. Manipulation of the start/end dates on a timeline independent to the available/due date; and
-   5. Sorting assignments by *due date*, rather than only being able to sort by available date.
+   3. Reminders to be set independent to the due date;
+   4. Manipulation of the start/end dates on a timeline independent to the unlock/due date; and
+   5. Sorting assignments by *due date*, rather than only being able to sort by unlock date.
       > Notion doesn't let you sort `Date` (span) properties by their end date—only their start date.
 
 Of course, you are welcome to configure any of these property names to be `❌ Exclude`—these properties are ignored on import.
@@ -310,7 +310,7 @@ This project uses [`gulp`](https://gulpjs.com/) and [`esbuild`](https://esbuild.
 5. Relevant information is extracted from each [`Assignment`](https://canvas.instructure.com/doc/api/assignments.html) object, and the following configurations applied:
    1. `Course Code Overrides`, and
    2. `Page Emojis`.
-   > Assignments without an [`unlock_at`](https://canvas.instructure.com/doc/api/assignments.html) date (ie are already available) are set to be available from the top of the next hour, relative to the current time.
+   > Assignments without an [`unlock_at`](https://canvas.instructure.com/doc/api/assignments.html) date (ie are already unlocked) are set to be unlocked from the top of the next hour, relative to the current time.
 
 6. Fetched assignments are saved by course in browser local storage (see `IFetchedAssignment` and `SavedAssignment` in [`fetch.ts`](src/popup/fetch.ts)).
 
