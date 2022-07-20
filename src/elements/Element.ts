@@ -4,7 +4,7 @@ export class Element {
 	protected element: globalThis.Element;
 	private timeouts = new Map<string, ReturnType<typeof setTimeout>>();
 
-	private tile?: globalThis.Element | false;
+	private _tile?: globalThis.Element | false;
 	private parentHeading?: HTMLHeadingElement | false;
 
 	protected constructor({ id, type, element }: {
@@ -18,7 +18,6 @@ export class Element {
 		element.id = id;
 
 		this.element = element;
-		this.tile = Element.findParentTile(element);
 	}
 
 	public static getInstance<T extends string>({ id, type, element }: {
@@ -35,6 +34,10 @@ export class Element {
 
 	public get id() {
 		return this.element.id;
+	}
+
+	private get tile() {
+		return this._tile ??= Element.findParentTile(this.element);
 	}
 
 	public get innerHTML() {
