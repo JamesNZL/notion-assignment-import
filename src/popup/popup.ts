@@ -110,6 +110,8 @@ const buttons: Record<PopupButtonName, Button> = <const>{
 buttons.options.addEventListener('click', () => browser.runtime.openOptionsPage());
 
 buttons.fetch.addEventListener('click', async () => {
+	buttons.fetch.setButtonLabel('Copying from Canvas...');
+
 	await Storage.clearSavedCourse();
 
 	const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
@@ -200,7 +202,7 @@ buttons.export.addEventListener('click', async () => {
 
 	const createdAssignments = await exportToNotion();
 
-	if (!createdAssignments) return;
+	if (!createdAssignments) return buttons.export.resetHTML();
 
 	const createdNames = (createdAssignments.length)
 		? createdAssignments.reduce((list, { course, name }, index) => list + `${index + 1}. ${course} ${name}\n`, '\n\n')
