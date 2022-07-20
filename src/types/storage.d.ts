@@ -9,6 +9,7 @@ interface RequiredFields {
 	'extension.displayTheme': null | 'light' | 'dark';
 	'popup.displayJSONButton': boolean;
 	'options.displayAdvanced': boolean;
+	'canvas.importMissingDueDates': boolean;
 	'notion.accessToken': NullIfEmpty<string>;
 	'notion.databaseId': NullIfEmpty<string>;
 	'notion.propertyNames.name': NeverEmpty<string>;
@@ -48,6 +49,7 @@ export type SavedOptions = {
 		displayAdvanced: RequiredFields['options.displayAdvanced'];
 	};
 	canvas: {
+		importMissingDueDates: RequiredFields['canvas.importMissingDueDates'];
 		courseCodeOverrides: OptionalFields['canvas.courseCodeOverrides'];
 	},
 	notion: {

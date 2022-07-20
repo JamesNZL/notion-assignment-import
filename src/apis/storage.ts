@@ -134,6 +134,7 @@ export const Storage = <const>{
 			},
 			canvas: {
 				timeZone: savedFields['timeZone'],
+				importMissingDueDates: savedFields['canvas.importMissingDueDates'],
 				courseCodeOverrides: JSON.parse(savedFields['canvas.courseCodeOverrides']),
 			},
 			notion: {
