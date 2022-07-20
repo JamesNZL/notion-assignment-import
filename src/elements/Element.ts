@@ -18,6 +18,7 @@ export class Element {
 		element.id = id;
 
 		this.element = element;
+		this.tile = Element.findParentTile(element);
 	}
 
 	public static getInstance<T extends string>({ id, type, element }: {
@@ -71,7 +72,7 @@ export class Element {
 	}
 
 	public get isHidden() {
-		return this.element.classList.contains('hidden');
+		return this.element.classList.contains('hidden') || (this.tile && this.tile.classList.contains('hidden'));
 	}
 
 	private parseHeadingLevel(tagName: string) {
@@ -112,8 +113,6 @@ export class Element {
 			this.element.parentElement.classList.remove('hidden');
 		}
 
-		this.tile ??= Element.findParentTile(this.element.parentElement);
-
 		if (!this.tile || !Element.isSomeChildShown(this.tile)) return;
 
 		this.tile.classList.remove('hidden');
@@ -138,8 +137,6 @@ export class Element {
 		if (Element.isEveryChildHidden(this.element.parentElement)) {
 			this.element.parentElement.classList.add('hidden');
 		}
-
-		this.tile ??= Element.findParentTile(this.element.parentElement);
 
 		if (!this.tile || !Element.isEveryChildHidden(this.tile)) return;
 
