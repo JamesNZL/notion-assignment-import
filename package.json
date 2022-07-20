@@ -29,7 +29,8 @@
   },
   "dependencies": {
     "@notionhq/client": "^1.0.4",
-    "@tryfabric/martian": "^1.2.4"
+    "@tryfabric/martian": "^1.2.4",
+    "turndown": "^7.1.1"
   },
   "scripts": {
     "watch": "gulp watch --debug=true --gulpfile build/gulpfile.js --cwd .",
