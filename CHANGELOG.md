@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.0](https://github.com/JamesNZL/notion-assignment-import/compare/v4.2.5...v4.3.0) (2022-07-20)
+
+
+### Features
+
+* **canvas:** :children_crossing: sort fetched assignments by due date ([426675e](https://github.com/JamesNZL/notion-assignment-import/commit/426675e467920c8ddbbb12466e5c6e8950272c72))
+* **canvas:** :sparkles: filter import by existence of due date ([#60](https://github.com/JamesNZL/notion-assignment-import/issues/60)) ([f242e81](https://github.com/JamesNZL/notion-assignment-import/commit/f242e81faef0c6a7aa19d5118fa77ec359a4906d))
+* **canvas:** :sparkles: migrate from `DOM` parsing to canvas api ([#56](https://github.com/JamesNZL/notion-assignment-import/issues/56)) ([f3a3b3e](https://github.com/JamesNZL/notion-assignment-import/commit/f3a3b3ee34a9c7bff78b72fc833804a4cf527221))
+* **elements:** :sparkles: allow `Element` instances without `id` ([067bda7](https://github.com/JamesNZL/notion-assignment-import/commit/067bda7ecb0bef617b39054328556c923471a316))
+* **import:** ✨ include assignment descriptions in created notion page ([#59](https://github.com/JamesNZL/notion-assignment-import/issues/59)) ([2374d38](https://github.com/JamesNZL/notion-assignment-import/commit/2374d38b1885d7070ae483a562d68db3f18ce57d))
+* **import:** import assignment `points` to notion ([#61](https://github.com/JamesNZL/notion-assignment-import/issues/61)) ([5154f75](https://github.com/JamesNZL/notion-assignment-import/commit/5154f752999de88c2c40c367a25ac290d667a77f))
+* **interface:** :children_crossing: add `'Copying from Canvas...'` status label ([7f1b463](https://github.com/JamesNZL/notion-assignment-import/commit/7f1b463b747d11b15d1ff954587c3cd4c69acbaf))
+* **interface:** :lipstick: change colour of advanced headings ([c17c583](https://github.com/JamesNZL/notion-assignment-import/commit/c17c5834a17c7111610b6cdeccda42e7ad3307ad))
+* **interface:** :speech_balloon: change 'available' -> 'unlock' ([7d94e7e](https://github.com/JamesNZL/notion-assignment-import/commit/7d94e7e7f4ffc6a417cc55ac076a4b9643e94b20))
+* **options:** :lipstick: extract course code overrides from advanced ([9c2479d](https://github.com/JamesNZL/notion-assignment-import/commit/9c2479d0b4e24648b5db8c35d15eb80c34ddd01c))
+* **popup:** :children_crossing: add extension update alert ([#62](https://github.com/JamesNZL/notion-assignment-import/issues/62)) ([6b35748](https://github.com/JamesNZL/notion-assignment-import/commit/6b35748f25e0fae7acac2a8906880527bb577c3c))
+
+
+### Bug Fixes
+
+* **elements:** :bug: fix `isHidden` to account for parent tile ([dcc2ccd](https://github.com/JamesNZL/notion-assignment-import/commit/dcc2ccd19741957a2327ad57f33657a936b3f280))
+* **import:** :bug: fix notion api error when `null` page children ([25d6388](https://github.com/JamesNZL/notion-assignment-import/commit/25d638819c7a6482caa101696d74f96b28110fa9))
+* **interface:** :bug: don't transitively show `.advanced-options` elements ([eb196dc](https://github.com/JamesNZL/notion-assignment-import/commit/eb196dc0890a12fe6119ee285730b490aa418143))
+* **options:** :bug: don't overwrite existing ids of advanced options ([91c2f80](https://github.com/JamesNZL/notion-assignment-import/commit/91c2f808d776d21c011a95d074d77f0b9221042e))
+* **options:** :mute: remove debugging log ([07b2f54](https://github.com/JamesNZL/notion-assignment-import/commit/07b2f54ee8f682a8394bb2f7958820b8728bbc61))
+* **validator:** :mute: remove debugging log ([cd032ae](https://github.com/JamesNZL/notion-assignment-import/commit/cd032aeace312528105c0dcc49dd3f798fc5c5e6))
+
 ### [4.2.5](https://github.com/JamesNZL/notion-assignment-import/compare/v4.2.4...v4.2.5) (2022-07-17)
 
 
