@@ -74,7 +74,9 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
   - [Configurable Options](#configurable-options)
     - [`Course Code Overrides`](#course-code-overrides)
     - [`Page Emojis`](#page-emojis)
+- [Release Notes](#release-notes)
   - [BREAKING CHANGES](#breaking-changes)
+  - [`v4.3.0`](#v430)
 - [Building For Local Development](#building-for-local-development)
 - [How It Works](#how-it-works)
   - [Assignment Parsing](#assignment-parsing)
@@ -209,12 +211,14 @@ chmod +x /Users/YOUR_USERNAME/Downloads/Notion\ Canvas\ Assignment\ Import/Conte
 | `Theme`                                        | Whether to use `Light`/`Dark` mode, or use the browser's default (`System`)                                                          |
 | `Show Advanced Options`                        | Whether to `Show`/`Hide` the **Advanced Options**                                                                                    |
 | `Timezone`                                     | The `TZ` timezone in which to parse and set all dates                                                                                |
+| `Assignments Without Due Dates`                | Whether to `Import`, or `Ignore` Canvas assignments without a set due date                                                           |
 | `Internal Integration Token` (**Safari only**) | The `Internal Integration Token` of your Notion integration                                                                          |
 | `Database`                                     | The target Notion database                                                                                                           |
 | `Page 'Name' Property`                         | The name of the database `Title` property, used to set the assignment name                                                           |
 | `Category Property`                            | The name of a database Category property, used to allow grouping of all Canvas assignments together if using a single tasks database |
 | `Course Property`                              | The name of a database Course property, used to set the assignment course code                                                       |
 | `URL Property`                                 | The name of a database URL property, used to set the assignment URL                                                                  |
+| `Points Property`                              | The name of a database Points property, used to set the assignment's points                                                          |
 | `Unlock Date Property`                         | The name of a database Reminder property, used to set the assignment unlock date                                                     |
 | `Due Date Property`                            | The name of a database Due property, used to set the assignment due date                                                             |
 | `Date Span Property`                           | The name of a database Date Span property, used to set the date span of the assignment as `unlock date`–`due date`                   |
@@ -271,12 +275,29 @@ Configure `Page Emojis` to the following:
 | `COURSE 121`           | `👨‍💻`                    |
 | `COURSE 101`           | `✨`                    |
 
+# Release Notes
+
+> **Note**  
+> For a full changelog of notable changes, see [`CHANGELOG.md`](CHANGELOG.md).  
+> Also see [Releases](https://github.com/JamesNZL/notion-assignment-import/releases).
+
 ## BREAKING CHANGES
 
 ### `v4`
 
 1. Support for a configurable Notion `'Status'` property has been removed, as Notion has implemented their own built-in `Status` property. To fix assignments being imported without a `'Status'` value, change your database property to be of type `Status`, and assign a `DEFAULT` value.
    > [Read more here](https://www.notion.so/help/guides/status-property-gives-clarity-on-tasks).
+
+## `v4.3.0`
+
+1. Notion pages now include the assignment's Canvas description ([#59](https://github.com/JamesNZL/notion-assignment-import/issues/59)).
+2. Added support for a new 'Points' `number` database property ([#61](https://github.com/JamesNZL/notion-assignment-import/issues/61)) to tag the assignment's points value.
+3. Changed the colour of **Advanced Options** headings to ease identification.
+4. Renamed `Available Date` to `Unlock Date`.
+
+### Migration Instructions
+
+1. To leverage the new support for a `Points` property, you must create a new Notion [`number`](https://www.notion.so/help/database-properties) database property, and configure it on the Options Page.
 
 # Building For Local Development
 
