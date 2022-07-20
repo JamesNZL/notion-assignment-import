@@ -10,9 +10,18 @@ const KEYS = <const>{
 	course: 'savedCourse',
 	assignments: 'savedAssignments',
 	oauthState: 'oauthState',
+	lastVersion: 'lastVersion',
 };
 
 export const Storage = <const>{
+	async getLastVersion(): Promise<string> {
+		return (await browser.storage.local.get(KEYS.lastVersion))[KEYS.lastVersion];
+	},
+
+	async setLastVersion(version: string) {
+		return await browser.storage.local.set({ [KEYS.lastVersion]: version });
+	},
+
 	async getOAuthState(): Promise<string> {
 		return (await browser.storage.local.get(KEYS.oauthState))[KEYS.oauthState];
 	},
