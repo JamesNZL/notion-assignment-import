@@ -4,6 +4,7 @@ import {
 	InputFieldValidator,
 	StringField,
 	RequiredStringField,
+	// TODO: remove unused
 	RequiredNumberAsStringField,
 	TimeZoneField,
 	RequiredNotionTokenField,
@@ -83,6 +84,9 @@ interface InputElements {
 	'options.displayAdvanced': 'display-advanced-options';
 	hideAdvancedOptions: 'hide-advanced-options';
 	showAdvancedOptions: 'show-advanced-options';
+	'canvas.importMissingDueDates': 'missing-due-dates';
+	ignoreMissingDueDates: 'ignore-missing-due-dates';
+	importMissingDueDates: 'import-missing-due-dates';
 	'canvas.courseCodeOverrides': 'course-code-overrides-group';
 	'notion.accessToken': 'notion-token';
 	'notion.databaseId': 'database-id';
@@ -207,6 +211,27 @@ export const CONFIGURATION: {
 			},
 		},
 		canvas: {
+			importMissingDueDates: {
+				defaultValue: false,
+				get input() {
+					delete (<Partial<typeof this>>this).input;
+					return this.input = SegmentedControl.getInstance<InputElementId, typeof this.defaultValue>({
+						id: 'missing-due-dates',
+						segments: [
+							{
+								id: 'ignore-missing-due-dates',
+								value: false,
+								default: true,
+							},
+							{
+								id: 'import-missing-due-dates',
+								value: true,
+								showDependents: true,
+							},
+						],
+					});
+				},
+			},
 			courseCodeOverrides: {
 				defaultValue: '{}',
 				get input() {
