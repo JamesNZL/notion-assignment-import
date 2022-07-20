@@ -1,4 +1,8 @@
 import { CreatePageParameters, QueryDatabaseResponse } from '@notionhq/client/build/src/api-endpoints';
+
+import TurndownService from 'turndown';
+import { markdownToBlocks } from '@tryfabric/martian';
+
 import { NotionClient } from '../apis/notion';
 import { Storage } from '../apis/storage';
 
@@ -10,6 +14,7 @@ import { valueof, ArrayElement } from '../types/utils';
 export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 	const { notion: options } = await Storage.getOptions();
 
+	// TODO: can this be moved to the outer scope?
 	class ParsedAssignment implements IParsedAssignment {
 		private assignment: IParsedAssignment;
 
@@ -116,6 +121,11 @@ export async function exportToNotion(): Promise<void | IParsedAssignment[]> {
 					? {
 						emoji: this.icon,
 					}
+					: null,
+				children: (this.description)
+					? markdownToBlocks(
+						new TurndownService().turndown(this.description),
+					)
 					: null,
 			};
 		}

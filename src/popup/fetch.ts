@@ -58,7 +58,6 @@ function roundToNextHour(date: Date): Date {
 		const canvasAssignments = assignmentGroups.flatMap(group => group.assignments)
 			.map(assignment => ({
 				name: assignment.name,
-				// TODO(main): html -> markdown
 				description: assignment.description,
 				// TODO(main): normalise this as a percentage of total points?
 				points: assignment.points_possible,
