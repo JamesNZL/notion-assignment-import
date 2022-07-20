@@ -74,8 +74,8 @@ export class Element {
 			: false;
 	}
 
-	public get isHidden() {
-		return this.element.classList.contains('hidden') || (this.tile && this.tile.classList.contains('hidden'));
+	public get isSelfHidden() {
+		return this.element.classList.contains('hidden');
 	}
 
 	private parseHeadingLevel(tagName: string) {

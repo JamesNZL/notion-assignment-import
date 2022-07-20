@@ -77,7 +77,7 @@ export class SegmentedControl extends Element {
 	}
 
 	public markModified(comparand: SupportedTypes) {
-		const isModified = (!this.isHidden && this.getValue() !== comparand);
+		const isModified = (!this.isSelfHidden && this.getValue() !== comparand);
 
 		this.getLabels().forEach(label => {
 			(isModified)
@@ -107,7 +107,7 @@ export class SegmentedControl extends Element {
 
 		const showDependents = this.segments.find(({ id }) => id === checkedSegment?.id)?.showDependents;
 
-		if (!checkedSegment || this.isHidden || !showDependents) {
+		if (!checkedSegment || this.isSelfHidden || !showDependents) {
 			dependents.forEach(dependentId => {
 				const dependent = Element.getInstance({
 					id: dependentId,
