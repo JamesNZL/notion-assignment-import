@@ -1,7 +1,7 @@
 import gulp from 'gulp';
 const { src, dest, series, parallel, watch: watchGlob } = gulp;
 
-import del from 'del';
+import { deleteAsync } from 'del';
 import rename from 'gulp-rename';
 import zip from 'gulp-zip';
 
@@ -87,7 +87,7 @@ const sources = {
 };
 
 function clean() {
-	return del(`${CONFIGURATION.DIRECTORIES.OUT}/**`, { force: true });
+	return deleteAsync(`${CONFIGURATION.DIRECTORIES.OUT}/**`, { force: true });
 }
 
 /**
