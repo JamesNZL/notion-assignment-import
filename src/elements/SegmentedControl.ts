@@ -20,8 +20,8 @@ export class SegmentedControl extends Element {
 	private segments: Segments<string, SupportedTypes>;
 
 	private constructor({ id, type, segments }: {
-		id: string,
-		type: string,
+		id: string;
+		type: string;
 		segments: Segment<string, SupportedTypes>[];
 	}) {
 		super({ id, type });
@@ -36,8 +36,8 @@ export class SegmentedControl extends Element {
 	}
 
 	public static override getInstance<T extends string, V extends SupportedTypes>({ id, type = 'segmented control', segments }: {
-		id: T,
-		type?: string,
+		id: T;
+		type?: string;
 		segments?: Segment<T, V>[];
 	}): SegmentedControl {
 		if (!segments) throw new Error(`You must declare the segments for this SegmentedControl ${id}!`);

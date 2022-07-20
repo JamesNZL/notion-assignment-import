@@ -6,8 +6,7 @@ export class CanvasClient {
 	private baseURL: string;
 
 	public constructor({ origin, courseId }: {
-		// TODO(main): style: use semicolons
-		origin: string,
+		origin: string;
 		courseId: string;
 	}) {
 		this.origin = origin;

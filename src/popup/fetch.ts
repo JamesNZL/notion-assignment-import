@@ -53,6 +53,8 @@ function roundToNextHour(date: Date): Date {
 
 		const emojiedCourseCode = `${(courseIcon) ? `${courseIcon} ` : ''}${courseCode}`;
 
+		// TODO: sort by due date
+		// TODO: filer !due_at
 		const canvasAssignments = assignmentGroups.flatMap(group => group.assignments)
 			.map(assignment => ({
 				name: assignment.name,

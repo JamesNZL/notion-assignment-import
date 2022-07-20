@@ -30,7 +30,7 @@ export class KeyValueGroup extends Element {
 	private validatePromises?: [Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT>, Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT>];
 
 	private constructor({ id, type }: {
-		id: string,
+		id: string;
 		type: string;
 	}) {
 		super({ id, type });
@@ -55,7 +55,7 @@ export class KeyValueGroup extends Element {
 	}
 
 	public static override getInstance<T extends string>({ id, type = 'key-value group' }: {
-		id: T,
+		id: T;
 		type?: string;
 	}): KeyValueGroup {
 		if (!(KeyValueGroup.instances.get(id) instanceof KeyValueGroup)) {

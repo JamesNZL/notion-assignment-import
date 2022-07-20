@@ -11,8 +11,8 @@ export class RestoreDefaultsButton extends Button {
 	protected inputs: Map<keyof SavedFields, OptionConfiguration<SupportedTypes>['input']>;
 
 	protected constructor({ id, type, restoreKeys }: {
-		id: string,
-		type: string,
+		id: string;
+		type: string;
 		restoreKeys: (keyof SavedFields)[];
 	}) {
 		super({ id, type });
@@ -26,8 +26,8 @@ export class RestoreDefaultsButton extends Button {
 	}
 
 	public static override getInstance<T extends string>({ id, type = 'restore defaults button', restoreKeys }: {
-		id: T,
-		type?: string,
+		id: T;
+		type?: string;
 		restoreKeys: (keyof SavedFields)[];
 	}): RestoreDefaultsButton {
 		if (!(RestoreDefaultsButton.instances.get(id) instanceof RestoreDefaultsButton)) {
@@ -60,9 +60,9 @@ export class RestoreSavedButton extends RestoreDefaultsButton {
 	private restoreOptions: () => Promise<void>;
 
 	protected constructor({ id, type, restoreKeys, restoreOptions }: {
-		id: string,
-		type: string,
-		restoreKeys: (keyof SavedFields)[],
+		id: string;
+		type: string;
+		restoreKeys: (keyof SavedFields)[];
 		restoreOptions: () => Promise<void>;
 	}) {
 		super({ id, type, restoreKeys });
@@ -71,9 +71,9 @@ export class RestoreSavedButton extends RestoreDefaultsButton {
 	}
 
 	public static override getInstance<T extends string>({ id, type = 'restore saved button', restoreKeys, restoreOptions }: {
-		id: T,
-		type?: string,
-		restoreKeys: (keyof SavedFields)[],
+		id: T;
+		type?: string;
+		restoreKeys: (keyof SavedFields)[];
 		restoreOptions: () => Promise<void>;
 	}): RestoreDefaultsButton {
 		if (!(RestoreSavedButton.instances.get(id) instanceof RestoreSavedButton)) {

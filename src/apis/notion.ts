@@ -20,7 +20,7 @@ export class NotionClient extends Client {
 	// this ensures a different secret is not affected if another is rate limited, while ensuring different instances
 	// of the same secret cannot make new requests while rate limited
 	private static rateLimits = new Map<string, {
-		isRateLimited: boolean,
+		isRateLimited: boolean;
 		retryAfterPromise: Promise<void> | null;
 	}>();
 

@@ -15,9 +15,9 @@ export class PropertySelect extends Select {
 	protected fieldKey: keyof SavedFields;
 
 	protected constructor({ id, type, Validator, fieldKey }: {
-		id: string,
-		type: PropertySelect['type'],
-		Validator?: ValidatorConstructor,
+		id: string;
+		type: PropertySelect['type'];
+		Validator?: ValidatorConstructor;
 		fieldKey: PropertySelect['fieldKey'];
 	}) {
 		super({ id, type, Validator });
@@ -27,9 +27,9 @@ export class PropertySelect extends Select {
 	}
 
 	public static override getInstance<T extends string>({ id, type, Validator, fieldKey }: {
-		id: T,
-		type: PropertySelect['type'],
-		Validator?: ValidatorConstructor,
+		id: T;
+		type: PropertySelect['type'];
+		Validator?: ValidatorConstructor;
 		fieldKey: PropertySelect['fieldKey'];
 	}): PropertySelect {
 		if (!(PropertySelect.instances.get(id) instanceof PropertySelect)) {
@@ -70,11 +70,11 @@ export class SelectPropertyValueSelect extends PropertySelect {
 	private propertySelect: PropertySelect;
 
 	protected constructor({ id, type, Validator, fieldKey, getDatabaseId, propertySelect }: {
-		id: string,
-		type: PropertySelect['type'],
+		id: string;
+		type: PropertySelect['type'];
 		Validator?: ValidatorConstructor;
-		fieldKey: PropertySelect['fieldKey'],
-		getDatabaseId: () => SupportedTypes,
+		fieldKey: PropertySelect['fieldKey'];
+		getDatabaseId: () => SupportedTypes;
 		propertySelect: PropertySelect;
 	}) {
 		super({ id, type, Validator, fieldKey });
@@ -96,11 +96,11 @@ export class SelectPropertyValueSelect extends PropertySelect {
 	}
 
 	public static override getInstance<T extends string>({ id, type, Validator, fieldKey, getDatabaseId, propertySelect }: {
-		id: T,
-		type: PropertySelect['type'],
+		id: T;
+		type: PropertySelect['type'];
 		Validator?: ValidatorConstructor;
-		fieldKey: PropertySelect['fieldKey'],
-		getDatabaseId: () => SupportedTypes,
+		fieldKey: PropertySelect['fieldKey'];
+		getDatabaseId: () => SupportedTypes;
 		propertySelect: PropertySelect;
 	}): SelectPropertyValueSelect {
 		if (!(SelectPropertyValueSelect.instances.get(id) instanceof SelectPropertyValueSelect)) {

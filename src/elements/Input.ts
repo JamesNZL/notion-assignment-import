@@ -10,8 +10,8 @@ export class Input extends Element {
 	protected element: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
 
 	protected constructor({ id, type, Validator }: {
-		id: string,
-		type: string,
+		id: string;
+		type: string;
 		Validator?: ValidatorConstructor;
 	}) {
 		super({ id, type });
@@ -26,8 +26,8 @@ export class Input extends Element {
 	}
 
 	public static override getInstance<T extends string>({ id, type = 'input', Validator }: {
-		id: T,
-		type?: string,
+		id: T;
+		type?: string;
 		Validator?: ValidatorConstructor;
 	}): Input {
 		if (!(Input.instances.get(id) instanceof Input)) {

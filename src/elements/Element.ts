@@ -8,7 +8,7 @@ export class Element {
 	private parentHeading?: HTMLHeadingElement | false;
 
 	protected constructor({ id, type, element }: {
-		id: string,
+		id: string;
 		type: string;
 		element?: globalThis.Element | null;
 	}) {
@@ -21,7 +21,7 @@ export class Element {
 	}
 
 	public static getInstance<T extends string>({ id, type, element }: {
-		id: T,
+		id: T;
 		type: string;
 		element?: globalThis.Element;
 	}): Element {

@@ -6,7 +6,7 @@ export class Button extends Element {
 	private defaultClassList: string;
 
 	protected constructor({ id, type }: {
-		id: string,
+		id: string;
 		type: string;
 	}) {
 		super({ id, type });
@@ -20,7 +20,7 @@ export class Button extends Element {
 	}
 
 	public static override getInstance<T extends string>({ id, type = 'button' }: {
-		id: T,
+		id: T;
 		type?: string;
 	}): Button {
 		if (!(Button.instances.get(id) instanceof Button)) {
