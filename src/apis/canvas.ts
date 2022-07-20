@@ -19,7 +19,6 @@ export class CanvasClient {
 		return {
 			course: `${this.baseURL}/courses/${this.courseId}`,
 			assignments: `${this.baseURL}/courses/${this.courseId}/assignments`,
-			// TODO: all dates?
 			assignmentGroups: `${this.baseURL}/courses/${this.courseId}/assignment_groups`,
 		};
 	}
