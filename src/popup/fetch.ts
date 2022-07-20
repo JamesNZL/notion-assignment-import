@@ -53,9 +53,13 @@ function roundToNextHour(date: Date): Date {
 
 		const emojiedCourseCode = `${(courseIcon) ? `${courseIcon} ` : ''}${courseCode}`;
 
-		// TODO: sort by due date
+		const timeNow = new Date();
+
 		const canvasAssignments = assignmentGroups.flatMap(group => group.assignments)
 			.filter(assignment => options.canvas.importMissingDueDates || assignment.due_at)
+			.sort(({ due_at: a }, { due_at: b }) => {
+				return Date.parse(a ?? timeNow) - Date.parse(b ?? timeNow);
+			})
 			.map(assignment => ({
 				name: assignment.name,
 				description: assignment.description,
@@ -64,7 +68,7 @@ function roundToNextHour(date: Date): Date {
 				course: courseCode,
 				icon: courseIcon,
 				url: assignment.html_url,
-				available: assignment.unlock_at ?? roundToNextHour(new Date()).toISOString(),
+				available: assignment.unlock_at ?? roundToNextHour(timeNow).toISOString(),
 				due: assignment.due_at,
 			}));
 
