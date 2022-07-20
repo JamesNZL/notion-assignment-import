@@ -4,8 +4,6 @@ import {
 	InputFieldValidator,
 	StringField,
 	RequiredStringField,
-	// TODO: remove unused
-	RequiredNumberAsStringField,
 	TimeZoneField,
 	RequiredNotionTokenField,
 	RequiredNotionDatabaseIdField,
