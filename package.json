@@ -65,5 +65,9 @@
         "type": "json"
       }
     ]
+  },
+  "browser": {
+    "path": "path-browserify",
+    "url": "url-polyfill"
   }
 }
