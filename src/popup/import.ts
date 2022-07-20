@@ -128,7 +128,7 @@ export async function exportToNotion(): Promise<void | IFetchedAssignment[]> {
 					? markdownToBlocks(
 						new TurndownService().turndown(this.description),
 					)
-					: null,
+					: [],
 			};
 		}
 	}
