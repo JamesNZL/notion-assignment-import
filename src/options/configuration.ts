@@ -93,6 +93,7 @@ interface InputElements {
 	'notion.propertyNames.category': 'notion-property-category';
 	'notion.propertyNames.course': 'notion-property-course';
 	'notion.propertyNames.url': 'notion-property-url';
+	'notion.propertyNames.points': 'notion-property-points';
 	'notion.propertyNames.available': 'notion-property-available';
 	'notion.propertyNames.due': 'notion-property-due';
 	'notion.propertyNames.span': 'notion-property-span';
@@ -269,6 +270,7 @@ export const CONFIGURATION: {
 					'notion-property-category',
 					'notion-property-course',
 					'notion-property-url',
+					'notion-property-points',
 					'notion-property-available',
 					'notion-property-due',
 					'notion-property-span',
@@ -313,6 +315,16 @@ export const CONFIGURATION: {
 						delete (<Partial<typeof this>>this).input;
 						return this.input = Input.getInstance<InputElementId>({
 							id: 'notion-property-url',
+							Validator: StringField,
+						});
+					},
+				},
+				points: {
+					defaultValue: 'Points',
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = Input.getInstance<InputElementId>({
+							id: 'notion-property-points',
 							Validator: StringField,
 						});
 					},

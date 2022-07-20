@@ -35,6 +35,7 @@ interface OptionsElements {
 		categoryProperty: 'notion-property-category';
 		courseProperty: 'notion-property-course';
 		urlProperty: 'notion-property-url';
+		pointsProperty: 'notion-property-points';
 		availableProperty: 'notion-property-available';
 		dueProperty: 'notion-property-due';
 		spanProperty: 'notion-property-span';
@@ -163,6 +164,12 @@ const DatabaseSelect = <const>{
 			Validator: StringField,
 			fieldKey: 'notion.propertyNames.url',
 		}),
+		points: PropertySelect.getInstance<OptionsSelectId>({
+			id: 'notion-property-points',
+			type: 'number',
+			Validator: StringField,
+			fieldKey: 'notion.propertyNames.points',
+		}),
 		available: PropertySelect.getInstance<OptionsSelectId>({
 			id: 'notion-property-available',
 			type: 'date',
@@ -265,6 +272,7 @@ const buttons: {
 				'notion.propertyNames.category',
 				'notion.propertyNames.course',
 				'notion.propertyNames.url',
+				'notion.propertyNames.points',
 				'notion.propertyNames.available',
 				'notion.propertyNames.due',
 				'notion.propertyNames.span',

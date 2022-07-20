@@ -146,6 +146,7 @@ export const Storage = <const>{
 					category: savedFields['notion.propertyNames.category'],
 					course: savedFields['notion.propertyNames.course'],
 					url: savedFields['notion.propertyNames.url'],
+					points: savedFields['notion.propertyNames.points'],
 					available: savedFields['notion.propertyNames.available'],
 					due: savedFields['notion.propertyNames.due'],
 					span: savedFields['notion.propertyNames.span'],

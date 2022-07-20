@@ -21,6 +21,7 @@ interface OptionalFields {
 	'notion.propertyNames.category': NullIfEmpty<string>;
 	'notion.propertyNames.course': NullIfEmpty<string>;
 	'notion.propertyNames.url': NullIfEmpty<string>;
+	'notion.propertyNames.points': NullIfEmpty<string>;
 	'notion.propertyNames.available': NullIfEmpty<string>;
 	'notion.propertyNames.due': NullIfEmpty<string>;
 	'notion.propertyNames.span': NullIfEmpty<string>;
@@ -60,6 +61,7 @@ export type SavedOptions = {
 			category: OptionalFields['notion.propertyNames.category'];
 			course: OptionalFields['notion.propertyNames.course'];
 			url: OptionalFields['notion.propertyNames.url'];
+			points: OptionalFields['notion.propertyNames.points'];
 			available: OptionalFields['notion.propertyNames.available'];
 			due: OptionalFields['notion.propertyNames.due'];
 			span: OptionalFields['notion.propertyNames.span'];
