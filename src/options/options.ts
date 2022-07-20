@@ -97,9 +97,9 @@ const OptionsPage = <const>{
 const AdvancedOptions = <const>{
 	elements: Array.from(document.getElementsByClassName('advanced-options'))
 		.map((element, index) => Element.getInstance({
-			id: `advanced-options-${index}`,
+			id: element.id || `advanced-options-${index}`,
 			type: 'advanced options',
-			element: element,
+			element,
 		})),
 	control: CONFIGURATION.FIELDS['options.displayAdvanced'].input,
 
