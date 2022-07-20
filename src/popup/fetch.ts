@@ -63,7 +63,6 @@ function roundToNextHour(date: Date): Date {
 			.map(assignment => ({
 				name: assignment.name,
 				description: assignment.description,
-				// TODO(main): normalise this as a percentage of total points?
 				points: assignment.points_possible,
 				course: courseCode,
 				icon: courseIcon,
