@@ -283,3 +283,14 @@ Storage.getStorageKey('notion.propertyNames.status', false).then(value => {
 
 	Storage.clearStorageKey('notion.propertyNames.status');
 });
+
+// * what's new alert
+Storage.getLastVersion().then(version => {
+	const { version: manifestVersion } = browser.runtime.getManifest();
+
+	if (version === manifestVersion) return;
+
+	alert(`Your extension has been updated to v${manifestVersion}!\n\nTo see what's new, visit the store page, the Discord Server, or the GitHub Repository.`);
+
+	Storage.setLastVersion(manifestVersion);
+});
