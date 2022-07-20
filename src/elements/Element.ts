@@ -4,7 +4,7 @@ export class Element {
 	protected element: globalThis.Element;
 	private timeouts = new Map<string, ReturnType<typeof setTimeout>>();
 
-	private tile?: HTMLElement | false;
+	private tile?: globalThis.Element | false;
 	private parentHeading?: HTMLHeadingElement | false;
 
 	protected constructor({ id, type, element }: {
@@ -53,15 +53,15 @@ export class Element {
 		this.element.classList.remove(className);
 	}
 
-	private static isSomeChildShown(parentElement: HTMLElement) {
+	private static isSomeChildShown(parentElement: globalThis.Element) {
 		return Array.from(parentElement.children).some(child => !child.classList.contains('hidden'));
 	}
 
-	private static isEveryChildHidden(parentElement: HTMLElement) {
+	private static isEveryChildHidden(parentElement: globalThis.Element) {
 		return Array.from(parentElement.children).every(child => child.classList.contains('hidden'));
 	}
 
-	private static findParentTile(element: HTMLElement): HTMLElement | false {
+	private static findParentTile(element: globalThis.Element): globalThis.Element | false {
 		if (element === document.body) return false;
 		if (element.classList.contains('tile')) return element;
 
@@ -175,11 +175,11 @@ export class Element {
 			.forEach(this.element.appendChild.bind(this.element));
 	}
 
-	public insertAdjacentElement(...args: Parameters<typeof HTMLElement.prototype.insertAdjacentElement>) {
+	public insertAdjacentElement(...args: Parameters<typeof globalThis.Element.prototype.insertAdjacentElement>) {
 		return this.element.insertAdjacentElement(...args);
 	}
 
-	public addEventListener(...args: Parameters<typeof HTMLElement.prototype.addEventListener>) {
+	public addEventListener(...args: Parameters<typeof globalThis.Element.prototype.addEventListener>) {
 		this.element.addEventListener(...args);
 	}
 
