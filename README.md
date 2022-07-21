@@ -106,6 +106,7 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
 ![Notion board example](./assets/screenshots/board.png)
 ![Notion timeline example](./assets/screenshots/timeline.png)
 ![Notion calendar example](./assets/screenshots/calendar.png)
+![Notion page example](./assets/screenshots/notion-page.png)
 
 ## Extension Options
 ![Options page part 1](./assets/screenshots/options-1.png)
