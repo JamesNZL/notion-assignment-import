@@ -79,7 +79,7 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
   - [`v4.3.0`](#v430)
 - [Building For Local Development](#building-for-local-development)
 - [How It Works](#how-it-works)
-  - [Assignment Parsing](#assignment-parsing)
+  - [Assignment Fetching](#assignment-fetching)
   - [Notion Import](#notion-import)
 - [Contributors](#contributors)
 
@@ -132,7 +132,8 @@ To be notified with updates and changelogs, to get in touch, or just to lurk, jo
    2. Paste the Notion `Internal Integration Token` into the input field.
 
 5. Select the desired target database in the `Database` dropdown.
-	> NOTE: Databases that have not been *directly* shared with the integration (ie those which are a child of a shared page) might not immediately appear. Use the `Refresh` button until the desired database appears.
+	> **Note**  
+   > Databases that have not been *directly* shared with the integration (ie those which are a child of a shared page) might not immediately appear. Use the `Refresh` button until the desired database appears.
 
 6. Configure the `Property Names` and `Property Values` if necessary.
 	> If you have duplicated my database template, you do not need to change the applied defaults.
@@ -141,9 +142,10 @@ To be notified with updates and changelogs, to get in touch, or just to lurk, jo
    > `Course Code Overrides` can be found under **Advanced Options**.  
 
 8. Open the Canvas page for the course you wish to import.
+   > **Note**  
    > You should be on a URL that looks something like `https://<canvas.auckland.ac.nz>/courses/72763/**/*`.  
-      > `<canvas.auckland.ac.nz>` should be your own institution's Canvas URL.  
-      > `/**/*` means that you can be on the course home page, or any subpage—the important part is `/courses/...../`.
+   > - `<canvas.auckland.ac.nz>` should be your own institution's Canvas URL.  
+   > - `/**/*` means that you can be on the course home page, or any subpage—the important part is `/courses/...../`.
 
 9.  Click `Copy from Canvas`.
 
@@ -175,7 +177,7 @@ To be notified with updates and changelogs, to get in touch, or just to lurk, jo
 chmod +x
 ```
 
-5. Drag and drop the `Notion Canvas Assignment Import` file into your terminal window. Now you should have something looking like this:
+1. Drag and drop the `Notion Canvas Assignment Import` file into your terminal window. You should now have something that looks like this:
 
 ```bash
 chmod +x /Users/YOUR_USERNAME/Downloads/Notion\ Canvas\ Assignment\ Import/Contents/MacOS/Notion\ Canvas\ Assignment\ Import
@@ -301,11 +303,11 @@ Configure `Page Emojis` to the following:
 
 # Building For Local Development
 
-This project uses [`gulp`](https://gulpjs.com/) and [`esbuild`](https://esbuild.github.io/) under-the-bonnet to bundle the compiled JavaScript files to be browser-ready.
+This project uses [`gulp`](https://gulpjs.com/) and [`esbuild`](https://esbuild.github.io/) under the bonnet to bundle the compiled JavaScript files to be browser-ready.
 
 1. Fork/clone this repository.
 
-2. Run `npm install -D` to install the required dependencies.
+2. Run `npm ci --include=dev` to install the required dependencies.
 
 3. Run the appropriate build script:
    1. `npm run watch` to build in watch mode.
@@ -324,13 +326,14 @@ This project uses [`gulp`](https://gulpjs.com/) and [`esbuild`](https://esbuild.
 
 3. The `pathname` is matched against a regular expression to extract the Canvas `:course_id`, such as `72763`.
 
-4. A same-host `fetch()` request is made from the active Canvas tab to the following Canvas REST API endpoints, with the logged in user's cookies:
+4. A same-host `fetch()` request is made from the active Canvas tab to the following Canvas REST API endpoints, with the logged-in user's cookies:
    1. [`GET /api/v1/courses/:id`](https://canvas.instructure.com/doc/api/courses.html#method.courses.show), to get the course code.
    2. [`GET /api/v1/courses/:course_id/assignment_groups`](https://canvas.instructure.com/doc/api/assignment_groups.html#method.assignment_groups.index), to get a list of assignments.
 
 5. Relevant information is extracted from each [`Assignment`](https://canvas.instructure.com/doc/api/assignments.html) object, and the following configurations applied:
    1. `Course Code Overrides`, and
    2. `Page Emojis`.
+   > **Note**  
    > Assignments without an [`unlock_at`](https://canvas.instructure.com/doc/api/assignments.html) date (ie are already unlocked) are set to be unlocked from the top of the next hour, relative to the current time.
 
 6. Fetched assignments are saved by course in browser local storage (see `IFetchedAssignment` and `SavedAssignment` in [`fetch.ts`](src/popup/fetch.ts)).
