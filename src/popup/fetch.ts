@@ -29,7 +29,7 @@ function roundToNextHour(date: Date): Date {
 (async function fetchAssignments(): Promise<SavedAssignments | void> {
 	try {
 		const { origin, pathname } = window.location;
-		const courseId = pathname.match(/\/courses\/([^/]+)\//)?.[1];
+		const courseId = pathname.match(/\/courses\/([^/]+)\/?/)?.[1];
 
 		if (!courseId) {
 			throw 'This is an invalid Canvas course page.\n\nPlease navigate to a Canvas course page (or any subpage), and try again.\n\nExample: https://canvas.auckland.ac.nz/courses/72763/...';
