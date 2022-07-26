@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.3.1](https://github.com/JamesNZL/notion-assignment-import/compare/v4.3.0...v4.3.1) (2022-07-26)
+
+
+### Bug Fixes
+
+* **canvas:** :bug: fix matching of course id from url ([#66](https://github.com/JamesNZL/notion-assignment-import/issues/66)) ([b418a41](https://github.com/JamesNZL/notion-assignment-import/commit/b418a419337bc91b8fd0efc4a0e6deb135d72837))
+
 ## [4.3.0](https://github.com/JamesNZL/notion-assignment-import/compare/v4.2.5...v4.3.0) (2022-07-20)
 
 

@@ -1,7 +1,7 @@
 {
 	"name": "Notion Canvas Assignment Import",
 	"description": "Automatically import Canvas assignments into a Notion database.",
-	"version": "4.3.0",
+	"version": "4.3.1",
 	"manifest_version": 3,
 	"key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhEFrWfD1/qqMVJQknBDk2PqlWLvnt8FrS4c56g2xAu+pK5w/TaScf5RXaGZ/aKFSt4ap10KN7YVEcMkb5aOwGcZWr7MmxfUFDM9pbPGUE6P7MaH4TtLnDhATaT1FfEt38P0v95fQHGj3/a2fwHjoz3zHx7fYoZ8hZPuNmwYASjE0ocCQgiZ8vq+zMykY4DNpt9Ea3aFddItOrMpHqjv6ZjfRc4gyWAdCCHg8sohMz7h3zvJvbQVhXPhU/HyQ2pCYqh7n9BwKFL5WiBxvhqZjC7AJdH+Zd2wDl3IIQNtY/cqgOYbuvFiI9k4+mWGew5r68rBDouhrYFYM8MGbKtHKkwIDAQAB",
 	"options_ui": {
