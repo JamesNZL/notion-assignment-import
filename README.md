@@ -27,7 +27,7 @@
          <img src="https://img.shields.io/amo/v/notion-assignment-import?style=flat-square" alt="Mozilla Add-on version">
       </a>
       <a href="releases/safari/">
-         <img src="https://img.shields.io/badge/safari-v4.1.1-blue?style=flat-square" alt="Safari version">
+         <img src="https://img.shields.io/badge/safari-v4.3.1-blue?style=flat-square" alt="Safari version">
       </a>
    </div>
 </div>
