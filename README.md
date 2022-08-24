@@ -130,7 +130,7 @@ To be notified with updates and changelogs, to get in touch, or just to lurk, jo
 4. Click `Authorise with Notion` to add the integration to your Notion workspace, and share your relevant database(s).
    > **Warning**  
    > There is a known issue when trying to sign in to Notion using the `Continue with Google` option.  
-   > This is an issue with the browser and cannot be fixed by this extension.
+   > This is an issue with the browser and cannot be fixed by this extension.  
    > If you encounter this issue, please try logging in directly with your email and password.
    
    > **Note**
