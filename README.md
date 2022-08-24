@@ -128,9 +128,16 @@ To be notified with updates and changelogs, to get in touch, or just to lurk, jo
 3. Click on the options icon to configure the extension.
 
 4. Click `Authorise with Notion` to add the integration to your Notion workspace, and share your relevant database(s).
-   > **Safari:** Due to [browser API limitations](https://developer.apple.com/documentation/safariservices/safari_web_extensions/assessing_your_safari_web_extension_s_browser_compatibility), OAuth2 is not currently supported. As a temporary stop-gap, support for a Notion Internal Integration has been retained.  
-   1. Follow steps **1** and **2** on [this page](https://developers.notion.com/docs/getting-started#step-1-create-an-integration) to create a new Internal Integration.
-   2. Paste the Notion `Internal Integration Token` into the input field.
+   > **Warning**  
+   > There is a known issue when trying to sign in to Notion using the `Continue with Google` option.  
+   > This is an issue with the browser and cannot be fixed by this extension.
+   > If you encounter this issue, please try logging in directly with your email and password.
+   
+   > **Note**
+   > for **Safari**  
+   > Due to [browser API limitations](https://developer.apple.com/documentation/safariservices/safari_web_extensions/assessing_your_safari_web_extension_s_browser_compatibility), OAuth2 is not currently supported. As a temporary stop-gap, support for a Notion Internal Integration has been retained.
+   > 1. Follow steps **1** and **2** on [this page](https://developers.notion.com/docs/getting-started#step-1-create-an-integration) to create a new Internal Integration.
+   > 2. Paste the Notion `Internal Integration Token` into the input field.
 
 5. Select the desired target database in the `Database` dropdown.
 	> **Note**  
