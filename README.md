@@ -38,6 +38,15 @@
 
 <div align="center">
    <div>
+      <a href="https://chrome.google.com/webstore/detail/notion-canvas-assignment/elbkjcjgakaoccocmbglokgmalkoacie/">
+         <img src="https://img.shields.io/chrome-web-store/stars/elbkjcjgakaoccocmbglokgmalkoacie?style=flat-square" alt="Chrome Web Store stars">
+      </a>
+      <a href="https://chrome.google.com/webstore/detail/notion-canvas-assignment/elbkjcjgakaoccocmbglokgmalkoacie/">
+         <img src="https://img.shields.io/chrome-web-store/users/elbkjcjgakaoccocmbglokgmalkoacie?style=flat-square" alt="Chrome Web Store users">
+      </a>
+   </div>
+   <br>
+   <div>
       <a href="https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/">
          <img src="https://img.shields.io/badge/Download_for-Chrome-4285F4?style=for-the-badge&logo=googlechrome&logoColor=FFFFFF" alt="Download for Chrome">
       </a>
