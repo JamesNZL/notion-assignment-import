@@ -26,6 +26,21 @@ function roundToNextHour(date: Date): Date {
 	return date;
 }
 
+function reformatDate(date_str: string): string {
+	/*
+		Problem:  Notion does not convert times into the correct timezone,
+				  even when supplied a timezone, Notion will show the user the
+				  UTC time (incorrect time, unless you live in UTC region), labeled
+				  with the supplied timezone.
+		Solution: Re-format the ISO date string to give Notion a 'false' date string based
+				  on the offset of the local machine. This is a misuse of ISO time/date strings,
+				  but it will result in the correct date being shown in Notion.
+	 */
+	const date = new Date(date_str);
+	date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+	return date.toISOString();
+}
+
 (async function fetchAssignments(): Promise<SavedAssignments | void> {
 	try {
 		const { origin, pathname } = window.location;
@@ -60,16 +75,19 @@ function roundToNextHour(date: Date): Date {
 			.sort(({ due_at: a }, { due_at: b }) => {
 				return Date.parse(a ?? timeNow) - Date.parse(b ?? timeNow);
 			})
-			.map(assignment => ({
-				name: assignment.name,
-				description: assignment.description,
-				points: assignment.points_possible,
-				course: courseCode,
-				icon: courseIcon,
-				url: assignment.html_url,
-				available: assignment.unlock_at ?? roundToNextHour(timeNow).toISOString(),
-				due: assignment.due_at,
-			}));
+			.map(assignment => {
+				console.log(assignment.due_at, 'TIMEZONE', options.notion.timeZone);
+				return ({
+					name: assignment.name,
+					description: assignment.description,
+					points: assignment.points_possible,
+					course: courseCode,
+					icon: courseIcon,
+					url: assignment.html_url,
+					available: assignment.unlock_at ? reformatDate(assignment.unlock_at) : reformatDate(roundToNextHour(timeNow).toISOString()),
+					due: reformatDate(assignment.due_at),
+				});
+			});
 
 		const savedAssignments = await Storage.getSavedAssignments();
 
@@ -88,3 +106,4 @@ function roundToNextHour(date: Date): Date {
 		return Storage.setSavedCourse(null);
 	}
 })();
+
