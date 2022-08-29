@@ -75,19 +75,16 @@ function reformatDate(date_str: string): string {
 			.sort(({ due_at: a }, { due_at: b }) => {
 				return Date.parse(a ?? timeNow) - Date.parse(b ?? timeNow);
 			})
-			.map(assignment => {
-				console.log(assignment.due_at, 'TIMEZONE', options.notion.timeZone);
-				return ({
-					name: assignment.name,
-					description: assignment.description,
-					points: assignment.points_possible,
-					course: courseCode,
-					icon: courseIcon,
-					url: assignment.html_url,
-					available: assignment.unlock_at ? reformatDate(assignment.unlock_at) : reformatDate(roundToNextHour(timeNow).toISOString()),
-					due: reformatDate(assignment.due_at),
-				});
-			});
+			.map(assignment => ({
+				name: assignment.name,
+				description: assignment.description,
+				points: assignment.points_possible,
+				course: courseCode,
+				icon: courseIcon,
+				url: assignment.html_url,
+				available: assignment.unlock_at ?? roundToNextHour(timeNow).toISOString(),
+				due: assignment.due_at,
+			}));
 
 		const savedAssignments = await Storage.getSavedAssignments();
 
