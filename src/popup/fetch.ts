@@ -82,8 +82,8 @@ function reformatDate(date_str: string): string {
 				course: courseCode,
 				icon: courseIcon,
 				url: assignment.html_url,
-				available: assignment.unlock_at ?? roundToNextHour(timeNow).toISOString(),
-				due: assignment.due_at,
+				available: assignment.unlock_at ? reformatDate(assignment.unlock_at) : reformatDate(roundToNextHour(timeNow).toISOString()),
+				due: reformatDate(assignment.due_at),
 			}));
 
 		const savedAssignments = await Storage.getSavedAssignments();
