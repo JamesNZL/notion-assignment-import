@@ -1,6 +1,7 @@
+import moment from 'moment-timezone';
+
 import { CanvasClient } from '../apis/canvas';
 import { Storage } from '../apis/storage';
-import moment from 'moment-timezone';
 
 import { EmojiRequest } from '../types/notion';
 
@@ -38,7 +39,7 @@ function reformatDate(dateString: string, timeZone: string | null): string {
 				  but it will result in the correct date being shown in Notion.
 	 */
 	const date = new Date(dateString);
-	const offset = moment.tz.zone(timeZone ?? 'Pacific/Auckland')?.utcOffset(date.valueOf()) ?? 0;
+	const offset = moment.tz.zone(timeZone ?? moment.tz.guess())?.utcOffset(date.valueOf()) ?? 0;
 	date.setMinutes(date.getMinutes() - offset);
 	return date.toISOString();
 }
@@ -84,7 +85,9 @@ function reformatDate(dateString: string, timeZone: string | null): string {
 				course: courseCode,
 				icon: courseIcon,
 				url: assignment.html_url,
-				available: assignment.unlock_at ? reformatDate(assignment.unlock_at, options.notion.timeZone) : reformatDate(roundToNextHour(timeNow).toISOString(), options.notion.timeZone),
+				available: (assignment.unlock_at)
+					? reformatDate(assignment.unlock_at, options.notion.timeZone)
+					: reformatDate(roundToNextHour(timeNow).toISOString(), options.notion.timeZone),
 				due: reformatDate(assignment.due_at, options.notion.timeZone),
 			}));
 
