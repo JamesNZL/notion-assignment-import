@@ -1,3 +1,5 @@
+import moment from 'moment-timezone';
+
 import { CanvasClient } from '../apis/canvas';
 import { Storage } from '../apis/storage';
 
@@ -24,6 +26,22 @@ function roundToNextHour(date: Date): Date {
 	date.setHours(date.getHours() + 1, 0, 0, 0);
 
 	return date;
+}
+
+function reformatDate(dateString: string, timeZone: string | null): string {
+	/*
+		Problem:  Notion does not convert times into the correct timezone,
+				  even when supplied a timezone, Notion will show the user the
+				  UTC time (incorrect time, unless you live in UTC region), labeled
+				  with the supplied timezone.
+		Solution: Re-format the ISO date string to give Notion a 'false' date string based
+				  on the timezone provided by the user. This is a misuse of ISO time/date strings,
+				  but it will result in the correct date being shown in Notion.
+	 */
+	const date = new Date(dateString);
+	const offset = moment.tz.zone(timeZone ?? moment.tz.guess())?.utcOffset(date.valueOf()) ?? 0;
+	date.setMinutes(date.getMinutes() - offset);
+	return date.toISOString();
 }
 
 (async function fetchAssignments(): Promise<SavedAssignments | void> {
@@ -67,8 +85,10 @@ function roundToNextHour(date: Date): Date {
 				course: courseCode,
 				icon: courseIcon,
 				url: assignment.html_url,
-				available: assignment.unlock_at ?? roundToNextHour(timeNow).toISOString(),
-				due: assignment.due_at,
+				available: (assignment.unlock_at)
+					? reformatDate(assignment.unlock_at, options.notion.timeZone)
+					: reformatDate(roundToNextHour(timeNow).toISOString(), options.notion.timeZone),
+				due: reformatDate(assignment.due_at, options.notion.timeZone),
 			}));
 
 		const savedAssignments = await Storage.getSavedAssignments();
@@ -88,3 +108,4 @@ function roundToNextHour(date: Date): Date {
 		return Storage.setSavedCourse(null);
 	}
 })();
+
