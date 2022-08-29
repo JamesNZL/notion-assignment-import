@@ -222,22 +222,26 @@ export async function exportToNotion(): Promise<void | IFetchedAssignment[]> {
 	const assignments = await getNewAssignments(options.databaseId);
 	let errorCount = 0;
 
-	const createdAssignments = await Promise.all(
-		assignments.map(async assignment => {
-			const page = await notionClient.createPage(assignment.getPageParameters(<NonNullable<typeof options.databaseId>>options.databaseId));
+	const RETRY_COUNT = 3;
 
-			if (page) {
-				console.log(`Created assignment ${assignment.course} ${assignment.name}`);
-				return [assignment];
-			}
+	async function createAssignment(assignment: FetchedAssignment, retryCount = 0): Promise<FetchedAssignment[]> {
+		const page = await notionClient.createPage(assignment.getPageParameters(<NonNullable<typeof options.databaseId>>options.databaseId));
 
-			else {
-				console.error(`Error creating assignment ${assignment.course} ${assignment.name}`);
-				errorCount++;
-				return [];
-			}
-		}),
-	);
+		if (page) {
+			console.log(`Created assignment ${assignment.course} ${assignment.name}`);
+			return [assignment];
+		}
+
+		else if (retryCount >= RETRY_COUNT) {
+			console.error(`Error creating assignment ${assignment.course} ${assignment.name}`);
+			errorCount++;
+			return [];
+		}
+
+		return await createAssignment(assignment, ++retryCount);
+	}
+
+	const createdAssignments = await Promise.all(assignments.map(assignment => createAssignment(assignment, 0)));
 
 	if (errorCount) alert(`An error was encountered when creating ${errorCount} assignments.`);
 
