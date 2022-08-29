@@ -139,7 +139,7 @@ export const CONFIGURATION: {
 		},
 		extension: {
 			displayTheme: {
-				defaultValue: null,
+				defaultValue: 'system',
 				get input() {
 					delete (<Partial<typeof this>>this).input;
 					return this.input = SegmentedControl.getInstance<InputElementId, typeof this.defaultValue>({
@@ -147,7 +147,7 @@ export const CONFIGURATION: {
 						segments: [
 							{
 								id: 'display-system-mode',
-								value: null,
+								value: 'system',
 								default: true,
 							},
 							{

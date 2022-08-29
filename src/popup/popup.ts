@@ -218,7 +218,10 @@ buttons.listAssignments.addEventListener('click', SavedCoursesList.listAssignmen
 buttons.listCourses.addEventListener('click', SavedCoursesList.listCourses.bind(SavedCoursesList, undefined));
 
 Storage.getOptions().then(({ extension: { displayTheme }, popup: { displayJSONButton } }) => {
-	if (displayTheme) document.documentElement.classList.add(`${displayTheme}-mode`);
+	if (displayTheme && displayTheme !== 'system') {
+		document.documentElement.classList.add(`${displayTheme}-mode`);
+	}
+
 	if (displayJSONButton) buttons.copyJSON.show();
 });
 

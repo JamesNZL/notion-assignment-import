@@ -66,7 +66,12 @@ export class SegmentedControl extends Element {
 	}
 
 	public setValue(value: SupportedTypes, dispatchEvent = true) {
-		const segmentToCheck = this.segments.find(segment => segment.value === value);
+		let segmentToCheck = this.segments.find(segment => segment.value === value);
+
+		// ! see #68
+		if (!segmentToCheck && this.id === 'display-theme' && value === null) {
+			segmentToCheck = this.segments.find(segment => segment.value === 'system');
+		}
 
 		if (!segmentToCheck) throw new Error(`Failed to set unexpected value ${value} of type ${typeof value} on segmented control ${this.id}`);
 

@@ -314,7 +314,9 @@ const buttons: {
 
 Storage.getOptions().then(({ extension: { displayTheme }, options: { displayAdvanced } }) => {
 	// set display theme
-	if (displayTheme) document.documentElement.classList.add(`${displayTheme}-mode`);
+	if (displayTheme && displayTheme !== 'system') {
+		document.documentElement.classList.add(`${displayTheme}-mode`);
+	}
 
 	// show advanced options if appropriate
 	AdvancedOptions.toggle(displayAdvanced);
@@ -402,7 +404,7 @@ CONFIGURATION.FIELDS['extension.displayTheme'].input.addEventListener('input', (
 		document.documentElement.classList.remove(token);
 	});
 
-	if (!displayTheme) return;
+	if (!displayTheme || displayTheme === 'system') return;
 
 	document.documentElement.classList.add(`${displayTheme}-mode`);
 });
