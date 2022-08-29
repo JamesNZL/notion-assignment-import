@@ -26,7 +26,7 @@ function roundToNextHour(date: Date): Date {
 	return date;
 }
 
-function reformatDate(date_str: string): string {
+function reformatDate(dateString: string): string {
 	/*
 		Problem:  Notion does not convert times into the correct timezone,
 				  even when supplied a timezone, Notion will show the user the
@@ -36,7 +36,7 @@ function reformatDate(date_str: string): string {
 				  on the offset of the local machine. This is a misuse of ISO time/date strings,
 				  but it will result in the correct date being shown in Notion.
 	 */
-	const date = new Date(date_str);
+	const date = new Date(dateString);
 	date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
 	return date.toISOString();
 }
