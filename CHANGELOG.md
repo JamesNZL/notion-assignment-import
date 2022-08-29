@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.3.2](https://github.com/JamesNZL/notion-assignment-import/compare/v4.3.1...v4.3.2) (2022-08-29)
+
+
+### Bug Fixes
+
+* **canvas:** :bug: fix timezone offset issue ([#89](https://github.com/JamesNZL/notion-assignment-import/issues/89)) ([2ed29fe](https://github.com/JamesNZL/notion-assignment-import/commit/2ed29fe799044620b082feadcbe4d18e5d6309f6))
+* **import:** :children_crossing: retry failed assignment import ([#91](https://github.com/JamesNZL/notion-assignment-import/issues/91)) ([a4d0940](https://github.com/JamesNZL/notion-assignment-import/commit/a4d0940eba2db83a6b9d99a83a5eb6d91871c3ce))
+* **options:** :bug: fix `System` display option on safari ([#68](https://github.com/JamesNZL/notion-assignment-import/issues/68)) ([2a7a2ea](https://github.com/JamesNZL/notion-assignment-import/commit/2a7a2ea4e63e02f2b8d0d2e0e4697a252ac7f47d))
+
 ### [4.3.1](https://github.com/JamesNZL/notion-assignment-import/compare/v4.3.0...v4.3.1) (2022-07-26)
 
 
