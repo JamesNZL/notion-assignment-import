@@ -10,7 +10,7 @@
     "@types/turndown": "^5.0.1",
     "@types/webextension-polyfill": "^0.9.0",
     "@typescript-eslint/eslint-plugin": "^5.36.2",
-    "autoprefixer": "^10.4.8",
+    "autoprefixer": "^10.4.9",
     "cssnano": "^5.1.13",
     "del": "^7.0.0",
     "eslint": "^8.23.1",
