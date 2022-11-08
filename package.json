@@ -13,7 +13,7 @@
     "autoprefixer": "^10.4.13",
     "cssnano": "^5.1.14",
     "del": "^7.0.0",
-    "eslint": "^8.26.0",
+    "eslint": "^8.27.0",
     "gulp": "^4.0.2",
     "gulp-esbuild": "^0.10.6",
     "gulp-execa": "^4.2.0",
