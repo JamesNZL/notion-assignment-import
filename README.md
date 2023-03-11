@@ -83,6 +83,7 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
   - [Configurable Options](#configurable-options)
     - [`Course Code Overrides`](#course-code-overrides)
     - [`Page Emojis`](#page-emojis)
+- [Troubleshooting](#troubleshooting)
 - [Release Notes](#release-notes)
   - [BREAKING CHANGES](#breaking-changes)
   - [`v4.3.0`](#v430)
@@ -293,6 +294,19 @@ Configure `Page Emojis` to the following:
 | ---------------------- | ---------------------- |
 | `COURSE 121`           | `👨‍💻`                    |
 | `COURSE 101`           | `✨`                    |
+
+# Troubleshooting
+
+## Wrong Timezone
+
+If your assignments are being imported into Notion in the wrong timezone, please first ensure that you have configured the `Timezone` option correctly.
+
+> **Note**  
+> After configuring a `Timezone`, you must then `Clear` and re-copy your `Saved Assignments` in the extension popup.  
+> Timezone offsets are applied when assignments are initially copied from Canvas, and not when assignments are exported to Notion.
+
+> **Warning**  
+> To prevent erroneous clears, the extension will automatically restore cleared assignments if the extension popup is closed before the `Cleared!` success status is displayed.
 
 # Release Notes
 
