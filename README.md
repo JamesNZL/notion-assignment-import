@@ -10,7 +10,7 @@
          <img src="https://img.shields.io/github/issues-pr/jamesnzl/notion-assignment-import" alt="GitHub pull requests">
       </a>
       <a href="https://github.com/JamesNZL/notion-assignment-import/actions/workflows/npm-gulp.yml">
-         <img src="https://img.shields.io/github/workflow/status/jamesnzl/notion-assignment-import/Gulp%20Build" alt="GitHub Workflow Status">
+         <img src="https://img.shields.io/github/actions/workflow/status/jamesnzl/notion-assignment-import/npm-gulp.yml?branch=main" alt="GitHub Workflow Status">
       </a>
       <a href="https://github.com/JamesNZL/notion-assignment-import/commits">
          <img src="https://img.shields.io/github/last-commit/jamesnzl/notion-assignment-import" alt="GitHub last commit">
