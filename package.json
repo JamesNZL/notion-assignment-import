@@ -26,7 +26,7 @@
     "standard-version": "^9.5.0",
     "typescript": "^4.8.4",
     "webextension-polyfill": "^0.10.0",
-    "yargs": "^17.6.2"
+    "yargs": "^17.7.2"
   },
   "dependencies": {
     "@notionhq/client": "^2.2.3",
