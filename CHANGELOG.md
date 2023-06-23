@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.3.3](https://github.com/JamesNZL/notion-assignment-import/compare/v4.3.2...v4.3.3) (2023-06-23)
+
+
+### Bug Fixes
+
+* **notion:** :alien: update valid emojis ([d0a1ac6](https://github.com/JamesNZL/notion-assignment-import/commit/d0a1ac6b48e76389102afc0a3af5d46d1f9a6c0c))
+
 ### [4.3.2](https://github.com/JamesNZL/notion-assignment-import/compare/v4.3.1...v4.3.2) (2022-08-29)
 
 

@@ -2,7 +2,7 @@
   "name": "notion-assignment-import",
   "type": "module",
   "license": "SEE LICENSE IN LICENSE.md",
-  "version": "4.3.2",
+  "version": "4.3.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/JamesNZL/notion-assignment-import.git"
