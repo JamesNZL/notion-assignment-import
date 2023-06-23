@@ -10,6 +10,7 @@ export const VALID_EMOJIS: readonly EmojiRequest[] = <const>[
 
 function isPaginatedResponse<R>(response: void | R): response is (R & PaginatedResponse) {
 	if (!response) return false;
+	if (!(response instanceof Object)) return false;
 	return 'has_more' in response;
 }
 
