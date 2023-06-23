@@ -45,8 +45,9 @@
   },
   "standard-version": {
     "scripts": {
-      "prerelease": "npm update -D",
-      "postbump": "npm run build && gulp --gulpfile build/gulpfile.js --cwd . release && git add releases"
+      "preinstall": "npx only-allow pnpm",
+      "prerelease": "pnpm update -D",
+      "postbump": "pnpm run build && gulp --gulpfile build/gulpfile.js --cwd . release && git add releases"
     },
     "bumpFiles": [
       {
