@@ -92,6 +92,7 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
   - [Assignment Fetching](#assignment-fetching)
   - [Notion Import](#notion-import)
 - [Contributors](#contributors)
+- [Licence](#licence)
 
 # Features
 
@@ -383,3 +384,13 @@ This project uses [`gulp`](https://gulpjs.com/) and [`esbuild`](https://esbuild.
 
 1. Thank you to [@PolarWolf314](https://github.com/PolarWolf314) for doing the conversion work to add Safari support!
 2. Thank you to [@MatthewLamperski](https://github.com/MatthewLamperski) for [#89](https://github.com/JamesNZL/notion-assignment-import/pull/89)!
+
+# Licence
+
+`notion-assignment-import` is licensed under MIT [*modified with a Commons Clause*](https://commonsclause.com/).
+
+Basically, don't try to re-badge and monetise this extension.
+
+This extension began as a free, open-source hobby project to help University students save time—no adverts, no data mining, no other asterisks.
+
+I am firm on it remaining as such.
