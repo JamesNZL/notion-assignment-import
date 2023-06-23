@@ -56,10 +56,6 @@
         "type": "json"
       },
       {
-        "filename": "package-lock.json",
-        "type": "json"
-      },
-      {
         "filename": "src/manifest-chromium.json",
         "type": "json"
       },
