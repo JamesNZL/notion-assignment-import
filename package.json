@@ -1,6 +1,7 @@
 {
   "name": "notion-assignment-import",
   "type": "module",
+  "license": "SEE LICENSE IN LICENSE.md",
   "version": "4.3.2",
   "repository": {
     "type": "git",
