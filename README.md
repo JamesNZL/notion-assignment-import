@@ -387,7 +387,7 @@ This project uses [`gulp`](https://gulpjs.com/) and [`esbuild`](https://esbuild.
 
 # Licence
 
-`notion-assignment-import` is licenced under MIT [*modified with a Commons Clause*](https://commonsclause.com/).
+`notion-assignment-import` is licensed under MIT [*modified with a Commons Clause*](https://commonsclause.com/).
 
 Basically, don't try to re-badge and monetise this extension.
 
