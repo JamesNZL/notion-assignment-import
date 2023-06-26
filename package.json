@@ -38,6 +38,7 @@
     "url-polyfill": "^1.1.12"
   },
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "watch": "gulp watch --debug=true --gulpfile build/gulpfile.js --cwd .",
     "debug": "gulp --debug=true --gulpfile build/gulpfile.js --cwd .",
     "build": "gulp --debug=false --gulpfile build/gulpfile.js --cwd .",
@@ -46,7 +47,6 @@
   },
   "standard-version": {
     "scripts": {
-      "preinstall": "npx only-allow pnpm",
       "prerelease": "pnpm update -D",
       "postbump": "pnpm run build && gulp --gulpfile build/gulpfile.js --cwd . release && git add releases"
     },
