@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@notionhq/client':
-    specifier: ^2.2.5
-    version: 2.2.5
+    specifier: ^2.2.6
+    version: 2.2.6
   '@tryfabric/martian':
     specifier: ^1.2.4
     version: 1.2.4
@@ -419,8 +419,8 @@ packages:
       - encoding
     dev: false
 
-  /@notionhq/client@2.2.5:
-    resolution: {integrity: sha512-NobSaeSK0DMuxAIy2pg53Iv850tGFxXYEYacFBQgO634L1uwQv7WQCAdeFQpD3kJiEycQfSYv6RGC5VENEXjiQ==}
+  /@notionhq/client@2.2.6:
+    resolution: {integrity: sha512-QmYN43nOLOBjQ450/nEb98EvTlkDq4t2/F39kiSxaqtse4EG7nctJLeJZrKR1glz9V4K8y2kHmNo8Bz+1XrwYQ==}
     engines: {node: '>=12'}
     dependencies:
       '@types/node-fetch': 2.6.2
@@ -489,17 +489,12 @@ packages:
   /@types/node-fetch@2.6.2:
     resolution: {integrity: sha512-DHqhlq5jeESLy19TYhLakJ07kNumXWjcDdxXsLUMJZ6ue8VZJj4kLPQVE/2mdHh3xZziNF1xppu5lwmS53HR+A==}
     dependencies:
-      '@types/node': 18.7.13
+      '@types/node': 20.3.1
       form-data: 3.0.1
-    dev: false
-
-  /@types/node@18.7.13:
-    resolution: {integrity: sha512-46yIhxSe5xEaJZXWdIBP7GU4HDTG8/eo0qd9atdiL+lFpA03y8KS+lkTN834TWJj5767GbWv4n/P6efyTFt1Dw==}
     dev: false
 
   /@types/node@20.3.1:
     resolution: {integrity: sha512-EhcH/wvidPy1WeML3TtYFGR83UzjxeWRen9V402T8aUGYsCHOmfoisV3ZSg03gAFIbLq8TnWOJ0f4cALtnSEUg==}
-    dev: true
 
   /@types/normalize-package-data@2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
