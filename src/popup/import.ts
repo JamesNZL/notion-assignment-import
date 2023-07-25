@@ -111,7 +111,7 @@ export async function exportToNotion(): Promise<void | IFetchedAssignment[]> {
 
 			// remove the EMPTY_PROPERTY symbol property
 			// symbol properties are not included in Object.entries() (and similar methods)
-			const properties: CreatePageParameters['properties'] = Object.fromEntries(Object.entries(_properties));
+			const properties = Object.fromEntries(Object.entries(_properties));
 
 			return <CreatePageParameters>{
 				parent: {
