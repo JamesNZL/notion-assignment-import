@@ -122,6 +122,8 @@ export class NotionClient extends Client {
 
 			switch (error.code) {
 				case APIErrorCode.RateLimited: {
+					if (!(error.headers instanceof Headers)) return;
+
 					// get Retry-After header from API response
 					const retryAfter = Number(error.headers.get('Retry-After'));
 
