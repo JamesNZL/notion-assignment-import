@@ -30,7 +30,7 @@
     "yargs": "^17.7.2"
   },
   "dependencies": {
-    "@notionhq/client": "^2.2.11",
+    "@notionhq/client": "^2.2.12",
     "@tryfabric/martian": "^1.2.4",
     "moment-timezone": "^0.5.43",
     "path-browserify": "^1.0.1",

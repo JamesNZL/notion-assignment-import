@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@notionhq/client':
-    specifier: ^2.2.11
-    version: 2.2.11
+    specifier: ^2.2.12
+    version: 2.2.12
   '@tryfabric/martian':
     specifier: ^1.2.4
     version: 1.2.4
@@ -424,8 +424,8 @@ packages:
       - encoding
     dev: false
 
-  /@notionhq/client@2.2.11:
-    resolution: {integrity: sha512-yTKeVu0fB9PtlK9eQwN6y+MEq0J0vu1MPP7j5bme9+KTenH4OTcOAx/70+LgvN4Z4RSsymQxdXrtcLHMFN9ZuA==}
+  /@notionhq/client@2.2.12:
+    resolution: {integrity: sha512-LCzbOyVjVtui9GQPFEuvFd8JIWZbY/tgyCqrmxzGSjpGCwqjsEldeNC4qYjsMzVB4MIbP5y1vlWzLsUw/M9QAQ==}
     engines: {node: '>=12'}
     dependencies:
       '@types/node-fetch': 2.6.2
