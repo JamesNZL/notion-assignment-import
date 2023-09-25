@@ -29,8 +29,8 @@ devDependencies:
     specifier: ^5.0.2
     version: 5.0.2
   '@types/webextension-polyfill':
-    specifier: ^0.10.2
-    version: 0.10.2
+    specifier: ^0.10.3
+    version: 0.10.3
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.7.2
     version: 6.7.2(@typescript-eslint/parser@6.2.0)(eslint@8.50.0)(typescript@5.1.6)
@@ -524,8 +524,8 @@ packages:
       '@types/node': 20.3.1
     dev: true
 
-  /@types/webextension-polyfill@0.10.2:
-    resolution: {integrity: sha512-L+T72DVTi/1azY6gw7PRmL49kvobLKQQWfOmHDBRSCkAvaCV4wk222J3ZODYA9Gf/UqUvtItu8FPJgWX5ktO9g==}
+  /@types/webextension-polyfill@0.10.3:
+    resolution: {integrity: sha512-7RqGPhr+Ib7IKrOIeXRTB2TVojq/bMRieoYVfgHoicQ+VvI6OOzBNF0fZXA+5JVJIEtfE/o426S+bMgg/XhvXg==}
     dev: true
 
   /@types/yargs-parser@21.0.0:

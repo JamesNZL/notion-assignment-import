@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@types/turndown": "^5.0.2",
-    "@types/webextension-polyfill": "^0.10.2",
+    "@types/webextension-polyfill": "^0.10.3",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "autoprefixer": "^10.4.15",
     "cssnano": "^6.0.1",
