@@ -21,7 +21,7 @@
     "gulp-postcss": "^9.0.1",
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^5.1.0",
-    "gulp-zip": "^5.1.0",
+    "gulp-zip": "^6.0.0",
     "postcss": "^8.4.32",
     "sass": "^1.69.5",
     "standard-version": "^9.5.0",
