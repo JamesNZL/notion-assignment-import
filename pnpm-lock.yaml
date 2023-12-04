@@ -65,8 +65,8 @@ devDependencies:
     specifier: ^5.1.0
     version: 5.1.0
   gulp-zip:
-    specifier: ^5.1.0
-    version: 5.1.0(gulp@4.0.2)
+    specifier: ^6.0.0
+    version: 6.0.0(gulp@4.0.2)
   postcss:
     specifier: ^8.4.32
     version: 8.4.32
@@ -1920,6 +1920,11 @@ packages:
       object.defaults: 1.1.0
     dev: true
 
+  /easy-transform-stream@1.0.1:
+    resolution: {integrity: sha512-ktkaa6XR7COAR3oj02CF3IOgz2m1hCaY3SfzvKT4Svt2MhHw9XCt+ncJNWfe2TGz31iqzNGZ8spdKQflj+Rlog==}
+    engines: {node: '>=14.16'}
+    dev: true
+
   /electron-to-chromium@1.4.490:
     resolution: {integrity: sha512-6s7NVJz+sATdYnIwhdshx/N/9O6rvMxmhVoDSDFdj6iA45gHR8EQje70+RYsF4GeB+k0IeNSBnP7yG9ZXJFr7A==}
     dev: true
@@ -2488,13 +2493,6 @@ packages:
       yargs: 16.2.0
     dev: true
 
-  /get-stream@5.2.0:
-    resolution: {integrity: sha512-nBF+F1rAZVCu/p7rjzgA+Yb4lfYXrpl7a6VmJrU8wF9I1CKvP/QwPNZHnOlwbTkY6dvtFIzFMSyQXbLoTQPRpA==}
-    engines: {node: '>=8'}
-    dependencies:
-      pump: 3.0.0
-    dev: true
-
   /get-stream@8.0.1:
     resolution: {integrity: sha512-VaUJspBffn/LMCJVoMvSAdmscJyS1auj5Zulnn5UoYcY531UWmdwhRWkcGKnGU93m5HSXP9LP2usOryrBtQowA==}
     engines: {node: '>=16'}
@@ -2720,6 +2718,15 @@ packages:
       through2-concurrent: 2.0.0
     dev: true
 
+  /gulp-plugin-extras@0.3.0:
+    resolution: {integrity: sha512-I/kOBSpo61QsGQZcqozZYEnDseKvpudUafVVWDLYgBFAUJ37kW5R8Sjw9cMYzpGyPUfEYOeoY4p+dkfLqgyJUQ==}
+    engines: {node: '>=18'}
+    dependencies:
+      '@types/vinyl': 2.0.11
+      chalk: 5.3.0
+      easy-transform-stream: 1.0.1
+    dev: true
+
   /gulp-postcss@9.0.1(postcss@8.4.32):
     resolution: {integrity: sha512-9QUHam5JyXwGUxaaMvoFQVT44tohpEFpM8xBdPfdwTYGM0AItS1iTQz0MpsF8Jroh7GF5Jt2GVPaYgvy8qD2Fw==}
     engines: {node: ^10 || ^12 || >=14}
@@ -2752,20 +2759,19 @@ packages:
       vinyl-sourcemaps-apply: 0.2.1
     dev: true
 
-  /gulp-zip@5.1.0(gulp@4.0.2):
-    resolution: {integrity: sha512-XZr/y91IliK/SpR74g3TkZejGkGEmK7CSDjSghT1jXshgO+dFvpLIz9w9fpuwkew6i7k4F+G24TubNgq1ISzEw==}
-    engines: {node: '>=8'}
+  /gulp-zip@6.0.0(gulp@4.0.2):
+    resolution: {integrity: sha512-fPGvNve2dBoZxGKcviTU7mOa77eQibyhwgGLTxnF+ZCKX8RFaTZKkPbdPnmw0r4TNPRjPCkQB/0VuP+MzgkEYg==}
+    engines: {node: '>=18'}
     peerDependencies:
       gulp: '>=4'
     peerDependenciesMeta:
       gulp:
         optional: true
     dependencies:
-      get-stream: 5.2.0
+      get-stream: 8.0.1
       gulp: 4.0.2
-      plugin-error: 1.0.1
-      through2: 3.0.2
-      vinyl: 2.2.1
+      gulp-plugin-extras: 0.3.0
+      vinyl: 3.0.0
       yazl: 2.5.1
     dev: true
 
@@ -4642,13 +4648,6 @@ packages:
       once: 1.4.0
     dev: true
 
-  /pump@3.0.0:
-    resolution: {integrity: sha512-LwZy+p3SFs1Pytd/jYct4wpv49HiYCqd9Rlc5ZVdk0V+8Yzv6jR5Blk3TRmPL1ft69TxP0IMZGJ+WPFU2BFhww==}
-    dependencies:
-      end-of-stream: 1.4.4
-      once: 1.4.0
-    dev: true
-
   /pumpify@1.5.1:
     resolution: {integrity: sha512-oClZI37HvuUJJxSKKrC17bZ9Cu0ZYhEAGPsPUy9KlMUmv9dKX2o77RUmq7f3XjIxbwyGwYzbzQ1L2Ks8sIradQ==}
     dependencies:
@@ -5361,13 +5360,6 @@ packages:
     dependencies:
       readable-stream: 2.3.8
       xtend: 4.0.2
-    dev: true
-
-  /through2@3.0.2:
-    resolution: {integrity: sha512-enaDQ4MUyP2W6ZyT6EsMzqBPZaM/avg8iuo+l2d3QCs0J+6RaqkHV/2/lOwDTueBHeJ/2LG9lrLW3d5rWPucuQ==}
-    dependencies:
-      inherits: 2.0.4
-      readable-stream: 3.6.2
     dev: true
 
   /through2@4.0.2:
