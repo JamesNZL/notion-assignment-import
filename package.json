@@ -32,7 +32,7 @@
   "dependencies": {
     "@notionhq/client": "^2.2.14",
     "@tryfabric/martian": "^1.2.4",
-    "moment-timezone": "^0.5.44",
+    "moment-timezone": "^0.5.45",
     "path-browserify": "^1.0.1",
     "turndown": "^7.1.2",
     "url-polyfill": "^1.1.12"

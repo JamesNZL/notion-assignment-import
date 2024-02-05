@@ -12,8 +12,8 @@ dependencies:
     specifier: ^1.2.4
     version: 1.2.4
   moment-timezone:
-    specifier: ^0.5.44
-    version: 0.5.44
+    specifier: ^0.5.45
+    version: 0.5.45
   path-browserify:
     specifier: ^1.0.1
     version: 1.0.1
@@ -3805,8 +3805,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /moment-timezone@0.5.44:
-    resolution: {integrity: sha512-nv3YpzI/8lkQn0U6RkLd+f0W/zy/JnoR5/EyPz/dNkPTBjA2jNLCVxaiQ8QpeLymhSZvX0wCL5s27NQWdOPwAw==}
+  /moment-timezone@0.5.45:
+    resolution: {integrity: sha512-HIWmqA86KcmCAhnMAN0wuDOARV/525R2+lOLotuGFzn4HO+FH+/645z2wx0Dt3iDv6/p61SIvKnDstISainhLQ==}
     dependencies:
       moment: 2.29.4
     dev: false
