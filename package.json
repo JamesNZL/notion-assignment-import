@@ -23,7 +23,7 @@
     "gulp-sass": "^5.1.0",
     "gulp-zip": "^6.0.0",
     "postcss": "^8.4.35",
-    "sass": "^1.71.1",
+    "sass": "^1.72.0",
     "standard-version": "^9.5.0",
     "typescript": "^5.4.2",
     "webextension-polyfill": "^0.10.0",
