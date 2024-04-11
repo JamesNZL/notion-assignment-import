@@ -25,7 +25,7 @@
     "postcss": "^8.4.38",
     "sass": "^1.74.1",
     "standard-version": "^9.5.0",
-    "typescript": "^5.4.4",
+    "typescript": "^5.4.5",
     "webextension-polyfill": "^0.10.0",
     "yargs": "^17.7.2"
   },
