@@ -4,89 +4,87 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-importers:
+dependencies:
+  '@notionhq/client':
+    specifier: ^2.2.15
+    version: 2.2.15
+  '@tryfabric/martian':
+    specifier: ^1.2.4
+    version: 1.2.4
+  moment-timezone:
+    specifier: ^0.5.45
+    version: 0.5.45
+  path-browserify:
+    specifier: ^1.0.1
+    version: 1.0.1
+  turndown:
+    specifier: ^7.2.0
+    version: 7.2.0
+  url-polyfill:
+    specifier: ^1.1.12
+    version: 1.1.12
 
-  .:
-    dependencies:
-      '@notionhq/client':
-        specifier: ^2.2.15
-        version: 2.2.15
-      '@tryfabric/martian':
-        specifier: ^1.2.4
-        version: 1.2.4
-      moment-timezone:
-        specifier: ^0.5.45
-        version: 0.5.45
-      path-browserify:
-        specifier: ^1.0.1
-        version: 1.0.1
-      turndown:
-        specifier: ^7.2.0
-        version: 7.2.0
-      url-polyfill:
-        specifier: ^1.1.12
-        version: 1.1.12
-    devDependencies:
-      '@types/turndown':
-        specifier: ^5.0.4
-        version: 5.0.4
-      '@types/webextension-polyfill':
-        specifier: ^0.10.7
-        version: 0.10.7
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^7.13.0
-        version: 7.13.0(@typescript-eslint/parser@7.0.1)(eslint@8.57.0)(typescript@5.4.5)
-      autoprefixer:
-        specifier: ^10.4.19
-        version: 10.4.19(postcss@8.4.38)
-      cssnano:
-        specifier: ^7.0.2
-        version: 7.0.2(postcss@8.4.38)
-      del:
-        specifier: ^7.1.0
-        version: 7.1.0
-      eslint:
-        specifier: ^8.57.0
-        version: 8.57.0
-      gulp:
-        specifier: ^5.0.0
-        version: 5.0.0
-      gulp-esbuild:
-        specifier: ^0.12.0
-        version: 0.12.0
-      gulp-execa:
-        specifier: ^7.0.0
-        version: 7.0.0
-      gulp-postcss:
-        specifier: ^10.0.0
-        version: 10.0.0(postcss@8.4.38)
-      gulp-rename:
-        specifier: ^2.0.0
-        version: 2.0.0
-      gulp-sass:
-        specifier: ^5.1.0
-        version: 5.1.0
-      gulp-zip:
-        specifier: ^6.0.0
-        version: 6.0.0(gulp@5.0.0)
-      postcss:
-        specifier: ^8.4.38
-        version: 8.4.38
-      sass:
-        specifier: ^1.77.4
-        version: 1.77.4
-      standard-version:
-        specifier: ^9.5.0
-        version: 9.5.0
-      typescript:
-        specifier: ^5.4.5
-        version: 5.4.5
-      webextension-polyfill:
-        specifier: ^0.12.0
-        version: 0.12.0
-      yargs:
-        specifier: ^17.7.2
-        version: 17.7.2
+devDependencies:
+  '@types/turndown':
+    specifier: ^5.0.4
+    version: 5.0.4
+  '@types/webextension-polyfill':
+    specifier: ^0.10.7
+    version: 0.10.7
+  '@typescript-eslint/eslint-plugin':
+    specifier: ^7.13.0
+    version: 7.13.0(@typescript-eslint/parser@7.0.1)(eslint@8.57.0)(typescript@5.4.5)
+  autoprefixer:
+    specifier: ^10.4.19
+    version: 10.4.19(postcss@8.4.38)
+  cssnano:
+    specifier: ^7.0.2
+    version: 7.0.2(postcss@8.4.38)
+  del:
+    specifier: ^7.1.0
+    version: 7.1.0
+  eslint:
+    specifier: ^8.57.0
+    version: 8.57.0
+  gulp:
+    specifier: ^5.0.0
+    version: 5.0.0
+  gulp-esbuild:
+    specifier: ^0.12.0
+    version: 0.12.0
+  gulp-execa:
+    specifier: ^7.0.1
+    version: 7.0.1
+  gulp-postcss:
+    specifier: ^10.0.0
+    version: 10.0.0(postcss@8.4.38)
+  gulp-rename:
+    specifier: ^2.0.0
+    version: 2.0.0
+  gulp-sass:
+    specifier: ^5.1.0
+    version: 5.1.0
+  gulp-zip:
+    specifier: ^6.0.0
+    version: 6.0.0(gulp@5.0.0)
+  postcss:
+    specifier: ^8.4.38
+    version: 8.4.38
+  sass:
+    specifier: ^1.77.4
+    version: 1.77.4
+  standard-version:
+    specifier: ^9.5.0
+    version: 9.5.0
+  typescript:
+    specifier: ^5.4.5
+    version: 5.4.5
+  webextension-polyfill:
+    specifier: ^0.12.0
+    version: 0.12.0
+  yargs:
+    specifier: ^17.7.2
+    version: 17.7.2
 
 packages:
 
@@ -1793,9 +1791,9 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /execa@9.0.1:
-    resolution: {integrity: sha512-U5ck8xJmf3sVebV1v+Hh436VWHVHUfzkdbKJynd3kCP9sQRDxCY5x2Tml5lGB7XM6lpj6ATfgWWqynDt2MBLJg==}
-    engines: {node: '>=18'}
+  /execa@9.2.0:
+    resolution: {integrity: sha512-vpOyYg7UAVKLAWWtRS2gAdgkT7oJbCn0me3gmUmxZih4kd3MF/oo8kNTBTIbkO3yuuF5uB4ZCZfn8BOolITYhg==}
+    engines: {node: ^18.19.0 || >=20.5.0}
     dependencies:
       '@sindresorhus/merge-streams': 4.0.0
       cross-spawn: 7.0.3
@@ -1908,9 +1906,9 @@ packages:
       to-regex-range: 5.0.1
     dev: true
 
-  /filter-obj@5.1.0:
-    resolution: {integrity: sha512-qWeTREPoT7I0bifpPUXtxkZJ1XJzxWtfoWWkdVGqa+eCr3SHW/Ocp89o8vLvbUuQnadybJpjOKu4V+RwO6sGng==}
-    engines: {node: '>=14.16'}
+  /filter-obj@6.1.0:
+    resolution: {integrity: sha512-xdMtCAODmPloU9qtmPcdBV9Kd27NtMse+4ayThxqIHUES5Z2S6bGpap5PpdmNM56ub7y3i1eyr+vJJIIgWGKmA==}
+    engines: {node: '>=18'}
     dev: true
 
   /find-up@2.1.0:
@@ -2235,15 +2233,15 @@ packages:
       vinyl: 3.0.0
     dev: true
 
-  /gulp-execa@7.0.0:
-    resolution: {integrity: sha512-r1OkCXXmt7G2GrzMsg9axlxOARxLUEw4gg9uFE6oZ7A/YzgvUrfMY9pGwSR+jT9FVd9VE9qX1HlbSqR/kMWOgw==}
+  /gulp-execa@7.0.1:
+    resolution: {integrity: sha512-oCt3qWsHJQ9HN3OX2DlQZvGjoDUnRWjAD8TZaXP/DLODeK4x96B8VsRTKE2fDIleGnO1WtOwTqQeEU8oRzHJ1w==}
     engines: {node: '>=18.18.0'}
     dependencies:
       '@types/vinyl': 2.0.11
       colors-option: 6.0.0
-      execa: 9.0.1
+      execa: 9.2.0
       fancy-log: 2.0.0
-      filter-obj: 5.1.0
+      filter-obj: 6.1.0
       is-plain-obj: 4.1.0
       jest-validate: 29.7.0
       plugin-error: 2.0.1
