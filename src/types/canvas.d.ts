@@ -53,9 +53,9 @@ export type Assignments = Assignment[];
 export interface Assignment {
 	id: number;
 	description: string | null;
-	due_at: string;
-	unlock_at?: string;
-	lock_at?: string;
+	due_at: string | null;
+	unlock_at?: string | null;
+	lock_at?: string | null;
 	points_possible: number;
 	grading_type: string;
 	assignment_group_id: number;
