@@ -1,10 +1,11 @@
-import { NotionClient, VALID_EMOJIS } from '../apis/notion';
+import { NotionClient } from '../apis/notion';
 import { Storage } from '../apis/storage';
 
 import { SupportedTypes, CONFIGURATION } from './configuration';
 
 import { Element, Button, Input } from '../elements';
 
+import { VALID_EMOJIS } from '../types/notion';
 import { NullIfEmpty, NeverEmpty } from '../types/storage';
 
 type TypeGuard = (value: unknown) => boolean;
@@ -399,7 +400,7 @@ export class TimeZoneField extends InputFieldValidator {
 		if (!inputValue) return null;
 
 		if (await super.validator(inputValue) !== inputValue) return InputFieldValidator.INVALID_INPUT;
-
+		
 		try {
 			Intl.DateTimeFormat(undefined, { timeZone: inputValue });
 			return inputValue;
