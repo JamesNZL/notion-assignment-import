@@ -25,7 +25,10 @@ export class NotionClient extends Client {
 	private requestCache = new Map<string, unknown>();
 
 	private constructor(options: HandlerClientOptions) {
-		super(options);
+		super({
+			...options,
+			notionVersion: '2022-06-28',
+		});
 		this.auth = options.auth;
 
 		NotionClient.rateLimits.set(options.auth, {
