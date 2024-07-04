@@ -487,7 +487,7 @@ buttons.refreshDatabaseSelect.addEventListener('click', async () => {
 buttons.save.addEventListener('click', OptionsPage.saveOptions.bind(OptionsPage));
 
 document.addEventListener('keydown', keyEvent => {
-	if (!keyEvent.ctrlKey || keyEvent.key !== 's') return;
+	if (!keyEvent.metaKey || keyEvent.key !== 's') return;
 
 	keyEvent.preventDefault();
 	OptionsPage.saveOptions();
