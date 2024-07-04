@@ -81,12 +81,18 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
 - [Setup Instructions](#setup-instructions)
   - [Safari Instructions](#safari-instructions)
   - [Configurable Options](#configurable-options)
+    - [`Unlock Date`, `Due Date`, and `Date Span`](#what-is-the-difference-between-unlock-date-due-date-and-date-span)
     - [`Course Code Overrides`](#course-code-overrides)
     - [`Page Emojis`](#page-emojis)
 - [Troubleshooting](#troubleshooting)
+  - [Wrong Timezone](#wrong-timezone)
 - [Release Notes](#release-notes)
   - [BREAKING CHANGES](#breaking-changes)
-  - [`v4.3.0`](#v430)
+    - [`v5`](#v5)
+        - [Migration Instructions](#migration-instructions)
+    - [`v4`](#v4)
+      - [`v4.3.0`](#v430)
+        - [Migration Instructions](#migration-instructions-1)
 - [Building For Local Development](#building-for-local-development)
 - [How It Works](#how-it-works)
   - [Assignment Fetching](#assignment-fetching)
@@ -96,17 +102,17 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
 
 # Features
 
-- Simple, user-friendly interface
-- Provided [Notion database template](https://jamesnzl-sandbox.notion.site/c4d73bebd39c4103b96b2edb8be9e0bd?v=9afaf4b4faee4a5a977c00291be06c9e)
-- Configurable options, with input validation
-- `Category` database property for seamless integration into an existing tasks database
-- No duplication of assignments already in the database
-- Fine-tuning of database property names & values
-- Overriding of Canvas course names
-- Emojis for Notion page icons
-- Open source
-- Private and secure—all data is stored locally!
-	> My integration does not save or log any user data.
+- 💄 Simple, user-friendly interface
+- 📄 Provided [Notion database template](https://jamesnzl-sandbox.notion.site/c4d73bebd39c4103b96b2edb8be9e0bd?v=9afaf4b4faee4a5a977c00291be06c9e)
+- 🔧 Configurable options, with input validation
+- 🗄️ `Category` database property for seamless integration into an existing tasks database
+- 🔍 No duplication of assignments already in the database
+- 📝 Updating previously imported assignments with new Canvas changes
+- ⚙️ Fine-tuning of database property names & values
+- ✏️ Overriding of Canvas course names
+- 😀 Emojis for Notion page icons
+- 🧑‍💻 Open source
+- 🔒 Private and secure—all data is stored locally. I do not log or save any user data.
 
 # Screenshots
 
@@ -246,6 +252,11 @@ chmod +x /Users/YOUR_USERNAME/Downloads/Notion\ Canvas\ Assignment\ Import/Conte
 | `Due Date Property`                            | The name of a database Due property, used to set the assignment due date                                                             |
 | `Date Span Property`                           | The name of a database Date Span property, used to set the date span of the assignment as `unlock date`–`due date`                   |
 | `Canvas Category`                              | The value of a database Category property to categorise all Canvas assignments as                                                    |
+| `Name Changes`                                 | Whether to `Import` (ie update the existing page) or `Ignore` Canvas changes to previously imported assignment names                 |
+| `Points Changes`                               | Whether to `Import` (ie update the existing page) or `Ignore` Canvas changes to previously imported assignment points                |
+| `Unlock Date Changes`                          | Whether to `Import` (ie update the existing page) or `Ignore` Canvas changes to previously imported assignment unlock dates          |
+| `Due Date Changes`                             | Whether to `Import` (ie update the existing page) or `Ignore` Canvas changes to previously imported assignment due dates             |
+| `Date Span Changes`                            | Whether to `Import` (ie update the existing page) or `Ignore` Canvas changes to previously imported assignment date spans            |
 | `Page Emojis`                                  | Any Notion page emojis to apply                                                                                                      |
 
 **Advanced Options**
@@ -319,19 +330,30 @@ If your assignments are being imported into Notion in the wrong timezone, please
 
 ## BREAKING CHANGES
 
+> [!CAUTION]
+> If you are an existing user, you may be affected by these breaking changes following an update.
+
+### `v5`
+
+1. Support has been added to update existing pages with changed assignment details (eg name, due date, points, etc.). This requires an additional integration capability, so existing users must reauthorise with Notion.
+
+##### Migration Instructions
+
+1. To leverage the support for updating existing pages, you must reauthorise with Notion via the Options page.
+
 ### `v4`
 
 1. Support for a configurable Notion `'Status'` property has been removed, as Notion has implemented their own built-in `Status` property. To fix assignments being imported without a `'Status'` value, change your database property to be of type `Status`, and assign a `DEFAULT` value.
    > [Read more here](https://www.notion.so/help/guides/status-property-gives-clarity-on-tasks).
 
-## `v4.3.0`
+#### `v4.3.0`
 
 1. Notion pages now include the assignment's Canvas description ([#59](https://github.com/JamesNZL/notion-assignment-import/issues/59)).
 2. Added support for a new 'Points' `number` database property ([#61](https://github.com/JamesNZL/notion-assignment-import/issues/61)) to tag the assignment's points value.
 3. Changed the colour of **Advanced Options** headings to ease identification.
 4. Renamed `Available Date` to `Unlock Date`.
 
-### Migration Instructions
+##### Migration Instructions
 
 1. To leverage the new support for a `Points` property, you must create a new Notion [`number`](https://www.notion.so/help/database-properties) database property, and configure it on the Options Page.
 
