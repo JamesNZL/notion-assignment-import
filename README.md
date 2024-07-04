@@ -259,7 +259,7 @@ chmod +x /Users/YOUR_USERNAME/Downloads/Notion\ Canvas\ Assignment\ Import/Conte
 | `Date Span Changes`                            | Whether to `Import` (ie update the existing page) or `Ignore` Canvas changes to previously imported assignment date spans            |
 | `Page Emojis`                                  | Any Notion page emojis to apply                                                                                                      |
 
-**Advanced Options**
+### Advanced Options
 
 | Option                       | Purpose/Remarks                                                        |
 | ---------------------------- | ---------------------------------------------------------------------- |
