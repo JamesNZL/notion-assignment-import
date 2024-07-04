@@ -1,9 +1,9 @@
-import { EmojiRequest, TimeZoneRequest } from '../types/notion';
+import { EmojiRequest, TimeZoneRequest } from './notion';
 
 import { ModifyDeep } from './utils';
 
-type NeverEmpty<T extends string> = T extends '' ? never : T;
-type NullIfEmpty<T extends string | null> = (T extends '' ? null : T) | null;
+export type NeverEmpty<T extends string> = T extends '' ? never : T;
+export type NullIfEmpty<T extends string | null> = (T extends '' ? null : T) | null;
 
 interface RequiredFields {
 	// ! null is retained to avoid breaking changes, see #68
@@ -104,7 +104,7 @@ export interface NotionFields {
 	'notion.owner.user.avatarURL'?: string | null;
 }
 
-interface NotionAuthorisation {
+export interface NotionAuthorisation {
 	accessToken?: string;
 	botId?: string;
 	workspace: {
