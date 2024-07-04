@@ -14,6 +14,7 @@ interface RequiredFields {
 	'notion.accessToken': NullIfEmpty<string>;
 	'notion.databaseId': NullIfEmpty<string>;
 	'notion.propertyNames.name': NeverEmpty<string>;
+	'notion.importPastDueDates': boolean;
 	'notion.importChanges.name': boolean;
 	'notion.importChanges.points': boolean;
 	'notion.importChanges.available': boolean;
@@ -75,13 +76,14 @@ export type SavedOptions = {
 		propertyValues: {
 			categoryCanvas: OptionalFields['notion.propertyValues.categoryCanvas'];
 		},
+		importPastDueDates: RequiredFields['notion.importPastDueDates'];
 		importChanges: {
 			name: RequiredFields['notion.importChanges.name'];
 			points: RequiredFields['notion.importChanges.points'];
 			available: RequiredFields['notion.importChanges.available'];
 			due: RequiredFields['notion.importChanges.due'];
 			span: RequiredFields['notion.importChanges.span'];
-		}
+		},
 		courseEmojis: OptionalFields['notion.courseEmojis'];
 	},
 };

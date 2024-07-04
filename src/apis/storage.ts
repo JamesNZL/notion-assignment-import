@@ -163,6 +163,7 @@ export const Storage = <const>{
 				propertyValues: {
 					categoryCanvas: savedFields['notion.propertyValues.categoryCanvas'],
 				},
+				importPastDueDates: savedFields['notion.importPastDueDates'],
 				importChanges: {
 					name: savedFields['notion.importChanges.name'],
 					points: savedFields['notion.importChanges.points'],

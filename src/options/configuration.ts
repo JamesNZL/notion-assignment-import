@@ -57,7 +57,7 @@ export interface OptionConfiguration<T> {
 
 function isOptionConfiguration(object: valueof<NestedConfigurationsOf<SavedOptions>> | OptionConfiguration<SupportedTypes>): object is OptionConfiguration<SupportedTypes> {
 	const configurationProperties: (keyof OptionConfiguration<SupportedTypes>)[] = ['defaultValue', 'input'];
-	return (<string[]>configurationProperties).every(key => Object.keys(object).includes(key));
+	return configurationProperties.every(key => Object.keys(object).includes(key));
 }
 
 type NestedConfigurationsOf<I> = {
@@ -98,6 +98,9 @@ interface InputElements {
 	'notion.propertyNames.due': 'notion-property-due';
 	'notion.propertyNames.span': 'notion-property-span';
 	'notion.propertyValues.categoryCanvas': 'notion-category-canvas';
+	'notion.importPastDueDates': 'past-due-dates';
+	ignorePastDueDates: 'ignore-past-due-dates';
+	importPastDueDates: 'import-past-due-dates';
 	'notion.importChanges.name': 'notion-changes-name';
 	noChangesName: 'no-changes-name-button';
 	yesChangesName: 'yes-changes-name-button';
@@ -132,7 +135,7 @@ export const CONFIGURATION: {
 			return Object.entries(valueObject)
 				.flatMap(([nestedKey, nestedValueObject]) => {
 					const nestedKeyPath = <keyof SavedFields | IncompleteFieldKey<typeof keyPath>>`${keyPath}.${nestedKey}`;
-					return flattenOptions<typeof keyPath>([nestedKeyPath, nestedValueObject]);
+					return flattenOptions<typeof nestedKeyPath>([nestedKeyPath, <valueof<typeof CONFIGURATION['OPTIONS']>>nestedValueObject]);
 				});
 		}
 
@@ -390,6 +393,27 @@ export const CONFIGURATION: {
 							Validator: StringField,
 						});
 					},
+				},
+			},
+			importPastDueDates: {
+				defaultValue: false,
+				get input() {
+					delete (<Partial<typeof this>>this).input;
+					return this.input = SegmentedControl.getInstance<InputElementId, typeof this.defaultValue>({
+						id: 'past-due-dates',
+						segments: [
+							{
+								id: 'ignore-past-due-dates',
+								value: false,
+								default: true,
+							},
+							{
+								id: 'import-past-due-dates',
+								value: true,
+								showDependents: true,
+							},
+						],
+					});
 				},
 			},
 			importChanges: {

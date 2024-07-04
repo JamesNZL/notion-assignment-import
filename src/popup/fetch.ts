@@ -29,7 +29,7 @@ function roundToNextHour(date: Date): Date {
 }
 
 function reformatDate(dateString: string | null, timeZone: string | null): string | null {
-	if (!dateString) return null
+	if (!dateString) return null;
 
 	/*
 		Problem:  Notion does not convert times into the correct timezone,
@@ -89,6 +89,7 @@ function reformatDate(dateString: string | null, timeZone: string | null): strin
 				url: assignment.html_url,
 				available: (assignment.unlock_at)
 					? reformatDate(assignment.unlock_at, options.notion.timeZone)
+					// TODO: this will be broken for past assignments!
 					: reformatDate(roundToNextHour(timeNow).toISOString(), options.notion.timeZone),
 				due: reformatDate(assignment.due_at, options.notion.timeZone),
 			}));

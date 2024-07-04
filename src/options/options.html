@@ -94,7 +94,7 @@
   <section>
     <h1>Canvas Configuration</h1>
 
-    <h3>Assignment Import</h3>
+    <h3>Assignment Copying</h3>
     <div class='tile'>
       <div class='segmented-control-group'>
         <label class='required' for='missing-due-dates'>Assignments without due dates</label>
@@ -104,7 +104,7 @@
             <label for='ignore-missing-due-dates'>Ignore</label>
 
             <input type='radio' name='missing-due-dates' value='import-missing-due-dates' id='import-missing-due-dates'>
-            <label for='import-missing-due-dates'>Import</label>
+            <label for='import-missing-due-dates'>Copy</label>
           </div>
         </div>
       </div>
@@ -212,7 +212,24 @@
       <button type='reset' id='options-restore-notion-property-values' class='button red hover row hidden'>Restore Defaults</button>
     </div>
 
-    <h3 class='hidden'>Import Assignment Changes</h3>
+    <h2>Assignment Import</h2>
+    <h3>Filtering</h3>
+    <div class='tile'>
+      <div class='segmented-control-group'>
+        <label class='required' for='past-due-dates'>Past assignments</label>
+        <div class='segmented-control-wrapper'>
+          <div class='segmented-control row' id='past-due-dates'>
+            <input type='radio' name='past-due-dates' value='ignore-past-due-dates' id='ignore-past-due-dates'>
+            <label for='ignore-past-due-dates'>Ignore</label>
+
+            <input type='radio' name='past-due-dates' value='import-past-due-dates' id='import-past-due-dates'>
+            <label for='import-past-due-dates'>Import</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class='hidden'>Canvas Changes</h3>
     <div class='tile hidden'>
       <div class='segmented-control-group'>
         <label class='required' for='notion-changes-name'>Name changes</label>

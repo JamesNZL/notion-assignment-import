@@ -240,7 +240,7 @@ chmod +x /Users/YOUR_USERNAME/Downloads/Notion\ Canvas\ Assignment\ Import/Conte
 | `Theme`                                        | Whether to use `Light`/`Dark` mode, or use the browser's default (`System`)                                                          |
 | `Show Advanced Options`                        | Whether to `Show`/`Hide` the **Advanced Options**                                                                                    |
 | `Timezone`                                     | The `TZ` timezone in which to parse and set all dates                                                                                |
-| `Assignments Without Due Dates`                | Whether to `Import`, or `Ignore` Canvas assignments without a set due date                                                           |
+| `Assignments Without Due Dates`                | Whether to `Copy`, or `Ignore` Canvas assignments without a set due date                                                             |
 | `Internal Integration Token` (**Safari only**) | The `Internal Integration Token` of your Notion integration                                                                          |
 | `Database`                                     | The target Notion database                                                                                                           |
 | `Page 'Name' Property`                         | The name of the database `Title` property, used to set the assignment name                                                           |
@@ -252,6 +252,7 @@ chmod +x /Users/YOUR_USERNAME/Downloads/Notion\ Canvas\ Assignment\ Import/Conte
 | `Due Date Property`                            | The name of a database Due property, used to set the assignment due date                                                             |
 | `Date Span Property`                           | The name of a database Date Span property, used to set the date span of the assignment as `unlock date`–`due date`                   |
 | `Canvas Category`                              | The value of a database Category property to categorise all Canvas assignments as                                                    |
+| `Past Assignments`                             | Whether to `Import`,  or `Ignore` assignments due in the past                                                                        |
 | `Name Changes`                                 | Whether to `Import` (ie update the existing page) or `Ignore` Canvas changes to previously imported assignment names                 |
 | `Points Changes`                               | Whether to `Import` (ie update the existing page) or `Ignore` Canvas changes to previously imported assignment points                |
 | `Unlock Date Changes`                          | Whether to `Import` (ie update the existing page) or `Ignore` Canvas changes to previously imported assignment unlock dates          |

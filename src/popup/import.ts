@@ -323,7 +323,7 @@ export async function exportToNotion(): Promise<void | {
 					.flat()
 					.filter(assignment => {
 						if (!assignment.due) return canvasOptions.importMissingDueDates;
-						return Date.parse(assignment.due) > Date.now();
+						return (options.importPastDueDates) || (Date.parse(assignment.due) > Date.now());
 					})
 					.map(assignment => [assignment.url, new FetchedAssignment(assignment)])
 			);
