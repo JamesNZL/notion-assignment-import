@@ -325,7 +325,7 @@ export async function exportToNotion(): Promise<void | {
 						if (!assignment.due) return canvasOptions.importMissingDueDates;
 						return (options.importPastDueDates) || (Date.parse(assignment.due) > Date.now());
 					})
-					.map(assignment => [assignment.url, new FetchedAssignment(assignment)])
+					.map(assignment => [assignment.url, new FetchedAssignment(assignment)]),
 			);
 		}
 
@@ -363,7 +363,7 @@ export async function exportToNotion(): Promise<void | {
 				notionAssignments.results.map(assignment => {
 					const notionAssignment = new NotionAssignment(assignment);
 					return [notionAssignment.url, notionAssignment];
-				})
+				}),
 			);
 		}
 
@@ -454,7 +454,7 @@ export async function exportToNotion(): Promise<void | {
 	const updatedAssignments = await Promise.all(
 		Object.values(allFetchedAssignments)
 			.filter(assignment => allImportedAssignments[assignment.url])
-			.map(assignment => updateAssignment(assignment, allImportedAssignments[assignment.url]))
+			.map(assignment => updateAssignment(assignment, allImportedAssignments[assignment.url])),
 	);
 
 	if (errorCount) alert(`An error was encountered when updating ${errorCount} assignments.`);
