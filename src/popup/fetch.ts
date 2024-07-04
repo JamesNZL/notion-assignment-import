@@ -22,9 +22,7 @@ export interface SavedAssignments {
 
 function roundToNextHour(date: Date): Date {
 	if (date.getMinutes() === 0) return date;
-
 	date.setHours(date.getHours() + 1, 0, 0, 0);
-
 	return date;
 }
 
@@ -89,8 +87,11 @@ function reformatDate(dateString: string | null, timeZone: string | null): strin
 				url: assignment.html_url,
 				available: (assignment.unlock_at)
 					? reformatDate(assignment.unlock_at, options.notion.timeZone)
-					// TODO: this will be broken for past assignments!
-					: reformatDate(roundToNextHour(timeNow).toISOString(), options.notion.timeZone),
+					// If the due date is in the past, set the available date to be one month before that.
+					// See #388.
+					: (assignment.due_at && (timeNow < new Date(assignment.due_at)))
+						? reformatDate(roundToNextHour(timeNow).toISOString(), options.notion.timeZone)
+						: reformatDate(moment(assignment.due_at ?? 0).subtract(1, 'month').format(), options.notion.timeZone),
 				due: reformatDate(assignment.due_at, options.notion.timeZone),
 			}));
 
