@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0](https://github.com/JamesNZL/notion-assignment-import/compare/v4.3.3...v5.0.0) (2024-07-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* **import:** This requires a new previously unheld capability on the integration. Existing users must reauthorise with Notion.
+
+### Features
+
+* **import:** :sparkles: allow import of past assignments ([#386](https://github.com/JamesNZL/notion-assignment-import/issues/386)) ([a6c6417](https://github.com/JamesNZL/notion-assignment-import/commit/a6c64170d5a7ce06cf0e34b2b39dd57a24dcfa07))
+* **import:** :sparkles: update existing pages if assignment has changed ([#385](https://github.com/JamesNZL/notion-assignment-import/issues/385)) ([#387](https://github.com/JamesNZL/notion-assignment-import/issues/387)) ([0f22184](https://github.com/JamesNZL/notion-assignment-import/commit/0f2218458f29239fcd933e1620e3e5dea92511be)), closes [#251](https://github.com/JamesNZL/notion-assignment-import/issues/251) [#384](https://github.com/JamesNZL/notion-assignment-import/issues/384) [#251](https://github.com/JamesNZL/notion-assignment-import/issues/251) [#251](https://github.com/JamesNZL/notion-assignment-import/issues/251) [#252](https://github.com/JamesNZL/notion-assignment-import/issues/252)
+* **interface:** :children_crossing: use keyboard meta + s for option page save shortcut ([ac70f5f](https://github.com/JamesNZL/notion-assignment-import/commit/ac70f5f095e172278e7763032852d82663821e22))
+
+
+### Bug Fixes
+
+* **canvas:** :bug: fix available date being set after due date ([#388](https://github.com/JamesNZL/notion-assignment-import/issues/388)) ([39e0d52](https://github.com/JamesNZL/notion-assignment-import/commit/39e0d520fe564df1269350455171c43aaf57f399))
+* **import:** :bug: treat due dates in 1970 as missing ([#251](https://github.com/JamesNZL/notion-assignment-import/issues/251)) ([6424e49](https://github.com/JamesNZL/notion-assignment-import/commit/6424e4948ee46087aedfb37df3cb25403f19cbf2))
+* **import:** fix import of assignments without due dates ([#251](https://github.com/JamesNZL/notion-assignment-import/issues/251)) ([#384](https://github.com/JamesNZL/notion-assignment-import/issues/384)) ([c68d443](https://github.com/JamesNZL/notion-assignment-import/commit/c68d44355acef792e8400ab2dc0e097b487c2cff))
+* **validator:** :bug: fix timezone validation ([#252](https://github.com/JamesNZL/notion-assignment-import/issues/252)) ([00191ed](https://github.com/JamesNZL/notion-assignment-import/commit/00191ed67abb930e892e8ed36185edc92ec558a0))
+
 ### [4.3.3](https://github.com/JamesNZL/notion-assignment-import/compare/v4.3.2...v4.3.3) (2023-06-23)
 
 
