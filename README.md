@@ -91,8 +91,8 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
     - [`v5`](#v5)
         - [Migration Instructions](#migration-instructions)
     - [`v4`](#v4)
-      - [`v4.3.0`](#v430)
-        - [Migration Instructions](#migration-instructions-1)
+  - [`v4.3.0`](#v430)
+    - [Migration Instructions](#migration-instructions-1)
 - [Building For Local Development](#building-for-local-development)
 - [How It Works](#how-it-works)
   - [Assignment Fetching](#assignment-fetching)
@@ -347,14 +347,26 @@ If your assignments are being imported into Notion in the wrong timezone, please
 1. Support for a configurable Notion `'Status'` property has been removed, as Notion has implemented their own built-in `Status` property. To fix assignments being imported without a `'Status'` value, change your database property to be of type `Status`, and assign a `DEFAULT` value.
    > [Read more here](https://www.notion.so/help/guides/status-property-gives-clarity-on-tasks).
 
-#### `v4.3.0`
+## `v5.0.0`
+
+1. Changes made on Canvas to assignments that have already been imported to Notion can now have certain properties automatically updated. See ([#385](https://github.com/JamesNZL/notion-assignment-import/pull/387)).
+2. Past assignments can now be imported to Notion ([#386](https://github).com/JamesNZL/notion-assignment-import/issues/386).
+3. Assignments without due dates are now correctly imported ([#251](https://github.com/JamesNZL/notion-assignment-import/issues/251)).
+4. Timezone validation now works as expected ([#252](https://github.com/JamesNZL/notion-assignment-import/issues/252)).
+5. `⌘` + `s` can now be used to save changes on the Options page on macOS.
+
+### Migration Instructions
+
+1. Existing users must reauthorise with Notion, as a new `Update Content` permission is required.
+
+## `v4.3.0`
 
 1. Notion pages now include the assignment's Canvas description ([#59](https://github.com/JamesNZL/notion-assignment-import/issues/59)).
 2. Added support for a new 'Points' `number` database property ([#61](https://github.com/JamesNZL/notion-assignment-import/issues/61)) to tag the assignment's points value.
 3. Changed the colour of **Advanced Options** headings to ease identification.
 4. Renamed `Available Date` to `Unlock Date`.
 
-##### Migration Instructions
+### Migration Instructions
 
 1. To leverage the new support for a `Points` property, you must create a new Notion [`number`](https://www.notion.so/help/database-properties) database property, and configure it on the Options Page.
 
