@@ -277,6 +277,7 @@ buttons.clearStorage.addEventListener('click', () => {
 SavedCoursesList.listCourses();
 
 // ! alert for removal of status select property support
+// @ts-expect-error
 Storage.getStorageKey('notion.propertyNames.status', false).then(value => {
 	if (value === false) return;
 
@@ -284,6 +285,7 @@ Storage.getStorageKey('notion.propertyNames.status', false).then(value => {
 
 	if (!deleteProperty) return;
 
+	// @ts-expect-error
 	Storage.clearStorageKey('notion.propertyNames.status');
 });
 
@@ -292,6 +294,8 @@ Storage.getLastVersion().then(version => {
 	const { version: manifestVersion } = browser.runtime.getManifest();
 
 	if (version === manifestVersion) return;
+
+	// TODO: Clear authorisation on update
 
 	alert(`Your extension has been updated to v${manifestVersion}!\n\nTo see what's new, visit the store page, the Discord Server, or the GitHub Repository.`);
 

@@ -115,11 +115,11 @@ export const Storage = <const>{
 		return await browser.storage.local.remove(databaseIdKey);
 	},
 
-	async getStorageKey(key: string, defaultValue: unknown) {
+	async getStorageKey<K extends keyof SavedFields>(key: K, defaultValue: SavedFields[K]) {
 		return (await browser.storage.local.get({ [key]: defaultValue }))[key];
 	},
 
-	async clearStorageKey(key: string) {
+	async clearStorageKey(key: keyof SavedFields) {
 		return await browser.storage.local.remove(key);
 	},
 

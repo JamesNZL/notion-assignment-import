@@ -531,6 +531,7 @@ const Konami = {
 document.addEventListener('keydown', event => Konami.handler(event), false);
 
 // ! alert for removal of status select property support
+// @ts-expect-error
 Storage.getStorageKey('notion.propertyNames.status', false).then(value => {
 	if (value === false) return;
 
@@ -538,5 +539,6 @@ Storage.getStorageKey('notion.propertyNames.status', false).then(value => {
 
 	if (!deleteProperty) return;
 
+	// @ts-expect-error
 	Storage.clearStorageKey('notion.propertyNames.status');
 });
