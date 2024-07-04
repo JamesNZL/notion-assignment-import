@@ -349,11 +349,11 @@ If your assignments are being imported into Notion in the wrong timezone, please
 
 ## `v5.0.0`
 
-1. Changes made on Canvas to assignments that have already been imported to Notion can now have certain properties automatically updated. See ([#385](https://github.com/JamesNZL/notion-assignment-import/pull/387)).
-2. Past assignments can now be imported to Notion ([#386](https://github).com/JamesNZL/notion-assignment-import/issues/386).
-3. Assignments without due dates are now correctly imported ([#251](https://github.com/JamesNZL/notion-assignment-import/issues/251)).
-4. Timezone validation now works as expected ([#252](https://github.com/JamesNZL/notion-assignment-import/issues/252)).
-5. `⌘` + `s` can now be used to save changes on the Options page on macOS.
+1. Assignments already imported to Notion can now be updated when details are changed on Canvas. See ([#385](https://github.com/JamesNZL/notion-assignment-import/pull/387)).
+1. Past assignments can now be imported to Notion ([#386](https://github).com/JamesNZL/notion-assignment-import/issues/386).
+2. Assignments without due dates are now correctly imported ([#251](https://github.com/JamesNZL/notion-assignment-import/issues/251)).
+3. Timezone validation now works as expected ([#252](https://github.com/JamesNZL/notion-assignment-import/issues/252)).
+4. `⌘` + `s` can now be used to save changes on the Options page on macOS.
 
 ### Migration Instructions
 
