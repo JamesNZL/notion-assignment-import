@@ -139,15 +139,59 @@ export async function exportToNotion(): Promise<void | IFetchedAssignment[]> {
 		public constructor(assignment: ArrayElement<QueryDatabaseResponse['results']>) {
 			this.assignment = assignment;
 		}
+		
+		public get name() {
+			try {
+				if (!options.propertyNames.name) throw null;
+				if (!('properties' in this.assignment) || !(options.propertyNames.name in this.assignment.properties)) throw null;
+
+				const titleProperty = this.assignment.properties[options.propertyNames.name];
+				if (!('title' in titleProperty) || !titleProperty?.title) throw null;
+
+				return NotionClient.resolveTitle(this.assignment);
+			}
+			catch {
+				return undefined;
+			}
+		}
+
+		public get points() {
+			try {
+				if (!options.propertyNames.points) throw null;
+				if (!('properties' in this.assignment) || !(options.propertyNames.points in this.assignment.properties)) throw null;
+
+				const numberProperty = this.assignment.properties[options.propertyNames.points];
+				if (!('number' in numberProperty) || !numberProperty?.number) throw null;
+
+				return numberProperty.number;
+			}
+			catch {
+				return undefined;
+			}
+		}
+
+		public get course() {
+			try {
+				if (!options.propertyNames.course) throw null;
+				if (!('properties' in this.assignment) || !(options.propertyNames.course in this.assignment.properties)) throw null;
+
+				const selectProperty = this.assignment.properties[options.propertyNames.course];
+				if (!('select' in selectProperty) || !selectProperty?.select) throw null;
+				if (!('name' in selectProperty.select) || !selectProperty.select?.name) throw null;
+
+				return selectProperty.select.name;
+			}
+			catch {
+				return undefined;
+			}
+		}
 
 		public get url() {
 			try {
 				if (!options.propertyNames.url) throw null;
-
 				if (!('properties' in this.assignment) || !(options.propertyNames.url in this.assignment.properties)) throw null;
 
 				const urlProperty = this.assignment.properties[options.propertyNames.url];
-
 				if (!('url' in urlProperty) || !urlProperty?.url) throw null;
 
 				return urlProperty.url;
@@ -156,6 +200,39 @@ export async function exportToNotion(): Promise<void | IFetchedAssignment[]> {
 				return undefined;
 			}
 		}
+
+		public get available() {
+			try {
+				if (!options.propertyNames.available) throw null;
+				if (!('properties' in this.assignment) || !(options.propertyNames.available in this.assignment.properties)) throw null;
+
+				const dateProperty = this.assignment.properties[options.propertyNames.available];
+				if (!('date' in dateProperty) || !dateProperty?.date) throw null;
+				if (!('start' in dateProperty.date) || !dateProperty.date?.start) throw null;
+
+				return dateProperty.date.start;
+			}
+			catch {
+				return undefined;
+			}
+		}
+
+		public get due() {
+			try {
+				if (!options.propertyNames.due) throw null;
+				if (!('properties' in this.assignment) || !(options.propertyNames.due in this.assignment.properties)) throw null;
+
+				const dateProperty = this.assignment.properties[options.propertyNames.due];
+				if (!('date' in dateProperty) || !dateProperty?.date) throw null;
+				if (!('start' in dateProperty.date) || !dateProperty.date?.start) throw null;
+
+				return dateProperty.date.start;
+			}
+			catch {
+				return undefined;
+			}
+		}
+
 	}
 
 	async function getNewAssignments(databaseId: string): Promise<FetchedAssignment[]> {
@@ -195,7 +272,6 @@ export async function exportToNotion(): Promise<void | IFetchedAssignment[]> {
 				: undefined;
 
 			const compoundFilter = {
-				// using flatMap for the in-built type safety
 				and: [canvasFilter, urlFilter].flatMap(filter => (filter) ? [filter] : []),
 			};
 
