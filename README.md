@@ -139,34 +139,34 @@ To be notified with updates and changelogs, to get in touch, or just to lurk, jo
 3. Click on the options icon to configure the extension.
 
 4. Click `Authorise with Notion` to add the integration to your Notion workspace, and share your relevant database(s).
-   > [!IMPORTANT]
-   > There is a known issue when trying to sign in to Notion using the `Continue with Google` option.  
-   > This is an issue with the browser and cannot be fixed by this extension.  
-   > If you encounter this issue, please try logging in directly with your email and password.
-   
-   > [!NOTE]
-   > for **Safari**  
-   > Due to [browser API limitations](https://developer.apple.com/documentation/safariservices/safari_web_extensions/assessing_your_safari_web_extension_s_browser_compatibility), OAuth2 is not currently supported. As a temporary stop-gap, support for a Notion Internal Integration has been retained.
-   > 1. Follow steps **1** and **2** on [this page](https://developers.notion.com/docs/getting-started#step-1-create-an-integration) to create a new Internal Integration.
-   > 2. Paste the Notion `Internal Integration Token` into the input field.
+> [!IMPORTANT]
+> There is a known issue when trying to sign in to Notion using the `Continue with Google` option.  
+> This is an issue with the browser and cannot be fixed by this extension.  
+> If you encounter this issue, please try logging in directly with your email and password.
+
+> [!NOTE]
+> for **Safari**  
+> Due to [browser API limitations](https://developer.apple.com/documentation/safariservices/safari_web_extensions/assessing_your_safari_web_extension_s_browser_compatibility), OAuth2 is not currently supported. As a temporary stop-gap, support for a Notion Internal Integration has been retained.
+> 1. Follow steps **1** and **2** on [this page](https://developers.notion.com/docs/getting-started#step-1-create-an-integration) to create a new Internal Integration.
+> 2. Paste the Notion `Internal Integration Token` into the input field.
 
 5. Select the desired target database in the `Database` dropdown.
-	> [!NOTE]
-   > Databases that have not been *directly* shared with the integration (ie those which are a child of a shared page) might not immediately appear. Use the `Refresh` button until the desired database appears.
+> [!NOTE]
+> Databases that have not been *directly* shared with the integration (ie those which are a child of a shared page) might not immediately appear. Use the `Refresh` button until the desired database appears.
 
 6. Configure the `Property Names` and `Property Values` if necessary.
-   > [!TIP]
-	> If you have duplicated my database template, you do not need to change the applied defaults.
+> [!TIP]
+> If you have duplicated my database template, you do not need to change the applied defaults.
 
 7. Configure the `Timezone`, `Course Code Overrides`, and `Page Emojis` options if necessary.
-   > [!TIP]
-   > `Course Code Overrides` can be found under **Advanced Options**.  
+> [!TIP]
+> `Course Code Overrides` can be found under **Advanced Options**.  
 
 8. Open the Canvas page for the course you wish to import.
-   > [!IMPORTANT]
-   > You should be on a URL that looks something like `https://<canvas.auckland.ac.nz>/courses/72763/**/*`.  
-   > - `<canvas.auckland.ac.nz>` should be your own institution's Canvas URL.  
-   > - `/**/*` means that you can be on the course home page, or any subpage—the important part is `/courses/...../`.
+> [!IMPORTANT]
+> You should be on a URL that looks something like `https://<canvas.auckland.ac.nz>/courses/72763/**/*`.  
+> - `<canvas.auckland.ac.nz>` should be your own institution's Canvas URL.  
+> - `/**/*` means that you can be on the course home page, or any subpage—the important part is `/courses/...../`.
 
 9.  Click `Copy from Canvas`.
 
@@ -367,8 +367,8 @@ This project uses [`gulp`](https://gulpjs.com/) and [`esbuild`](https://esbuild.
 5. Relevant information is extracted from each [`Assignment`](https://canvas.instructure.com/doc/api/assignments.html) object, and the following configurations applied:
    1. `Course Code Overrides`, and
    2. `Page Emojis`.
-   > [!NOTE]
-   > Assignments without an [`unlock_at`](https://canvas.instructure.com/doc/api/assignments.html) date (ie are already unlocked) are set to be unlocked from the top of the next hour, relative to the current time.
+> [!NOTE]
+> Assignments without an [`unlock_at`](https://canvas.instructure.com/doc/api/assignments.html) date (ie are already unlocked) are set to be unlocked from the top of the next hour, relative to the current time.
 
 6. Fetched assignments are saved by course in browser local storage (see `IFetchedAssignment` and `SavedAssignment` in [`fetch.ts`](src/popup/fetch.ts)).
 
