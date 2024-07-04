@@ -12,7 +12,7 @@ import { EmojiRequest } from '../types/notion';
 import { valueof, ArrayElement } from '../types/utils';
 
 export async function exportToNotion(): Promise<void | IFetchedAssignment[]> {
-	const { notion: options } = await Storage.getOptions();
+	const { notion: options, canvas: canvasOptions } = await Storage.getOptions();
 
 	class FetchedAssignment implements IFetchedAssignment {
 		private assignment: IFetchedAssignment;
@@ -45,11 +45,11 @@ export async function exportToNotion(): Promise<void | IFetchedAssignment[]> {
 			return this.assignment.url;
 		}
 
-		public get available(): string {
+		public get available(): string | null {
 			return this.assignment.available;
 		}
 
-		public get due(): string {
+		public get due(): string | null {
 			return this.assignment.due;
 		}
 
@@ -88,22 +88,22 @@ export async function exportToNotion(): Promise<void | IFetchedAssignment[]> {
 				[options.propertyNames.points ?? EMPTY_PROPERTY]: {
 					number: this.points ?? 0,
 				},
-				[options.propertyNames.available ?? EMPTY_PROPERTY]: {
+				[(this.available && options.propertyNames.available) ?? EMPTY_PROPERTY]: {
 					date: {
-						start: this.available,
+						start: this.available as string,
 						time_zone: options.timeZone,
 					},
 				},
-				[options.propertyNames.due ?? EMPTY_PROPERTY]: {
+				[(this.due && options.propertyNames.due) ?? EMPTY_PROPERTY]: {
 					date: {
-						start: this.due,
+						start: this.due as string,
 						time_zone: options.timeZone,
 					},
 				},
-				[options.propertyNames.span ?? EMPTY_PROPERTY]: {
+				[(this.available && options.propertyNames.span) ?? EMPTY_PROPERTY]: {
 					date: {
-						start: this.available,
-						end: this.due,
+						start: this.available as string,
+						end: this.due as string,
 						time_zone: options.timeZone,
 					},
 				},
@@ -165,7 +165,10 @@ export async function exportToNotion(): Promise<void | IFetchedAssignment[]> {
 			return Object.values(savedAssignments)
 				.flat()
 				.map(assignment => new FetchedAssignment(assignment))
-				.filter(assignment => Date.parse(assignment.due) > Date.now());
+				.filter(assignment => {
+					if (!assignment.due) return canvasOptions.importMissingDueDates;
+					return Date.parse(assignment.due) > Date.now();
+				});
 		}
 
 		async function queryNotionAssignments(): Promise<void | NotionAssignment[]> {
