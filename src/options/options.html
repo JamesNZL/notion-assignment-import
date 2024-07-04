@@ -212,6 +212,76 @@
       <button type='reset' id='options-restore-notion-property-values' class='button red hover row hidden'>Restore Defaults</button>
     </div>
 
+    <h3 class='hidden'>Import Assignment Changes</h3>
+    <div class='tile hidden'>
+      <div>
+        <label class='required' for='notion-changes-name'>Name changes</label>
+        <div class='segmented-control-wrapper'>
+          <div class='segmented-control row' id='notion-changes-name'>
+            <input checked type='radio' name='notion-changes-name' value='no-name-changes-button' id='no-changes-name-button'>
+            <label for='no-changes-name-button'>Ignore</label>
+
+            <input type='radio' name='notion-changes-name' value='yes-changes-name-button' id='yes-changes-name-button'>
+            <label for='yes-changes-name-button'>Import</label>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label class='required' for='notion-changes-points'>Points changes</label>
+        <div class='segmented-control-wrapper'>
+          <div class='segmented-control row' id='notion-changes-points'>
+            <input checked type='radio' name='notion-changes-points' value='no-changes-points-button' id='no-changes-points-button'>
+            <label for='no-changes-points-button'>Ignore</label>
+
+            <input type='radio' name='notion-changes-points' value='yes-changes-points-button' id='yes-changes-points-button'>
+            <label for='yes-changes-points-button'>Import</label>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label class='required' for='notion-changes-available'>Unlock date changes</label>
+        <div class='segmented-control-wrapper'>
+          <div class='segmented-control row' id='notion-changes-available'>
+            <input checked type='radio' name='notion-changes-available' value='no-changes-available-button' id='no-changes-available-button'>
+            <label for='no-changes-available-button'>Ignore</label>
+
+            <input type='radio' name='notion-changes-available' value='yes-changes-available-button' id='yes-changes-available-button'>
+            <label for='yes-changes-available-button'>Import</label>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label class='required' for='notion-changes-due'>Due date changes</label>
+        <div class='segmented-control-wrapper'>
+          <div class='segmented-control row' id='notion-changes-due'>
+            <input checked type='radio' name='notion-changes-due' value='no-changes-due-button' id='no-changes-due-button'>
+            <label for='no-changes-due-button'>Ignore</label>
+
+            <input type='radio' name='notion-changes-due' value='yes-changes-due-button' id='yes-changes-due-button'>
+            <label for='yes-changes-due-button'>Import</label>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label class='required' for='notion-changes-span'>Date span changes</label>
+        <div class='segmented-control-wrapper'>
+          <div class='segmented-control row' id='notion-changes-span'>
+            <input checked type='radio' name='notion-changes-span' value='no-changes-span-button' id='no-changes-span-button'>
+            <label for='no-changes-span-button'>Ignore</label>
+
+            <input type='radio' name='notion-changes-span' value='yes-changes-span-button' id='yes-changes-span-button'>
+            <label for='yes-changes-span-button'>Import</label>
+          </div>
+        </div>
+      </div>
+
+      <button type='reset' id='options-restore-notion-import-changes' class='button red hover row hidden'>Restore Defaults</button>
+    </div>
+
     <h2>Page Emojis</h2>
     <div class='tile'>
       <div id='course-emojis-group' class='row'>

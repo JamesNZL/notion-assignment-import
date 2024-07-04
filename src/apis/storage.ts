@@ -163,6 +163,13 @@ export const Storage = <const>{
 				propertyValues: {
 					categoryCanvas: savedFields['notion.propertyValues.categoryCanvas'],
 				},
+				importChanges: {
+					name: savedFields['notion.importChanges.name'],
+					points: savedFields['notion.importChanges.points'],
+					available: savedFields['notion.importChanges.available'],
+					due: savedFields['notion.importChanges.due'],
+					span: savedFields['notion.importChanges.span'],
+				},
 				courseEmojis: JSON.parse(savedFields['notion.courseEmojis']),
 			},
 		};

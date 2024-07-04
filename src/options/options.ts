@@ -20,6 +20,7 @@ interface OptionsElements {
 		canvasCourseCodes: 'options-restore-canvas-course-codes';
 		notionPropertyNames: 'options-restore-notion-property-names';
 		notionPropertyValues: 'options-restore-notion-property-values';
+		notionImportChanges: 'options-restore-notion-import-changes';
 		notionEmojis: 'options-restore-notion-emojis';
 		all: 'options-restore-all';
 		undo: 'options-undo-all';
@@ -282,6 +283,16 @@ const buttons: {
 			id: 'options-restore-notion-property-values',
 			restoreKeys: [
 				'notion.propertyValues.categoryCanvas',
+			],
+		}),
+		notionImportChanges: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>({
+			id: 'options-restore-notion-import-changes',
+			restoreKeys: [
+				'notion.importChanges.name',
+				'notion.importChanges.points',
+				'notion.importChanges.available',
+				'notion.importChanges.due',
+				'notion.importChanges.span',
 			],
 		}),
 		notionEmojis: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>({
