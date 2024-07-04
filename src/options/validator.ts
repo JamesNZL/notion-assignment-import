@@ -5,7 +5,7 @@ import { SupportedTypes, CONFIGURATION } from './configuration';
 
 import { Element, Button, Input } from '../elements';
 
-import { VALID_EMOJIS } from '../types/notion';
+import { VALID_EMOJIS, VALID_TIME_ZONES } from '../types/notion';
 import { NullIfEmpty, NeverEmpty } from '../types/storage';
 
 type TypeGuard = (value: unknown) => boolean;
@@ -293,6 +293,9 @@ export const typeGuards = <const>{
 	isEmojiRequest(value: unknown): value is string {
 		return (typeof value === 'string' && (<string[]>VALID_EMOJIS).includes(value));
 	},
+	isTimeZoneRequest(value: unknown): value is string {
+		return (typeof value === 'string' && (<string[]>VALID_TIME_ZONES).includes(value));
+	},
 	isUUIDv4(value: unknown): value is string {
 		// allow hyphens to be optional as the Notion API doesn't require them
 		// also, Notion URLs don't have them, so it wouldn't be very user friendly to require them
@@ -312,6 +315,20 @@ export class StringField extends InputFieldValidator {
 export class EmojiField extends InputFieldValidator {
 	public constructor(elementId: string) {
 		super(elementId, typeGuardModifiers.isNullable(typeGuards.isEmojiRequest), 'an emoji');
+	}
+}
+
+export class TimeZoneField extends InputFieldValidator {
+	public constructor(elementId: string) {
+		super(elementId, typeGuardModifiers.isNullable(typeGuards.isTimeZoneRequest), 'a timezone');
+	}
+	
+	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NullIfEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
+		if (await super.validator(inputValue) !== inputValue) {
+			this.addInvalidError('Invalid time zone.');
+			return InputFieldValidator.INVALID_INPUT;
+		}
+		return inputValue;
 	}
 }
 
@@ -388,26 +405,5 @@ export class JSONStringObjectField extends JSONObjectField {
 export class JSONEmojiObjectField extends JSONObjectField {
 	public constructor(elementId: string) {
 		super(elementId, typeGuards.isEmojiRequest, 'an emoji');
-	}
-}
-
-export class TimeZoneField extends InputFieldValidator {
-	public constructor(elementId: string) {
-		super(elementId, typeGuardModifiers.isNullable(typeGuards.isString), 'a string');
-	}
-
-	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NullIfEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
-		if (!inputValue) return null;
-
-		if (await super.validator(inputValue) !== inputValue) return InputFieldValidator.INVALID_INPUT;
-		
-		try {
-			Intl.DateTimeFormat(undefined, { timeZone: inputValue });
-			return inputValue;
-		}
-		catch {
-			this.addInvalidError('Invalid time zone.');
-			return InputFieldValidator.INVALID_INPUT;
-		}
 	}
 }
