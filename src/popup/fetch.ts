@@ -12,8 +12,8 @@ export interface IFetchedAssignment {
 	course: string;
 	icon: EmojiRequest | null;
 	url: string;
-	available: string;
-	due: string;
+	available: string | null;
+	due: string | null;
 }
 
 export interface SavedAssignments {
@@ -28,7 +28,9 @@ function roundToNextHour(date: Date): Date {
 	return date;
 }
 
-function reformatDate(dateString: string, timeZone: string | null): string {
+function reformatDate(dateString: string | null, timeZone: string | null): string | null {
+	if (!dateString) return null
+
 	/*
 		Problem:  Notion does not convert times into the correct timezone,
 				  even when supplied a timezone, Notion will show the user the
@@ -76,7 +78,7 @@ function reformatDate(dateString: string, timeZone: string | null): string {
 		const canvasAssignments = assignmentGroups.flatMap(group => group.assignments)
 			.filter(assignment => options.canvas.importMissingDueDates || assignment.due_at)
 			.sort(({ due_at: a }, { due_at: b }) => {
-				return Date.parse(a ?? timeNow) - Date.parse(b ?? timeNow);
+				return Date.parse(a ?? timeNow.toISOString()) - Date.parse(b ?? timeNow.toISOString());
 			})
 			.map(assignment => ({
 				name: assignment.name,
