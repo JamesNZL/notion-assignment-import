@@ -98,6 +98,21 @@ interface InputElements {
 	'notion.propertyNames.due': 'notion-property-due';
 	'notion.propertyNames.span': 'notion-property-span';
 	'notion.propertyValues.categoryCanvas': 'notion-category-canvas';
+	'notion.importChanges.name': 'notion-changes-name';
+	noChangesName: 'no-changes-name-button';
+	yesChangesName: 'yes-changes-name-button';
+	'notion.importChanges.points': 'notion-changes-points';
+	noChangesPoints: 'no-changes-points-button';
+	yesChangesPoints: 'yes-changes-points-button';
+	'notion.importChanges.available': 'notion-changes-available';
+	noChangesAvailable: 'no-changes-available-button';
+	yesChangesAvailable: 'yes-changes-available-button';
+	'notion.importChanges.due': 'notion-changes-due';
+	noChangesDue: 'no-changes-due-button';
+	yesChangesDue: 'yes-changes-due-button';
+	'notion.importChanges.span': 'notion-changes-span';
+	noChangesSpan: 'no-changes-span-button';
+	yesChangesSpan: 'yes-changes-span-button';
 	'notion.courseEmojis': 'course-emojis-group';
 }
 
@@ -287,6 +302,7 @@ export const CONFIGURATION: {
 						});
 					},
 					validateOn: 'change',
+					dependents: ['notion-changes-name'],
 				},
 				category: {
 					defaultValue: 'Category',
@@ -328,6 +344,7 @@ export const CONFIGURATION: {
 							Validator: StringField,
 						});
 					},
+					dependents: ['notion-changes-points'],
 				},
 				available: {
 					defaultValue: 'Reminder',
@@ -338,6 +355,7 @@ export const CONFIGURATION: {
 							Validator: StringField,
 						});
 					},
+					dependents: ['notion-changes-available'],
 				},
 				due: {
 					defaultValue: 'Due',
@@ -348,6 +366,7 @@ export const CONFIGURATION: {
 							Validator: StringField,
 						});
 					},
+					dependents: ['notion-changes-due'],
 				},
 				span: {
 					defaultValue: 'Date Span',
@@ -358,6 +377,7 @@ export const CONFIGURATION: {
 							Validator: StringField,
 						});
 					},
+					dependents: ['notion-changes-span'],
 				},
 			},
 			propertyValues: {
@@ -368,6 +388,113 @@ export const CONFIGURATION: {
 						return this.input = Input.getInstance<InputElementId>({
 							id: 'notion-category-canvas',
 							Validator: StringField,
+						});
+					},
+				},
+			},
+			importChanges: {
+				'name': {
+					defaultValue: true,
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = SegmentedControl.getInstance<InputElementId, typeof this.defaultValue>({
+							id: 'notion-changes-name',
+							segments: [
+								{
+									id: 'no-changes-name-button',
+									value: false,
+								},
+								{
+									id: 'yes-changes-name-button',
+									value: true,
+									default: true,
+									showDependents: true,
+								},
+							],
+						});
+					},
+				},
+				'points': {
+					defaultValue: true,
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = SegmentedControl.getInstance<InputElementId, typeof this.defaultValue>({
+							id: 'notion-changes-points',
+							segments: [
+								{
+									id: 'no-changes-points-button',
+									value: false,
+								},
+								{
+									id: 'yes-changes-points-button',
+									value: true,
+									default: true,
+									showDependents: true,
+								},
+							],
+						});
+					},
+				},
+				'available': {
+					defaultValue: true,
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = SegmentedControl.getInstance<InputElementId, typeof this.defaultValue>({
+							id: 'notion-changes-available',
+							segments: [
+								{
+									id: 'no-changes-available-button',
+									value: false,
+								},
+								{
+									id: 'yes-changes-available-button',
+									value: true,
+									default: true,
+									showDependents: true,
+								},
+							],
+						});
+					},
+				},
+				'due': {
+					defaultValue: true,
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = SegmentedControl.getInstance<InputElementId, typeof this.defaultValue>({
+							id: 'notion-changes-due',
+							segments: [
+								{
+									id: 'no-changes-due-button',
+									value: false,
+								},
+								{
+									id: 'yes-changes-due-button',
+									value: true,
+									default: true,
+									showDependents: true,
+								},
+							],
+						});
+					},
+				},
+				'span': {
+					defaultValue: true,
+					get input() {
+						delete (<Partial<typeof this>>this).input;
+						return this.input = SegmentedControl.getInstance<InputElementId, typeof this.defaultValue>({
+							id: 'notion-changes-span',
+							segments: [
+								{
+									id: 'no-changes-span-button',
+									value: false,
+								},
+								{
+									id: 'yes-changes-span-button',
+									value: true,
+									default: true,
+									showDependents: true,
+								},
+							],
 						});
 					},
 				},

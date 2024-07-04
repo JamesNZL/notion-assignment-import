@@ -94,11 +94,21 @@ export class SegmentedControl extends Element {
 	}
 
 	public override show() {
+		// Show the extra <div> that wraps the segmented-control-wrapper
+		const segmentedControlGroup = this.element.parentElement?.parentElement;
+		if (segmentedControlGroup && segmentedControlGroup.classList.contains('segmented-control-group')) {
+			segmentedControlGroup.classList.remove('hidden');
+		}
 		super.show();
 		this.dispatchInputEvent();
 	}
 
 	public override hide() {
+		// Hide the extra <div> that wraps the segmented-control-wrapper
+		const segmentedControlGroup = this.element.parentElement?.parentElement;
+		if (segmentedControlGroup && segmentedControlGroup.classList.contains('segmented-control-group')) {
+			segmentedControlGroup.classList.add('hidden');
+		}
 		super.hide();
 		this.dispatchInputEvent();
 	}

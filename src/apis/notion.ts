@@ -1,5 +1,16 @@
 import { APIErrorCode, Client, isNotionClientError } from '@notionhq/client';
-import { CreatePageParameters, CreatePageResponse, GetDatabaseResponse, GetSelfResponse, QueryDatabaseParameters, QueryDatabaseResponse, SearchParameters, SearchResponse } from '@notionhq/client/build/src/api-endpoints';
+import {
+	CreatePageParameters,
+	CreatePageResponse,
+	GetDatabaseResponse,
+	GetSelfResponse,
+	QueryDatabaseParameters,
+	QueryDatabaseResponse,
+	SearchParameters,
+	SearchResponse,
+	UpdatePageParameters,
+	UpdatePageResponse,
+} from '@notionhq/client/build/src/api-endpoints';
 
 import { HandlerClientOptions, PaginatedRequest, PaginatedResponse, RichTextItemResponse } from '../types/notion';
 import { ArrayElement } from '../types/utils';
@@ -25,7 +36,10 @@ export class NotionClient extends Client {
 	private requestCache = new Map<string, unknown>();
 
 	private constructor(options: HandlerClientOptions) {
-		super(options);
+		super({
+			...options,
+			notionVersion: '2022-06-28',
+		});
 		this.auth = options.auth;
 
 		NotionClient.rateLimits.set(options.auth, {
@@ -208,6 +222,18 @@ export class NotionClient extends Client {
 				cache: false,
 				force: true,
 			},
+		);
+	}
+
+	public async updatePageProperties(parameters: UpdatePageParameters): Promise<void | UpdatePageResponse> {
+		return await this.makeRequest(
+			this.pages.update,
+			'pages.update',
+			parameters,
+			{
+				cache: false,
+				force: true,
+			}
 		);
 	}
 

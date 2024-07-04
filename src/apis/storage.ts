@@ -115,11 +115,11 @@ export const Storage = <const>{
 		return await browser.storage.local.remove(databaseIdKey);
 	},
 
-	async getStorageKey(key: string, defaultValue: unknown) {
+	async getStorageKey<K extends keyof SavedFields>(key: K, defaultValue: SavedFields[K]) {
 		return (await browser.storage.local.get({ [key]: defaultValue }))[key];
 	},
 
-	async clearStorageKey(key: string) {
+	async clearStorageKey(key: keyof SavedFields) {
 		return await browser.storage.local.remove(key);
 	},
 
@@ -162,6 +162,13 @@ export const Storage = <const>{
 				},
 				propertyValues: {
 					categoryCanvas: savedFields['notion.propertyValues.categoryCanvas'],
+				},
+				importChanges: {
+					name: savedFields['notion.importChanges.name'],
+					points: savedFields['notion.importChanges.points'],
+					available: savedFields['notion.importChanges.available'],
+					due: savedFields['notion.importChanges.due'],
+					span: savedFields['notion.importChanges.span'],
 				},
 				courseEmojis: JSON.parse(savedFields['notion.courseEmojis']),
 			},

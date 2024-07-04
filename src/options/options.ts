@@ -20,6 +20,7 @@ interface OptionsElements {
 		canvasCourseCodes: 'options-restore-canvas-course-codes';
 		notionPropertyNames: 'options-restore-notion-property-names';
 		notionPropertyValues: 'options-restore-notion-property-values';
+		notionImportChanges: 'options-restore-notion-import-changes';
 		notionEmojis: 'options-restore-notion-emojis';
 		all: 'options-restore-all';
 		undo: 'options-undo-all';
@@ -284,6 +285,16 @@ const buttons: {
 				'notion.propertyValues.categoryCanvas',
 			],
 		}),
+		notionImportChanges: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>({
+			id: 'options-restore-notion-import-changes',
+			restoreKeys: [
+				'notion.importChanges.name',
+				'notion.importChanges.points',
+				'notion.importChanges.available',
+				'notion.importChanges.due',
+				'notion.importChanges.span',
+			],
+		}),
 		notionEmojis: RestoreDefaultsButton.getInstance<OptionsRestoreButtonId>({
 			id: 'options-restore-notion-emojis',
 			restoreKeys: [
@@ -520,6 +531,7 @@ const Konami = {
 document.addEventListener('keydown', event => Konami.handler(event), false);
 
 // ! alert for removal of status select property support
+// @ts-expect-error
 Storage.getStorageKey('notion.propertyNames.status', false).then(value => {
 	if (value === false) return;
 
@@ -527,5 +539,6 @@ Storage.getStorageKey('notion.propertyNames.status', false).then(value => {
 
 	if (!deleteProperty) return;
 
+	// @ts-expect-error
 	Storage.clearStorageKey('notion.propertyNames.status');
 });

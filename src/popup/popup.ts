@@ -200,16 +200,21 @@ buttons.configureDatabase.addEventListener('click', buttons.options.click.bind(b
 buttons.export.addEventListener('click', async () => {
 	buttons.export.setButtonLabel('Exporting to Notion...');
 
-	const createdAssignments = await exportToNotion();
+	const exported = await exportToNotion();
+	if (!exported) return buttons.export.resetHTML();
 
-	if (!createdAssignments) return buttons.export.resetHTML();
+	const { created: createdAssignments, updated: updatedAssignments } = exported;
 
 	const createdNames = (createdAssignments.length)
 		? createdAssignments.reduce((list, { course, name }, index) => list + `${index + 1}. ${course} ${name}\n`, '\n\n')
 		: '';
+	const updatedNames = (updatedAssignments.length)
+		? updatedAssignments.reduce((list, { course, name }, index) => list + `${index + 1}. ${course} ${name}\n`, '\n\n')
+		: '';
 
-	alert(`Created ${createdAssignments.length} new assignments.${createdNames}`);
-	buttons.export.setButtonLabel(`Created <code>${createdAssignments.length}</code> new assignment${(createdAssignments.length !== 1) ? 's' : ''}!`);
+	console.log(`${createdAssignments.length} new assignments created, ${updatedAssignments.length} updated.${createdNames}${updatedNames}`);
+	alert(`${createdAssignments.length} new assignments created, ${updatedAssignments.length} updated.${createdNames}${updatedNames}`);
+	buttons.export.setButtonLabel(`<code>${createdAssignments.length}</code> new created, <code>${updatedAssignments.length}</code> updated!`);
 	buttons.export.resetHTML(3500);
 });
 
@@ -277,6 +282,7 @@ buttons.clearStorage.addEventListener('click', () => {
 SavedCoursesList.listCourses();
 
 // ! alert for removal of status select property support
+// @ts-expect-error
 Storage.getStorageKey('notion.propertyNames.status', false).then(value => {
 	if (value === false) return;
 
@@ -284,6 +290,7 @@ Storage.getStorageKey('notion.propertyNames.status', false).then(value => {
 
 	if (!deleteProperty) return;
 
+	// @ts-expect-error
 	Storage.clearStorageKey('notion.propertyNames.status');
 });
 
@@ -292,6 +299,8 @@ Storage.getLastVersion().then(version => {
 	const { version: manifestVersion } = browser.runtime.getManifest();
 
 	if (version === manifestVersion) return;
+
+	// TODO: Clear authorisation on update
 
 	alert(`Your extension has been updated to v${manifestVersion}!\n\nTo see what's new, visit the store page, the Discord Server, or the GitHub Repository.`);
 
