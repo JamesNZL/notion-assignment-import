@@ -166,7 +166,7 @@ export async function exportToNotion(): Promise<void | IFetchedAssignment[]> {
 				.flat()
 				.map(assignment => new FetchedAssignment(assignment))
 				.filter(assignment => {
-					if (!assignment.due) return canvasOptions.importMissingDueDates;
+					if (!assignment.due || (new Date(assignment.due).getFullYear() === 1970)) return canvasOptions.importMissingDueDates;
 					return Date.parse(assignment.due) > Date.now();
 				});
 		}
