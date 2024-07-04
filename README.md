@@ -90,7 +90,6 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
 - [Release Notes](#release-notes)
   - [BREAKING CHANGES](#breaking-changes)
     - [`v5`](#v5)
-        - [Migration Instructions](#migration-instructions)
     - [`v4`](#v4)
   - [`v5.0.0`](#v500)
     - [Migration Instructions](#migration-instructions-1)
@@ -340,10 +339,6 @@ If your assignments are being imported into Notion in the wrong timezone, please
 ### `v5`
 
 1. Support has been added to update existing pages with changed assignment details (eg name, due date, points, etc.). This requires an additional integration capability, so existing users must reauthorise with Notion.
-
-##### Migration Instructions
-
-1. To leverage the support for updating existing pages, you must reauthorise with Notion via the Options page.
 
 ### `v4`
 
