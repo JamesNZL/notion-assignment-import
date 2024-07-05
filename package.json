@@ -2,7 +2,7 @@
   "name": "notion-assignment-import",
   "type": "module",
   "license": "SEE LICENSE IN LICENSE.md",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/JamesNZL/notion-assignment-import.git"
@@ -12,7 +12,7 @@
     "@types/webextension-polyfill": "^0.10.7",
     "@typescript-eslint/eslint-plugin": "^7.15.0",
     "autoprefixer": "^10.4.19",
-    "cssnano": "^7.0.3",
+    "cssnano": "^7.0.4",
     "del": "^7.1.0",
     "eslint": "^8.57.0",
     "gulp": "^5.0.0",
