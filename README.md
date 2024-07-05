@@ -100,6 +100,7 @@ A fully-configurable [Chromium](https://chrome.google.com/webstore/detail/elbkjc
   - [Assignment Fetching](#assignment-fetching)
   - [Notion Import](#notion-import)
 - [Contributors](#contributors)
+- [Privacy Policy](#privacy-policy)
 - [Licence](#licence)
 
 # Features
@@ -419,6 +420,13 @@ This project uses [`gulp`](https://gulpjs.com/) and [`esbuild`](https://esbuild.
 
 1. Thank you to [@PolarWolf314](https://github.com/PolarWolf314) for doing the conversion work to add Safari support!
 2. Thank you to [@MatthewLamperski](https://github.com/MatthewLamperski) for [#89](https://github.com/JamesNZL/notion-assignment-import/pull/89)!
+
+# Privacy Policy
+
+In a nutshell, I store only what data is absolutely necessary.
+This data is stored locally, and is never transmitted back to me.
+
+Refer to the [Privacy Policy](./PRIVACY.md) for my full privacy policy.
 
 # Licence
 
