@@ -96,7 +96,7 @@ function clean() {
  */
 function copy(vendor, source) {
 	return function copyGlob() {
-		const copied = src(source.glob, { base: source?.base ?? '.' });
+		const copied = src(source.glob, { base: source?.base ?? '.', encoding: false });
 		return (
 			(!source.outFile)
 				? copied
