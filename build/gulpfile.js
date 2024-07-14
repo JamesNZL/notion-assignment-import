@@ -166,6 +166,7 @@ function releaseVendor(vendor) {
 
 		return src([`${CONFIGURATION.DIRECTORIES.OUT}/${vendor}/**/*`], {
 			base: `${CONFIGURATION.DIRECTORIES.OUT}/${vendor}`,
+			encoding: false,
 		})
 			.pipe(zip(`notion-assignment-import-${vendor}_v${version}.zip`))
 			.pipe(dest(`${CONFIGURATION.DIRECTORIES.RELEASE}/${vendor}`))
