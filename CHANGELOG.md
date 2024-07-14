@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.0.2](https://github.com/JamesNZL/notion-assignment-import/compare/v5.0.1...v5.0.2) (2024-07-14)
+
+### Bug Fixes
+
+* **build**: :bug: fix corrupted favicon files in zipped release
+
 ### [5.0.1](https://github.com/JamesNZL/notion-assignment-import/compare/v5.0.0...v5.0.1) (2024-07-05)
 
 ### Bug Fixes
