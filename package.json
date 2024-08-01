@@ -22,7 +22,7 @@
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^5.1.0",
     "gulp-zip": "^6.0.0",
-    "postcss": "^8.4.39",
+    "postcss": "^8.4.40",
     "sass": "^1.77.8",
     "standard-version": "^9.5.0",
     "typescript": "^5.5.4",
