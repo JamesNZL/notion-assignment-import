@@ -12,7 +12,7 @@
     "@types/webextension-polyfill": "^0.10.7",
     "@typescript-eslint/eslint-plugin": "^7.16.1",
     "autoprefixer": "^10.4.20",
-    "cssnano": "^7.0.5",
+    "cssnano": "^7.0.6",
     "del": "^7.1.0",
     "eslint": "^8.57.0",
     "gulp": "^5.0.0",
