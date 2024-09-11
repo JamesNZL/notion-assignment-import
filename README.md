@@ -141,6 +141,9 @@ To be notified with updates and changelogs, to get in touch, or just to lurk, jo
 
 # Setup Instructions
 
+> [!TIP]
+> A [setup video](https://share.cleanshot.com/5HqBbpMc) is also available to follow-along with!
+
 1. Install the [Chromium extension](https://chrome.google.com/webstore/detail/elbkjcjgakaoccocmbglokgmalkoacie/), [Firefox add-on](https://addons.mozilla.org/en-GB/firefox/addon/notion-assignment-import/), or [Safari extension](#safari-instructions).
 
 2. Duplicate [this Notion database template](https://jamesnzl-sandbox.notion.site/c4d73bebd39c4103b96b2edb8be9e0bd?v=9afaf4b4faee4a5a977c00291be06c9e) (or create/modify your own!).
