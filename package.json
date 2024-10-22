@@ -48,7 +48,7 @@
   "standard-version": {
     "scripts": {
       "prerelease": "pnpm update -D",
-      "postbump": "pnpm run build && gulp --gulpfile build/gulpfile.js --cwd . release && git add releases"
+      "postbump": "pnpm run build && gulp --gulpfile build/gulpfile.js --cwd . release && git add releases && git add pnpm-lock.yaml"
     },
     "bumpFiles": [
       {
