@@ -423,6 +423,7 @@ This project uses [`gulp`](https://gulpjs.com/) and [`esbuild`](https://esbuild.
 
 1. Thank you to [@PolarWolf314](https://github.com/PolarWolf314) for doing the conversion work to add Safari support!
 2. Thank you to [@MatthewLamperski](https://github.com/MatthewLamperski) for [#89](https://github.com/JamesNZL/notion-assignment-import/pull/89)!
+3. Thank you to [@brandon-mason](https://github.com/brandon-mason) for [#424](https://github.com/JamesNZL/notion-assignment-import/pull/424)!
 
 # Privacy Policy
 
