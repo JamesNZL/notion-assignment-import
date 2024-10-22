@@ -299,10 +299,10 @@ export const typeGuards = <const>{
 	isUUIDv4(value: unknown): value is string {
 		// allow hyphens to be optional as the Notion API doesn't require them
 		// also, Notion URLs don't have them, so it wouldn't be very user friendly to require them
-		const hyphenatedRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[89AB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/i;
-		const nonHyphenatedRegex = /^[0-9Aa-f-F]{8}[0-9a-fA-F]{4}[0-9a-fA-F]{4}[89AB][0-9a-fA-F]{3}[0-9a-fA-F]{12}$/i;
+		const hyphenatedRegex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+		const nonHyphenatedRegex = /^[0-9A-F]{8}[0-9A-F]{4}4[0-9A-F]{3}[89AB][0-9A-F]{3}[0-9A-F]{12}$/i;
 
-		return (typeof value === 'string') && [hyphenatedRegex, nonHyphenatedRegex].some(regex => regex.test(value));
+		return (typeof value === 'string') && [hyphenatedRegex, nonHyphenatedRegex].some(regex => regex.test(value.toUpperCase()));
 	},
 };
 
@@ -322,7 +322,7 @@ export class TimeZoneField extends InputFieldValidator {
 	public constructor(elementId: string) {
 		super(elementId, typeGuardModifiers.isNullable(typeGuards.isTimeZoneRequest), 'a timezone');
 	}
-	
+
 	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NullIfEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
 		if (await super.validator(inputValue) !== inputValue) {
 			this.addInvalidError('Invalid time zone.');
