@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.0.3](https://github.com/JamesNZL/notion-assignment-import/compare/v5.0.2...v5.0.3) (2024-10-22)
+
+
+### Bug Fixes
+
+* **validator:** 🐛 fix isUUIDv4() regex to include lowercase letters. … ([#424](https://github.com/JamesNZL/notion-assignment-import/issues/424)) ([5da8b4a](https://github.com/JamesNZL/notion-assignment-import/commit/5da8b4a4bab80d7176458d4963640cc9bb758b87))
+
 ### [5.0.2](https://github.com/JamesNZL/notion-assignment-import/compare/v5.0.1...v5.0.2) (2024-07-14)
 
 ### Bug Fixes
