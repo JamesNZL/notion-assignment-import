@@ -458,7 +458,7 @@ Object.values(buttons.restore).forEach(button => button.addEventListener('click'
 
 DatabaseSelect.element.addEventListener('input', async () => {
 	const databaseId = DatabaseSelect.element.getValue();
-	if (!typeGuards.isUUIDv4(databaseId)) return;
+	if (!typeGuards.isUUID(databaseId)) return;
 
 	const accessToken = (await Storage.getNotionAuthorisation()).accessToken ?? await CONFIGURATION.FIELDS['notion.accessToken'].input.validate(true);
 

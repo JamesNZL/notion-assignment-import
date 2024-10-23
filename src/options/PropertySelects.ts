@@ -83,7 +83,7 @@ export class SelectPropertyValueSelect extends PropertySelect {
 
 		this.propertySelect.addEventListener('input', async () => {
 			const databaseId = getDatabaseId();
-			if (!typeGuards.isUUIDv4(databaseId)) return;
+			if (!typeGuards.isUUID(databaseId)) return;
 
 			const accessToken = (await Storage.getNotionAuthorisation()).accessToken ?? await CONFIGURATION.FIELDS['notion.accessToken'].input.validate(true);
 

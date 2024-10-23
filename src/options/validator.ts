@@ -296,13 +296,13 @@ export const typeGuards = <const>{
 	isTimeZoneRequest(value: unknown): value is string {
 		return (typeof value === 'string' && (<string[]>VALID_TIME_ZONES).includes(value));
 	},
-	isUUIDv4(value: unknown): value is string {
+	isUUID(value: unknown): value is string {
 		// allow hyphens to be optional as the Notion API doesn't require them
 		// also, Notion URLs don't have them, so it wouldn't be very user friendly to require them
-		const hyphenatedRegex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
-		const nonHyphenatedRegex = /^[0-9A-F]{8}[0-9A-F]{4}4[0-9A-F]{3}[89AB][0-9A-F]{3}[0-9A-F]{12}$/i;
+		const hyphenatedRegex = /^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+		const nonHyphenatedRegex = /^[0-9A-F]{8}[0-9A-F]{4}[0-9A-F]{4}[89AB][0-9A-F]{3}[0-9A-F]{12}$/i;
 
-		return (typeof value === 'string') && [hyphenatedRegex, nonHyphenatedRegex].some(regex => regex.test(value.toUpperCase()));
+		return (typeof value === 'string') && [hyphenatedRegex, nonHyphenatedRegex].some(regex => regex.test(value));
 	},
 };
 
@@ -370,7 +370,7 @@ export class RequiredNotionTokenField extends RequiredField {
 
 export class RequiredNotionDatabaseIdField extends RequiredField {
 	public constructor(elementId: string) {
-		super(elementId, typeGuards.isUUIDv4, 'a valid database ID');
+		super(elementId, typeGuards.isUUID, 'a valid database ID');
 	}
 
 	protected override async validator(inputValue: NullIfEmpty<string>): Promise<NeverEmpty<string> | typeof InputFieldValidator.INVALID_INPUT> {
