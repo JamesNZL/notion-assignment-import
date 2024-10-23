@@ -13,7 +13,7 @@
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "autoprefixer": "^10.4.20",
     "cssnano": "^7.0.6",
-    "del": "^7.1.0",
+    "del": "^8.0.0",
     "eslint": "^8.57.1",
     "gulp": "^5.0.0",
     "gulp-esbuild": "^0.12.1",
