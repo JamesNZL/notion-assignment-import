@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.0.4](https://github.com/JamesNZL/notion-assignment-import/compare/v5.0.3...v5.0.4) (2024-10-23)
+
+
+### Bug Fixes
+
+* **validator:** :alien: validate id for uuid, not uuidv4 ([e4df9e8](https://github.com/JamesNZL/notion-assignment-import/commit/e4df9e84768bf0a4709af62b7972a6671ad9c295))
+
 ### [5.0.3](https://github.com/JamesNZL/notion-assignment-import/compare/v5.0.2...v5.0.3) (2024-10-22)
 
 
