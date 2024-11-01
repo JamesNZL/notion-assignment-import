@@ -55,8 +55,8 @@ importers:
         specifier: ^0.12.1
         version: 0.12.1
       gulp-execa:
-        specifier: ^7.0.1
-        version: 7.0.1
+        specifier: ^8.0.0
+        version: 8.0.0
       gulp-postcss:
         specifier: ^10.0.0
         version: 10.0.0(postcss@8.4.47)
@@ -1110,8 +1110,8 @@ packages:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
     engines: {node: '>=0.10.0'}
 
-  execa@9.4.1:
-    resolution: {integrity: sha512-5eo/BRqZm3GYce+1jqX/tJ7duA2AnE39i88fuedNFUV8XxGxUpF3aWkBRfbUcjV49gCkvS/pzc0YrCPhaIewdg==}
+  execa@9.5.1:
+    resolution: {integrity: sha512-QY5PPtSonnGwhhHDNI7+3RvY285c7iuJFFB+lU+oEzMY/gEGJ808owqJsrr8Otd1E/x07po1LkUBmdAc5duPAg==}
     engines: {node: ^18.19.0 || >=20.5.0}
 
   expand-tilde@2.0.2:
@@ -1333,8 +1333,8 @@ packages:
     resolution: {integrity: sha512-dkcN2AHtXTVu+KNw0Zw8SWysziNwpYg6kw41E8frUkil5ZtwktIsot/OCLEpRT6clFpVQ7Hw3+YZQvoNdyTF1A==}
     engines: {node: '>=16'}
 
-  gulp-execa@7.0.1:
-    resolution: {integrity: sha512-oCt3qWsHJQ9HN3OX2DlQZvGjoDUnRWjAD8TZaXP/DLODeK4x96B8VsRTKE2fDIleGnO1WtOwTqQeEU8oRzHJ1w==}
+  gulp-execa@8.0.0:
+    resolution: {integrity: sha512-9+hHyLLWovzzlv8P8Gwg30GnFGpWBIotXWEGuyE7I0AjSds27+Cp/ko3JGP6pdR56DsrVfgHmg7ViTSY+Kbi/g==}
     engines: {node: '>=18.18.0'}
 
   gulp-plugin-extras@0.3.0:
@@ -3835,7 +3835,7 @@ snapshots:
 
   esutils@2.0.3: {}
 
-  execa@9.4.1:
+  execa@9.5.1:
     dependencies:
       '@sindresorhus/merge-streams': 4.0.0
       cross-spawn: 7.0.3
@@ -4113,11 +4113,11 @@ snapshots:
       plugin-error: 2.0.1
       vinyl: 3.0.0
 
-  gulp-execa@7.0.1:
+  gulp-execa@8.0.0:
     dependencies:
       '@types/vinyl': 2.0.12
       colors-option: 6.0.0
-      execa: 9.4.1
+      execa: 9.5.1
       fancy-log: 2.0.0
       filter-obj: 6.1.0
       is-plain-obj: 4.1.0
