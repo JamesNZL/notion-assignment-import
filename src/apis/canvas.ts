@@ -47,4 +47,8 @@ export class CanvasClient {
 			}),
 		);
 	}
+
+	public async fetchCourses(): Promise<void | Course[]> {
+		return await this.makeRequest<Course[]>(this.ENDPOINTS.courses);
+	}
 }

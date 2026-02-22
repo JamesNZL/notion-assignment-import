@@ -391,7 +391,12 @@ export async function exportToNotion(): Promise<void | {
 
 	const authorisation = await Storage.getNotionAuthorisation();
 
-	if (!authorisation.accessToken || !options.databaseId) return alert('Invalid Notion Authorisation or Database.\n\nRefer to the extension set-up instructions on GitHub for more information.');
+	if (!authorisation.accessToken || !options.databaseId) {
+		const message = 'Invalid Notion Authorisation or Database.\n\nRefer to the extension set-up instructions on GitHub for more information.';
+		if (typeof alert !== 'undefined') alert(message);
+		console.error(message);
+		return;
+	}
 
 	const notionClient = NotionClient.getInstance({ auth: authorisation.accessToken });
 
@@ -425,7 +430,11 @@ export async function exportToNotion(): Promise<void | {
 
 	const createdAssignments = await Promise.all(newAssignments.map(createAssignment));
 
-	if (errorCount) alert(`An error was encountered when creating ${errorCount} assignments.`);
+	if (errorCount) {
+		const message = `An error was encountered when creating ${errorCount} assignments.`;
+		if (typeof alert !== 'undefined') alert(message);
+		console.error(message);
+	}
 
 	// Update changed assignments
 
@@ -457,7 +466,11 @@ export async function exportToNotion(): Promise<void | {
 			.map(assignment => updateAssignment(assignment, allImportedAssignments[assignment.url])),
 	);
 
-	if (errorCount) alert(`An error was encountered when updating ${errorCount} assignments.`);
+	if (errorCount) {
+		const message = `An error was encountered when updating ${errorCount} assignments.`;
+		if (typeof alert !== 'undefined') alert(message);
+		console.error(message);
+	}
 
 	return {
 		created: createdAssignments.flat(),

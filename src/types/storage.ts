@@ -20,6 +20,8 @@ interface RequiredFields {
 	'notion.importChanges.available': boolean;
 	'notion.importChanges.due': boolean;
 	'notion.importChanges.span': boolean;
+	'background.syncEnabled': boolean;
+	'background.syncInterval': number;
 }
 
 interface OptionalFields {
@@ -85,7 +87,11 @@ export type SavedOptions = {
 			span: RequiredFields['notion.importChanges.span'];
 		},
 		courseEmojis: OptionalFields['notion.courseEmojis'];
-	},
+	};
+	background: {
+		syncEnabled: RequiredFields['background.syncEnabled'];
+		syncInterval: RequiredFields['background.syncInterval'];
+	};
 };
 
 /**
@@ -100,6 +106,7 @@ export type IOptions = ModifyDeep<SavedOptions, {
 		timeZone: OptionalFields['timeZone'];
 		courseEmojis: Record<string, EmojiRequest>;
 	};
+	background: SavedOptions['background'];
 }>;
 
 // undefined if not set yet

@@ -83,6 +83,11 @@ const sources = {
 			outDir: 'options',
 			outFile: 'options.js',
 		},
+		{
+			glob: `${CONFIGURATION.DIRECTORIES.SOURCE}/background/background.ts`,
+			outDir: 'background',
+			outFile: 'background.js',
+		},
 	],
 };
 

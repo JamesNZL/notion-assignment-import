@@ -173,6 +173,10 @@ export const Storage = <const>{
 				},
 				courseEmojis: JSON.parse(savedFields['notion.courseEmojis']),
 			},
+			background: {
+				syncEnabled: savedFields['background.syncEnabled'],
+				syncInterval: Number(savedFields['background.syncInterval']),
+			},
 		};
 	},
 };

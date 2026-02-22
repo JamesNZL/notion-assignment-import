@@ -12,7 +12,7 @@ import {
 import { NullIfEmpty, SavedFields, SavedOptions } from '../types/storage';
 import { valueof } from '../types/utils';
 
-export type SupportedTypes = NullIfEmpty<string> | boolean;
+export type SupportedTypes = NullIfEmpty<string> | boolean | number;
 
 interface Readable {
 	validate(force?: boolean): Promise<SupportedTypes | typeof InputFieldValidator.INVALID_INPUT>;
@@ -116,6 +116,10 @@ interface InputElements {
 	'notion.importChanges.span': 'notion-changes-span';
 	noChangesSpan: 'no-changes-span-button';
 	yesChangesSpan: 'yes-changes-span-button';
+	'background.syncEnabled': 'background-sync-enabled';
+	backgroundSyncDisabled: 'background-sync-disabled';
+	backgroundSyncEnabled: 'background-sync-enabled-button';
+	'background.syncInterval': 'background-sync-interval';
 	'notion.courseEmojis': 'course-emojis-group';
 }
 
@@ -529,6 +533,40 @@ export const CONFIGURATION: {
 					delete (<Partial<typeof this>>this).input;
 					return this.input = KeyValueGroup.getInstance<InputElementId>({
 						id: 'course-emojis-group',
+					});
+				},
+			},
+		},
+		background: {
+			syncEnabled: {
+				defaultValue: false,
+				get input() {
+					delete (<Partial<typeof this>>this).input;
+					return this.input = SegmentedControl.getInstance<InputElementId, typeof this.defaultValue>({
+						id: 'background-sync-enabled',
+						segments: [
+							{
+								id: 'background-sync-disabled',
+								value: false,
+								default: true,
+							},
+							{
+								id: 'background-sync-enabled-button',
+								value: true,
+								showDependents: true,
+							},
+						],
+					});
+				},
+				dependents: ['background-sync-interval'],
+			},
+			syncInterval: {
+				defaultValue: 60,
+				get input() {
+					delete (<Partial<typeof this>>this).input;
+					return this.input = Input.getInstance<InputElementId>({
+						id: 'background-sync-interval',
+						Validator: RequiredStringField, // Simplified for now, should ideally be numeric validator
 					});
 				},
 			},

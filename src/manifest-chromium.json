@@ -21,8 +21,14 @@
 		"storage",
 		"activeTab",
 		"scripting",
-		"identity"
+		"identity",
+		"alarms",
+		"notifications"
 	],
+	"background": {
+		"service_worker": "background/background.js",
+		"type": "module"
+	},
 	"host_permissions": [
 		"https://api.notion.com/*",
 		"https://oauth.jamesnzl.xyz/api/notion/authorise",
