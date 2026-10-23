@@ -38,6 +38,7 @@
     "url-polyfill": "^1.1.12"
   },
   "scripts": {
+    "test": "node --test test/*.test.cjs",
     "preinstall": "npx only-allow pnpm",
     "watch": "gulp watch --debug=true --gulpfile build/gulpfile.js --cwd .",
     "debug": "gulp --debug=true --gulpfile build/gulpfile.js --cwd .",
