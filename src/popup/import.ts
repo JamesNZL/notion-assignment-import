@@ -1,12 +1,10 @@
 import { CreatePageParameters, QueryDatabaseResponse, UpdatePageParameters } from '@notionhq/client/build/src/api-endpoints';
 
-import TurndownService from 'turndown';
-import { markdownToBlocks } from '@tryfabric/martian';
-
 import { NotionClient } from '../apis/notion';
 import { Storage } from '../apis/storage';
 
 import { IFetchedAssignment } from './fetch';
+import { descriptionToBlocks } from './description';
 
 import { EmojiRequest } from '../types/notion';
 import { valueof, ArrayElement } from '../types/utils';
@@ -127,11 +125,7 @@ export async function exportToNotion(): Promise<void | {
 						emoji: this.icon,
 					}
 					: null,
-				children: (this.description)
-					? markdownToBlocks(
-						new TurndownService().turndown(this.description),
-					)
-					: [],
+				children: descriptionToBlocks(this.description, this.url),
 			};
 		}
 
